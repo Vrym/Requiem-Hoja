@@ -96,7 +96,7 @@
       box-shadow: 0 0 6px #ef4444;
     }
 
-    /* BANNER DE AVISOS Y MENSAJES */
+    /* BANNER DE MENSAJES */
     .objective-banner {
       background: #2b1608;
       color: #faebd0;
@@ -132,7 +132,6 @@
       border-radius: 2px;
     }
 
-    /* MENSAJE FIJADO (PIN) */
     .pinned-msg-box {
       background: rgba(115, 30, 11, 0.35);
       border: 1.5px solid #ffd700;
@@ -340,7 +339,6 @@
     .hub-btn:hover { background: #6c3a19; color: #fff; }
     #importFile { display: none; }
 
-    /* AVATARES */
     .avatar-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -381,7 +379,6 @@
       font-weight: bold;
     }
 
-    /* TOAST */
     #toast-msg {
       position: fixed;
       bottom: 20px;
@@ -447,7 +444,6 @@
       cursor: pointer;
     }
 
-    /* TÍTULO DE CORRIDO */
     .main-title-wrap {
       text-align: center;
       margin-bottom: 12px;
@@ -551,39 +547,50 @@
       flex-shrink: 0;
     }
 
-    /* ESTADOS Y EFECTOS ALTERADOS (SIN INFECTADO) */
+    /* ESTADOS Y EFECTOS ALTERADOS (CON TURNOS E INFECTADO) */
     .status-effects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
       gap: 5px;
       margin-top: 8px;
     }
     .status-effect-item {
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 13px;
+      gap: 3px;
+      font-size: 12px;
       background: rgba(0,0,0,0.04);
-      padding: 3px 5px;
+      padding: 3px 4px;
       border: 1px solid rgba(60,30,10,0.18);
       border-radius: 3px;
     }
     .status-effect-item input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       accent-color: #731e0b;
       cursor: pointer;
       flex-shrink: 0;
     }
     .status-val-input {
-      width: 44px !important;
-      font-size: 14px !important;
+      width: 36px !important;
+      font-size: 13px !important;
       font-family: var(--f-body) !important;
       font-weight: bold;
       padding: 1px 2px !important;
       text-align: center;
       border: 1px solid var(--border-dark) !important;
       background: #fff !important;
+      border-radius: 2px;
+    }
+    .status-turn-input {
+      width: 28px !important;
+      font-size: 11.5px !important;
+      font-family: var(--f-body) !important;
+      font-weight: bold;
+      padding: 1px 1px !important;
+      text-align: center;
+      border: 1px solid #92400e !important;
+      background: #fef3c7 !important;
       border-radius: 2px;
     }
     .status-custom-row {
@@ -641,8 +648,8 @@
       font-weight: 900 !important;
     }
 
-    /* BARRA DE INICIATIVA ARRIBA DE ARMAS */
-    .initiative-bar {
+    /* INICIATIVA Y CRÍTICO COMPARTIDO (D20) */
+    .combat-d20-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -653,6 +660,13 @@
       margin-bottom: 8px;
       flex-wrap: wrap;
       gap: 6px;
+    }
+    .combat-d20-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-family: var(--f-title);
     }
 
     /* ARMAS COMPACTAS */
@@ -711,25 +725,15 @@
       text-align: center;
       border-radius: 2px;
     }
-    .weapon-crit-config {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(0,0,0,0.06);
-      padding: 2px 6px;
-      border-radius: 3px;
-      border: 1px solid rgba(0,0,0,0.15);
-    }
     .weapon-bot-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 6px;
       width: 100%;
-      flex-wrap: wrap;
     }
     .btn-roll-weapon {
-      padding: 5px 10px;
+      padding: 5px 12px;
       background: #731e0b;
       color: #ffe8b5;
       font-family: var(--f-title);
@@ -828,10 +832,10 @@
       white-space: nowrap;
     }
 
-    /* ESENCIA Y ACTIVACIÓN */
+    /* ESENCIA Y MODOS DE ACTIVACIÓN (5 MODOS) */
     .essence-embedded-wrap {
-      padding-bottom: 8px;
-      margin-bottom: 8px;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
       border-bottom: 1.5px dashed var(--border-gold);
       text-align: center;
     }
@@ -839,43 +843,42 @@
       font-family: var(--f-title);
       font-size: 14px;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: #4f250b;
       letter-spacing: 1px;
     }
-
-    /* ACTIVACIÓN DE MODO DE ESENCIA */
     .essence-activation-bar {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: rgba(0,0,0,0.06);
       border: 1.5px solid var(--border-dark);
       border-radius: 4px;
-      padding: 6px 8px;
+      padding: 5px 6px;
       margin-bottom: 8px;
       font-family: var(--f-title);
-      font-size: 11.5px;
+      font-size: 11px;
       flex-wrap: wrap;
     }
     .essence-act-mode {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
       cursor: pointer;
+      white-space: nowrap;
     }
     .essence-act-mode.disabled {
       opacity: 0.55;
       cursor: not-allowed;
     }
 
-    /* ESTRUCTURA ESENCIA 3 ARRIBA Y 2 ABAJO */
+    /* ESENCIA: SIMÉTRICA 3 ARRIBA Y 2 ABAJO */
     .essence-row-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-bottom: 6px;
+      gap: 5px;
+      margin-bottom: 5px;
     }
     .essence-row-2 {
       display: flex;
@@ -884,17 +887,17 @@
     }
     .essence-row-2 .essence-tier-card {
       width: calc(48%);
-      max-width: 160px;
+      max-width: 150px;
     }
     .essence-tier-card {
       background: rgba(0,0,0,0.04);
       border: 1px solid rgba(147, 103, 43, 0.4);
       border-radius: 4px;
-      padding: 6px 3px;
+      padding: 5px 2px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       box-sizing: border-box;
     }
     .essence-tier-circles {
@@ -904,8 +907,8 @@
       width: 100%;
     }
     .essence-seal {
-      width: 27px;
-      height: 27px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       border: 1.5px solid var(--border-dark);
       background: #fbf7ee;
@@ -913,7 +916,7 @@
       align-items: center;
       justify-content: center;
       font-family: var(--f-title);
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: bold;
       cursor: pointer;
       user-select: none;
@@ -928,56 +931,38 @@
     }
     .essence-tier-label {
       font-family: var(--f-title);
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: bold;
       color: #583c14;
       text-transform: uppercase;
       line-height: 1.1;
     }
 
-    /* MINI RESUMEN DE BONOS DE ACTIVACIÓN */
+    @media (min-width: 651px) {
+      .essence-seal { width: 30px; height: 30px; font-size: 13.5px; }
+      .essence-tier-circles { gap: 5px; }
+      .essence-tier-card { padding: 6px 4px; }
+    }
+
     .essence-mode-summary-box {
       background: #faf4e3;
       border: 1px solid var(--border-gold);
       border-radius: 3px;
       padding: 4px 6px;
       margin-top: 6px;
-      font-size: 11.5px;
+      font-size: 11px;
       text-align: left;
       line-height: 1.3;
       font-family: var(--f-body);
     }
 
-    @media (min-width: 651px) {
-      .essence-seal {
-        width: 31px;
-        height: 31px;
-        font-size: 14px;
-      }
-      .essence-tier-circles {
-        gap: 5px;
-      }
-      .essence-tier-card {
-        padding: 8px 4px;
-      }
-    }
-
-    .points-summary-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin: 6px 0 2px 0;
-    }
-    .points-summary-box {
-      background: rgba(0,0,0,0.04);
-      border: 1px solid rgba(60,30,10,0.2);
-      border-radius: 3px;
-      padding: 4px 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--f-title);
-      font-size: 11.5px;
+    /* PUNTOS DE HABILIDAD BAJADOS */
+    .ph-points-box {
+      background: rgba(0,0,0,0.03);
+      border: 1px solid var(--border-gold);
+      border-radius: 4px;
+      padding: 6px 10px;
+      margin-bottom: 10px;
     }
 
     /* ARQUETIPOS */
@@ -1061,6 +1046,7 @@
       display: flex;
       gap: 10px;
       flex-shrink: 0;
+      margin-right: 8px; /* Espacio extra con el check de bono */
     }
     .skill-boxes input[type="checkbox"] {
       width: 18px;
@@ -1089,7 +1075,7 @@
       border-color: #360b02;
     }
 
-    /* TÉCNICAS */
+    /* TÉCNICAS CON COSTE DE SMATH Y BOTÓN USAR */
     .techniques-table-wrap { width: 100%; }
     .techniques-table {
       width: 100%;
@@ -1108,7 +1094,7 @@
     .techniques-table td {
       padding: 4px 3px;
       border-bottom: 1px dotted rgba(0,0,0,0.2);
-      vertical-align: top;
+      vertical-align: middle;
     }
     .techniques-table textarea {
       width: 100%;
@@ -1124,11 +1110,31 @@
       line-height: 1.25;
       field-sizing: content;
     }
+    .tech-cost-input {
+      width: 44px;
+      padding: 2px;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+      border: 1.5px solid var(--border-dark);
+      background: #fffdf7;
+      border-radius: 2px;
+    }
+    .btn-use-tech {
+      background: #731e0b;
+      color: #ffe8b5;
+      border: 1px solid #360b02;
+      padding: 3px 6px;
+      font-family: var(--f-title);
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 2px;
+    }
     .lvl-checkboxes {
       display: flex;
       gap: 3px;
       justify-content: center;
-      margin-top: 4px;
     }
     .lvl-checkboxes input[type="checkbox"] {
       width: 15px;
@@ -1177,11 +1183,28 @@
       padding: 0 4px;
     }
 
-    .despiertas-wrapper {
-      display: grid;
-      grid-template-columns: 3fr 2fr;
-      gap: 12px;
+    /* ASPECTO DE LA ESENCIA (SUBIDO AL LADO DE COMBATE) */
+    .classification-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px dashed rgba(0,0,0,0.25);
+      font-size: 12px;
+      font-family: var(--f-title);
     }
+    .classification-diamonds {
+      display: flex;
+      gap: 5px;
+    }
+    .classification-diamonds input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #8a2be2;
+      cursor: pointer;
+    }
+
+    /* TÉCNICAS DESPIERTAS */
     .awakened-node {
       background: rgba(255,255,255,0.45);
       border: 1.5px solid var(--border-dark);
@@ -1202,27 +1225,6 @@
       font-family: var(--f-body);
       font-size: 15px;
       padding: 2px;
-    }
-
-    /* ASPECTO DE LA ESENCIA */
-    .classification-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 5px 0;
-      border-bottom: 1px dashed rgba(0,0,0,0.25);
-      font-size: 12.5px;
-      font-family: var(--f-title);
-    }
-    .classification-diamonds {
-      display: flex;
-      gap: 6px;
-    }
-    .classification-diamonds input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
-      accent-color: #8a2be2;
-      cursor: pointer;
     }
 
     /* MOCHILA */
@@ -1360,7 +1362,6 @@
       padding: 2px 0;
     }
 
-    /* FILA DE ÚLTIMO ATAQUE ANCHA */
     .gm-last-attack-full-row {
       grid-column: 1 / -1;
       display: flex;
@@ -1403,12 +1404,11 @@
       margin-left: auto;
     }
     
-    /* GESTOR DE ESTADOS EN 4/4 */
     .gm-state-manager-box {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
-      background: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.8);
       padding: 6px;
       border: 1px solid var(--border-dark);
       border-radius: 3px;
@@ -1418,11 +1418,11 @@
     .gm-state-inline-item {
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
       white-space: nowrap;
     }
     .gm-state-inline-item input[type="number"], .gm-state-inline-item input[type="text"] {
-      width: 36px;
+      width: 32px;
       padding: 1px;
       font-size: 11px;
       text-align: center;
@@ -1478,6 +1478,7 @@
     .gm-badge-veneno { background: #581c87; border: 1px solid #d8b4fe; }
     .gm-badge-sangrado { background: #881337; border: 1px solid #fca5a5; }
     .gm-badge-curacion { background: #14532d; border: 1px solid #86efac; }
+    .gm-badge-infectado { background: #047857; border: 1px solid #6ee7b7; }
     .gm-badge-custom { background: #374151; border: 1px solid #9ca3af; }
 
     .gm-passives-wrap {
@@ -1531,10 +1532,7 @@
       .arch-header { justify-content: space-between; gap: 4px; padding-bottom: 4px; }
       .arch-title-text { font-size: 13.5px; }
 
-      .arch-diamonds-wrap { 
-        gap: 8px !important; 
-        padding: 2px 3px; 
-      }
+      .arch-diamonds-wrap { gap: 8px !important; padding: 2px 3px; }
       .arch-diamond { width: 11px; height: 11px; }
 
       .skill-row { gap: 3px; padding: 3px 0; }
@@ -1549,21 +1547,13 @@
       .inventory-table th, .inventory-table td { font-size: 12px; padding: 3px 1px; }
       .inventory-table textarea { font-size: 12px; line-height: 1.2; padding: 1px 1px; }
 
-      .essence-seal { width: 26px; height: 26px; font-size: 12px; }
-      .essence-tier-card { padding: 4px 2px; }
-      .essence-tier-label { font-size: 9px; }
+      .essence-seal { width: 25px; height: 25px; font-size: 11.5px; }
+      .essence-tier-card { padding: 4px 1px; }
+      .essence-tier-label { font-size: 8.5px; }
 
-      .gm-cards-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-      .gm-stats-columns {
-        grid-template-columns: 1fr;
-        gap: 2px;
-      }
-      .gm-state-manager-box {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .gm-cards-grid { grid-template-columns: 1fr; gap: 10px; }
+      .gm-stats-columns { grid-template-columns: 1fr; gap: 2px; }
+      .gm-state-manager-box { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -1667,26 +1657,26 @@
       </div>
     </div>
 
-    <!-- BARRA DE ROLES CON MAESTRO FIJO A LA IZQUIERDA -->
+    <!-- BARRA DE ROLES CON MASTER FIJO A LA IZQUIERDA -->
     <div class="role-bar-wrap">
       <div class="gm-fixed-container">
-        <button type="button" id="gm-role-btn" class="role-btn" onclick="switchRole('gm')">👑 Maestro (GM)</button>
+        <button type="button" id="gm-role-btn" class="role-btn" onclick="switchRole('gm')">👑 Master</button>
       </div>
       <div class="role-bar-tabs" id="role-bar-container"></div>
       <button type="button" class="btn-role-settings" onclick="openHubModal()" title="Menú de opciones">⚙️</button>
     </div>
 
-    <!-- PANEL DEL MAESTRO (GM DASHBOARD) -->
+    <!-- PANEL DEL MASTER (GM DASHBOARD) -->
     <div id="gm-dashboard-wrap">
-      <!-- BOTÓN DE AVANCE DE TURNO GLOBAL CON COOLDOWN DE 10S -->
-      <div class="box-frame" style="background:#2c1507; border-color:#ffd700; text-align:center;">
-        <button type="button" id="btn-gm-advance-turn" onclick="gmAdvanceGlobalTurn()" style="background:#731e0b; color:#ffe8b5; border:2px solid #ffd700; padding:8px 20px; font-family:var(--f-title); font-size:14px; font-weight:bold; cursor:pointer; border-radius:4px; letter-spacing:1px; box-shadow:0 0 10px rgba(255,215,0,0.3);">
-          ⏳ Avanzar Turno Global (Procesar Estados & Smath)
+      <!-- BOTÓN DE AVANCE DE TURNO COMPACTO -->
+      <div style="text-align:center; margin-bottom:10px;">
+        <button type="button" id="btn-gm-advance-turn" onclick="gmAdvanceGlobalTurn()" style="background:#731e0b; color:#ffe8b5; border:1.5px solid #ffd700; padding:5px 16px; font-family:var(--f-title); font-size:12px; font-weight:bold; cursor:pointer; border-radius:3px; letter-spacing:0.5px; box-shadow:0 2px 6px rgba(0,0,0,0.4); display:inline-block;">
+          ⏳ Avanzar Turno Global
         </button>
       </div>
 
       <div class="box-frame">
-        <div class="box-frame-title">👑 Panel del Maestro del Rol</div>
+        <div class="box-frame-title">👑 Panel del Master</div>
         <div class="gm-cards-grid" id="gm-cards-container"></div>
       </div>
     </div>
@@ -1703,18 +1693,24 @@
       </div>
 
       <div class="grid-2col">
+        <!-- DATOS DEL PERSONAJE COLAPSABLE -->
         <div class="box-frame">
-          <div class="box-frame-title">Datos del Personaje</div>
-          <div class="header-info-line">
-            <label>ÍCONO / AVATAR:</label>
-            <button type="button" id="char-avatar-btn" class="avatar-picker-trigger" onclick="openAvatarModal()">⚔️ Cambiar</button>
+          <div class="box-frame-title" onclick="toggleCharDataCollapse()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+            <span>Datos del Personaje</span>
+            <span id="char-data-toggle-icon" style="font-size:12px;">▼</span>
           </div>
-          <div class="header-info-line"><label>NOMBRE:</label><input type="text" id="char-name" oninput="updateSenderSelect(); syncToFirebaseDebounced();"></div>
-          <div class="header-info-line"><label>RAZA:</label><input type="text" id="char-raza"></div>
-          <div class="header-info-line"><label>SUBRAZA:</label><input type="text" id="char-subraza"></div>
-          <div class="header-info-line"><label>OFICIO:</label><input type="text" id="char-oficio"></div>
-          <div class="header-info-line"><label>EXPERIENCIA:</label><input type="text" id="char-exp"></div>
-          <div class="header-info-line"><label>ESENCIA:</label><input type="text" id="char-esencia"></div>
+          <div id="char-data-content">
+            <div class="header-info-line">
+              <label>ÍCONO / AVATAR:</label>
+              <button type="button" id="char-avatar-btn" class="avatar-picker-trigger" onclick="openAvatarModal()">⚔️ Cambiar</button>
+            </div>
+            <div class="header-info-line"><label>NOMBRE:</label><input type="text" id="char-name" oninput="updateSenderSelect(); syncToFirebaseDebounced();"></div>
+            <div class="header-info-line"><label>RAZA:</label><input type="text" id="char-raza"></div>
+            <div class="header-info-line"><label>SUBRAZA:</label><input type="text" id="char-subraza"></div>
+            <div class="header-info-line"><label>OFICIO:</label><input type="text" id="char-oficio"></div>
+            <div class="header-info-line"><label>EXPERIENCIA:</label><input type="text" id="char-exp"></div>
+            <div class="header-info-line"><label>ESENCIA:</label><input type="text" id="char-esencia"></div>
+          </div>
         </div>
 
         <!-- ACCIONES POR TURNO -->
@@ -1731,7 +1727,7 @@
         </div>
       </div>
 
-      <!-- ARMAS Y DAÑO: INICIATIVA ARRIBA, LISTADO EN EL MEDIO, TABLA D6 ABAJO -->
+      <!-- ARMAS Y DAÑO (INICIATIVA ARRIBA, LISTADO EN EL MEDIO, TABLA D6 ABAJO) -->
       <div class="box-frame">
         <div class="box-frame-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
           <span>Armas & Tabla de Daño</span>
@@ -1741,16 +1737,22 @@
           </div>
         </div>
         
-        <!-- 1. BARRA DE INICIATIVA ARRIBA DE TODO -->
-        <div class="initiative-bar">
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span style="font-family:var(--f-title); font-size:12.5px; font-weight:bold; color:#4f250b;">⚡ INICIATIVA (D20):</span>
+        <!-- BARRA DE INICIATIVA Y CRÍTICO COMPARTIDO (D20) -->
+        <div class="combat-d20-bar">
+          <div class="combat-d20-group">
+            <span style="font-weight:bold; color:#4f250b;">⚡ INICIATIVA:</span>
             <span class="calc-tag">Bono:</span>
-            <input type="number" id="stat-init-bono" value="0" style="width:42px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1.5px solid var(--border-dark); border-radius:2px;" oninput="syncToFirebaseDebounced();">
+            <input type="number" id="stat-init-bono" value="0" style="width:38px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="syncToFirebaseDebounced();">
+            <button type="button" class="btn-roll-weapon" style="padding:2px 8px; font-size:11px;" onclick="rollInitiative()">🎲 Tirar</button>
+            <span>Total: <b id="stat-init-total" style="color:var(--txt-red); font-size:15px;">-</b></span>
           </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <button type="button" class="btn-roll-weapon" style="padding:3px 10px; font-size:11.5px;" onclick="rollInitiative()">🎲 Tirar Iniciativa</button>
-            <span style="font-family:var(--f-title); font-size:12px; font-weight:bold;">Total: <b id="stat-init-total" style="color:var(--txt-red); font-size:16px;">-</b></span>
+
+          <div class="combat-d20-group">
+            <span style="font-weight:bold; color:#731e0b;">🎯 CRÍTICO (D20):</span>
+            <span class="calc-tag">Bono Táctico:</span>
+            <span id="stat-crit-bono" style="font-weight:bold; color:var(--txt-red);">+0</span>
+            <button type="button" class="btn-roll-weapon" style="padding:2px 8px; font-size:11px; background:#854d0e; border-color:#ca8a04;" onclick="rollD20AttackCrit()">🎯 D20 Impacto</button>
+            <span id="stat-crit-result" style="font-weight:bold; color:#854d0e; font-size:14px;">-</span>
           </div>
         </div>
 
@@ -1783,8 +1785,9 @@
         </div>
       </div>
 
-      <!-- COMBATE AUTOMATIZADO + ESTADOS NEGATIVOS -->
+      <!-- COMBATE AUTOMATIZADO + ESENCIA Y ASPECTOS (SUBIDO) -->
       <div class="grid-2col">
+        <!-- ESTADÍSTICAS DE COMBATE Y ESTADOS (CON TURNOS E INFECTADO) -->
         <div class="box-frame">
           <div class="box-frame-title">Estadísticas de Combate</div>
           
@@ -1855,47 +1858,97 @@
             </div>
           </div>
 
-          <!-- ESTADOS NEGATIVOS (SIN INFECTADO) -->
+          <!-- ESTADOS NEGATIVOS (CON TURNOS E INFECTADO) -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:6px; border-top:1.5px dashed rgba(60,30,10,0.25);">
             <span style="font-family:var(--f-title); font-weight:bold; font-size:12px; color:#4f250b;">ESTADOS Y ALTERACIONES:</span>
             <button type="button" onclick="clearNegativeStates()" style="background:#5a1212; color:#ffe8b5; border:1px solid #bf8a3b; font-family:var(--f-title); font-size:10px; padding:2px 7px; cursor:pointer; border-radius:2px;">🧹 Limpiar Estados</button>
           </div>
 
           <div class="status-effects-grid">
-            <div class="status-effect-item"><input type="checkbox" id="status-stun"><label for="status-stun" style="cursor:pointer; flex:1;">⚡ <b>Stun</b></label></div>
-            <div class="status-effect-item"><input type="checkbox" id="status-sellado"><label for="status-sellado" style="cursor:pointer; flex:1;">🔒 <b>Sellado</b></label></div>
-            <div class="status-effect-item"><input type="checkbox" id="status-petrificado"><label for="status-petrificado" style="cursor:pointer; flex:1;">🗿 <b>Petrificado</b></label></div>
-            <div class="status-effect-item"><input type="checkbox" id="status-mareado"><label for="status-mareado" style="cursor:pointer; flex:1;">💫 <b>Mareado</b></label></div>
-            <div class="status-effect-item"><input type="checkbox" id="status-veneno"><label for="status-veneno" style="cursor:pointer; flex:1;">🧪 <b>Veneno</b></label><input type="number" id="status-veneno-val" class="status-val-input" placeholder="Daño" min="0"></div>
-            <div class="status-effect-item"><input type="checkbox" id="status-sangrado"><label for="status-sangrado" style="cursor:pointer; flex:1;">🩸 <b>Sangrado</b></label><input type="number" id="status-sangrado-val" class="status-val-input" placeholder="Daño" min="0"></div>
-            <div class="status-effect-item"><input type="checkbox" id="status-curacion"><label for="status-curacion" style="cursor:pointer; flex:1;">💖 <b>Curación</b></label><input type="number" id="status-curacion-val" class="status-val-input" placeholder="Regen" min="0"></div>
+            <div class="status-effect-item">
+              <input type="checkbox" id="status-stun">
+              <label for="status-stun" style="cursor:pointer; flex:1;">⚡ Stun</label>
+              <input type="number" id="status-stun-turns" class="status-turn-input" placeholder="t" min="0" title="Turnos restantes">
+            </div>
+
+            <div class="status-effect-item">
+              <input type="checkbox" id="status-sellado">
+              <label for="status-sellado" style="cursor:pointer; flex:1;">🔒 Sell</label>
+              <input type="number" id="status-sellado-turns" class="status-turn-input" placeholder="t" min="0" title="Turnos restantes">
+            </div>
+
+            <div class="status-effect-item">
+              <input type="checkbox" id="status-petrificado">
+              <label for="status-petrificado" style="cursor:pointer; flex:1;">🗿 Petr</label>
+              <input type="number" id="status-petrificado-turns" class="status-turn-input" placeholder="t" min="0" title="Turnos restantes">
+            </div>
+
+            <div class="status-effect-item">
+              <input type="checkbox" id="status-mareado">
+              <label for="status-mareado" style="cursor:pointer; flex:1;">💫 Mare</label>
+              <input type="number" id="status-mareado-turns" class="status-turn-input" placeholder="t" min="0" title="Turnos restantes">
+            </div>
+
+            <div class="status-effect-item">
+              <input type="checkbox" id="status-veneno">
+              <label for="status-veneno" style="cursor:pointer;">🧪 Ven</label>
+              <input type="number" id="status-veneno-val" class="status-val-input" placeholder="Dmg" min="0">
+              <input type="number" id="status-veneno-turns" class="status-turn-input" placeholder="t" min="0" title="Turnos restantes">
+            </div>
+
+            <div class="status-effect-item">
+              <input type="checkbox" id="status-sangrado">
+              <label for="status-sangrado" style="cursor:pointer;">🩸 Sang</label>
+              <input type="number" id="status-sangrado-val" class="status-val-input" placeholder="Dmg" min="0">
+              <input type="number" id="status-sangrado-turns" class="status-turn-input" placeholder="t" min="0" title="Turnos restantes">
+            </div>
+
+            <div class="status-effect-item">
+              <input type="checkbox" id="status-curacion">
+              <label for="status-curacion" style="cursor:pointer;">💖 Cura</label>
+              <input type="number" id="status-curacion-val" class="status-val-input" placeholder="Reg" min="0">
+              <input type="number" id="status-curacion-turns" class="status-turn-input" placeholder="t" min="0" title="Turnos restantes">
+            </div>
+
+            <div class="status-effect-item">
+              <input type="checkbox" id="status-infectado">
+              <label for="status-infectado" style="cursor:pointer;">🦠 Inf</label>
+              <input type="number" id="status-infectado-val" class="status-val-input" placeholder="%" min="0" max="100">
+              <input type="number" id="status-infectado-turns" class="status-turn-input" placeholder="t" min="0" title="Turnos restantes">
+            </div>
             
             <div class="status-custom-row">
               <input type="checkbox" id="status-custom-check">
               <input type="text" id="status-custom-name" class="status-custom-name" placeholder="Otro estado / condición...">
-              <input type="text" id="status-custom-val" class="status-val-input" style="width:75px !important;" placeholder="Nº o Turnos">
+              <input type="text" id="status-custom-val" class="status-val-input" style="width:60px !important;" placeholder="Valor">
+              <input type="number" id="status-custom-turns" class="status-turn-input" placeholder="t" min="0" title="Turnos restantes">
             </div>
           </div>
         </div>
 
-        <!-- HABILIDADES Y ESENCIA (ESENCIA ARRIBA EN 3/2, RESUMEN Y PUNTOS ABAJO) -->
+        <!-- ESENCIA Y ASPECTO DE LA ESENCIA (SUBIDO AQUÍ) -->
         <div class="box-frame" style="display:flex; flex-direction:column; justify-content:space-between;">
           <div>
-            <div class="box-frame-title">Habilidades y Esencia</div>
+            <div class="box-frame-title">Esencia & Aspectos</div>
 
-            <!-- ESENCIA ARRIBA -->
+            <!-- GRADOS DE ESENCIA ARRIBA (SIMÉTRICOS 3 A 2) -->
             <div class="essence-embedded-wrap">
-              <div class="essence-embedded-title">✨ ESENCIA (GRADOS 1 AL 15)</div>
+              <div class="essence-embedded-title">✨ GRADOS DE ESENCIA (1 AL 15)</div>
               
-              <!-- SELECTOR DE ACTIVACIÓN DE MODO -->
+              <!-- SELECTOR DE 5 MODOS DE ACTIVACIÓN -->
               <div class="essence-activation-bar">
-                <span style="font-weight:bold; color:#731e0b;">MODO:</span>
                 <span class="essence-act-mode disabled" title="Latente no tiene activación"><input type="checkbox" disabled> ✖ Latente</span>
                 <label class="essence-act-mode" style="color:#78350f;">
-                  <input type="checkbox" id="essence-mode-despierta" onchange="toggleEssenceActivation('despierta')"> 🔥 Despierta (1 Sm/t)
+                  <input type="checkbox" id="essence-mode-despierta" onchange="toggleEssenceActivation('despierta')"> 🔥 Desp (1Sm)
                 </label>
                 <label class="essence-act-mode" style="color:#831843;">
-                  <input type="checkbox" id="essence-mode-manifestada" onchange="toggleEssenceActivation('manifestada')"> ⚡ Manifestada (2 Sm/t)
+                  <input type="checkbox" id="essence-mode-manifestada" onchange="toggleEssenceActivation('manifestada')"> ⚡ Mani (2Sm)
+                </label>
+                <label class="essence-act-mode" style="color:#4338ca;">
+                  <input type="checkbox" id="essence-mode-trascendida" onchange="toggleEssenceActivation('trascendida')"> 🌌 Trasc (3Sm)
+                </label>
+                <label class="essence-act-mode" style="color:#701a75;">
+                  <input type="checkbox" id="essence-mode-ascendida" onchange="toggleEssenceActivation('ascendida')"> 👑 Asc (4Sm)
                 </label>
               </div>
 
@@ -1947,47 +2000,60 @@
                 </div>
               </div>
 
-              <!-- RESUMEN EN VIVO DE LO QUE OTORGA SEGÚN ASPECTOS -->
+              <!-- RESUMEN EN VIVO DE BALANCE -->
               <div class="essence-mode-summary-box">
                 <b style="color:#731e0b;">📊 Balance de Activación según Aspectos:</b><br>
-                • <b>Despierta (+50% HP):</b> <span id="summary-bonus-despierta">Daño +0% | +0 PD | +0 Crítico | +0 Téc | +0 Conc</span><br>
-                • <b>Manifestada (+100% HP):</b> <span id="summary-bonus-manifestada">Daño +0% | +0 PD | +0 Crítico | +0 Téc | +0 Conc</span>
-              </div>
-            </div>
-            
-            <!-- PUNTOS ABAJO -->
-            <div class="combat-stat-row" style="margin-top:6px;">
-              <label>PUNTOS OBTENIDOS:</label>
-              <div class="combat-inputs">
-                <span class="calc-tag">Base:</span>
-                <input type="number" id="pts-base" value="0" style="width:48px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-                <span class="calc-tag">+ Bono:</span>
-                <span id="pts-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-                <span class="calc-tag">=</span>
-                <span id="pts-obtenidos-total" class="calc-total">0</span>
+                • <b>Despierta (+50% HP):</b> <span id="summary-bonus-despierta">Daño +0% | +0 PD | +0 Crítico</span><br>
+                • <b>Manifestada (+100% HP):</b> <span id="summary-bonus-manifestada">Daño +0% | +0 PD | +0 Crítico</span>
               </div>
             </div>
 
-            <div class="points-summary-grid">
-              <div class="points-summary-box">
-                <span>Gastados:</span>
-                <span id="pts-gastados" style="font-size:17px; font-weight:bold; color:var(--txt-red);">0</span>
+            <!-- ASPECTO DE LA ESENCIA SUBIDO AQUÍ -->
+            <div style="background:rgba(255,255,255,0.4); border:1.5px solid var(--border-dark); padding:6px 8px; border-radius:3px;">
+              <div style="font-family:var(--f-title); font-size:12.5px; font-weight:bold; margin-bottom:4px; text-align:center; border-bottom:1px solid var(--border-dark); padding-bottom:2px; color:#4f250b;">
+                ASPECTO DE LA ESENCIA
               </div>
-              <div class="points-summary-box">
-                <span>Restantes:</span>
-                <span id="pts-restantes" style="font-size:17px; font-weight:bold; color:#166534;">0</span>
-              </div>
+              <div class="classification-row"><span>⚔️ OFENSIVA (Act)</span><div class="classification-diamonds" data-aspect="ofensiva"></div></div>
+              <div class="classification-row"><span>🛡️ DEFENSIVA (+20%HP/PD)</span><div class="classification-diamonds" data-aspect="defensiva"></div></div>
+              <div class="classification-row"><span>🎯 TÁCTICA (+Crit)</span><div class="classification-diamonds" data-aspect="tactica"></div></div>
+              <div class="classification-row"><span>🧰 ASISTENCIA (Pasivo Téc)</span><div class="classification-diamonds" data-aspect="asistencia"></div></div>
+              <div class="classification-row"><span>🌌 SINGULAR (Pasivo Conc)</span><div class="classification-diamonds" data-aspect="singular"></div></div>
             </div>
           </div>
           <div style="font-size:11px; color:#553112; font-style:italic; padding-top:4px;">
-            * Los rombos de arquetipo suman automáticamente bonificaciones a los atributos y puntos obtenidos.
+            * Asistencia (+Técnicas) y Singular (+Concentración) son pasivos permanentes según el grado alcanzado.
           </div>
         </div>
       </div>
 
-      <!-- ARQUETIPOS Y HABILIDADES -->
+      <!-- ARQUETIPOS Y HABILIDADES (CON PUNTOS OBTENIDOS BAJADOS AQUÍ) -->
       <div class="box-frame">
         <div class="box-frame-title">Arquetipos y Habilidades</div>
+
+        <!-- PUNTOS OBTENIDOS, GASTADOS Y RESTANTES BAJADOS AQUÍ -->
+        <div class="ph-points-box">
+          <div class="combat-stat-row" style="border-bottom:none; padding:2px 0;">
+            <label>PUNTOS DE HABILIDAD (PH):</label>
+            <div class="combat-inputs">
+              <span class="calc-tag">Base:</span>
+              <input type="number" id="pts-base" value="0" style="width:48px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+              <span class="calc-tag">+ Bono Arquetipos:</span>
+              <span id="pts-bono" class="calc-tag" style="font-weight:bold; color:#731e0b;">+0</span>
+              <span class="calc-tag">= Obtenidos:</span>
+              <span id="pts-obtenidos-total" class="calc-total" style="color:var(--txt-dark); font-size:18px;">0</span>
+            </div>
+          </div>
+          <div class="points-summary-grid">
+            <div class="points-summary-box">
+              <span>Puntos Gastados:</span>
+              <span id="pts-gastados" style="font-size:17px; font-weight:bold; color:var(--txt-red);">0</span>
+            </div>
+            <div class="points-summary-box">
+              <span>Puntos Restantes:</span>
+              <span id="pts-restantes" style="font-size:17px; font-weight:bold; color:#166534;">0</span>
+            </div>
+          </div>
+        </div>
 
         <div class="archetypes-grid">
           <div class="archetype-box arch-impulsor">
@@ -2064,17 +2130,17 @@
         </div>
       </div>
 
-      <!-- TÉCNICAS Y HABILIDADES PASIVAS DINÁMICAS -->
+      <!-- TÉCNICAS CON COSTE DE SMATH Y BOTÓN USAR -->
       <div class="box-frame">
         <div class="box-frame-title">Técnicas & Poderes</div>
         <div class="techniques-table-wrap">
           <table class="techniques-table">
             <thead>
               <tr>
-                <th style="width:52%;">NOMBRE TÉCNICA</th>
-                <th style="width:12%; text-align:center;">TIPO</th>
-                <th style="width:28%; text-align:center;">NIVEL</th>
-                <th style="width:8%; text-align:center;">✖</th>
+                <th style="width:48%;">NOMBRE TÉCNICA</th>
+                <th style="width:16%; text-align:center;">COSTE SMATH</th>
+                <th style="width:20%; text-align:center;">NIVEL</th>
+                <th style="width:16%; text-align:center;">ACCIÓN</th>
               </tr>
             </thead>
             <tbody id="techniques-body"></tbody>
@@ -2096,28 +2162,14 @@
         </div>
       </div>
 
-      <!-- TÉCNICAS DESPIERTAS Y ASPECTO DE LA ESENCIA -->
+      <!-- TÉCNICAS DESPIERTAS -->
       <div class="box-frame">
         <div class="box-frame-title">Técnicas Despiertas</div>
         <div class="despiertas-wrapper">
-          <div>
-            <div class="awakened-node"><div class="awakened-node-title">TÉCNICA PRINCIPAL:</div><input type="text" id="tech-princ-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-princ-cost" style="width:75px;"></div></div>
-            <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA I:</div><input type="text" id="tech-sec1-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec1-cost" style="width:75px;"></div></div>
-            <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div><input type="text" id="tech-sec2-name" placeholder="Nombre..."></div>
-            <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div><input type="text" id="tech-sec3-name" placeholder="Nombre..."></div>
-          </div>
-
-          <!-- ASPECTO DE LA ESENCIA (ANTES CLASIFICACIÓN) -->
-          <div style="background:rgba(255,255,255,0.3); border:1.5px solid var(--border-dark); padding:8px;">
-            <div style="font-family:var(--f-title); font-size:13px; font-weight:bold; margin-bottom:6px; text-align:center; border-bottom:1px solid var(--border-dark); padding-bottom:3px;">
-              ASPECTO DE LA ESENCIA
-            </div>
-            <div class="classification-row"><span>⚔️ OFENSIVA</span><div class="classification-diamonds" data-aspect="ofensiva"></div></div>
-            <div class="classification-row"><span>🛡️ DEFENSIVA</span><div class="classification-diamonds" data-aspect="defensiva"></div></div>
-            <div class="classification-row"><span>🎯 TÁCTICA</span><div class="classification-diamonds" data-aspect="tactica"></div></div>
-            <div class="classification-row"><span>🧰 ASISTENCIA</span><div class="classification-diamonds" data-aspect="asistencia"></div></div>
-            <div class="classification-row"><span>🌌 SINGULAR</span><div class="classification-diamonds" data-aspect="singular"></div></div>
-          </div>
+          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA PRINCIPAL:</div><input type="text" id="tech-princ-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-princ-cost" style="width:75px;"></div></div>
+          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA I:</div><input type="text" id="tech-sec1-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec1-cost" style="width:75px;"></div></div>
+          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div><input type="text" id="tech-sec2-name" placeholder="Nombre..."></div>
+          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div><input type="text" id="tech-sec3-name" placeholder="Nombre..."></div>
         </div>
       </div>
 
@@ -2146,7 +2198,7 @@
         </div>
       </div>
 
-      <!-- BONIFICACIONES POR GRADO (MATRIZ GUÍA) -->
+      <!-- BONIFICACIONES POR GRADO -->
       <div class="box-frame">
         <div class="box-frame-title">Bonificaciones por Grado</div>
         <div class="grade-table-wrap">
@@ -2237,24 +2289,27 @@
           'stat-smath-curr': '', 'stat-smath-max-base': 0,
           'stat-conc': '', 'stat-init-bono': 0, 'pts-base': 0,
           'status-veneno-val': '', 'status-sangrado-val': '', 'status-curacion-val': '',
-          'status-custom-name': '', 'status-custom-val': '',
+          'status-infectado-val': '', 'status-custom-name': '', 'status-custom-val': '',
+          'status-stun-turns': '', 'status-sellado-turns': '', 'status-petrificado-turns': '',
+          'status-mareado-turns': '', 'status-veneno-turns': '', 'status-sangrado-turns': '',
+          'status-curacion-turns': '', 'status-infectado-turns': '', 'status-custom-turns': '',
           'tech-princ-name': '', 'tech-princ-cost': '', 'tech-sec1-name': '', 'tech-sec1-cost': '',
           'tech-sec2-name': '', 'tech-sec2-cost': '', 'tech-sec3-name': '', 'tech-sec3-cost': ''
         },
         checkboxes: {
           'status-stun': false, 'status-sellado': false, 'status-petrificado': false,
           'status-mareado': false, 'status-veneno': false, 'status-sangrado': false,
-          'status-curacion': false, 'status-custom-check': false
+          'status-curacion': false, 'status-infectado': false, 'status-custom-check': false
         },
-        essenceMode: 'none', // 'none', 'despierta', 'manifestada'
+        essenceMode: 'none',
         aspects: { ofensiva: 0, defensiva: 0, tactica: 0, asistencia: 0, singular: 0 },
         weapons: [
-          { id: 'w_' + Date.now(), name: 'Espada Vampira', baseDmg: 20, lastRoll: '-', lastDmg: '-', hasCrit: false, critMult: 2, lastCrit: '-' }
+          { id: 'w_' + Date.now(), name: 'Espada Vampira', baseDmg: 20, lastRoll: '-', lastDmg: '-' }
         ],
         archLevels: { impulsor: 0, controlador: 0, perpetuador: 0, proyector: 0, evocador: 0, conmutador: 0 },
         techniques: [
-          { name: '', type: false, lvl1: false, lvl2: false, lvl3: false },
-          { name: '', type: false, lvl1: false, lvl2: false, lvl3: false }
+          { name: '', cost: 2, lvl1: false, lvl2: false, lvl3: false },
+          { name: '', cost: 3, lvl1: false, lvl2: false, lvl3: false }
         ],
         passives: [],
         inventory: [
@@ -2263,7 +2318,8 @@
         ],
         essence: 0,
         lastRoll: '-',
-        lastInit: '-'
+        lastInit: '-',
+        lastCrit: '-'
       };
     }
 
@@ -2308,6 +2364,18 @@
       if (!el) return;
       el.style.height = 'auto';
       el.style.height = Math.max(22, el.scrollHeight) + 'px';
+    }
+
+    function toggleCharDataCollapse() {
+      const content = document.getElementById('char-data-content');
+      const icon = document.getElementById('char-data-toggle-icon');
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.innerText = '▼';
+      } else {
+        content.style.display = 'none';
+        icon.innerText = '▲';
+      }
     }
 
     function openHubModal() { document.getElementById('hub-modal-backdrop').style.display = 'flex'; }
@@ -2374,7 +2442,7 @@
     function clearNegativeStates() {
       const stateChecks = [
         'status-stun', 'status-sellado', 'status-petrificado', 'status-mareado',
-        'status-veneno', 'status-sangrado', 'status-curacion', 'status-custom-check'
+        'status-veneno', 'status-sangrado', 'status-curacion', 'status-infectado', 'status-custom-check'
       ];
       stateChecks.forEach(id => {
         const el = document.getElementById(id);
@@ -2382,8 +2450,10 @@
       });
 
       const stateValues = [
-        'status-veneno-val', 'status-sangrado-val', 'status-curacion-val',
-        'status-custom-name', 'status-custom-val'
+        'status-veneno-val', 'status-sangrado-val', 'status-curacion-val', 'status-infectado-val',
+        'status-custom-name', 'status-custom-val', 'status-stun-turns', 'status-sellado-turns',
+        'status-petrificado-turns', 'status-mareado-turns', 'status-veneno-turns',
+        'status-sangrado-turns', 'status-curacion-turns', 'status-infectado-turns', 'status-custom-turns'
       ];
       stateValues.forEach(id => {
         const el = document.getElementById(id);
@@ -2412,6 +2482,8 @@
       let maxHp = baseHp + Math.round(baseHp * (0.20 * defLvl));
       if (pdata.essenceMode === 'despierta') maxHp = Math.round(maxHp * 1.50);
       else if (pdata.essenceMode === 'manifestada') maxHp = Math.round(maxHp * 2.00);
+      else if (pdata.essenceMode === 'trascendida') maxHp = Math.round(maxHp * 2.50);
+      else if (pdata.essenceMode === 'ascendida') maxHp = Math.round(maxHp * 3.00);
 
       let currHp = parseInt(pdata.inputs?.['stat-hp-curr']) || 0;
 
@@ -2449,7 +2521,7 @@
       if (el) el.style.display = el.style.display === 'none' ? 'grid' : 'none';
     }
 
-    // BOTÓN DE AVANCE DE TURNO GLOBAL (MÁSTER) CON COOLDOWN DE 10S
+    // BOTÓN DE AVANCE DE TURNO GLOBAL COMPACTO CON COOLDOWN DE 10S
     function gmAdvanceGlobalTurn() {
       if (isGmTurnCooldown) {
         showToast('⏳ Espera a que termine el enfriamiento del turno.');
@@ -2459,46 +2531,46 @@
       isGmTurnCooldown = true;
       const btn = document.getElementById('btn-gm-advance-turn');
       let timeLeft = 10;
-      btn.innerText = `⏳ Procesando turno... (${timeLeft}s)`;
+      btn.innerText = `⏳ Turno (${timeLeft}s)`;
       btn.style.opacity = '0.6';
       btn.style.cursor = 'not-allowed';
 
       const timerInterval = setInterval(() => {
         timeLeft--;
         if (timeLeft > 0) {
-          btn.innerText = `⏳ Enfriamiento de turno (${timeLeft}s)`;
+          btn.innerText = `⏳ Turno (${timeLeft}s)`;
         } else {
           clearInterval(timerInterval);
           isGmTurnCooldown = false;
-          btn.innerText = '⏳ Avanzar Turno Global (Procesar Estados & Smath)';
+          btn.innerText = '⏳ Avanzar Turno Global';
           btn.style.opacity = '1';
           btn.style.cursor = 'pointer';
         }
       }, 1000);
 
-      // Procesar cada jugador conectado
+      // Procesar estados negativos, turnos y smath de cada jugador
       playerList.forEach(pid => {
         const pdata = allPlayersData[pid];
         if (!pdata) return;
         const pInputs = pdata.inputs || {};
         const pChecks = pdata.checkboxes || {};
 
-        // 1. Calcular Max HP y Smath
-        let bHp = 0, bSmath = 0;
+        let bHp = 0;
         ARCHETYPES.forEach(arch => {
           bHp += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].hp;
-          bSmath += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].smath;
         });
         const baseHp = (parseFloat(pInputs['stat-hp-max-base']) || 0) + bHp;
         const defLvl = pdata.aspects?.defensiva || 0;
         let maxHp = baseHp + Math.round(baseHp * (0.20 * defLvl));
         if (pdata.essenceMode === 'despierta') maxHp = Math.round(maxHp * 1.50);
         else if (pdata.essenceMode === 'manifestada') maxHp = Math.round(maxHp * 2.00);
+        else if (pdata.essenceMode === 'trascendida') maxHp = Math.round(maxHp * 2.50);
+        else if (pdata.essenceMode === 'ascendida') maxHp = Math.round(maxHp * 3.00);
 
         let currHp = parseFloat(pInputs['stat-hp-curr']) || 0;
         let currSmath = parseFloat(pInputs['stat-smath-curr']) || 0;
 
-        // 2. Procesar Estados Negativos
+        // 1. Resolver daño de veneno y sangrado
         if (pChecks['status-veneno']) {
           const vDmg = parseFloat(pInputs['status-veneno-val']) || 0;
           currHp = Math.max(0, currHp - vDmg);
@@ -2512,27 +2584,49 @@
           currHp = Math.min(maxHp, currHp + cReg);
         }
 
-        // 3. Drenaje de Smath por Activación de Esencia
-        if (pdata.essenceMode === 'despierta') {
-          currSmath = Math.max(0, currSmath - 1);
-          if (currSmath === 0) {
-            // Agotamiento: Apagar esencia y recalcular vida proporcionalmente
-            const ratio = maxHp > 0 ? (currHp / maxHp) : 0;
-            pdata.essenceMode = 'none';
-            const newMaxHp = baseHp + Math.round(baseHp * (0.20 * defLvl));
-            currHp = Math.round(ratio * newMaxHp);
+        // 2. Decrementar turnos en estados
+        const allStatesWithTurns = [
+          { chk: 'status-stun', turn: 'status-stun-turns' },
+          { chk: 'status-sellado', turn: 'status-sellado-turns' },
+          { chk: 'status-petrificado', turn: 'status-petrificado-turns' },
+          { chk: 'status-mareado', turn: 'status-mareado-turns' },
+          { chk: 'status-veneno', turn: 'status-veneno-turns' },
+          { chk: 'status-sangrado', turn: 'status-sangrado-turns' },
+          { chk: 'status-curacion', turn: 'status-curacion-turns' },
+          { chk: 'status-infectado', turn: 'status-infectado-turns' },
+          { chk: 'status-custom-check', turn: 'status-custom-turns' }
+        ];
+
+        allStatesWithTurns.forEach(st => {
+          if (pChecks[st.chk]) {
+            let t = parseInt(pInputs[st.turn]) || 0;
+            if (t > 1) {
+              pInputs[st.turn] = t - 1;
+            } else if (t === 1) {
+              pInputs[st.turn] = '';
+              pChecks[st.chk] = false;
+            }
           }
-        } else if (pdata.essenceMode === 'manifestada') {
-          currSmath = Math.max(0, currSmath - 2);
+        });
+
+        // 3. Consumo de Smath por esencia activa
+        let smathCost = 0;
+        if (pdata.essenceMode === 'despierta') smathCost = 1;
+        else if (pdata.essenceMode === 'manifestada') smathCost = 2;
+        else if (pdata.essenceMode === 'trascendida') smathCost = 3;
+        else if (pdata.essenceMode === 'ascendida') smathCost = 4;
+
+        if (smathCost > 0) {
+          currSmath = Math.max(0, currSmath - smathCost);
           if (currSmath === 0) {
-            const ratio = maxHp > 0 ? (currHp / maxHp) : 0;
+            // Se agota el Smath: apagar modo y restaurar vida base
             pdata.essenceMode = 'none';
-            const newMaxHp = baseHp + Math.round(baseHp * (0.20 * defLvl));
-            currHp = Math.round(ratio * newMaxHp);
+            const baseHpMax = baseHp + Math.round(baseHp * (0.20 * defLvl));
+            currHp = Math.min(currHp, baseHpMax);
           }
         }
 
-        // 4. Limpieza de Acciones de Turno
+        // 4. Limpieza de acciones
         pChecks['act-atacar'] = false;
         pChecks['act-conc-1'] = false;
         pChecks['act-conc-2'] = false;
@@ -2549,7 +2643,7 @@
       saveActivePlayerToCloud(true);
       if (activeRole === 'gm') renderGMDashboard();
       else if (allPlayersData[activeRole]) applyDataToForm(allPlayersData[activeRole]);
-      showToast('⏳ Turno avanzado: Estados resueltos y Smath procesado.');
+      showToast('⏳ Turno procesado con éxito.');
     }
 
     function updateSenderSelect() {
@@ -2559,8 +2653,8 @@
       select.innerHTML = '';
 
       const gmOpt = document.createElement('option');
-      gmOpt.value = '👑 Maestro (GM)';
-      gmOpt.innerText = '👑 Maestro';
+      gmOpt.value = '👑 Master';
+      gmOpt.innerText = '👑 Master';
       select.appendChild(gmOpt);
 
       playerList.forEach((pid, index) => {
@@ -2577,7 +2671,7 @@
       if (prevVal && Array.from(select.options).some(o => o.value === prevVal)) {
         select.value = prevVal;
       } else if (activeRole === 'gm') {
-        select.value = '👑 Maestro (GM)';
+        select.value = '👑 Master';
       } else if (allPlayersData[activeRole]) {
         const pInputs = allPlayersData[activeRole]?.inputs || {};
         const icon = pInputs['char-icon'] || '⚔️';
@@ -2585,7 +2679,6 @@
         select.value = curName ? `${icon} ${curName}` : `${icon} Jugador ${playerList.indexOf(activeRole) + 1}`;
       }
 
-      // Mostrar botón de fijar si es GM
       const pinBtn = document.getElementById('btn-pin-composer');
       if (pinBtn) pinBtn.style.display = activeRole === 'gm' ? 'inline-block' : 'none';
     }
@@ -2594,7 +2687,7 @@
       const input = document.getElementById('table-msg-input');
       const senderSelect = document.getElementById('table-msg-sender');
       const text = (input.value || '').trim();
-      const sender = senderSelect.value || '👑 Maestro (GM)';
+      const sender = senderSelect.value || '👑 Master';
 
       if (!text) {
         showToast('⚠️ Escribe un mensaje antes de enviar.');
@@ -2686,7 +2779,6 @@
     }
 
     function updateObjectiveBanner() {
-      // Banner de mensaje fijado
       const pinWrap = document.getElementById('pinned-msg-wrap');
       const pinText = document.getElementById('pinned-msg-text');
       const unpinBtn = document.getElementById('btn-unpin-msg');
@@ -2699,7 +2791,6 @@
         pinWrap.style.display = 'none';
       }
 
-      // Lista de mensajes recientes
       const bannerList = document.getElementById('latest-objectives-container');
       bannerList.innerHTML = '';
       const top3 = (objectivesList || []).slice(0, 3);
@@ -2716,8 +2807,8 @@
       });
     }
 
-    // ARMAS DINÁMICAS CON CRÍTICOS Y COOLDOWN DE 3 SEGUNDOS
-    function addWeaponRow(id = null, name = 'Arma', baseDmg = 15, lastRoll = '-', lastDmg = '-', hasCrit = false, critMult = 2, lastCrit = '-') {
+    // ARMAS DINÁMICAS (D6 PURO)
+    function addWeaponRow(id = null, name = 'Arma', baseDmg = 15, lastRoll = '-', lastDmg = '-') {
       const container = document.getElementById('weapons-container');
       const wId = id || ('w_' + Date.now());
       const card = document.createElement('div');
@@ -2733,35 +2824,17 @@
           <span>Base: <input type="number" class="weapon-base-input" value="${baseDmg}" min="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();"></span>
           <span>Bono: <b class="weapon-bono-text">+0</b></span>
           <span>Total: <b class="weapon-total-text" style="color:var(--txt-red); font-size:15px;">${baseDmg}</b></span>
-          <div class="weapon-crit-config">
-            <input type="checkbox" class="weapon-crit-check" id="crit-chk-${wId}" ${hasCrit ? 'checked' : ''} onchange="toggleCritDisplay('${wId}'); syncToFirebaseDebounced();">
-            <label for="crit-chk-${wId}" style="cursor:pointer; font-size:11px;">💥 Crítico</label>
-            <span class="weapon-crit-mult-wrap" style="${hasCrit ? '' : 'display:none;'}">
-              x<input type="number" step="0.5" class="weapon-crit-mult" value="${critMult}" min="1" style="width:36px; padding:1px; text-align:center; font-weight:bold;" oninput="syncToFirebaseDebounced();">
-            </span>
-          </div>
         </div>
         <div class="weapon-bot-row">
           <button type="button" class="btn-roll-weapon btn-roll-d6-${wId}" onclick="rollWeaponD6('${wId}')">🎲 Tirar D6</button>
-          <button type="button" class="btn-roll-weapon btn-roll-crit-${wId}" style="${hasCrit ? '' : 'display:none;'} background:#854d0e; border-color:#ca8a04;" onclick="rollWeaponCrit('${wId}')">🎯 D20 Crítico</button>
           <div class="weapon-badge">
             <span>D6: <b class="weapon-roll-val" style="color:var(--txt-red);">${lastRoll}</b></span>
             <span style="margin-left:4px;">Daño: <b class="weapon-dmg-val" style="color:var(--txt-red);">${lastDmg}</b></span>
-            <span class="weapon-crit-badge-wrap" style="${hasCrit ? '' : 'display:none;'} margin-left:4px; color:#854d0e;">Crítico: <b class="weapon-crit-val">${lastCrit}</b></span>
           </div>
         </div>
       `;
       container.appendChild(card);
       recalcAllAutoStats();
-    }
-
-    function toggleCritDisplay(wId) {
-      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
-      if (!card) return;
-      const isChecked = card.querySelector('.weapon-crit-check').checked;
-      card.querySelector('.weapon-crit-mult-wrap').style.display = isChecked ? 'inline' : 'none';
-      card.querySelector(`.btn-roll-crit-${wId}`).style.display = isChecked ? 'inline-block' : 'none';
-      card.querySelector('.weapon-crit-badge-wrap').style.display = isChecked ? 'inline' : 'none';
     }
 
     function deleteWeaponRow(wId) {
@@ -2828,40 +2901,7 @@
       }
     }
 
-    function rollWeaponCrit(wId) {
-      if (isRollInCooldown) {
-        showToast('⏳ Espera 3 segundos antes de volver a tirar.');
-        return;
-      }
-      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
-      if (!card) return;
-
-      startRollCooldown();
-
-      const wName = card.querySelector('.weapon-name-input')?.value.trim() || 'Arma';
-      const mult = parseFloat(card.querySelector('.weapon-crit-mult')?.value) || 2;
-      const totalDmg = parseFloat(card.querySelector('.weapon-total-text')?.innerText) || 0;
-      const d20 = Math.floor(Math.random() * 20) + 1;
-      const critDmg = Math.round(totalDmg * mult);
-
-      card.querySelector('.weapon-crit-val').innerText = `D20: ${d20} (${critDmg} daño)`;
-
-      const pInputs = allPlayersData[activeRole]?.inputs || {};
-      const sender = pInputs['char-name'] || 'Personaje';
-      const detail = `${wName} (CRÍTICO D20): D20: ${d20} (x${mult}) -> ${critDmg} daño de impacto`;
-
-      diceRollsHistory.unshift({
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-        sender: sender,
-        detail: detail
-      });
-
-      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
-        allPlayersData[activeRole].lastRoll = `${wName} [CRIT]: D20: ${d20} (${critDmg} daño)`;
-        saveActivePlayerToCloud(true);
-      }
-    }
-
+    // INICIATIVA Y CRÍTICO D20 COMPARTIDOS
     function rollInitiative() {
       const bono = parseInt(document.getElementById('stat-init-bono')?.value) || 0;
       const d20 = Math.floor(Math.random() * 20) + 1;
@@ -2885,6 +2925,41 @@
       }
     }
 
+    function rollD20AttackCrit() {
+      if (isRollInCooldown) {
+        showToast('⏳ Espera 3 segundos antes de volver a tirar.');
+        return;
+      }
+      startRollCooldown();
+
+      const tacLvl = aspectState.tactica || 0;
+      let critBonus = 0;
+      if (currentEssenceMode === 'despierta') critBonus = tacLvl * 1;
+      else if (currentEssenceMode === 'manifestada') critBonus = tacLvl * 2;
+      else if (currentEssenceMode === 'trascendida') critBonus = tacLvl * 3;
+      else if (currentEssenceMode === 'ascendida') critBonus = tacLvl * 4;
+
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      const total = d20 + critBonus;
+
+      document.getElementById('stat-crit-result').innerText = `Dado ${d20} (+${critBonus}) = ${total}`;
+
+      const pInputs = allPlayersData[activeRole]?.inputs || {};
+      const sender = pInputs['char-name'] || 'Personaje';
+      const detail = `Ataque / Crítico (D20): Dado ${d20} + Bono Táctico ${critBonus} = ${total}`;
+
+      diceRollsHistory.unshift({
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        sender: sender,
+        detail: detail
+      });
+
+      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastCrit = `${total} (d20: ${d20})`;
+        saveActivePlayerToCloud(true);
+      }
+    }
+
     function updateReferenceD6Table(baseVal, activeRoll = null) {
       for (let i = 1; i <= 6; i++) {
         const cell = document.getElementById('calc-dmg-' + i);
@@ -2903,55 +2978,64 @@
       }
     }
 
-    // GESTIÓN DE MODOS DE ESENCIA Y PROPORCIÓN DE VIDA
+    // ACTIVACIÓN DE ESENCIA CON SUMA DE % A VIDA ACTUAL Y TOTAL
     function toggleEssenceActivation(mode) {
       const despChk = document.getElementById('essence-mode-despierta');
       const maniChk = document.getElementById('essence-mode-manifestada');
+      const trascChk = document.getElementById('essence-mode-trascendida');
+      const ascChk = document.getElementById('essence-mode-ascendida');
 
-      const oldMode = currentEssenceMode;
       let newMode = 'none';
 
-      if (mode === 'despierta') {
-        if (despChk.checked) {
-          newMode = 'despierta';
-          maniChk.checked = false;
+      if (mode === 'despierta' && despChk.checked) newMode = 'despierta';
+      else if (mode === 'manifestada' && maniChk.checked) newMode = 'manifestada';
+      else if (mode === 'trascendida' && trascChk.checked) newMode = 'trascendida';
+      else if (mode === 'ascendida' && ascChk.checked) newMode = 'ascendida';
+
+      // Coste inicial de Smath
+      let costInitial = 0;
+      if (newMode === 'manifestada') costInitial = 2;
+      else if (newMode === 'trascendida') costInitial = 3;
+      else if (newMode === 'ascendida') costInitial = 4;
+
+      if (costInitial > 0) {
+        const smathInput = document.getElementById('stat-smath-curr');
+        let curSmath = parseFloat(smathInput?.value) || 0;
+        if (curSmath < costInitial) {
+          showToast(`⚠️ Requiere ${costInitial} Smath para activar este modo.`);
+          despChk.checked = (currentEssenceMode === 'despierta');
+          maniChk.checked = (currentEssenceMode === 'manifestada');
+          trascChk.checked = (currentEssenceMode === 'trascendida');
+          ascChk.checked = (currentEssenceMode === 'ascendida');
+          return;
         }
-      } else if (mode === 'manifestada') {
-        if (maniChk.checked) {
-          // Descontar 2 Smath inmediatamente si hay disponibles
-          const smathInput = document.getElementById('stat-smath-curr');
-          let curSmath = parseFloat(smathInput?.value) || 0;
-          if (curSmath < 2) {
-            showToast('⚠️ No tienes suficiente Smath para activar Manifestada (requiere 2).');
-            maniChk.checked = false;
-            return;
-          }
-          curSmath -= 2;
-          if (smathInput) smathInput.value = curSmath;
-          newMode = 'manifestada';
-          despChk.checked = false;
-        }
+        curSmath -= costInitial;
+        if (smathInput) smathInput.value = curSmath;
       }
 
-      // Proporción de vida (%)
-      const oldMaxHp = parseFloat(document.getElementById('stat-hp-max-total')?.innerText) || 1;
+      despChk.checked = (newMode === 'despierta');
+      maniChk.checked = (newMode === 'manifestada');
+      trascChk.checked = (newMode === 'trascendida');
+      ascChk.checked = (newMode === 'ascendida');
+
+      // Calcular multiplicador de HP nuevo vs viejo
+      const getMult = m => (m === 'despierta' ? 1.50 : (m === 'manifestada' ? 2.00 : (m === 'trascendida' ? 2.50 : (m === 'ascendida' ? 3.00 : 1.00))));
+      const oldMult = getMult(currentEssenceMode);
+      const newMult = getMult(newMode);
+
       const hpCurrInput = document.getElementById('stat-hp-curr');
-      const oldCurrHp = parseFloat(hpCurrInput?.value) || 0;
-      const ratio = oldMaxHp > 0 ? (oldCurrHp / oldMaxHp) : 0;
+      let currHp = parseFloat(hpCurrInput?.value) || 0;
+      // Ajustar vida actual proporcionalmente
+      currHp = Math.round((currHp / oldMult) * newMult);
+      if (hpCurrInput) hpCurrInput.value = currHp;
 
       currentEssenceMode = newMode;
       recalcAllAutoStats();
-
-      const newMaxHp = parseFloat(document.getElementById('stat-hp-max-total')?.innerText) || 1;
-      if (hpCurrInput) {
-        hpCurrInput.value = Math.round(ratio * newMaxHp);
-      }
-
       syncToFirebaseDebounced();
-      showToast(`✨ Modo de Esencia: ${newMode === 'none' ? 'Inactivo' : newMode.toUpperCase()}`);
+      showToast(`✨ Modo: ${newMode === 'none' ? 'Inactivo' : newMode.toUpperCase()}`);
     }
 
-    // CÁLCULO DE ATRIBUTOS, ARQUETIPOS Y ASPECTOS
+    // CÁLCULO DE BONOS Y ASPECTOS PASIVOS / ACTIVOS
     function recalcAllAutoStats() {
       let bDmg = 0, bPc = 0, bPd = 0, bHp = 0, bSmath = 0, bPh = 0;
       ARCHETYPES.forEach(arch => {
@@ -2965,29 +3049,26 @@
         bPh    += lvl * b.ph;
       });
 
-      // Bonos de Aspectos
       const ofeLvl = aspectState.ofensiva || 0;
       const defLvl = aspectState.defensiva || 0;
       const tacLvl = aspectState.tactica || 0;
       const asiLvl = aspectState.asistencia || 0;
       const sinLvl = aspectState.singular || 0;
 
-      // Resumen visual de activación
+      // Actualizar resumen en vivo
       const sumDesp = document.getElementById('summary-bonus-despierta');
       const sumMani = document.getElementById('summary-bonus-manifestada');
-      if (sumDesp) {
-        sumDesp.innerText = `Daño +${ofeLvl * 5}% | +${defLvl * 1} PD | +${tacLvl * 1} Crítico | +${asiLvl * 2} Téc | +${sinLvl * 2} Conc`;
-      }
-      if (sumMani) {
-        sumMani.innerText = `Daño +${ofeLvl * 10}% | +${defLvl * 2} PD | +${tacLvl * 2} Crítico | +${asiLvl * 3} Téc | +${sinLvl * 3} Conc`;
-      }
+      if (sumDesp) sumDesp.innerText = `Daño +${ofeLvl * 5}% | +${defLvl * 1} PD | +${tacLvl * 1} Crítico`;
+      if (sumMani) sumMani.innerText = `Daño +${ofeLvl * 10}% | +${defLvl * 2} PD | +${tacLvl * 2} Crítico`;
 
-      // Aspecto Ofensivo: % de daño
+      // Aspecto Ofensivo Activo (% daño)
       let aspectDmgPercent = 0;
       if (currentEssenceMode === 'despierta') aspectDmgPercent = ofeLvl * 0.05;
       else if (currentEssenceMode === 'manifestada') aspectDmgPercent = ofeLvl * 0.10;
+      else if (currentEssenceMode === 'trascendida') aspectDmgPercent = ofeLvl * 0.15;
+      else if (currentEssenceMode === 'ascendida') aspectDmgPercent = ofeLvl * 0.20;
 
-      // ARMAS
+      // Armas
       document.querySelectorAll('#weapons-container .weapon-card').forEach(card => {
         const base = parseFloat(card.querySelector('.weapon-base-input')?.value) || 0;
         const flatDmg = base + bDmg;
@@ -3005,15 +3086,17 @@
       document.getElementById('stat-pc-bono').innerText = `+${bPc}`;
       document.getElementById('stat-pc-total').innerText = basePcVal + bPc;
 
-      // PD (Base + Arquetipo + Aspecto Defensivo Activo)
+      // PD (Base + Arquetipos + Defensiva Activa)
       let aspectPdBonus = 0;
       if (currentEssenceMode === 'despierta') aspectPdBonus = defLvl * 1;
       else if (currentEssenceMode === 'manifestada') aspectPdBonus = defLvl * 2;
+      else if (currentEssenceMode === 'trascendida') aspectPdBonus = defLvl * 3;
+      else if (currentEssenceMode === 'ascendida') aspectPdBonus = defLvl * 4;
       const basePdVal = parseFloat(document.getElementById('stat-pd-base')?.value) || 0;
       document.getElementById('stat-pd-bono').innerText = `+${bPd + aspectPdBonus}`;
       document.getElementById('stat-pd-total').innerText = basePdVal + bPd + aspectPdBonus;
 
-      // RESENCIA (HP): Base + Arquetipo + Pasiva Defensiva (+20% base por nivel) + Re-esencia (+50% o +100%)
+      // Resencia (HP): Base + Arquetipos + Pasiva Defensiva (+20% base por nivel) + % Modo de Esencia
       const baseHpMaxVal = parseFloat(document.getElementById('stat-hp-max-base')?.value) || 0;
       const flatHp = baseHpMaxVal + bHp;
       const defPassiveHp = Math.round(flatHp * (0.20 * defLvl));
@@ -3021,825 +3104,43 @@
 
       if (currentEssenceMode === 'despierta') totalCalculatedHp = Math.round(totalCalculatedHp * 1.50);
       else if (currentEssenceMode === 'manifestada') totalCalculatedHp = Math.round(totalCalculatedHp * 2.00);
+      else if (currentEssenceMode === 'trascendida') totalCalculatedHp = Math.round(totalCalculatedHp * 2.50);
+      else if (currentEssenceMode === 'ascendida') totalCalculatedHp = Math.round(totalCalculatedHp * 3.00);
 
-      document.getElementById('stat-hp-bono').innerText = `+${bHp + defPassiveHp}${currentEssenceMode !== 'none' ? ` (${currentEssenceMode === 'despierta' ? '+50%' : '+100%'})` : ''}`;
+      document.getElementById('stat-hp-bono').innerText = `+${bHp + defPassiveHp}`;
       document.getElementById('stat-hp-max-total').innerText = totalCalculatedHp;
 
-      // SMATH
+      // Smath
       const baseSmathMaxVal = parseFloat(document.getElementById('stat-smath-max-base')?.value) || 0;
       document.getElementById('stat-smath-bono').innerText = `+${bSmath}`;
       document.getElementById('stat-smath-max-total').innerText = baseSmathMaxVal + bSmath;
 
-      // CONCENTRACIÓN DE SMATH (Aspecto Singular)
-      let aspectConcBonus = 0;
-      if (currentEssenceMode === 'despierta') aspectConcBonus = sinLvl * 2;
-      else if (currentEssenceMode === 'manifestada') aspectConcBonus = sinLvl * 3;
+      // Táctica: Bono al D20 de crítico
+      let aspectCritBonus = 0;
+      if (currentEssenceMode === 'despierta') aspectCritBonus = tacLvl * 1;
+      else if (currentEssenceMode === 'manifestada') aspectCritBonus = tacLvl * 2;
+      else if (currentEssenceMode === 'trascendida') aspectCritBonus = tacLvl * 3;
+      else if (currentEssenceMode === 'ascendida') aspectCritBonus = tacLvl * 4;
+      const critBonoEl = document.getElementById('stat-crit-bono');
+      if (critBonoEl) critBonoEl.innerText = `+${aspectCritBonus}`;
+
+      // ASPECTOS PASIVOS SEGÚN GRADO ALCANZADO (activeEssence)
+      const curGrade = activeEssence || 0;
+      let passMult = 0;
+      if (curGrade >= 7) passMult = 3;
+      else if (curGrade >= 4) passMult = 2;
+
+      // Singular (Concentración de Smath pasiva)
+      const passiveConc = sinLvl * passMult;
       const concEl = document.getElementById('stat-conc');
-      if (concEl && aspectConcBonus > 0 && !concEl.value) {
-        concEl.value = aspectConcBonus;
+      if (concEl && passiveConc > 0 && !concEl.value) {
+        concEl.value = passiveConc;
       }
 
-      // HABILIDADES Y PUNTOS
-      const basePhVal = parseFloat(document.getElementById('pts-base')?.value) || 0;
-      const totalPhObt = basePhVal + bPh;
-      document.getElementById('pts-bono').innerText = `+${bPh}`;
-      document.getElementById('pts-obtenidos-total').innerText = totalPhObt;
-
-      updateSkillsAndPoints(totalPhObt);
-
-      // Límite de técnicas (Aspecto Asistencia)
-      let maxTechSlots = 4;
-      if (currentEssenceMode === 'despierta') maxTechSlots += (asiLvl * 2);
-      else if (currentEssenceMode === 'manifestada') maxTechSlots += (asiLvl * 3);
+      // Asistencia (Límite de técnicas pasivo)
+      let maxTechSlots = 4 + (asiLvl * passMult);
       const curTechCount = document.querySelectorAll('#techniques-body tr').length;
       document.getElementById('tech-slots-used').innerText = curTechCount;
       document.getElementById('tech-slots-max').innerText = maxTechSlots;
-    }
 
-    function getActiveActionsList(chk = {}) {
-      const acts = [];
-      if (chk['act-atacar']) acts.push('⚔️ Atacar');
-      if (chk['act-conc-1'] && chk['act-conc-2']) acts.push('🧘 Concentrarse x2');
-      else if (chk['act-conc-1'] || chk['act-conc-2']) acts.push('🧘 Concentrarse x1');
-      if (chk['act-def']) acts.push('🛡️ Defenderse');
-      if (chk['act-desp-1'] && chk['act-desp-2']) acts.push('🏃 Desplazarse x2');
-      else if (chk['act-desp-1'] || chk['act-desp-2']) acts.push('🏃 Desplazarse x1');
-      if (chk['act-mot-1']) acts.push('🔥 Motivación (3 Sm)');
-      if (chk['act-mot-2']) acts.push('🔥 Motivación (5 Sm)');
-      return acts;
-    }
-
-    function clearTurnActions() {
-      const actionIds = ['act-atacar', 'act-conc-1', 'act-conc-2', 'act-def', 'act-desp-1', 'act-desp-2', 'act-mot-1', 'act-mot-2'];
-      actionIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.checked = false;
-      });
-      syncToFirebaseDebounced();
-      showToast('🧹 Acciones del turno desmarcadas.');
-    }
-
-    function addPassiveRow(text = '') {
-      const container = document.getElementById('passives-list-container');
-      const item = document.createElement('div');
-      item.className = 'passive-entry-item';
-      item.innerHTML = `
-        <textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(text)}</textarea>
-        <button type="button" class="btn-del-passive" onclick="this.closest('.passive-entry-item').remove(); syncToFirebaseDebounced();" title="Eliminar pasiva">✖</button>
-      `;
-      container.appendChild(item);
-      item.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
-    }
-
-    db.ref('.info/connected').on('value', snap => {
-      const isOnline = snap.val() === true;
-      const dot = document.getElementById('live-dot');
-      const txt = document.getElementById('live-status-text');
-      if (dot && txt) {
-        if (isOnline) { dot.classList.remove('offline'); txt.innerText = 'En vivo'; }
-        else { dot.classList.add('offline'); txt.innerText = 'Desconectado'; }
-      }
-    });
-
-    gameRef.on('value', snapshot => {
-      const cloudData = snapshot.val();
-      if (!cloudData) return;
-
-      isRemoteUpdate = true;
-
-      if (Array.isArray(cloudData.playerList) && cloudData.playerList.length > 0) playerList = cloudData.playerList;
-      if (cloudData.characters && typeof cloudData.characters === 'object') allPlayersData = cloudData.characters;
-      if (Array.isArray(cloudData.objectives)) objectivesList = cloudData.objectives;
-      if (Array.isArray(cloudData.diceHistory)) diceRollsHistory = cloudData.diceHistory;
-      if (cloudData.pinnedMessage !== undefined) pinnedMessage = cloudData.pinnedMessage;
-
-      updateObjectiveBanner();
-      renderRoleBar();
-      updateSenderSelect();
-
-      if (activeRole === 'gm') renderGMDashboard();
-      else if (allPlayersData[activeRole]) applyDataToForm(allPlayersData[activeRole]);
-
-      isRemoteUpdate = false;
-    });
-
-    let syncTimeout = null;
-    function syncToFirebaseDebounced() {
-      if (isRemoteUpdate) return;
-      clearTimeout(syncTimeout);
-      syncTimeout = setTimeout(() => { saveActivePlayerToCloud(true); }, 350);
-    }
-
-    function saveActivePlayerToCloud(silent = false) {
-      if (activeRole !== 'gm') {
-        allPlayersData[activeRole] = gatherFormData();
-        renderRoleBar();
-      }
-
-      gameRef.set({
-        playerList: playerList,
-        characters: allPlayersData,
-        objectives: objectivesList,
-        pinnedMessage: pinnedMessage,
-        diceHistory: diceRollsHistory.slice(0, 30)
-      }).then(() => {
-        if (!silent) showToast('☁️ Sincronizado en vivo.');
-      }).catch(err => {
-        if (!silent) showToast('⚠️ Guardado local (sin conexión).');
-      });
-
-      try {
-        localStorage.setItem('requiem_smithnas_state_v11', JSON.stringify({
-          players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList, pinnedMessage: pinnedMessage
-        }));
-      } catch(e) {}
-    }
-
-    function renderRoleBar() {
-      const container = document.getElementById('role-bar-container');
-      container.innerHTML = '';
-
-      const gmBtn = document.getElementById('gm-role-btn');
-      if (gmBtn) {
-        if (activeRole === 'gm') gmBtn.classList.add('active');
-        else gmBtn.classList.remove('active');
-      }
-
-      playerList.forEach((pid, index) => {
-        const pInputs = allPlayersData[pid]?.inputs || {};
-        const icon = pInputs['char-icon'] || '⚔️';
-        const charName = pInputs['char-name']?.trim();
-        const label = charName ? `${icon} ${charName}` : `${icon} Jugador ${index + 1}`;
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
-        btn.innerText = label;
-        btn.onclick = () => switchRole(pid);
-        container.appendChild(btn);
-      });
-
-      const deleteBtn = document.getElementById('btn-delete-player');
-      if (activeRole === 'gm' || playerList.length <= 1) deleteBtn.style.display = 'none';
-      else deleteBtn.style.display = 'flex';
-    }
-
-    function addNewPlayer() {
-      const newIndex = playerList.length + 1;
-      const newPid = 'p' + Date.now();
-      playerList.push(newPid);
-      allPlayersData[newPid] = createBlankCharacterData('');
-      saveActivePlayerToCloud(true);
-      switchRole(newPid);
-      updateSenderSelect();
-      showToast(`✨ Se agregó el Jugador ${newIndex}`);
-    }
-
-    function switchRole(roleId) {
-      if (activeRole !== 'gm' && allPlayersData[activeRole] && !isRemoteUpdate) {
-        allPlayersData[activeRole] = gatherFormData();
-      }
-
-      activeRole = roleId;
-      renderRoleBar();
-      updateSenderSelect();
-
-      const gmWrap = document.getElementById('gm-dashboard-wrap');
-      const sheetWrap = document.getElementById('player-sheet-wrap');
-
-      if (activeRole === 'gm') {
-        gmWrap.style.display = 'block';
-        sheetWrap.style.display = 'none';
-        renderGMDashboard();
-      } else {
-        gmWrap.style.display = 'none';
-        sheetWrap.style.display = 'block';
-        applyDataToForm(allPlayersData[activeRole] || createBlankCharacterData(''));
-      }
-    }
-
-    // PANEL DEL MAESTRO CON CONTROLES DIRECTOS DE ESTADOS EN 4/4
-    function renderGMDashboard() {
-      const cardsGrid = document.getElementById('gm-cards-container');
-      cardsGrid.innerHTML = '';
-
-      playerList.forEach((pid, idx) => {
-        const pdata = allPlayersData[pid] || createBlankCharacterData('');
-        const pInputs = pdata.inputs || {};
-        const pChecks = pdata.checkboxes || {};
-
-        const icon = pInputs['char-icon'] || '⚔️';
-        const charName = pInputs['char-name'] || `Jugador ${idx + 1}`;
-        const hpCurr = pInputs['stat-hp-curr'] || '0';
-        const roll = pdata.lastRoll || '-';
-        const init = pdata.lastInit || '-';
-        
-        const essenceLvl = pdata.essence || 0;
-        const essenceTier = getEssenceTierName(essenceLvl);
-        const essenceDisplay = essenceLvl > 0 ? `${essenceLvl} (${essenceTier})` : '-';
-
-        let bHp = 0, bSmath = 0, bPc = 0, bPd = 0;
-        ARCHETYPES.forEach(arch => {
-          bHp += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].hp;
-          bSmath += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].smath;
-          bPc += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].pc;
-          bPd += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].pd;
-        });
-        const baseHp = (parseFloat(pInputs['stat-hp-max-base']) || 0) + bHp;
-        const defLvl = pdata.aspects?.defensiva || 0;
-        let hpMaxTot = baseHp + Math.round(baseHp * (0.20 * defLvl));
-        if (pdata.essenceMode === 'despierta') hpMaxTot = Math.round(hpMaxTot * 1.50);
-        else if (pdata.essenceMode === 'manifestada') hpMaxTot = Math.round(hpMaxTot * 2.00);
-
-        const smCurr = pInputs['stat-smath-curr'] || '0';
-        const smMaxTot = (parseFloat(pInputs['stat-smath-max-base']) || 0) + bSmath;
-        const pcTot = (parseFloat(pInputs['stat-pc-base']) || 0) + bPc;
-        const pdTot = (parseFloat(pInputs['stat-pd-base']) || 0) + bPd;
-
-        const activeActs = getActiveActionsList(pChecks);
-        let actionsBadgesHtml = '<span style="color:#777; font-size:12px; font-style:italic;">Sin acciones</span>';
-        if (activeActs.length > 0) {
-          actionsBadgesHtml = activeActs.map(act => {
-            const isMot = act.includes('Motivación');
-            return `<span class="gm-action-badge ${isMot ? 'mot' : ''}">${escapeHtml(act)}</span>`;
-          }).join('');
-        }
-
-        const statusBadges = [];
-        if (pChecks['status-stun']) statusBadges.push(`<span class="gm-badge-status gm-badge-stun">⚡ Stun</span>`);
-        if (pChecks['status-sellado']) statusBadges.push(`<span class="gm-badge-status gm-badge-sellado">🔒 Sellado</span>`);
-        if (pChecks['status-petrificado']) statusBadges.push(`<span class="gm-badge-status gm-badge-petrificado">🗿 Petrificado</span>`);
-        if (pChecks['status-mareado']) statusBadges.push(`<span class="gm-badge-status gm-badge-mareado">💫 Mareado</span>`);
-        if (pChecks['status-veneno']) statusBadges.push(`<span class="gm-badge-status gm-badge-veneno">🧪 Veneno (-${pInputs['status-veneno-val'] || '0'})</span>`);
-        if (pChecks['status-sangrado']) statusBadges.push(`<span class="gm-badge-status gm-badge-sangrado">🩸 Sangrado (-${pInputs['status-sangrado-val'] || '0'})</span>`);
-        if (pChecks['status-curacion']) statusBadges.push(`<span class="gm-badge-status gm-badge-curacion">💖 Curación (+${pInputs['status-curacion-val'] || '0'})</span>`);
-        if (pChecks['status-custom-check'] && pInputs['status-custom-name']) {
-          const cVal = pInputs['status-custom-val'] ? ` (${pInputs['status-custom-val']})` : '';
-          statusBadges.push(`<span class="gm-badge-status gm-badge-custom">🏷️ ${escapeHtml(pInputs['status-custom-name'])}${escapeHtml(cVal)}</span>`);
-        }
-
-        let statusBadgesHtml = statusBadges.length > 0 ? statusBadges.join('') : '<span style="color:#777; font-size:12px; font-style:italic;">Normal</span>';
-
-        let passivesHtml = '';
-        const playerPassives = pdata.passives || [];
-        if (playerPassives.length > 0) {
-          const passivesItems = playerPassives.map(pas => `
-            <div class="gm-passive-item">
-              <span style="font-weight:bold; color:#731e0b;">📜</span> ${escapeHtml(pas)}
-            </div>
-          `).join('');
-
-          passivesHtml = `
-            <div class="gm-passives-wrap">
-              <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Pasivas:</span>
-              ${passivesItems}
-            </div>
-          `;
-        }
-
-        const card = document.createElement('div');
-        card.className = 'gm-player-card';
-        card.innerHTML = `
-          <div class="gm-card-title">
-            <span>${icon} ${escapeHtml(charName)}</span>
-            <button type="button" onclick="switchRole('${pid}')" style="background:#4a2b13; border:1px solid #bf8a3b; color:#fff; font-size:11px; padding:2px 6px; cursor:pointer; font-family:var(--f-title); border-radius:2px;">Abrir Ficha</button>
-          </div>
-          <div class="gm-stats-columns">
-            <div class="gm-stat-line"><span>❤️ Resencia:</span> <b>${hpCurr} / ${hpMaxTot}</b></div>
-            <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pcTot} / ${pdTot}</b></div>
-            <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
-            <div class="gm-stat-line"><span>✨ Esencia:</span> <b style="color:#731e0b;">${essenceDisplay}</b></div>
-            <div class="gm-stat-line"><span>⚡ Iniciativa:</span> <b style="color:#b45309;">${init}</b></div>
-            <div class="gm-stat-line"><span>🔥 Modo:</span> <b style="color:#731e0b;">${pdata.essenceMode === 'none' ? 'Inactivo' : pdata.essenceMode.toUpperCase()}</b></div>
-            
-            <!-- FILA ANCHA PARA ÚLTIMO ATAQUE SIN CORTE -->
-            <div class="gm-last-attack-full-row">
-              <span style="font-weight:bold;">🎲 Último Ataque:</span>
-              <span style="color:var(--txt-red); font-weight:bold;">${roll}</span>
-            </div>
-          </div>
-          
-          <!-- CONTROL DIRECTO DE VIDA -->
-          <div class="gm-direct-heal-damage">
-            <span>Impacto:</span>
-            <input type="number" id="gm-hp-amt-${pid}" placeholder="Nº" min="1">
-            <button type="button" onclick="gmDirectHpChange('${pid}', false)" style="background:#731e0b; color:#ffe8b5; border:1px solid #360b02; padding:2px 6px; cursor:pointer; font-size:11px; font-weight:bold; border-radius:2px;">💥 Dañar</button>
-            <button type="button" onclick="gmDirectHpChange('${pid}', true)" style="background:#1e4a28; color:#e8f5e9; border:1px solid #4ade80; padding:2px 6px; cursor:pointer; font-size:11px; font-weight:bold; border-radius:2px;">💚 Curar</button>
-            <button type="button" class="gm-state-manager-toggle" onclick="toggleGmStateManager('${pid}')">⚡ Estados</button>
-          </div>
-
-          <!-- GESTOR DESPLEGABLE DIRECTO DE ESTADOS EN 4/4 QUE NO SE CIERRA -->
-          <div class="gm-state-manager-box" id="gm-state-box-${pid}" style="display:none;" onclick="event.stopPropagation();">
-            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-stun'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-stun', this.checked)"> Stun</div>
-            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-sellado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-sellado', this.checked)"> Sellado</div>
-            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-petrificado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-petrificado', this.checked)"> Petrificado</div>
-            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-mareado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-mareado', this.checked)"> Mareado</div>
-            
-            <div class="gm-state-inline-item">
-              <input type="checkbox" ${pChecks['status-veneno'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-veneno', this.checked)"> Ven:
-              <input type="number" value="${pInputs['status-veneno-val'] || ''}" placeholder="Dmg" onchange="gmUpdateStateVal('${pid}', 'status-veneno-val', this.value)">
-            </div>
-
-            <div class="gm-state-inline-item">
-              <input type="checkbox" ${pChecks['status-sangrado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-sangrado', this.checked)"> Sang:
-              <input type="number" value="${pInputs['status-sangrado-val'] || ''}" placeholder="Dmg" onchange="gmUpdateStateVal('${pid}', 'status-sangrado-val', this.value)">
-            </div>
-
-            <div class="gm-state-inline-item">
-              <input type="checkbox" ${pChecks['status-curacion'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-curacion', this.checked)"> Cura:
-              <input type="number" value="${pInputs['status-curacion-val'] || ''}" placeholder="Reg" onchange="gmUpdateStateVal('${pid}', 'status-curacion-val', this.value)">
-            </div>
-
-            <div class="gm-state-inline-item">
-              <input type="checkbox" ${pChecks['status-custom-check'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-custom-check', this.checked)"> Otro
-            </div>
-          </div>
-
-          <div class="gm-actions-container">
-            <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Estados Activos:</span>
-            <div class="gm-status-badges">${statusBadgesHtml}</div>
-          </div>
-
-          <div class="gm-actions-container">
-            <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Acciones de Turno:</span>
-            <div class="gm-actions-badges">${actionsBadgesHtml}</div>
-          </div>
-
-          ${passivesHtml}
-        `;
-        cardsGrid.appendChild(card);
-      });
-    }
-
-    function openResetModal() {
-      modalActionType = 'reset';
-      document.getElementById('modal-title-text').innerText = '⚠️ REINICIAR FICHA';
-      document.getElementById('modal-desc-text').innerText = '¿Estás seguro de que deseas limpiar esta hoja? Todos los datos se borrarán.';
-      document.getElementById('modal-confirm-btn').innerText = 'Sí, Reiniciar';
-      document.getElementById('modal-backdrop').style.display = 'flex';
-    }
-
-    function openDeletePlayerModal() {
-      if (playerList.length <= 1) { showToast('⚠️ No podés borrar al único jugador.'); return; }
-      modalActionType = 'delete_player';
-      const curIndex = playerList.indexOf(activeRole) + 1;
-      const charName = allPlayersData[activeRole]?.inputs?.['char-name']?.trim() || `Jugador ${curIndex}`;
-      document.getElementById('modal-title-text').innerText = '❌ ELIMINAR JUGADOR';
-      document.getElementById('modal-desc-text').innerText = `¿Estás seguro de que deseas eliminar permanentemente a "${charName}"?`;
-      document.getElementById('modal-confirm-btn').innerText = 'Sí, Eliminar';
-      document.getElementById('modal-backdrop').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('modal-backdrop').style.display = 'none';
-      modalActionType = '';
-    }
-
-    function executeModalAction() {
-      if (modalActionType === 'reset') {
-        allPlayersData[activeRole] = createBlankCharacterData('');
-        applyDataToForm(allPlayersData[activeRole]);
-        saveActivePlayerToCloud(true);
-        renderRoleBar();
-        showToast('🗑️ Ficha reiniciada.');
-      } else if (modalActionType === 'delete_player') {
-        const idx = playerList.indexOf(activeRole);
-        if (idx > -1) {
-          delete allPlayersData[activeRole];
-          playerList.splice(idx, 1);
-          const nextRole = playerList[0] || 'gm';
-          saveActivePlayerToCloud(true);
-          switchRole(nextRole);
-          updateSenderSelect();
-          showToast('🗑️ Jugador eliminado.');
-        }
-      }
-      closeModal();
-    }
-
-    // ARQUETIPOS
-    function setupArchetypeDiamonds() {
-      ARCHETYPES.forEach(arch => {
-        const wrap = document.querySelector(`.arch-diamonds-wrap[data-arch="${arch}"]`);
-        if (!wrap) return;
-        wrap.innerHTML = '';
-        for (let i = 1; i <= 8; i++) {
-          const diamond = document.createElement('span');
-          diamond.className = 'arch-diamond';
-          diamond.title = `Nivel ${i}`;
-          diamond.id = `arch-dia-${arch}-${i}`;
-          diamond.onclick = () => toggleArchLevel(arch, i);
-          wrap.appendChild(diamond);
-        }
-      });
-    }
-
-    function toggleArchLevel(arch, level) {
-      if (archLevelState[arch] === level) archLevelState[arch] = level - 1;
-      else archLevelState[arch] = level;
-      renderArchDiamonds(arch);
-      recalcAllAutoStats();
-      syncToFirebaseDebounced();
-    }
-
-    function renderArchDiamonds(arch) {
-      const current = archLevelState[arch] || 0;
-      for (let i = 1; i <= 8; i++) {
-        const d = document.getElementById(`arch-dia-${arch}-${i}`);
-        if (d) {
-          if (i <= current) d.classList.add('active');
-          else d.classList.remove('active');
-        }
-      }
-    }
-
-    // ASPECTO DE LA ESENCIA
-    function setupAspectDiamonds() {
-      ASPECTS.forEach(asp => {
-        const wrap = document.querySelector(`.classification-diamonds[data-aspect="${asp}"]`);
-        if (!wrap) return;
-        wrap.innerHTML = '';
-        for (let i = 1; i <= 5; i++) {
-          const chk = document.createElement('input');
-          chk.type = 'checkbox';
-          chk.id = `asp-${asp}-${i}`;
-          chk.addEventListener('click', function() {
-            handleAspectClick(asp, i, this.checked);
-          });
-          wrap.appendChild(chk);
-        }
-      });
-    }
-
-    function handleAspectClick(asp, index, isChecked) {
-      if (isChecked) {
-        aspectState[asp] = index;
-      } else {
-        aspectState[asp] = index - 1;
-      }
-      renderAspectDiamonds(asp);
-      recalcAllAutoStats();
-      syncToFirebaseDebounced();
-    }
-
-    function renderAspectDiamonds(asp) {
-      const curLvl = aspectState[asp] || 0;
-      for (let i = 1; i <= 5; i++) {
-        const chk = document.getElementById(`asp-${asp}-${i}`);
-        if (chk) chk.checked = (i <= curLvl);
-      }
-    }
-
-    function setupSkillBoxes() {
-      const containers = document.querySelectorAll('.skill-boxes');
-      containers.forEach(container => {
-        const skillId = container.getAttribute('data-skill');
-        container.innerHTML = '';
-        for (let i = 0; i < 8; i++) {
-          const chk = document.createElement('input');
-          chk.type = 'checkbox';
-          chk.id = `sk-${skillId}-${i}`;
-          chk.title = `${SKILL_BONUSES[i]} (Coste: ${SKILL_COSTS[i]} PH)`;
-          chk.addEventListener('click', function() {
-            handleSkillCheckboxClick(skillId, i, this.checked);
-          });
-          container.appendChild(chk);
-        }
-      });
-    }
-
-    function handleSkillCheckboxClick(skillId, index, isChecked) {
-      for (let i = 0; i < 8; i++) {
-        const chk = document.getElementById(`sk-${skillId}-${i}`);
-        if (!chk) continue;
-        if (isChecked && i <= index) chk.checked = true;
-        else if (!isChecked && i >= index) chk.checked = false;
-      }
-      recalcAllAutoStats();
-      syncToFirebaseDebounced();
-    }
-
-    function updateSkillsAndPoints(totalPhObt = null) {
-      let totalSpent = 0;
-      for (let s = 1; s <= 30; s++) {
-        let highestChecked = -1;
-        for (let i = 0; i < 8; i++) {
-          const chk = document.getElementById(`sk-${s}-${i}`);
-          if (chk && chk.checked) {
-            totalSpent += SKILL_COSTS[i];
-            highestChecked = i;
-          }
-        }
-        const tag = document.getElementById(`sk-bonus-${s}`);
-        if (tag) {
-          if (highestChecked >= 0) {
-            tag.innerText = SKILL_BONUSES[highestChecked];
-            tag.classList.add('has-bonus');
-          } else {
-            tag.innerText = '—';
-            tag.classList.remove('has-bonus');
-          }
-        }
-      }
-
-      document.getElementById('pts-gastados').innerText = totalSpent;
-      if (totalPhObt === null) {
-        totalPhObt = parseFloat(document.getElementById('pts-obtenidos-total')?.innerText) || 0;
-      }
-      const rem = totalPhObt - totalSpent;
-      const remEl = document.getElementById('pts-restantes');
-      if (remEl) {
-        remEl.innerText = rem;
-        remEl.style.color = rem < 0 ? '#b91c1c' : '#166534';
-      }
-    }
-
-    function addTechniqueRow(name = '', isCheckedType = false, lvl1 = false, lvl2 = false, lvl3 = false) {
-      const maxSlots = parseInt(document.getElementById('tech-slots-max')?.innerText) || 4;
-      const currentCount = document.querySelectorAll('#techniques-body tr').length;
-
-      if (currentCount >= maxSlots && !isRemoteUpdate) {
-        showToast(`⚠️ Límite de técnicas alcanzado (${maxSlots}). Aumenta Asistencia o tu modo de esencia.`);
-        return;
-      }
-
-      const tbody = document.getElementById('techniques-body');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><textarea class="tech-row-name" rows="1" placeholder="Poder/Técnica..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(name)}</textarea></td>
-        <td style="text-align:center;"><input type="checkbox" class="tech-row-type" ${isCheckedType ? 'checked' : ''} style="accent-color:#551c66; width:14px; height:14px; cursor:pointer; margin-top:4px;"></td>
-        <td>
-          <div class="lvl-checkboxes">
-            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''}>
-            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''}>
-            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''}>
-          </div>
-        </td>
-        <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); recalcAllAutoStats(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
-      `;
-      tbody.appendChild(tr);
-      tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
-      recalcAllAutoStats();
-    }
-
-    let activeEssence = 0;
-    function toggleEssence(lvl) {
-      if (activeEssence === lvl) activeEssence = lvl - 1;
-      else activeEssence = lvl;
-
-      for (let i = 1; i <= 15; i++) {
-        const el = document.getElementById('seal-' + i);
-        if (el) {
-          if (i <= activeEssence) el.classList.add('active');
-          else el.classList.remove('active');
-        }
-      }
-      syncToFirebaseDebounced();
-    }
-
-    function addInventoryRow(name = '', qty = '', weight = '', desc = '') {
-      const tbody = document.getElementById('inventory-body');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(name)}</textarea></td>
-        <td><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td>
-        <td><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(weight)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td>
-        <td><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(desc)}</textarea></td>
-        <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
-      `;
-      tbody.appendChild(tr);
-      tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
-      calcTotalWeight();
-    }
-
-    function calcTotalWeight() {
-      const weights = document.querySelectorAll('.inv-weight');
-      const quantities = document.querySelectorAll('.inv-qty');
-      let total = 0;
-      weights.forEach((wInput, idx) => {
-        const w = parseFloat(wInput.value) || 0;
-        const q = parseFloat(quantities[idx]?.value) || 1;
-        total += (w * q);
-      });
-      document.getElementById('total-weight').innerText = total.toFixed(1);
-    }
-
-    function gatherFormData() {
-      const data = {
-        inputs: {},
-        checkboxes: {},
-        weapons: [],
-        archLevels: { ...archLevelState },
-        aspects: { ...aspectState },
-        essenceMode: currentEssenceMode,
-        techniques: [],
-        passives: [],
-        inventory: [],
-        essence: activeEssence,
-        lastRoll: allPlayersData[activeRole]?.lastRoll || '-',
-        lastInit: allPlayersData[activeRole]?.lastInit || '-'
-      };
-
-      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
-        if (el.id) data.inputs[el.id] = el.value;
-      });
-
-      if (allPlayersData[activeRole]?.inputs?.['char-icon']) {
-        data.inputs['char-icon'] = allPlayersData[activeRole].inputs['char-icon'];
-      }
-
-      document.querySelectorAll('#player-sheet-wrap input[type="checkbox"]').forEach(el => {
-        if (el.id && !el.id.startsWith('essence-mode-') && !el.id.startsWith('asp-')) {
-          data.checkboxes[el.id] = el.checked;
-        }
-      });
-
-      document.querySelectorAll('#weapons-container .weapon-card').forEach(card => {
-        data.weapons.push({
-          id: card.getAttribute('data-id'),
-          name: card.querySelector('.weapon-name-input')?.value || '',
-          baseDmg: parseFloat(card.querySelector('.weapon-base-input')?.value) || 0,
-          hasCrit: card.querySelector('.weapon-crit-check')?.checked || false,
-          critMult: parseFloat(card.querySelector('.weapon-crit-mult')?.value) || 2,
-          lastRoll: card.querySelector('.weapon-roll-val')?.innerText || '-',
-          lastDmg: card.querySelector('.weapon-dmg-val')?.innerText || '-',
-          lastCrit: card.querySelector('.weapon-crit-val')?.innerText || '-'
-        });
-      });
-
-      document.querySelectorAll('#techniques-body tr').forEach(row => {
-        data.techniques.push({
-          name: row.querySelector('.tech-row-name')?.value || '',
-          type: row.querySelector('.tech-row-type')?.checked || false,
-          lvl1: row.querySelector('.tech-row-lvl1')?.checked || false,
-          lvl2: row.querySelector('.tech-row-lvl2')?.checked || false,
-          lvl3: row.querySelector('.tech-row-lvl3')?.checked || false
-        });
-      });
-
-      document.querySelectorAll('#passives-list-container .passive-row-text').forEach(tx => {
-        if (tx.value.trim().length > 0) data.passives.push(tx.value.trim());
-      });
-
-      document.querySelectorAll('#inventory-body tr').forEach(row => {
-        data.inventory.push({
-          name: row.querySelector('.inv-name')?.value || '',
-          qty: row.querySelector('.inv-qty')?.value || '',
-          weight: row.querySelector('.inv-weight')?.value || '',
-          desc: row.querySelector('.inv-desc')?.value || ''
-        });
-      });
-
-      return data;
-    }
-
-    function applyDataToForm(data) {
-      if (!data) return;
-
-      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
-        if (el.id) el.value = data.inputs?.[el.id] ?? '';
-      });
-
-      const icon = data.inputs?.['char-icon'] || '⚔️';
-      const triggerBtn = document.getElementById('char-avatar-btn');
-      if (triggerBtn) triggerBtn.innerText = `${icon} Cambiar`;
-
-      document.querySelectorAll('#player-sheet-wrap input[type="checkbox"]').forEach(el => {
-        if (el.id && !el.id.startsWith('essence-mode-') && !el.id.startsWith('asp-')) {
-          el.checked = data.checkboxes?.[el.id] ?? false;
-        }
-      });
-
-      // Modos de Esencia
-      currentEssenceMode = data.essenceMode || 'none';
-      const despChk = document.getElementById('essence-mode-despierta');
-      const maniChk = document.getElementById('essence-mode-manifestada');
-      if (despChk) despChk.checked = (currentEssenceMode === 'despierta');
-      if (maniChk) maniChk.checked = (currentEssenceMode === 'manifestada');
-
-      ARCHETYPES.forEach(arch => {
-        archLevelState[arch] = data.archLevels?.[arch] || 0;
-        renderArchDiamonds(arch);
-      });
-
-      ASPECTS.forEach(asp => {
-        aspectState[asp] = data.aspects?.[asp] || 0;
-        renderAspectDiamonds(asp);
-      });
-
-      const weaponsContainer = document.getElementById('weapons-container');
-      weaponsContainer.innerHTML = '';
-      if (data.weapons && Array.isArray(data.weapons) && data.weapons.length > 0) {
-        data.weapons.forEach(w => addWeaponRow(w.id, w.name, w.baseDmg, w.lastRoll, w.lastDmg, w.hasCrit, w.critMult, w.lastCrit));
-      } else {
-        addWeaponRow();
-      }
-
-      const techBody = document.getElementById('techniques-body');
-      techBody.innerHTML = '';
-      if (data.techniques && data.techniques.length > 0) {
-        data.techniques.forEach(t => addTechniqueRow(t.name, t.type, t.lvl1, t.lvl2, t.lvl3));
-      } else {
-        addTechniqueRow(); addTechniqueRow();
-      }
-
-      const passivesContainer = document.getElementById('passives-list-container');
-      passivesContainer.innerHTML = '';
-      if (data.passives && Array.isArray(data.passives) && data.passives.length > 0) {
-        data.passives.forEach(p => addPassiveRow(p));
-      } else {
-        addPassiveRow();
-      }
-
-      const invBody = document.getElementById('inventory-body');
-      invBody.innerHTML = '';
-      if (data.inventory && data.inventory.length > 0) {
-        data.inventory.forEach(i => addInventoryRow(i.name, i.qty, i.weight, i.desc));
-      } else {
-        addInventoryRow(); addInventoryRow();
-      }
-
-      activeEssence = data.essence || 0;
-      for (let i = 1; i <= 15; i++) {
-        const el = document.getElementById('seal-' + i);
-        if (el) {
-          if (i <= activeEssence) el.classList.add('active');
-          else el.classList.remove('active');
-        }
-      }
-
-      document.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
-      recalcAllAutoStats();
-      calcTotalWeight();
-    }
-
-    function exportJSON() {
-      const dataToExport = activeRole === 'gm' ? { players: playerList, data: allPlayersData, objectives: objectivesList, pinnedMessage: pinnedMessage, diceHistory: diceRollsHistory } : (allPlayersData[activeRole] || gatherFormData());
-      const charName = (activeRole !== 'gm' ? allPlayersData[activeRole]?.inputs?.['char-name']?.trim() : 'Partida_Completa') || 'Personaje';
-      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${charName}_Smithnas.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('📤 Ficha exportada con éxito.');
-    }
-
-    function importJSON(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const parsed = JSON.parse(e.target.result);
-          if (parsed.players && parsed.data) {
-            playerList = parsed.players;
-            allPlayersData = parsed.data;
-            if (parsed.objectives) objectivesList = parsed.objectives;
-            if (parsed.pinnedMessage !== undefined) pinnedMessage = parsed.pinnedMessage;
-            if (parsed.diceHistory) diceRollsHistory = parsed.diceHistory;
-            saveActivePlayerToCloud(true);
-            switchRole('gm');
-            showToast('📥 Partida completa importada.');
-          } else {
-            allPlayersData[activeRole] = parsed;
-            applyDataToForm(parsed);
-            saveActivePlayerToCloud(true);
-            showToast('📥 Ficha importada.');
-          }
-        } catch (err) {
-          showToast('❌ Error al procesar el archivo JSON.');
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      setupArchetypeDiamonds();
-      setupAspectDiamonds();
-      setupSkillBoxes();
-      setupAvatarGrid();
-
-      try {
-        const raw = localStorage.getItem('requiem_smithnas_state_v11');
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed.players)) playerList = parsed.players;
-          if (parsed.data) allPlayersData = parsed.data;
-          if (parsed.objectives) objectivesList = parsed.objectives;
-          if (parsed.pinnedMessage !== undefined) pinnedMessage = parsed.pinnedMessage;
-          if (parsed.diceHistory) diceRollsHistory = parsed.diceHistory;
-        }
-      } catch(e) {}
-
-      updateObjectiveBanner();
-      renderRoleBar();
-      updateSenderSelect();
-      switchRole('p1');
-
-      document.getElementById('player-sheet-wrap').addEventListener('input', () => syncToFirebaseDebounced());
-      document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced());
-    });
-  </script>
-</body>
-</html>
+      // Puntos de
