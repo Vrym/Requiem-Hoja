@@ -96,12 +96,12 @@
       box-shadow: 0 0 6px #ef4444;
     }
 
-    /* BANNER COMPACTO DE AVISOS Y CHAT DE MESA */
+    /* BANNER DE LAS ÚLTIMAS 3 PUBLICACIONES + CHAT GLOBAL */
     .objective-banner {
       background: #2b1608;
       color: #faebd0;
       border: 1.5px solid var(--border-gold);
-      padding: 6px 8px;
+      padding: 8px 10px;
       margin-bottom: 10px;
       border-radius: 3px;
       box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
@@ -110,13 +110,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px dotted rgba(218, 165, 32, 0.35);
-      padding-bottom: 3px;
-      margin-bottom: 4px;
+      border-bottom: 1px dotted rgba(218, 165, 32, 0.4);
+      padding-bottom: 4px;
+      margin-bottom: 6px;
     }
     .objective-header-title {
       font-family: var(--f-title);
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: bold;
       color: #ffd700;
       letter-spacing: 0.5px;
@@ -125,35 +125,35 @@
       background: #46250f;
       color: #faebd0;
       border: 1px solid #bf8a3b;
-      padding: 1px 6px;
+      padding: 2px 7px;
       font-family: var(--f-title);
-      font-size: 10.5px;
+      font-size: 11px;
       cursor: pointer;
       border-radius: 2px;
     }
     .latest-objectives-list {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
     }
     .objective-row {
       font-family: var(--f-body);
-      font-size: 13px;
-      line-height: 1.2;
+      font-size: 13.5px;
+      line-height: 1.25;
       display: flex;
-      gap: 5px;
+      gap: 6px;
       align-items: baseline;
     }
     .obj-time {
       color: #eab308;
       font-family: var(--f-title);
-      font-size: 10.5px;
+      font-size: 11px;
       flex-shrink: 0;
     }
     .obj-sender {
       color: #ffd700;
       font-family: var(--f-title);
-      font-size: 11px;
+      font-size: 11.5px;
       flex-shrink: 0;
     }
     .obj-text {
@@ -163,15 +163,14 @@
       white-space: nowrap;
     }
 
-    /* COMPOSITOR DE MENSAJE */
+    /* COMPOSITOR DE MENSAJE GLOBAL COMPACTO */
     .table-msg-composer {
       display: flex;
-      gap: 4px;
-      margin-top: 5px;
-      padding-top: 5px;
-      border-top: 1px dashed rgba(218, 165, 32, 0.3);
-      align-items: center;
-      width: 100%;
+      gap: 5px;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(218, 165, 32, 0.35);
+      flex-wrap: nowrap;
     }
     .table-msg-select {
       background: #46250f;
@@ -182,13 +181,11 @@
       padding: 3px 4px;
       border-radius: 2px;
       outline: none;
-      width: 95px;
-      max-width: 100px;
+      width: 105px;
       flex-shrink: 0;
-      text-overflow: ellipsis;
     }
     .table-msg-input {
-      flex: 1 1 auto;
+      flex: 1;
       min-width: 0;
       background: #fff;
       border: 1px solid var(--border-dark);
@@ -211,47 +208,45 @@
       flex-shrink: 0;
     }
 
-    /* BARRA DE ROLES CON MAESTRO SEPARADO Y ENGRANAJE FIJO */
+    /* BARRA DE ROLES CON MAESTRO FIJO A LA IZQUIERDA */
     .role-bar-wrap {
       display: flex;
       align-items: center;
       background: #251308;
-      padding: 6px 8px;
+      padding: 5px 6px;
       border: 2px solid var(--border-gold);
       margin-bottom: 12px;
       box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 6px;
     }
-    .role-bar-gm-box {
-      flex-shrink: 0;
-    }
-    .role-bar-v-sep {
-      width: 2px;
-      height: 24px;
-      background: var(--border-gold);
-      opacity: 0.55;
+    .gm-fixed-container {
+      display: flex;
+      align-items: center;
+      padding-right: 6px;
+      border-right: 2px solid var(--border-gold);
       flex-shrink: 0;
     }
     .role-bar-tabs {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       flex: 1;
+      overflow-x: auto;
     }
     .role-btn {
       background: #46250f;
       color: #faebd0;
       border: 1px solid #bf8a3b;
-      padding: 5px 9px;
+      padding: 5px 8px;
       font-family: var(--f-title);
-      font-size: 11.5px;
+      font-size: 12px;
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       transition: all 0.15s ease;
       border-radius: 2px;
+      white-space: nowrap;
     }
     .role-btn:hover { background: #6c3a19; color: #fff; }
     .role-btn.active {
@@ -265,17 +260,12 @@
       background: #731e0b;
       color: #ffe8b5;
       border: 1.5px solid #ffd700;
-      width: 32px;
-      height: 30px;
-      font-size: 15px;
+      padding: 4px 8px;
+      font-size: 14px;
       cursor: pointer;
       border-radius: 3px;
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.15s, background 0.15s;
+      transition: transform 0.15s;
     }
     .btn-role-settings:hover {
       background: #942b13;
@@ -283,7 +273,7 @@
     }
 
     /* MODALES */
-    #hub-modal-backdrop, #history-modal-backdrop, #roll-history-modal-backdrop, #modal-backdrop {
+    #hub-modal-backdrop, #history-modal-backdrop, #modal-backdrop, #dice-history-backdrop {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0,0,0,0.75);
@@ -299,7 +289,7 @@
       outline: 2px solid var(--border-gold);
       outline-offset: -3px;
       padding: 18px;
-      max-width: 460px;
+      max-width: 440px;
       width: 100%;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.8);
@@ -394,39 +384,30 @@
       cursor: pointer;
     }
 
-    /* TÍTULO ESTILIZADO CON CONTRASTE */
+    /* TÍTULO ESTILIZADO DE CORRIDO */
     .main-title-wrap {
       text-align: center;
       margin-bottom: 12px;
-      padding-bottom: 8px;
+      padding-bottom: 6px;
       border-bottom: 2px dashed var(--border-gold);
     }
     .main-title-continuous {
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 7px;
-      white-space: nowrap;
-      margin: 0;
-    }
-    .title-word-main {
       font-family: var(--f-title);
-      font-size: clamp(20px, 4.4vw, 36px);
+      font-size: clamp(20px, 4.2vw, 36px);
       font-weight: 900;
-      letter-spacing: 2px;
-      background: linear-gradient(180deg, #8b1313 0%, #360b02 80%, #1f0701 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 1px 2px rgba(212, 175, 55, 0.35);
-      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+      color: #381504;
+      letter-spacing: 2.5px;
+      white-space: nowrap;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.7), 2px 2px 4px rgba(70,30,10,0.3);
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
     }
-    .title-word-mid {
-      font-family: var(--f-title);
-      font-size: clamp(12px, 2.3vw, 17px);
-      font-weight: 700;
-      color: #7a501e;
+    .main-title-sub {
+      font-size: 0.58em;
+      font-weight: 600;
+      color: #7c2d12;
       letter-spacing: 1.5px;
-      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.45);
     }
 
     .grid-2col {
@@ -467,17 +448,17 @@
     .header-info-line label {
       font-family: var(--f-title);
       font-weight: 700;
-      font-size: 13px;
+      font-size: 12.5px;
       min-width: 95px;
       color: #2e1505;
     }
-    .header-info-line input {
+    .header-info-line input, .header-info-line select {
       flex: 1;
       background: transparent;
       border: none;
       border-bottom: 1px solid #6b4421;
       font-family: var(--f-body);
-      font-size: 16px;
+      font-size: 15.5px;
       color: #120a04;
       padding: 2px 4px;
       outline: none;
@@ -597,7 +578,7 @@
       font-weight: 900 !important;
     }
 
-    /* ARMAS COMPACTAS */
+    /* ARMAS COMPACTAS Y AVANZADAS */
     .weapons-list-container {
       display: flex;
       flex-direction: column;
@@ -622,7 +603,7 @@
     }
     .weapon-name-input {
       flex: 1;
-      height: 26px;
+      height: 28px;
       background: #fff;
       border: 1.5px solid var(--border-dark);
       font-family: var(--f-body);
@@ -639,6 +620,7 @@
       gap: 4px;
       font-size: 12px;
       font-family: var(--f-title);
+      flex-wrap: wrap;
     }
     .weapon-base-input {
       width: 48px;
@@ -652,16 +634,25 @@
       text-align: center;
       border-radius: 2px;
     }
+    .weapon-crit-config {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0,0,0,0.06);
+      padding: 2px 6px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.15);
+    }
     .weapon-bot-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 6px;
       width: 100%;
+      flex-wrap: wrap;
     }
     .btn-roll-weapon {
-      flex: 1;
-      padding: 4px 8px;
+      padding: 5px 10px;
       background: #731e0b;
       color: #ffe8b5;
       font-family: var(--f-title);
@@ -671,14 +662,19 @@
       cursor: pointer;
       border-radius: 2px;
       text-align: center;
-      transition: all 0.15s;
+    }
+    .btn-roll-weapon.cooldown {
+      background: #555 !important;
+      border-color: #333 !important;
+      color: #bbb !important;
+      cursor: not-allowed !important;
     }
     .weapon-badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
       background: #fff;
-      padding: 2px 6px;
+      padding: 3px 6px;
       border: 1px solid var(--border-dark);
       border-radius: 2px;
       font-size: 12px;
@@ -695,29 +691,36 @@
       padding: 0 4px;
     }
 
-    /* FILAS DE COMBATE COMPACTAS */
-    .combat-stat-row {
+    /* COMBATE ESTRUCTURADO Y COMPACTO */
+    .combat-stat-card {
+      background: rgba(0,0,0,0.03);
+      border: 1px solid rgba(60,30,10,0.18);
+      border-radius: 3px;
+      padding: 5px 8px;
+      margin-bottom: 5px;
+    }
+    .combat-stat-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 5px 0;
-      border-bottom: 1px dashed rgba(60,30,10,0.22);
-      gap: 4px;
-    }
-    .combat-stat-label {
       font-family: var(--f-title);
-      font-weight: bold;
       font-size: 13px;
-      color: #2b1305;
-      display: flex;
-      align-items: center;
-      gap: 3px;
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+    .combat-stat-total-badge {
+      font-family: var(--f-body);
+      font-size: 17px;
+      font-weight: bold;
+      color: var(--txt-red);
     }
     .combat-stat-controls {
       display: flex;
       align-items: center;
-      gap: 3px;
+      justify-content: flex-end;
+      gap: 4px;
       font-size: 12px;
+      flex-wrap: wrap;
     }
     .combat-stat-controls input {
       width: 44px;
@@ -736,14 +739,6 @@
       color: #643207;
       margin: 0 1px;
     }
-    .calc-total {
-      font-family: var(--f-body);
-      font-size: 16px;
-      font-weight: bold;
-      color: var(--txt-red);
-      min-width: 24px;
-      text-align: center;
-    }
     .btn-stat-max {
       background: #46250f;
       color: #ffe8b5;
@@ -756,7 +751,7 @@
       white-space: nowrap;
     }
 
-    /* ESENCIA: GRUPOS BALANCEADOS (3 ARRIBA Y 2 ABAJO) */
+    /* ESENCIA Y PUNTOS */
     .essence-embedded-wrap {
       padding-bottom: 8px;
       margin-bottom: 8px;
@@ -765,54 +760,37 @@
     }
     .essence-embedded-title {
       font-family: var(--f-title);
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       color: #4f250b;
       letter-spacing: 1px;
     }
-    .essence-tiers-wrap {
+    .essence-tiers-flex {
       display: flex;
-      flex-direction: column;
-      gap: 7px;
-      align-items: center;
-      width: 100%;
-    }
-    .essence-tiers-row {
-      display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 7px;
-      width: 100%;
-    }
-    .essence-tiers-row.top-row .essence-tier-card {
-      flex: 1 1 0;
-      max-width: 145px;
-    }
-    .essence-tiers-row.bottom-row .essence-tier-card {
-      flex: 1 1 0;
-      max-width: 165px;
+      gap: 8px;
     }
     .essence-tier-card {
       background: rgba(0,0,0,0.04);
-      border: 1.5px solid rgba(147, 103, 43, 0.45);
-      border-radius: 6px;
-      padding: 8px 4px 6px 4px;
+      border: 1px solid rgba(147, 103, 43, 0.4);
+      border-radius: 4px;
+      padding: 7px 6px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       gap: 6px;
-      box-sizing: border-box;
+      min-width: 90px;
+      flex: 1 1 90px;
     }
     .essence-tier-circles {
       display: flex;
       gap: 5px;
-      justify-content: center;
-      align-items: center;
     }
     .essence-seal {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: 1.5px solid var(--border-dark);
       background: #fbf7ee;
@@ -820,12 +798,11 @@
       align-items: center;
       justify-content: center;
       font-family: var(--f-title);
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: bold;
       cursor: pointer;
       user-select: none;
       transition: all 0.1s;
-      box-sizing: border-box;
     }
     .essence-seal.active {
       background: #731e0b;
@@ -835,7 +812,7 @@
     }
     .essence-tier-label {
       font-family: var(--f-title);
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: bold;
       color: #583c14;
       text-transform: uppercase;
@@ -897,7 +874,7 @@
     .arch-diamonds-wrap {
       display: inline-flex;
       align-items: center;
-      gap: 14px;
+      gap: 15px;
       padding: 2px 4px;
       background: rgba(0,0,0,0.06);
       border-radius: 4px;
@@ -1193,7 +1170,7 @@
     .mobile-th { display: none; }
     .desktop-th { display: inline; }
 
-    /* GM DASHBOARD (ESCRITORIO: 2 COLUMNAS AMPLIAS) */
+    /* GM DASHBOARD ESCRITORIO (2 COLUMNAS AMPLIAS) */
     #gm-dashboard-wrap {
       display: none;
       margin-bottom: 14px;
@@ -1236,19 +1213,64 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 13.5px;
+      font-size: 13px;
       padding: 2px 0;
     }
 
-    /* MÓDULO DE MODIFICAR VIDA DESDE EL GM */
-    .gm-hp-mod-row {
+    .gm-direct-heal-damage {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 5px 0;
-      border-bottom: 1px dotted rgba(0,0,0,0.15);
       gap: 4px;
-      flex-wrap: wrap;
+      margin-top: 6px;
+      padding: 4px 6px;
+      background: rgba(0,0,0,0.04);
+      border-radius: 3px;
+      font-size: 12px;
+      font-family: var(--f-title);
+    }
+    .gm-direct-heal-damage input {
+      width: 48px;
+      padding: 2px;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+      border: 1px solid var(--border-dark);
+    }
+
+    .gm-state-manager-toggle {
+      background: #46250f;
+      color: #faebd0;
+      border: 1px solid #bf8a3b;
+      font-family: var(--f-title);
+      font-size: 10px;
+      padding: 2px 6px;
+      cursor: pointer;
+      border-radius: 2px;
+      margin-left: auto;
+    }
+    .gm-state-manager-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      background: rgba(255,255,255,0.7);
+      padding: 6px;
+      border: 1px solid var(--border-dark);
+      border-radius: 3px;
+      margin-top: 5px;
+      font-size: 11.5px;
+    }
+    .gm-state-inline-item {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .gm-state-inline-item input[type="number"], .gm-state-inline-item input[type="text"] {
+      width: 38px;
+      padding: 1px;
+      font-size: 11px;
+      text-align: center;
+      border: 1px solid var(--border-dark);
+      background: #fff;
     }
 
     .gm-actions-container {
@@ -1299,6 +1321,7 @@
     .gm-badge-veneno { background: #581c87; border: 1px solid #d8b4fe; }
     .gm-badge-sangrado { background: #881337; border: 1px solid #fca5a5; }
     .gm-badge-curacion { background: #14532d; border: 1px solid #86efac; }
+    .gm-badge-infectado { background: #047857; border: 1px solid #6ee7b7; }
     .gm-badge-custom { background: #374151; border: 1px solid #9ca3af; }
 
     .gm-passives-wrap {
@@ -1321,7 +1344,7 @@
     }
 
     .history-list {
-      max-height: 320px;
+      max-height: 300px;
       overflow-y: auto;
       text-align: left;
       margin: 10px 0;
@@ -1353,8 +1376,8 @@
       .arch-title-text { font-size: 13.5px; }
 
       .arch-diamonds-wrap { 
-        gap: 9px !important; 
-        padding: 2px 4px; 
+        gap: 8px !important; 
+        padding: 2px 3px; 
       }
       .arch-diamond { width: 11px; height: 11px; }
 
@@ -1371,8 +1394,8 @@
       .inventory-table textarea { font-size: 12px; line-height: 1.2; padding: 1px 1px; }
 
       .essence-seal { width: 26px; height: 26px; font-size: 12px; }
-      .essence-tier-card { padding: 6px 3px 5px 3px; gap: 4px; }
-      .essence-tier-label { font-size: 9px; }
+      .essence-tier-card { min-width: 76px; flex: 1 1 76px; padding: 4px 3px; gap: 4px; }
+      .essence-tier-label { font-size: 9.5px; }
 
       .gm-cards-grid {
         grid-template-columns: 1fr;
@@ -1381,6 +1404,9 @@
       .gm-stats-columns {
         grid-template-columns: 1fr;
         gap: 2px;
+      }
+      .gm-state-manager-box {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -1399,7 +1425,7 @@
     </div>
   </div>
 
-  <!-- HUB DE OPCIONES (CON NUEVO PJ INCLUIDO) -->
+  <!-- HUB DE OPCIONES -->
   <div id="hub-modal-backdrop">
     <div class="hub-modal-box">
       <div class="modal-title" style="color:#3b1b07;">⚙️ MENÚ DE OPCIONES</div>
@@ -1426,15 +1452,12 @@
     </div>
   </div>
 
-  <!-- MODAL DE HISTORIAL DE TIRADAS D6 -->
-  <div id="roll-history-modal-backdrop">
-    <div class="hub-modal-box" style="max-width:520px;">
-      <div class="modal-title" style="color:#731e0b;">🎲 HISTORIAL DE TIRADAS</div>
-      <div class="history-list" id="dice-roll-history-list"></div>
-      <div style="display:flex; gap:8px; margin-top:8px;">
-        <button type="button" class="btn-modal-danger" id="btn-clear-rolls" onclick="clearRollHistory()" style="flex:1;">Limpiar Historial</button>
-        <button type="button" class="btn-modal-cancel" onclick="closeRollHistoryModal()" style="flex:1;">Cerrar</button>
-      </div>
+  <!-- MODAL DE HISTORIAL DE TIRADAS -->
+  <div id="dice-history-backdrop">
+    <div class="hub-modal-box" style="max-width:500px;">
+      <div class="modal-title" style="color:#731e0b;">📜 HISTORIAL DE TIRADAS</div>
+      <div class="history-list" id="dice-history-list"></div>
+      <button type="button" class="btn-modal-cancel" onclick="closeDiceHistoryModal()" style="width:100%;">Cerrar</button>
     </div>
   </div>
 
@@ -1451,27 +1474,32 @@
       </div>
     </div>
 
-    <!-- BANNER COMPACTO DE AVISOS Y CHAT -->
+    <!-- BANNER DE AVISOS Y MENSAJES -->
     <div class="objective-banner">
       <div class="objective-header">
-        <span class="objective-header-title">🎯 AVISOS DE MESA</span>
-        <button type="button" class="objective-btn" onclick="openHistoryModal()">📜 Historial</button>
+        <span class="objective-header-title">🎯 MENSAJES DE MESA (ÚLTIMOS 3)</span>
+        <div style="display:flex; gap:4px;">
+          <button type="button" class="objective-btn" onclick="openDiceHistoryModal()">📜 Tiradas</button>
+          <button type="button" class="objective-btn" onclick="openHistoryModal()">💬 Chat</button>
+        </div>
       </div>
       <div id="latest-objectives-container" class="latest-objectives-list">
         <div class="objective-row"><span class="obj-text" style="color:#aaa; font-style:italic;">Sin mensajes activos por el momento.</span></div>
       </div>
 
+      <!-- COMPOSITOR COMPACTO -->
       <div class="table-msg-composer">
         <select id="table-msg-sender" class="table-msg-select"></select>
-        <input type="text" id="table-msg-input" class="table-msg-input" placeholder="Mensaje..." onkeydown="if(event.key==='Enter') broadcastTableMessage()">
+        <input type="text" id="table-msg-input" class="table-msg-input" placeholder="Escribe un mensaje..." onkeydown="if(event.key==='Enter') broadcastTableMessage()">
         <button type="button" class="table-msg-btn" onclick="broadcastTableMessage()">Enviar</button>
       </div>
     </div>
 
-    <!-- BARRA DE ROLES CON MAESTRO FIJO A LA IZQUIERDA Y ENGRANAJE A LA DERECHA -->
+    <!-- BARRA DE ROLES CON MAESTRO FIJO A LA IZQUIERDA -->
     <div class="role-bar-wrap">
-      <div class="role-bar-gm-box" id="role-bar-gm"></div>
-      <div class="role-bar-v-sep"></div>
+      <div class="gm-fixed-container">
+        <button type="button" id="gm-role-btn" class="role-btn" onclick="switchRole('gm')">👑 Maestro (GM)</button>
+      </div>
       <div class="role-bar-tabs" id="role-bar-container"></div>
       <button type="button" class="btn-role-settings" onclick="openHubModal()" title="Menú de opciones">⚙️</button>
     </div>
@@ -1486,18 +1514,39 @@
 
     <!-- FICHA INTERACTIVA COMPLETA -->
     <div id="player-sheet-wrap">
-      <!-- TÍTULO ESTILIZADO -->
+      <!-- TÍTULO DE CORRIDO CON ESTILO -->
       <div class="main-title-wrap">
         <h1 class="main-title-continuous">
-          <span class="title-word-main">RÉQUIEM</span>
-          <span class="title-word-mid">DE LOS</span>
-          <span class="title-word-main">SMITHNAS</span>
+          <span>RÉQUIEM</span>
+          <span class="main-title-sub">DE LOS</span>
+          <span>SMITHNAS</span>
         </h1>
       </div>
 
       <div class="grid-2col">
         <div class="box-frame">
           <div class="box-frame-title">Datos del Personaje</div>
+          <div class="header-info-line">
+            <label>ÍCONO / AVATAR:</label>
+            <select id="char-icon" onchange="syncToFirebaseDebounced(); renderRoleBar(); updateSenderSelect();">
+              <option value="⚔️">⚔️ Guerrero / Espadas</option>
+              <option value="🏹">🏹 Arquero / Cazador</option>
+              <option value="🪄">🪄 Mago / Hechicero</option>
+              <option value="🛡️">🛡️ Paladín / Guardián</option>
+              <option value="🗡️">🗡️ Pícaro / Asesino</option>
+              <option value="🐺">🐺 Bestia / Druida</option>
+              <option value="💀">💀 Nigromante / Muerte</option>
+              <option value="🔮">🔮 Oráculo / Místico</option>
+              <option value="🩸">🩸 Vampiro / Sangre</option>
+              <option value="🐲">🐲 Dragón / Furia</option>
+              <option value="🦅">🦅 Explorador / Cazador</option>
+              <option value="🥷">🥷 Sombra / Ninja</option>
+              <option value="👑">👑 Noble / Líder</option>
+              <option value="🔥">🔥 Fuego / Piromante</option>
+              <option value="⚡">⚡ Trueno / Tempestad</option>
+              <option value="🌙">🌙 Luna / Nocturno</option>
+            </select>
+          </div>
           <div class="header-info-line"><label>NOMBRE:</label><input type="text" id="char-name" oninput="updateSenderSelect(); syncToFirebaseDebounced();"></div>
           <div class="header-info-line"><label>RAZA:</label><input type="text" id="char-raza"></div>
           <div class="header-info-line"><label>SUBRAZA:</label><input type="text" id="char-subraza"></div>
@@ -1520,14 +1569,11 @@
         </div>
       </div>
 
-      <!-- ARMAS Y TABLA DE DAÑO (D6) CON HISTORIAL -->
+      <!-- ARMAS Y TABLA DE DAÑO (D6 + CRÍTICOS D20) -->
       <div class="box-frame">
         <div class="box-frame-title" style="display:flex; justify-content:space-between; align-items:center;">
-          <span>Armas & Tabla de Daño (D6)</span>
-          <div style="display:flex; gap:6px;">
-            <button type="button" class="btn-add-item" onclick="openRollHistoryModal()" style="margin:0; padding:2px 8px; font-size:11px; background:#2b1608;" title="Ver registro cronológico de tiradas">📜 Tiradas</button>
-            <button type="button" class="btn-add-item" onclick="addWeaponRow()" style="margin:0; padding:2px 8px; font-size:11px;">+ Agregar Arma</button>
-          </div>
+          <span>Armas & Tabla de Daño</span>
+          <button type="button" class="btn-add-item" onclick="addWeaponRow()" style="margin:0; padding:2px 8px; font-size:11px;">+ Agregar Arma</button>
         </div>
         
         <div class="d6-table-wrap">
@@ -1562,32 +1608,37 @@
         <div class="box-frame">
           <div class="box-frame-title">Estadísticas de Combate</div>
           
-          <div class="combat-stat-row">
-            <span class="combat-stat-label">🗡️ Puntos de combate (PC)</span>
+          <div class="combat-stat-card">
+            <div class="combat-stat-header">
+              <span>🗡️ Puntos de combate (PC)</span>
+              <span class="combat-stat-total-badge" id="stat-pc-total">0</span>
+            </div>
             <div class="combat-stat-controls">
               <span class="calc-tag">Base:</span>
               <input type="number" id="stat-pc-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-              <span class="calc-tag">+</span>
+              <span class="calc-tag">+ Bono:</span>
               <span id="stat-pc-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">=</span>
-              <span id="stat-pc-total" class="calc-total">0</span>
             </div>
           </div>
 
-          <div class="combat-stat-row">
-            <span class="combat-stat-label">🛡️ Puntos de defensa (PD)</span>
+          <div class="combat-stat-card">
+            <div class="combat-stat-header">
+              <span>🛡️ Puntos de defensa (PD)</span>
+              <span class="combat-stat-total-badge" id="stat-pd-total">0</span>
+            </div>
             <div class="combat-stat-controls">
               <span class="calc-tag">Base:</span>
               <input type="number" id="stat-pd-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-              <span class="calc-tag">+</span>
+              <span class="calc-tag">+ Bono:</span>
               <span id="stat-pd-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">=</span>
-              <span id="stat-pd-total" class="calc-total">0</span>
             </div>
           </div>
 
-          <div class="combat-stat-row">
-            <span class="combat-stat-label">❤️ RESENCIA (HP)</span>
+          <div class="combat-stat-card">
+            <div class="combat-stat-header">
+              <span>❤️ RESENCIA (HP)</span>
+              <span class="combat-stat-total-badge">Max: <span id="stat-hp-max-total">0</span></span>
+            </div>
             <div class="combat-stat-controls">
               <span class="calc-tag">Act:</span>
               <input type="number" id="stat-hp-curr" placeholder="Act" oninput="syncToFirebaseDebounced();">
@@ -1596,13 +1647,14 @@
               <input type="number" id="stat-hp-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+</span>
               <span id="stat-hp-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">= Max:</span>
-              <span id="stat-hp-max-total" class="calc-total">0</span>
             </div>
           </div>
 
-          <div class="combat-stat-row">
-            <span class="combat-stat-label">⚡ SMATH</span>
+          <div class="combat-stat-card">
+            <div class="combat-stat-header">
+              <span>⚡ SMATH</span>
+              <span class="combat-stat-total-badge">Max: <span id="stat-smath-max-total">0</span></span>
+            </div>
             <div class="combat-stat-controls">
               <span class="calc-tag">Act:</span>
               <input type="number" id="stat-smath-curr" placeholder="Act" oninput="syncToFirebaseDebounced();">
@@ -1611,15 +1663,28 @@
               <input type="number" id="stat-smath-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+</span>
               <span id="stat-smath-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">= Max:</span>
-              <span id="stat-smath-max-total" class="calc-total">0</span>
             </div>
           </div>
 
-          <div class="combat-stat-row">
-            <span class="combat-stat-label">⚔️ CONCENTRACIÓN</span>
+          <div class="combat-stat-card">
+            <div class="combat-stat-header">
+              <span>⚔️ CONCENTRACIÓN</span>
+              <div class="combat-stat-controls">
+                <input type="number" id="stat-conc" placeholder="0" style="width:50px;" oninput="syncToFirebaseDebounced();">
+              </div>
+            </div>
+          </div>
+
+          <!-- INICIATIVA CON D20 -->
+          <div class="combat-stat-card">
+            <div class="combat-stat-header">
+              <span>⚡ INICIATIVA (D20)</span>
+              <span class="combat-stat-total-badge" id="stat-init-total">-</span>
+            </div>
             <div class="combat-stat-controls">
-              <input type="number" id="stat-conc" placeholder="0" style="width:55px;" oninput="syncToFirebaseDebounced();">
+              <span class="calc-tag">Bono:</span>
+              <input type="number" id="stat-init-bono" value="0" style="width:40px;" oninput="syncToFirebaseDebounced();">
+              <button type="button" class="btn-roll-weapon" style="padding:3px 8px; font-size:11px;" onclick="rollInitiative()">🎲 Tirar Ini</button>
             </div>
           </div>
 
@@ -1637,6 +1702,7 @@
             <div class="status-effect-item"><input type="checkbox" id="status-veneno"><label for="status-veneno" style="cursor:pointer; flex:1;">🧪 <b>Veneno</b></label><input type="number" id="status-veneno-val" class="status-val-input" placeholder="Daño" min="0"></div>
             <div class="status-effect-item"><input type="checkbox" id="status-sangrado"><label for="status-sangrado" style="cursor:pointer; flex:1;">🩸 <b>Sangrado</b></label><input type="number" id="status-sangrado-val" class="status-val-input" placeholder="Daño" min="0"></div>
             <div class="status-effect-item"><input type="checkbox" id="status-curacion"><label for="status-curacion" style="cursor:pointer; flex:1;">💖 <b>Curación</b></label><input type="number" id="status-curacion-val" class="status-val-input" placeholder="Regen" min="0"></div>
+            <div class="status-effect-item"><input type="checkbox" id="status-infectado"><label for="status-infectado" style="cursor:pointer; flex:1;">🦠 <b>Infectado</b></label><input type="number" id="status-infectado-val" class="status-val-input" placeholder="%" min="0" max="100"></div>
             
             <div class="status-custom-row">
               <input type="checkbox" id="status-custom-check">
@@ -1651,44 +1717,40 @@
           <div>
             <div class="box-frame-title">Habilidades y Esencia</div>
 
-            <!-- ESENCIA ARRIBA: 3 GRUPOS SUPERIORES Y 2 INFERIORES BALANCEADOS -->
+            <!-- ESENCIA ARRIBA CON ESPACIO -->
             <div class="essence-embedded-wrap">
               <div class="essence-embedded-title">✨ ESENCIA (GRADOS 1 AL 15)</div>
-              <div class="essence-tiers-wrap">
-                <div class="essence-tiers-row top-row">
-                  <div class="essence-tier-card">
-                    <div class="essence-tier-circles"><div class="essence-seal" id="seal-1" onclick="toggleEssence(1)">1</div><div class="essence-seal" id="seal-2" onclick="toggleEssence(2)">2</div><div class="essence-seal" id="seal-3" onclick="toggleEssence(3)">3</div></div>
-                    <span class="essence-tier-label">Latente<br>(1-3)</span>
-                  </div>
-                  <div class="essence-tier-card">
-                    <div class="essence-tier-circles"><div class="essence-seal" id="seal-4" onclick="toggleEssence(4)">4</div><div class="essence-seal" id="seal-5" onclick="toggleEssence(5)">5</div><div class="essence-seal" id="seal-6" onclick="toggleEssence(6)">6</div></div>
-                    <span class="essence-tier-label">Despierta<br>(4-6)</span>
-                  </div>
-                  <div class="essence-tier-card">
-                    <div class="essence-tier-circles"><div class="essence-seal" id="seal-7" onclick="toggleEssence(7)">7</div><div class="essence-seal" id="seal-8" onclick="toggleEssence(8)">8</div><div class="essence-seal" id="seal-9" onclick="toggleEssence(9)">9</div></div>
-                    <span class="essence-tier-label">Manifiesta<br>(7-9)</span>
-                  </div>
+              <div class="essence-tiers-flex">
+                <div class="essence-tier-card">
+                  <div class="essence-tier-circles"><div class="essence-seal" id="seal-1" onclick="toggleEssence(1)">1</div><div class="essence-seal" id="seal-2" onclick="toggleEssence(2)">2</div><div class="essence-seal" id="seal-3" onclick="toggleEssence(3)">3</div></div>
+                  <span class="essence-tier-label">Latente<br>(1-3)</span>
                 </div>
-                <div class="essence-tiers-row bottom-row">
-                  <div class="essence-tier-card">
-                    <div class="essence-tier-circles"><div class="essence-seal" id="seal-10" onclick="toggleEssence(10)">10</div><div class="essence-seal" id="seal-11" onclick="toggleEssence(11)">11</div><div class="essence-seal" id="seal-12" onclick="toggleEssence(12)">12</div></div>
-                    <span class="essence-tier-label">Trascendida<br>(10-12)</span>
-                  </div>
-                  <div class="essence-tier-card">
-                    <div class="essence-tier-circles"><div class="essence-seal" id="seal-13" onclick="toggleEssence(13)">13</div><div class="essence-seal" id="seal-14" onclick="toggleEssence(14)">14</div><div class="essence-seal" id="seal-15" onclick="toggleEssence(15)">15</div></div>
-                    <span class="essence-tier-label">Ascendida<br>(13-15)</span>
-                  </div>
+                <div class="essence-tier-card">
+                  <div class="essence-tier-circles"><div class="essence-seal" id="seal-4" onclick="toggleEssence(4)">4</div><div class="essence-seal" id="seal-5" onclick="toggleEssence(5)">5</div><div class="essence-seal" id="seal-6" onclick="toggleEssence(6)">6</div></div>
+                  <span class="essence-tier-label">Despierta<br>(4-6)</span>
+                </div>
+                <div class="essence-tier-card">
+                  <div class="essence-tier-circles"><div class="essence-seal" id="seal-7" onclick="toggleEssence(7)">7</div><div class="essence-seal" id="seal-8" onclick="toggleEssence(8)">8</div><div class="essence-seal" id="seal-9" onclick="toggleEssence(9)">9</div></div>
+                  <span class="essence-tier-label">Manifiesta<br>(7-9)</span>
+                </div>
+                <div class="essence-tier-card">
+                  <div class="essence-tier-circles"><div class="essence-seal" id="seal-10" onclick="toggleEssence(10)">10</div><div class="essence-seal" id="seal-11" onclick="toggleEssence(11)">11</div><div class="essence-seal" id="seal-12" onclick="toggleEssence(12)">12</div></div>
+                  <span class="essence-tier-label">Trascendida<br>(10-12)</span>
+                </div>
+                <div class="essence-tier-card">
+                  <div class="essence-tier-circles"><div class="essence-seal" id="seal-13" onclick="toggleEssence(13)">13</div><div class="essence-seal" id="seal-14" onclick="toggleEssence(14)">14</div><div class="essence-seal" id="seal-15" onclick="toggleEssence(15)">15</div></div>
+                  <span class="essence-tier-label">Ascendida<br>(13-15)</span>
                 </div>
               </div>
             </div>
             
             <!-- PUNTOS ABAJO -->
-            <div class="combat-stat-row" style="margin-top:4px;">
-              <span class="combat-stat-label">PUNTOS OBTENIDOS:</span>
-              <div class="combat-stat-controls">
+            <div class="combat-stat-row" style="margin-top:6px;">
+              <label>PUNTOS OBTENIDOS:</label>
+              <div class="combat-inputs">
                 <span class="calc-tag">Base:</span>
                 <input type="number" id="pts-base" value="0" style="width:48px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-                <span class="calc-tag">+</span>
+                <span class="calc-tag">+ Bono:</span>
                 <span id="pts-bono" class="calc-tag" style="font-weight:bold;">+0</span>
                 <span class="calc-tag">=</span>
                 <span id="pts-obtenidos-total" class="calc-total">0</span>
@@ -1712,7 +1774,7 @@
         </div>
       </div>
 
-      <!-- ARQUETIPOS Y HABILIDADES -->
+      <!-- ARQUETIPOS Y HABILIDADES (SIN NÚMEROS Y CON EMOJIS TEMÁTICOS) -->
       <div class="box-frame">
         <div class="box-frame-title">Arquetipos y Habilidades</div>
 
@@ -1722,11 +1784,11 @@
               <span class="arch-title-text">🔥 IMPULSOR</span>
               <div class="arch-diamonds-wrap" data-arch="impulsor"></div>
             </div>
-            <div class="skill-row"><span class="skill-name">01. Vigor</span><div class="skill-boxes" data-skill="1"></div><span class="skill-bonus-tag" id="sk-bonus-1">—</span></div>
-            <div class="skill-row"><span class="skill-name">02. Reflejos</span><div class="skill-boxes" data-skill="2"></div><span class="skill-bonus-tag" id="sk-bonus-2">—</span></div>
-            <div class="skill-row"><span class="skill-name">03. Sensorial</span><div class="skill-boxes" data-skill="3"></div><span class="skill-bonus-tag" id="sk-bonus-3">—</span></div>
-            <div class="skill-row"><span class="skill-name">04. Intimidar</span><div class="skill-boxes" data-skill="4"></div><span class="skill-bonus-tag" id="sk-bonus-4">—</span></div>
-            <div class="skill-row"><span class="skill-name">05. Cultura</span><div class="skill-boxes" data-skill="5"></div><span class="skill-bonus-tag" id="sk-bonus-5">—</span></div>
+            <div class="skill-row"><span class="skill-name">💪 Vigor</span><div class="skill-boxes" data-skill="1"></div><span class="skill-bonus-tag" id="sk-bonus-1">—</span></div>
+            <div class="skill-row"><span class="skill-name">⚡ Reflejos</span><div class="skill-boxes" data-skill="2"></div><span class="skill-bonus-tag" id="sk-bonus-2">—</span></div>
+            <div class="skill-row"><span class="skill-name">👁️ Sensorial</span><div class="skill-boxes" data-skill="3"></div><span class="skill-bonus-tag" id="sk-bonus-3">—</span></div>
+            <div class="skill-row"><span class="skill-name">💀 Intimidar</span><div class="skill-boxes" data-skill="4"></div><span class="skill-bonus-tag" id="sk-bonus-4">—</span></div>
+            <div class="skill-row"><span class="skill-name">📜 Cultura</span><div class="skill-boxes" data-skill="5"></div><span class="skill-bonus-tag" id="sk-bonus-5">—</span></div>
           </div>
 
           <div class="archetype-box arch-controlador">
@@ -1734,11 +1796,11 @@
               <span class="arch-title-text">👁️ CONTROLADOR</span>
               <div class="arch-diamonds-wrap" data-arch="controlador"></div>
             </div>
-            <div class="skill-row"><span class="skill-name">06. Motricidad</span><div class="skill-boxes" data-skill="6"></div><span class="skill-bonus-tag" id="sk-bonus-6">—</span></div>
-            <div class="skill-row"><span class="skill-name">07. Lógica</span><div class="skill-boxes" data-skill="7"></div><span class="skill-bonus-tag" id="sk-bonus-7">—</span></div>
-            <div class="skill-row"><span class="skill-name">08. Detectar</span><div class="skill-boxes" data-skill="8"></div><span class="skill-bonus-tag" id="sk-bonus-8">—</span></div>
-            <div class="skill-row"><span class="skill-name">09. Convencer</span><div class="skill-boxes" data-skill="9"></div><span class="skill-bonus-tag" id="sk-bonus-9">—</span></div>
-            <div class="skill-row"><span class="skill-name">10. Política</span><div class="skill-boxes" data-skill="10"></div><span class="skill-bonus-tag" id="sk-bonus-10">—</span></div>
+            <div class="skill-row"><span class="skill-name">🖐️ Motricidad</span><div class="skill-boxes" data-skill="6"></div><span class="skill-bonus-tag" id="sk-bonus-6">—</span></div>
+            <div class="skill-row"><span class="skill-name">🧩 Lógica</span><div class="skill-boxes" data-skill="7"></div><span class="skill-bonus-tag" id="sk-bonus-7">—</span></div>
+            <div class="skill-row"><span class="skill-name">🔍 Detectar</span><div class="skill-boxes" data-skill="8"></div><span class="skill-bonus-tag" id="sk-bonus-8">—</span></div>
+            <div class="skill-row"><span class="skill-name">🗣️ Convencer</span><div class="skill-boxes" data-skill="9"></div><span class="skill-bonus-tag" id="sk-bonus-9">—</span></div>
+            <div class="skill-row"><span class="skill-name">⚖️ Política</span><div class="skill-boxes" data-skill="10"></div><span class="skill-bonus-tag" id="sk-bonus-10">—</span></div>
           </div>
 
           <div class="archetype-box arch-perpetuador">
@@ -1746,11 +1808,11 @@
               <span class="arch-title-text">⛰️ PERPETUADOR</span>
               <div class="arch-diamonds-wrap" data-arch="perpetuador"></div>
             </div>
-            <div class="skill-row"><span class="skill-name">11. Aguante</span><div class="skill-boxes" data-skill="11"></div><span class="skill-bonus-tag" id="sk-bonus-11">—</span></div>
-            <div class="skill-row"><span class="skill-name">12. Medicina</span><div class="skill-boxes" data-skill="12"></div><span class="skill-bonus-tag" id="sk-bonus-12">—</span></div>
-            <div class="skill-row"><span class="skill-name">13. Memoria</span><div class="skill-boxes" data-skill="13"></div><span class="skill-bonus-tag" id="sk-bonus-13">—</span></div>
-            <div class="skill-row"><span class="skill-name">14. Primacía</span><div class="skill-boxes" data-skill="14"></div><span class="skill-bonus-tag" id="sk-bonus-14">—</span></div>
-            <div class="skill-row"><span class="skill-name">15. Historia</span><div class="skill-boxes" data-skill="15"></div><span class="skill-bonus-tag" id="sk-bonus-15">—</span></div>
+            <div class="skill-row"><span class="skill-name">🛡️ Aguante</span><div class="skill-boxes" data-skill="11"></div><span class="skill-bonus-tag" id="sk-bonus-11">—</span></div>
+            <div class="skill-row"><span class="skill-name">🩹 Medicina</span><div class="skill-boxes" data-skill="12"></div><span class="skill-bonus-tag" id="sk-bonus-12">—</span></div>
+            <div class="skill-row"><span class="skill-name">🧠 Memoria</span><div class="skill-boxes" data-skill="13"></div><span class="skill-bonus-tag" id="sk-bonus-13">—</span></div>
+            <div class="skill-row"><span class="skill-name">👑 Primacía</span><div class="skill-boxes" data-skill="14"></div><span class="skill-bonus-tag" id="sk-bonus-14">—</span></div>
+            <div class="skill-row"><span class="skill-name">📚 Historia</span><div class="skill-boxes" data-skill="15"></div><span class="skill-bonus-tag" id="sk-bonus-15">—</span></div>
           </div>
 
           <div class="archetype-box arch-proyector">
@@ -1758,11 +1820,11 @@
               <span class="arch-title-text">✳️ PROYECTOR</span>
               <div class="arch-diamonds-wrap" data-arch="proyector"></div>
             </div>
-            <div class="skill-row"><span class="skill-name">16. Agilidad</span><div class="skill-boxes" data-skill="16"></div><span class="skill-bonus-tag" id="sk-bonus-16">—</span></div>
-            <div class="skill-row"><span class="skill-name">17. Deducir</span><div class="skill-boxes" data-skill="17"></div><span class="skill-bonus-tag" id="sk-bonus-17">—</span></div>
-            <div class="skill-row"><span class="skill-name">18. Rastrear</span><div class="skill-boxes" data-skill="18"></div><span class="skill-bonus-tag" id="sk-bonus-18">—</span></div>
-            <div class="skill-row"><span class="skill-name">19. Seducción</span><div class="skill-boxes" data-skill="19"></div><span class="skill-bonus-tag" id="sk-bonus-19">—</span></div>
-            <div class="skill-row"><span class="skill-name">20. Geografía</span><div class="skill-boxes" data-skill="20"></div><span class="skill-bonus-tag" id="sk-bonus-20">—</span></div>
+            <div class="skill-row"><span class="skill-name">🏃 Agilidad</span><div class="skill-boxes" data-skill="16"></div><span class="skill-bonus-tag" id="sk-bonus-16">—</span></div>
+            <div class="skill-row"><span class="skill-name">💡 Deducir</span><div class="skill-boxes" data-skill="17"></div><span class="skill-bonus-tag" id="sk-bonus-17">—</span></div>
+            <div class="skill-row"><span class="skill-name">🐾 Rastrear</span><div class="skill-boxes" data-skill="18"></div><span class="skill-bonus-tag" id="sk-bonus-18">—</span></div>
+            <div class="skill-row"><span class="skill-name">🌹 Seducción</span><div class="skill-boxes" data-skill="19"></div><span class="skill-bonus-tag" id="sk-bonus-19">—</span></div>
+            <div class="skill-row"><span class="skill-name">🗺️ Geografía</span><div class="skill-boxes" data-skill="20"></div><span class="skill-bonus-tag" id="sk-bonus-20">—</span></div>
           </div>
 
           <div class="archetype-box arch-evocador">
@@ -1770,11 +1832,11 @@
               <span class="arch-title-text">☀️ EVOCADOR</span>
               <div class="arch-diamonds-wrap" data-arch="evocador"></div>
             </div>
-            <div class="skill-row"><span class="skill-name">21. Magia</span><div class="skill-boxes" data-skill="21"></div><span class="skill-bonus-tag" id="sk-bonus-21">—</span></div>
-            <div class="skill-row"><span class="skill-name">22. Empatía</span><div class="skill-boxes" data-skill="22"></div><span class="skill-bonus-tag" id="sk-bonus-22">—</span></div>
-            <div class="skill-row"><span class="skill-name">23. Per. Mág.</span><div class="skill-boxes" data-skill="23"></div><span class="skill-bonus-tag" id="sk-bonus-23">—</span></div>
-            <div class="skill-row"><span class="skill-name">24. Voz</span><div class="skill-boxes" data-skill="24"></div><span class="skill-bonus-tag" id="sk-bonus-24">—</span></div>
-            <div class="skill-row"><span class="skill-name">25. Supervivencia</span><div class="skill-boxes" data-skill="25"></div><span class="skill-bonus-tag" id="sk-bonus-25">—</span></div>
+            <div class="skill-row"><span class="skill-name">✨ Magia</span><div class="skill-boxes" data-skill="21"></div><span class="skill-bonus-tag" id="sk-bonus-21">—</span></div>
+            <div class="skill-row"><span class="skill-name">🤍 Empatía</span><div class="skill-boxes" data-skill="22"></div><span class="skill-bonus-tag" id="sk-bonus-22">—</span></div>
+            <div class="skill-row"><span class="skill-name">🔮 Per. Mág.</span><div class="skill-boxes" data-skill="23"></div><span class="skill-bonus-tag" id="sk-bonus-23">—</span></div>
+            <div class="skill-row"><span class="skill-name">🎙️ Voz</span><div class="skill-boxes" data-skill="24"></div><span class="skill-bonus-tag" id="sk-bonus-24">—</span></div>
+            <div class="skill-row"><span class="skill-name">🏕️ Supervivencia</span><div class="skill-boxes" data-skill="25"></div><span class="skill-bonus-tag" id="sk-bonus-25">—</span></div>
           </div>
 
           <div class="archetype-box arch-conmutador">
@@ -1782,11 +1844,11 @@
               <span class="arch-title-text">🌙 CONMUTADOR</span>
               <div class="arch-diamonds-wrap" data-arch="conmutador"></div>
             </div>
-            <div class="skill-row"><span class="skill-name">26. Sigilo</span><div class="skill-boxes" data-skill="26"></div><span class="skill-bonus-tag" id="sk-bonus-26">—</span></div>
-            <div class="skill-row"><span class="skill-name">27. Voluntad</span><div class="skill-boxes" data-skill="27"></div><span class="skill-bonus-tag" id="sk-bonus-27">—</span></div>
-            <div class="skill-row"><span class="skill-name">28. Visual</span><div class="skill-boxes" data-skill="28"></div><span class="skill-bonus-tag" id="sk-bonus-28">—</span></div>
-            <div class="skill-row"><span class="skill-name">29. Engaño</span><div class="skill-boxes" data-skill="29"></div><span class="skill-bonus-tag" id="sk-bonus-29">—</span></div>
-            <div class="skill-row"><span class="skill-name">30. Auditiva</span><div class="skill-boxes" data-skill="30"></div><span class="skill-bonus-tag" id="sk-bonus-30">—</span></div>
+            <div class="skill-row"><span class="skill-name">🤫 Sigilo</span><div class="skill-boxes" data-skill="26"></div><span class="skill-bonus-tag" id="sk-bonus-26">—</span></div>
+            <div class="skill-row"><span class="skill-name">🧘 Voluntad</span><div class="skill-boxes" data-skill="27"></div><span class="skill-bonus-tag" id="sk-bonus-27">—</span></div>
+            <div class="skill-row"><span class="skill-name">🦅 Visual</span><div class="skill-boxes" data-skill="28"></div><span class="skill-bonus-tag" id="sk-bonus-28">—</span></div>
+            <div class="skill-row"><span class="skill-name">🎭 Engaño</span><div class="skill-boxes" data-skill="29"></div><span class="skill-bonus-tag" id="sk-bonus-29">—</span></div>
+            <div class="skill-row"><span class="skill-name">👂 Auditiva</span><div class="skill-boxes" data-skill="30"></div><span class="skill-bonus-tag" id="sk-bonus-30">—</span></div>
           </div>
         </div>
       </div>
@@ -1820,7 +1882,7 @@
         </div>
       </div>
 
-      <!-- TÉCNICAS DESPIERTAS -->
+      <!-- TÉCNICAS DESPIERTAS (CON CLASIFICACIONES CON EMOJI) -->
       <div class="box-frame">
         <div class="box-frame-title">Técnicas Despiertas</div>
         <div class="despiertas-wrapper">
@@ -1833,11 +1895,11 @@
 
           <div style="background:rgba(255,255,255,0.3); border:1.5px solid var(--border-dark); padding:8px;">
             <div style="font-family:var(--f-title); font-size:13px; font-weight:bold; margin-bottom:6px; text-align:center; border-bottom:1px solid var(--border-dark); padding-bottom:3px;">CLASIFICACIÓN</div>
-            <div class="classification-row"><span>OFENSIVA</span><div class="classification-diamonds" data-class="ofensiva"></div></div>
-            <div class="classification-row"><span>DEFENSIVA</span><div class="classification-diamonds" data-class="defensiva"></div></div>
-            <div class="classification-row"><span>TÁCTICA</span><div class="classification-diamonds" data-class="tactica"></div></div>
-            <div class="classification-row"><span>UTILIDAD</span><div class="classification-diamonds" data-class="utilidad"></div></div>
-            <div class="classification-row"><span>SINGULAR</span><div class="classification-diamonds" data-class="singular"></div></div>
+            <div class="classification-row"><span>⚔️ OFENSIVA</span><div class="classification-diamonds" data-class="ofensiva"></div></div>
+            <div class="classification-row"><span>🛡️ DEFENSIVA</span><div class="classification-diamonds" data-class="defensiva"></div></div>
+            <div class="classification-row"><span>🎯 TÁCTICA</span><div class="classification-diamonds" data-class="tactica"></div></div>
+            <div class="classification-row"><span>🧰 UTILIDAD</span><div class="classification-diamonds" data-class="utilidad"></div></div>
+            <div class="classification-row"><span>🌌 SINGULAR</span><div class="classification-diamonds" data-class="singular"></div></div>
           </div>
         </div>
       </div>
@@ -1927,6 +1989,9 @@
     const SKILL_BONUSES = ['+0', '+1', '+2', '+4', '+6', '+9', '+12', 'x2D'];
     const ARCHETYPES = ['impulsor', 'controlador', 'perpetuador', 'proyector', 'evocador', 'conmutador'];
 
+    let isRollInCooldown = false;
+    let diceRollsHistory = [];
+
     function getEssenceTierName(lvl) {
       if (lvl >= 13) return 'Ascendida';
       if (lvl >= 10) return 'Trascendida';
@@ -1939,24 +2004,25 @@
     function createBlankCharacterData(name = '') {
       return {
         inputs: {
+          'char-icon': '⚔️',
           'char-name': name, 'char-raza': '', 'char-subraza': '', 'char-oficio': '',
           'char-exp': '', 'char-esencia': '',
           'stat-pc-base': 0, 'stat-pd-base': 0,
           'stat-hp-curr': '', 'stat-hp-max-base': 0,
           'stat-smath-curr': '', 'stat-smath-max-base': 0,
-          'stat-conc': '', 'pts-base': 0,
+          'stat-conc': '', 'stat-init-bono': 0, 'pts-base': 0,
           'status-veneno-val': '', 'status-sangrado-val': '', 'status-curacion-val': '',
-          'status-custom-name': '', 'status-custom-val': '',
+          'status-infectado-val': '', 'status-custom-name': '', 'status-custom-val': '',
           'tech-princ-name': '', 'tech-princ-cost': '', 'tech-sec1-name': '', 'tech-sec1-cost': '',
           'tech-sec2-name': '', 'tech-sec2-cost': '', 'tech-sec3-name': '', 'tech-sec3-cost': ''
         },
         checkboxes: {
           'status-stun': false, 'status-sellado': false, 'status-petrificado': false,
           'status-mareado': false, 'status-veneno': false, 'status-sangrado': false,
-          'status-curacion': false, 'status-custom-check': false
+          'status-curacion': false, 'status-infectado': false, 'status-custom-check': false
         },
         weapons: [
-          { id: 'w_' + Date.now(), name: 'Arma Principal', baseDmg: 20, lastRoll: '-', lastDmg: '-' }
+          { id: 'w_' + Date.now(), name: 'Espada Vampira', baseDmg: 20, lastRoll: '-', lastDmg: '-', hasCrit: false, critMult: 2, lastCrit: '-' }
         ],
         archLevels: { impulsor: 0, controlador: 0, perpetuador: 0, proyector: 0, evocador: 0, conmutador: 0 },
         techniques: [
@@ -1969,7 +2035,8 @@
           { name: '', qty: '', weight: '', desc: '' }
         ],
         essence: 0,
-        lastRoll: '-'
+        lastRoll: '-',
+        lastInit: '-'
       };
     }
 
@@ -1981,15 +2048,10 @@
       p4: createBlankCharacterData('')
     };
     let objectivesList = [];
-    let diceRollHistory = [];
 
     let activeRole = 'p1';
     let isRemoteUpdate = false;
     let modalActionType = '';
-
-    // COOLDOWN TIRADA D6 (3 SEGUNDOS)
-    let rollCooldownTimer = null;
-    let rollCooldownSeconds = 0;
 
     const archLevelState = {
       impulsor: 0, controlador: 0, perpetuador: 0, proyector: 0, evocador: 0, conmutador: 0
@@ -2018,18 +2080,17 @@
 
     function openHubModal() { document.getElementById('hub-modal-backdrop').style.display = 'flex'; }
     function closeHubModal() { document.getElementById('hub-modal-backdrop').style.display = 'none'; }
-    
     function openHistoryModal() {
       renderObjectivesHistory();
       document.getElementById('history-modal-backdrop').style.display = 'flex';
     }
     function closeHistoryModal() { document.getElementById('history-modal-backdrop').style.display = 'none'; }
 
-    function openRollHistoryModal() {
-      renderRollHistory();
-      document.getElementById('roll-history-modal-backdrop').style.display = 'flex';
+    function openDiceHistoryModal() {
+      renderDiceHistory();
+      document.getElementById('dice-history-backdrop').style.display = 'flex';
     }
-    function closeRollHistoryModal() { document.getElementById('roll-history-modal-backdrop').style.display = 'none'; }
+    function closeDiceHistoryModal() { document.getElementById('dice-history-backdrop').style.display = 'none'; }
 
     function restoreFullHp() {
       const maxTot = document.getElementById('stat-hp-max-total')?.innerText || '0';
@@ -2050,7 +2111,7 @@
     function clearNegativeStates() {
       const stateChecks = [
         'status-stun', 'status-sellado', 'status-petrificado', 'status-mareado',
-        'status-veneno', 'status-sangrado', 'status-curacion', 'status-custom-check'
+        'status-veneno', 'status-sangrado', 'status-curacion', 'status-infectado', 'status-custom-check'
       ];
       stateChecks.forEach(id => {
         const el = document.getElementById(id);
@@ -2058,7 +2119,7 @@
       });
 
       const stateValues = [
-        'status-veneno-val', 'status-sangrado-val', 'status-curacion-val',
+        'status-veneno-val', 'status-sangrado-val', 'status-curacion-val', 'status-infectado-val',
         'status-custom-name', 'status-custom-val'
       ];
       stateValues.forEach(id => {
@@ -2070,100 +2131,57 @@
       showToast('🧹 Estados y valores eliminados.');
     }
 
-    // ACCIONES DEL GM: MODIFICAR VIDA (DAÑAR / CURAR)
-    function gmModifyHp(pid, isDamage) {
+    // ACCIONES DIRECTAS DEL MÁSTER EN EL RESUMEN
+    function gmDirectHpChange(pid, isHeal) {
+      const input = document.getElementById(`gm-hp-amt-${pid}`);
+      const val = parseInt(input?.value) || 0;
+      if (val <= 0) return;
+
       const pdata = allPlayersData[pid];
       if (!pdata) return;
-
-      const input = document.getElementById(`gm-hp-val-${pid}`);
-      const amount = parseInt(input?.value) || 0;
-      if (amount <= 0) {
-        showToast('⚠️ Ingresa una cantidad válida mayor a 0.');
-        return;
-      }
 
       let bHp = 0;
       ARCHETYPES.forEach(arch => {
         bHp += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].hp;
       });
-      const maxHp = (parseFloat(pdata.inputs?.['stat-hp-max-base']) || 0) + bHp;
-      let curHp = parseInt(pdata.inputs?.['stat-hp-curr']) || 0;
+      const maxHp = (parseInt(pdata.inputs?.['stat-hp-max-base']) || 0) + bHp;
+      let currHp = parseInt(pdata.inputs?.['stat-hp-curr']) || 0;
 
-      if (isDamage) {
-        curHp = Math.max(0, curHp - amount);
-        showToast(`💥 Se aplicaron ${amount} de daño a ${pdata.inputs['char-name'] || 'personaje'}.`);
+      if (isHeal) {
+        currHp = Math.min(maxHp, currHp + val);
+        showToast(`💚 Curaste ${val} a ${pdata.inputs?.['char-name'] || 'Jugador'}`);
       } else {
-        curHp = Math.min(maxHp > 0 ? maxHp : 9999, curHp + amount);
-        showToast(`💚 Se curaron ${amount} puntos de vida.`);
+        currHp = Math.max(0, currHp - val);
+        showToast(`💥 Dañaste por ${val} a ${pdata.inputs?.['char-name'] || 'Jugador'}`);
       }
 
-      pdata.inputs['stat-hp-curr'] = curHp;
-      if (input) input.value = '';
+      pdata.inputs['stat-hp-curr'] = currHp;
+      input.value = '';
+      saveActivePlayerToCloud(true);
+      renderGMDashboard();
+    }
 
-      if (activeRole === pid) {
-        const sheetHpInput = document.getElementById('stat-hp-curr');
-        if (sheetHpInput) sheetHpInput.value = curHp;
-      }
+    function gmToggleState(pid, stateKey, isChecked) {
+      if (!allPlayersData[pid]) return;
+      if (!allPlayersData[pid].checkboxes) allPlayersData[pid].checkboxes = {};
+      allPlayersData[pid].checkboxes[stateKey] = isChecked;
+      saveActivePlayerToCloud(true);
+      renderGMDashboard();
+    }
 
+    function gmUpdateStateVal(pid, inputKey, val) {
+      if (!allPlayersData[pid]) return;
+      if (!allPlayersData[pid].inputs) allPlayersData[pid].inputs = {};
+      allPlayersData[pid].inputs[inputKey] = val;
       saveActivePlayerToCloud(true);
     }
 
-    // ACCIONES DEL GM: ASIGNAR ESTADOS DIRECTAMENTE
-    function gmApplyStatus(pid) {
-      const pdata = allPlayersData[pid];
-      if (!pdata) return;
-
-      const select = document.getElementById(`gm-add-status-select-${pid}`);
-      const statusKey = select?.value;
-      if (!statusKey) {
-        showToast('⚠️ Elige un estado para asignar.');
-        return;
-      }
-
-      if (!pdata.checkboxes) pdata.checkboxes = {};
-      pdata.checkboxes[statusKey] = true;
-
-      if (statusKey === 'status-veneno' && !pdata.inputs['status-veneno-val']) pdata.inputs['status-veneno-val'] = 10;
-      if (statusKey === 'status-sangrado' && !pdata.inputs['status-sangrado-val']) pdata.inputs['status-sangrado-val'] = 10;
-      if (statusKey === 'status-curacion' && !pdata.inputs['status-curacion-val']) pdata.inputs['status-curacion-val'] = 10;
-
-      if (activeRole === pid) {
-        applyDataToForm(pdata);
-      }
-
-      if (select) select.value = '';
-      saveActivePlayerToCloud(true);
-      showToast('🏷️ Estado asignado.');
+    function toggleGmStateManager(pid) {
+      const el = document.getElementById(`gm-state-box-${pid}`);
+      if (el) el.style.display = el.style.display === 'none' ? 'grid' : 'none';
     }
 
-    function gmClearStatus(pid) {
-      const pdata = allPlayersData[pid];
-      if (!pdata) return;
-
-      const stateChecks = [
-        'status-stun', 'status-sellado', 'status-petrificado', 'status-mareado',
-        'status-veneno', 'status-sangrado', 'status-curacion', 'status-custom-check'
-      ];
-      stateChecks.forEach(k => {
-        if (pdata.checkboxes) pdata.checkboxes[k] = false;
-      });
-
-      const stateVals = [
-        'status-veneno-val', 'status-sangrado-val', 'status-curacion-val',
-        'status-custom-name', 'status-custom-val'
-      ];
-      stateVals.forEach(k => {
-        if (pdata.inputs) pdata.inputs[k] = '';
-      });
-
-      if (activeRole === pid) {
-        applyDataToForm(pdata);
-      }
-
-      saveActivePlayerToCloud(true);
-      showToast('🧹 Estados del jugador eliminados.');
-    }
-
+    // ACTUALIZAR SELECTOR DE REMITENTE
     function updateSenderSelect() {
       const select = document.getElementById('table-msg-sender');
       if (!select) return;
@@ -2176,8 +2194,10 @@
       select.appendChild(gmOpt);
 
       playerList.forEach((pid, index) => {
-        const charName = allPlayersData[pid]?.inputs?.['char-name']?.trim();
-        const label = charName ? `⚔️ ${charName}` : `⚔️ Jugador ${index + 1}`;
+        const pInputs = allPlayersData[pid]?.inputs || {};
+        const icon = pInputs['char-icon'] || '⚔️';
+        const charName = pInputs['char-name']?.trim();
+        const label = charName ? `${icon} ${charName}` : `${icon} Jugador ${index + 1}`;
         const opt = document.createElement('option');
         opt.value = label;
         opt.innerText = label;
@@ -2189,8 +2209,10 @@
       } else if (activeRole === 'gm') {
         select.value = '👑 Maestro (GM)';
       } else if (allPlayersData[activeRole]) {
-        const curName = allPlayersData[activeRole]?.inputs?.['char-name']?.trim();
-        select.value = curName ? `⚔️ ${curName}` : `⚔️ Jugador ${playerList.indexOf(activeRole) + 1}`;
+        const pInputs = allPlayersData[activeRole]?.inputs || {};
+        const icon = pInputs['char-icon'] || '⚔️';
+        const curName = pInputs['char-name']?.trim();
+        select.value = curName ? `${icon} ${curName}` : `${icon} Jugador ${playerList.indexOf(activeRole) + 1}`;
       }
     }
 
@@ -2215,7 +2237,7 @@
       objectivesList.unshift(newMsg);
       input.value = '';
       saveActivePlayerToCloud(true);
-      showToast('📢 Mensaje enviado a la mesa.');
+      showToast('📢 Mensaje enviado.');
     }
 
     function deleteObjective(id) {
@@ -2247,6 +2269,26 @@
       });
     }
 
+    function renderDiceHistory() {
+      const container = document.getElementById('dice-history-list');
+      container.innerHTML = '';
+      if (!diceRollsHistory || diceRollsHistory.length === 0) {
+        container.innerHTML = '<div style="color:#777; font-style:italic; padding:10px; text-align:center;">Sin tiradas registradas.</div>';
+        return;
+      }
+      diceRollsHistory.forEach(r => {
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `
+          <div>
+            <b style="color:#731e0b;">[${r.time}]</b> <b>${escapeHtml(r.sender)}:</b><br>
+            <span style="font-size:13px; color:#222;">${escapeHtml(r.detail)}</span>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
     function updateObjectiveBanner() {
       const bannerList = document.getElementById('latest-objectives-container');
       bannerList.innerHTML = '';
@@ -2264,68 +2306,8 @@
       });
     }
 
-    // GESTIÓN DE TIRADAS Y COOLDOWN DE 3 SEGUNDOS
-    function startRollCooldown(seconds) {
-      rollCooldownSeconds = seconds;
-      updateRollButtonsText();
-      clearInterval(rollCooldownTimer);
-      rollCooldownTimer = setInterval(() => {
-        rollCooldownSeconds--;
-        if (rollCooldownSeconds <= 0) {
-          clearInterval(rollCooldownTimer);
-          rollCooldownSeconds = 0;
-        }
-        updateRollButtonsText();
-      }, 1000);
-    }
-
-    function updateRollButtonsText() {
-      const btns = document.querySelectorAll('.btn-roll-weapon');
-      btns.forEach(btn => {
-        if (rollCooldownSeconds > 0) {
-          btn.innerText = `⏳ Espera (${rollCooldownSeconds}s)`;
-          btn.disabled = true;
-          btn.style.opacity = '0.6';
-          btn.style.cursor = 'not-allowed';
-        } else {
-          btn.innerText = '🎲 Tirar D6';
-          btn.disabled = false;
-          btn.style.opacity = '1';
-          btn.style.cursor = 'pointer';
-        }
-      });
-    }
-
-    function renderRollHistory() {
-      const container = document.getElementById('dice-roll-history-list');
-      container.innerHTML = '';
-      if (!diceRollHistory || diceRollHistory.length === 0) {
-        container.innerHTML = '<div style="color:#777; font-style:italic; padding:10px; text-align:center;">No hay tiradas registradas aún.</div>';
-        return;
-      }
-      diceRollHistory.forEach(r => {
-        const item = document.createElement('div');
-        item.className = 'history-item';
-        item.innerHTML = `
-          <div>
-            <b style="color:#731e0b;">[${r.time}]</b> 
-            <b>${escapeHtml(r.charName)}</b> atacó con <i>${escapeHtml(r.weapon)}</i>: 
-            Dado <b style="color:#d97706;">${r.roll}</b> ➔ 
-            <b style="color:var(--txt-red); font-size:14px;">${r.damage} daño</b>
-          </div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    function clearRollHistory() {
-      diceRollHistory = [];
-      saveActivePlayerToCloud(true);
-      renderRollHistory();
-      showToast('🗑️ Historial de tiradas limpiado.');
-    }
-
-    function addWeaponRow(id = null, name = 'Arma', baseDmg = 15, lastRoll = '-', lastDmg = '-') {
+    // ARMAS DINÁMICAS CON CRÍTICOS Y COOLDOWN DE 3 SEGUNDOS
+    function addWeaponRow(id = null, name = 'Arma', baseDmg = 15, lastRoll = '-', lastDmg = '-', hasCrit = false, critMult = 2, lastCrit = '-') {
       const container = document.getElementById('weapons-container');
       const wId = id || ('w_' + Date.now());
       const card = document.createElement('div');
@@ -2341,18 +2323,35 @@
           <span>Base: <input type="number" class="weapon-base-input" value="${baseDmg}" min="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();"></span>
           <span>Bono: <b class="weapon-bono-text">+0</b></span>
           <span>Total: <b class="weapon-total-text" style="color:var(--txt-red); font-size:15px;">${baseDmg}</b></span>
+          <div class="weapon-crit-config">
+            <input type="checkbox" class="weapon-crit-check" id="crit-chk-${wId}" ${hasCrit ? 'checked' : ''} onchange="toggleCritDisplay('${wId}'); syncToFirebaseDebounced();">
+            <label for="crit-chk-${wId}" style="cursor:pointer; font-size:11px;">💥 Crítico</label>
+            <span class="weapon-crit-mult-wrap" style="${hasCrit ? '' : 'display:none;'}">
+              x<input type="number" step="0.5" class="weapon-crit-mult" value="${critMult}" min="1" style="width:36px; padding:1px; text-align:center; font-weight:bold;" oninput="syncToFirebaseDebounced();">
+            </span>
+          </div>
         </div>
         <div class="weapon-bot-row">
-          <button type="button" class="btn-roll-weapon" onclick="rollWeaponD6('${wId}')">🎲 Tirar D6</button>
+          <button type="button" class="btn-roll-weapon btn-roll-d6-${wId}" onclick="rollWeaponD6('${wId}')">🎲 Tirar D6</button>
+          <button type="button" class="btn-roll-weapon btn-roll-crit-${wId}" style="${hasCrit ? '' : 'display:none;'} background:#854d0e; border-color:#ca8a04;" onclick="rollWeaponCrit('${wId}')">🎯 D20 Crítico</button>
           <div class="weapon-badge">
-            <span>Dado: <b class="weapon-roll-val" style="color:var(--txt-red);">${lastRoll}</b></span>
+            <span>D6: <b class="weapon-roll-val" style="color:var(--txt-red);">${lastRoll}</b></span>
             <span style="margin-left:4px;">Daño: <b class="weapon-dmg-val" style="color:var(--txt-red);">${lastDmg}</b></span>
+            <span class="weapon-crit-badge-wrap" style="${hasCrit ? '' : 'display:none;'} margin-left:4px; color:#854d0e;">Crítico: <b class="weapon-crit-val">${lastCrit}</b></span>
           </div>
         </div>
       `;
       container.appendChild(card);
       recalcAllAutoStats();
-      updateRollButtonsText();
+    }
+
+    function toggleCritDisplay(wId) {
+      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
+      if (!card) return;
+      const isChecked = card.querySelector('.weapon-crit-check').checked;
+      card.querySelector('.weapon-crit-mult-wrap').style.display = isChecked ? 'inline' : 'none';
+      card.querySelector(`.btn-roll-crit-${wId}`).style.display = isChecked ? 'inline-block' : 'none';
+      card.querySelector('.weapon-crit-badge-wrap').style.display = isChecked ? 'inline' : 'none';
     }
 
     function deleteWeaponRow(wId) {
@@ -2370,43 +2369,110 @@
       }
     }
 
+    function startRollCooldown() {
+      isRollInCooldown = true;
+      document.querySelectorAll('.btn-roll-weapon').forEach(btn => {
+        btn.classList.add('cooldown');
+      });
+      setTimeout(() => {
+        isRollInCooldown = false;
+        document.querySelectorAll('.btn-roll-weapon').forEach(btn => {
+          btn.classList.remove('cooldown');
+        });
+      }, 3000);
+    }
+
     function rollWeaponD6(wId) {
-      if (rollCooldownSeconds > 0) {
-        showToast(`⏳ Espera ${rollCooldownSeconds}s antes de volver a tirar.`);
+      if (isRollInCooldown) {
+        showToast('⏳ Espera 3 segundos antes de volver a tirar.');
         return;
       }
-
       const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
       if (!card) return;
+
+      startRollCooldown();
 
       const wName = card.querySelector('.weapon-name-input')?.value.trim() || 'Arma';
       const totalDmg = parseFloat(card.querySelector('.weapon-total-text')?.innerText) || 0;
       const roll = Math.floor(Math.random() * 6) + 1;
       const finalDmg = Math.round(totalDmg * (1 + MULTIPLICADORES[roll - 1]));
 
-      card.querySelector('.weapon-roll-val').innerText = roll;
+      card.querySelector('.weapon-roll-val').innerText = `d ${roll}`;
       card.querySelector('.weapon-dmg-val').innerText = finalDmg;
 
       updateReferenceD6Table(totalDmg, roll);
 
-      const charName = allPlayersData[activeRole]?.inputs?.['char-name']?.trim() || 'Personaje';
-      const rollRecord = {
-        id: 'r_' + Date.now(),
-        charName: charName,
-        weapon: wName,
-        roll: roll,
-        damage: finalDmg,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-      };
-      diceRollHistory.unshift(rollRecord);
-      if (diceRollHistory.length > 50) diceRollHistory.pop();
+      const pInputs = allPlayersData[activeRole]?.inputs || {};
+      const sender = pInputs['char-name'] || 'Personaje';
+      const detail = `${wName} (D6): d ${roll} -> ${finalDmg} daño total`;
+
+      diceRollsHistory.unshift({
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        sender: sender,
+        detail: detail
+      });
 
       if (activeRole !== 'gm' && allPlayersData[activeRole]) {
-        allPlayersData[activeRole].lastRoll = `${wName}: Dado ${roll} (${finalDmg} daño)`;
+        allPlayersData[activeRole].lastRoll = `${wName}: d ${roll} (${finalDmg} daño)`;
         saveActivePlayerToCloud(true);
       }
+    }
 
-      startRollCooldown(3);
+    function rollWeaponCrit(wId) {
+      if (isRollInCooldown) {
+        showToast('⏳ Espera 3 segundos antes de volver a tirar.');
+        return;
+      }
+      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
+      if (!card) return;
+
+      startRollCooldown();
+
+      const wName = card.querySelector('.weapon-name-input')?.value.trim() || 'Arma';
+      const mult = parseFloat(card.querySelector('.weapon-crit-mult')?.value) || 2;
+      const totalDmg = parseFloat(card.querySelector('.weapon-total-text')?.innerText) || 0;
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      const critDmg = Math.round(totalDmg * mult);
+
+      card.querySelector('.weapon-crit-val').innerText = `D20: ${d20} (${critDmg} daño)`;
+
+      const pInputs = allPlayersData[activeRole]?.inputs || {};
+      const sender = pInputs['char-name'] || 'Personaje';
+      const detail = `${wName} (CRÍTICO D20): D20: ${d20} (x${mult}) -> ${critDmg} daño de impacto`;
+
+      diceRollsHistory.unshift({
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        sender: sender,
+        detail: detail
+      });
+
+      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastRoll = `${wName} [CRIT]: D20: ${d20} (${critDmg} daño)`;
+        saveActivePlayerToCloud(true);
+      }
+    }
+
+    function rollInitiative() {
+      const bono = parseInt(document.getElementById('stat-init-bono')?.value) || 0;
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      const total = d20 + bono;
+
+      document.getElementById('stat-init-total').innerText = total;
+
+      const pInputs = allPlayersData[activeRole]?.inputs || {};
+      const sender = pInputs['char-name'] || 'Personaje';
+      const detail = `Iniciativa (D20): Dado ${d20} + ${bono} = ${total}`;
+
+      diceRollsHistory.unshift({
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        sender: sender,
+        detail: detail
+      });
+
+      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastInit = `${total} (d20: ${d20})`;
+        saveActivePlayerToCloud(true);
+      }
     }
 
     function updateReferenceD6Table(baseVal, activeRoll = null) {
@@ -2528,7 +2594,7 @@
       if (Array.isArray(cloudData.playerList) && cloudData.playerList.length > 0) playerList = cloudData.playerList;
       if (cloudData.characters && typeof cloudData.characters === 'object') allPlayersData = cloudData.characters;
       if (Array.isArray(cloudData.objectives)) objectivesList = cloudData.objectives;
-      if (Array.isArray(cloudData.rollHistory)) diceRollHistory = cloudData.rollHistory;
+      if (Array.isArray(cloudData.diceHistory)) diceRollsHistory = cloudData.diceHistory;
 
       updateObjectiveBanner();
       renderRoleBar();
@@ -2557,7 +2623,7 @@
         playerList: playerList,
         characters: allPlayersData,
         objectives: objectivesList,
-        rollHistory: diceRollHistory
+        diceHistory: diceRollsHistory.slice(0, 30)
       }).then(() => {
         if (!silent) showToast('☁️ Sincronizado en vivo.');
       }).catch(err => {
@@ -2565,34 +2631,33 @@
       });
 
       try {
-        localStorage.setItem('requiem_smithnas_state_v11', JSON.stringify({
-          players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList, rollHistory: diceRollHistory
+        localStorage.setItem('requiem_smithnas_state_v10', JSON.stringify({
+          players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList
         }));
       } catch(e) {}
     }
 
     function renderRoleBar() {
-      const gmContainer = document.getElementById('role-bar-gm');
-      const pContainer = document.getElementById('role-bar-container');
-      gmContainer.innerHTML = '';
-      pContainer.innerHTML = '';
+      const container = document.getElementById('role-bar-container');
+      container.innerHTML = '';
 
-      const gmBtn = document.createElement('button');
-      gmBtn.type = 'button';
-      gmBtn.className = `role-btn ${activeRole === 'gm' ? 'active' : ''}`;
-      gmBtn.innerText = '👑 Maestro (GM)';
-      gmBtn.onclick = () => switchRole('gm');
-      gmContainer.appendChild(gmBtn);
+      const gmBtn = document.getElementById('gm-role-btn');
+      if (gmBtn) {
+        if (activeRole === 'gm') gmBtn.classList.add('active');
+        else gmBtn.classList.remove('active');
+      }
 
       playerList.forEach((pid, index) => {
-        const charName = allPlayersData[pid]?.inputs?.['char-name']?.trim();
-        const label = charName ? charName : `Jugador ${index + 1}`;
+        const pInputs = allPlayersData[pid]?.inputs || {};
+        const icon = pInputs['char-icon'] || '⚔️';
+        const charName = pInputs['char-name']?.trim();
+        const label = charName ? `${icon} ${charName}` : `${icon} Jugador ${index + 1}`;
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
         btn.innerText = label;
         btn.onclick = () => switchRole(pid);
-        pContainer.appendChild(btn);
+        container.appendChild(btn);
       });
 
       const deleteBtn = document.getElementById('btn-delete-player');
@@ -2634,6 +2699,7 @@
       }
     }
 
+    // PANEL DEL MAESTRO CON CONTROLES DIRECTOS DE ESTADOS Y SIN OFICIO
     function renderGMDashboard() {
       const cardsGrid = document.getElementById('gm-cards-container');
       cardsGrid.innerHTML = '';
@@ -2643,10 +2709,11 @@
         const pInputs = pdata.inputs || {};
         const pChecks = pdata.checkboxes || {};
 
+        const icon = pInputs['char-icon'] || '⚔️';
         const charName = pInputs['char-name'] || `Jugador ${idx + 1}`;
-        const oficio = pInputs['char-oficio'] || 'Sin oficio';
         const hpCurr = pInputs['stat-hp-curr'] || '0';
         const roll = pdata.lastRoll || '-';
+        const init = pdata.lastInit || '-';
         
         const essenceLvl = pdata.essence || 0;
         const essenceTier = getEssenceTierName(essenceLvl);
@@ -2681,6 +2748,7 @@
         if (pChecks['status-veneno']) statusBadges.push(`<span class="gm-badge-status gm-badge-veneno">🧪 Veneno (-${pInputs['status-veneno-val'] || '0'})</span>`);
         if (pChecks['status-sangrado']) statusBadges.push(`<span class="gm-badge-status gm-badge-sangrado">🩸 Sangrado (-${pInputs['status-sangrado-val'] || '0'})</span>`);
         if (pChecks['status-curacion']) statusBadges.push(`<span class="gm-badge-status gm-badge-curacion">💖 Curación (+${pInputs['status-curacion-val'] || '0'})</span>`);
+        if (pChecks['status-infectado']) statusBadges.push(`<span class="gm-badge-status gm-badge-infectado">🦠 Infectado (${pInputs['status-infectado-val'] || '0'}%)</span>`);
         if (pChecks['status-custom-check'] && pInputs['status-custom-name']) {
           const cVal = pInputs['status-custom-val'] ? ` (${pInputs['status-custom-val']})` : '';
           statusBadges.push(`<span class="gm-badge-status gm-badge-custom">🏷️ ${escapeHtml(pInputs['status-custom-name'])}${escapeHtml(cVal)}</span>`);
@@ -2709,47 +2777,57 @@
         card.className = 'gm-player-card';
         card.innerHTML = `
           <div class="gm-card-title">
-            <span>⚔️ ${escapeHtml(charName)}</span>
+            <span>${icon} ${escapeHtml(charName)}</span>
             <button type="button" onclick="switchRole('${pid}')" style="background:#4a2b13; border:1px solid #bf8a3b; color:#fff; font-size:11px; padding:2px 6px; cursor:pointer; font-family:var(--f-title); border-radius:2px;">Abrir Ficha</button>
           </div>
           <div class="gm-stats-columns">
-            <div class="gm-stat-line"><span>Oficio:</span> <b>${escapeHtml(oficio)}</b></div>
-            <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pcTot} / ${pdTot}</b></div>
             <div class="gm-stat-line"><span>❤️ Resencia:</span> <b>${hpCurr} / ${hpMaxTot}</b></div>
-            <div class="gm-stat-line"><span>✨ Esencia:</span> <b style="color:#731e0b;">${essenceDisplay}</b></div>
+            <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pcTot} / ${pdTot}</b></div>
             <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
-            <div class="gm-stat-line"><span>🎲 Última Tirada:</span> <b style="color:var(--txt-red);">${roll}</b></div>
-          </div>
-
-          <!-- MODIFICAR VIDA DIRECTAMENTE DESDE EL GM -->
-          <div class="gm-hp-mod-row">
-            <span style="font-weight:bold; font-size:12px; color:#4f250b;">❤️ Daño / Cura:</span>
-            <div style="display:flex; gap:3px; align-items:center;">
-              <input type="number" id="gm-hp-val-${pid}" placeholder="Cant." min="1" style="width:52px; font-size:13px; font-weight:bold; padding:2px; text-align:center; border:1px solid var(--border-dark); background:#fff; border-radius:2px;">
-              <button type="button" onclick="gmModifyHp('${pid}', true)" style="background:#731e0b; color:#ffe8b5; border:1px solid #360b02; padding:2px 7px; font-size:11px; font-weight:bold; cursor:pointer; border-radius:2px;">💥 Daño</button>
-              <button type="button" onclick="gmModifyHp('${pid}', false)" style="background:#1e4a28; color:#e8f5e9; border:1px solid #14532d; padding:2px 7px; font-size:11px; font-weight:bold; cursor:pointer; border-radius:2px;">💚 Cura</button>
-            </div>
+            <div class="gm-stat-line"><span>✨ Esencia:</span> <b style="color:#731e0b;">${essenceDisplay}</b></div>
+            <div class="gm-stat-line"><span>🎲 Último Ataque:</span> <b style="color:var(--txt-red);">${roll}</b></div>
+            <div class="gm-stat-line"><span>⚡ Iniciativa:</span> <b style="color:#b45309;">${init}</b></div>
           </div>
           
-          <!-- ESTADOS ACTIVOS + MENÚ A LA DERECHA PARA ASIGNAR -->
-          <div class="gm-actions-container">
-            <div style="display:flex; justify-content:space-between; align-items:center; gap:4px; flex-wrap:wrap;">
-              <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Estados Activos:</span>
-              <div style="display:flex; gap:3px; align-items:center;">
-                <select id="gm-add-status-select-${pid}" style="background:#46250f; color:#faebd0; border:1px solid #bf8a3b; font-family:var(--f-title); font-size:10.5px; padding:2px 4px; border-radius:2px; outline:none;">
-                  <option value="">+ Estado...</option>
-                  <option value="status-stun">⚡ Stun</option>
-                  <option value="status-sellado">🔒 Sellado</option>
-                  <option value="status-petrificado">🗿 Petrificado</option>
-                  <option value="status-mareado">💫 Mareado</option>
-                  <option value="status-veneno">🧪 Veneno</option>
-                  <option value="status-sangrado">🩸 Sangrado</option>
-                  <option value="status-curacion">💖 Curación</option>
-                </select>
-                <button type="button" onclick="gmApplyStatus('${pid}')" style="background:#731e0b; color:#ffe8b5; border:1px solid #ffd700; font-size:10.5px; font-weight:bold; padding:2px 6px; cursor:pointer; border-radius:2px;">Aplicar</button>
-                <button type="button" onclick="gmClearStatus('${pid}')" style="background:#5a1212; color:#fff; border:1px solid #360b02; font-size:10.5px; padding:2px 5px; cursor:pointer; border-radius:2px;" title="Limpiar todos los estados">🧹</button>
-              </div>
+          <!-- CONTROL DIRECTO DE VIDA -->
+          <div class="gm-direct-heal-damage">
+            <span>Impacto:</span>
+            <input type="number" id="gm-hp-amt-${pid}" placeholder="Nº" min="1">
+            <button type="button" onclick="gmDirectHpChange('${pid}', false)" style="background:#731e0b; color:#ffe8b5; border:1px solid #360b02; padding:2px 6px; cursor:pointer; font-size:11px; font-weight:bold; border-radius:2px;">💥 Dañar</button>
+            <button type="button" onclick="gmDirectHpChange('${pid}', true)" style="background:#1e4a28; color:#e8f5e9; border:1px solid #4ade80; padding:2px 6px; cursor:pointer; font-size:11px; font-weight:bold; border-radius:2px;">💚 Curar</button>
+            <button type="button" class="gm-state-manager-toggle" onclick="toggleGmStateManager('${pid}')">⚡ Estados</button>
+          </div>
+
+          <!-- GESTOR DESPLEGABLE DIRECTO DE ESTADOS DESDE EL GM -->
+          <div class="gm-state-manager-box" id="gm-state-box-${pid}" style="display:none;">
+            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-stun'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-stun', this.checked)"> Stun</div>
+            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-sellado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-sellado', this.checked)"> Sellado</div>
+            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-petrificado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-petrificado', this.checked)"> Petrificado</div>
+            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-mareado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-mareado', this.checked)"> Mareado</div>
+            
+            <div class="gm-state-inline-item">
+              <input type="checkbox" ${pChecks['status-veneno'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-veneno', this.checked)"> Ven:
+              <input type="number" value="${pInputs['status-veneno-val'] || ''}" placeholder="Dmg" onchange="gmUpdateStateVal('${pid}', 'status-veneno-val', this.value)">
             </div>
+
+            <div class="gm-state-inline-item">
+              <input type="checkbox" ${pChecks['status-sangrado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-sangrado', this.checked)"> Sang:
+              <input type="number" value="${pInputs['status-sangrado-val'] || ''}" placeholder="Dmg" onchange="gmUpdateStateVal('${pid}', 'status-sangrado-val', this.value)">
+            </div>
+
+            <div class="gm-state-inline-item">
+              <input type="checkbox" ${pChecks['status-curacion'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-curacion', this.checked)"> Cura:
+              <input type="number" value="${pInputs['status-curacion-val'] || ''}" placeholder="Reg" onchange="gmUpdateStateVal('${pid}', 'status-curacion-val', this.value)">
+            </div>
+
+            <div class="gm-state-inline-item">
+              <input type="checkbox" ${pChecks['status-infectado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-infectado', this.checked)"> Inf:
+              <input type="number" value="${pInputs['status-infectado-val'] || ''}" placeholder="%" onchange="gmUpdateStateVal('${pid}', 'status-infectado-val', this.value)">
+            </div>
+          </div>
+
+          <div class="gm-actions-container">
+            <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Estados Activos:</span>
             <div class="gm-status-badges">${statusBadgesHtml}</div>
           </div>
 
@@ -2994,10 +3072,11 @@
         passives: [],
         inventory: [],
         essence: activeEssence,
-        lastRoll: allPlayersData[activeRole]?.lastRoll || '-'
+        lastRoll: allPlayersData[activeRole]?.lastRoll || '-',
+        lastInit: allPlayersData[activeRole]?.lastInit || '-'
       };
 
-      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
+      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap select, #player-sheet-wrap textarea').forEach(el => {
         if (el.id) data.inputs[el.id] = el.value;
       });
 
@@ -3010,8 +3089,11 @@
           id: card.getAttribute('data-id'),
           name: card.querySelector('.weapon-name-input')?.value || '',
           baseDmg: parseFloat(card.querySelector('.weapon-base-input')?.value) || 0,
+          hasCrit: card.querySelector('.weapon-crit-check')?.checked || false,
+          critMult: parseFloat(card.querySelector('.weapon-crit-mult')?.value) || 2,
           lastRoll: card.querySelector('.weapon-roll-val')?.innerText || '-',
-          lastDmg: card.querySelector('.weapon-dmg-val')?.innerText || '-'
+          lastDmg: card.querySelector('.weapon-dmg-val')?.innerText || '-',
+          lastCrit: card.querySelector('.weapon-crit-val')?.innerText || '-'
         });
       });
 
@@ -3044,7 +3126,7 @@
     function applyDataToForm(data) {
       if (!data) return;
 
-      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
+      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap select, #player-sheet-wrap textarea').forEach(el => {
         if (el.id) el.value = data.inputs?.[el.id] ?? '';
       });
 
@@ -3060,7 +3142,7 @@
       const weaponsContainer = document.getElementById('weapons-container');
       weaponsContainer.innerHTML = '';
       if (data.weapons && Array.isArray(data.weapons) && data.weapons.length > 0) {
-        data.weapons.forEach(w => addWeaponRow(w.id, w.name, w.baseDmg, w.lastRoll, w.lastDmg));
+        data.weapons.forEach(w => addWeaponRow(w.id, w.name, w.baseDmg, w.lastRoll, w.lastDmg, w.hasCrit, w.critMult, w.lastCrit));
       } else {
         addWeaponRow();
       }
@@ -3104,7 +3186,7 @@
     }
 
     function exportJSON() {
-      const dataToExport = activeRole === 'gm' ? { players: playerList, data: allPlayersData, objectives: objectivesList, rollHistory: diceRollHistory } : (allPlayersData[activeRole] || gatherFormData());
+      const dataToExport = activeRole === 'gm' ? { players: playerList, data: allPlayersData, objectives: objectivesList, diceHistory: diceRollsHistory } : (allPlayersData[activeRole] || gatherFormData());
       const charName = (activeRole !== 'gm' ? allPlayersData[activeRole]?.inputs?.['char-name']?.trim() : 'Partida_Completa') || 'Personaje';
       const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -3127,7 +3209,7 @@
             playerList = parsed.players;
             allPlayersData = parsed.data;
             if (parsed.objectives) objectivesList = parsed.objectives;
-            if (parsed.rollHistory) diceRollHistory = parsed.rollHistory;
+            if (parsed.diceHistory) diceRollsHistory = parsed.diceHistory;
             saveActivePlayerToCloud(true);
             switchRole('gm');
             showToast('📥 Partida completa importada.');
@@ -3150,13 +3232,13 @@
       setupClassifications();
 
       try {
-        const raw = localStorage.getItem('requiem_smithnas_state_v11');
+        const raw = localStorage.getItem('requiem_smithnas_state_v10');
         if (raw) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed.players)) playerList = parsed.players;
           if (parsed.data) allPlayersData = parsed.data;
           if (parsed.objectives) objectivesList = parsed.objectives;
-          if (parsed.rollHistory) diceRollHistory = parsed.rollHistory;
+          if (parsed.diceHistory) diceRollsHistory = parsed.diceHistory;
         }
       } catch(e) {}
 
