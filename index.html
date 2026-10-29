@@ -256,6 +256,23 @@
       flex: 1;
       overflow-x: auto;
     }
+    .mobile-role-selector-wrap {
+      display: none;
+      flex: 1;
+    }
+    .mobile-role-select {
+      width: 100%;
+      background: #46250f;
+      color: #faebd0;
+      border: 1.5px solid #bf8a3b;
+      font-family: var(--f-title);
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 3px;
+      outline: none;
+      font-weight: bold;
+    }
+
     .role-btn {
       background: #46250f;
       color: #faebd0;
@@ -473,7 +490,7 @@
       letter-spacing: 1.5px;
     }
 
-    /* BANNER DE ALTERACIÓN DEL MUNDO (DESEO) */
+    /* BANNER DE ALTERACIÓN DEL MUNDO (DESEO) CON ESTADO AGOTADO EN GRIS */
     .world-alteration-banner {
       background: linear-gradient(135deg, rgba(67, 24, 92, 0.15) 0%, rgba(147, 51, 234, 0.08) 50%, rgba(180, 83, 9, 0.12) 100%), var(--bg-box);
       border: 2px solid #7e22ce;
@@ -483,7 +500,25 @@
       padding: 8px 10px;
       margin-bottom: 12px;
       box-shadow: inset 0 0 12px rgba(126, 34, 206, 0.15), 0 2px 6px rgba(0,0,0,0.15);
+      transition: all 0.25s ease;
     }
+    .world-alteration-banner.wishes-exhausted {
+      background: #e2e8f0 !important;
+      border-color: #64748b !important;
+      outline-color: #94a3b8 !important;
+      box-shadow: none !important;
+      filter: grayscale(0.85);
+    }
+    .world-alteration-banner.wishes-exhausted .world-alteration-title {
+      color: #475569 !important;
+      border-bottom-color: #94a3b8 !important;
+    }
+    .world-alteration-banner.wishes-exhausted .world-alteration-badge {
+      background: #cbd5e1 !important;
+      color: #475569 !important;
+      border-color: #94a3b8 !important;
+    }
+
     .world-alteration-title {
       font-family: var(--f-title);
       font-size: 13.5px;
@@ -515,7 +550,7 @@
     .world-alteration-controls {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       flex-wrap: wrap;
     }
     .world-alt-check-label {
@@ -538,16 +573,52 @@
       accent-color: #7e22ce;
       cursor: pointer;
     }
+    .world-alt-input-wrap {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+      min-width: 200px;
+    }
     .world-alt-note {
       flex: 1;
-      min-width: 140px;
+      min-width: 120px;
       background: #fff;
       border: 1px solid var(--border-dark);
-      padding: 2px 6px;
+      padding: 3px 6px;
       font-family: var(--f-body);
       font-size: 13px;
       border-radius: 2px;
       outline: none;
+    }
+    .btn-confirm-wish {
+      background: #581c87;
+      color: #f3e8ff;
+      border: 1px solid #c084fc;
+      padding: 3px 9px;
+      font-family: var(--f-title);
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .btn-confirm-wish:hover {
+      background: #7e22ce;
+      color: #fff;
+    }
+
+    .confirmed-wish-card {
+      margin-top: 6px;
+      background: #faf5ff;
+      border: 1px solid #d8b4fe;
+      border-left: 3px solid #7e22ce;
+      border-radius: 3px;
+      padding: 4px 8px;
+      font-size: 12.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
     }
 
     .grid-2col {
@@ -639,33 +710,51 @@
       flex-shrink: 0;
     }
 
-    /* ESTADOS Y EFECTOS ALTERADOS CON TURNOS */
+    /* ESTADOS Y EFECTOS ALTERADOS CON COLOR Y FORMATO LIMPIO */
     .status-effects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 5px;
       margin-top: 8px;
     }
     .status-effect-item {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 3px;
-      font-size: 12.5px;
-      background: rgba(0,0,0,0.04);
-      padding: 3px 4px;
-      border: 1px solid rgba(60,30,10,0.18);
+      font-size: 12px;
+      background: rgba(255,255,255,0.6);
+      padding: 3px 5px;
+      border: 1px solid rgba(60,30,10,0.2);
       border-radius: 3px;
+      min-width: 0;
+    }
+    .status-effect-item label {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
     }
     .status-effect-item input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       accent-color: #731e0b;
       cursor: pointer;
       flex-shrink: 0;
     }
+    .status-inputs-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
     .status-val-input {
       width: 38px !important;
-      font-size: 13px !important;
+      font-size: 12.5px !important;
       font-family: var(--f-body) !important;
       font-weight: bold;
       padding: 1px 2px !important;
@@ -675,7 +764,7 @@
       border-radius: 2px;
     }
     .status-turn-input {
-      width: 30px !important;
+      width: 28px !important;
       font-size: 11px !important;
       font-family: var(--f-body) !important;
       font-weight: bold;
@@ -1491,7 +1580,6 @@
       padding: 2px 0;
     }
 
-    /* FILA DE ÚLTIMO ATAQUE ANCHA */
     .gm-last-attack-full-row {
       grid-column: 1 / -1;
       display: flex;
@@ -1534,44 +1622,60 @@
       margin-left: auto;
     }
     
-    /* GESTOR DE ESTADOS EN 4/4 CON TURNOS Y CONFIRMACIÓN */
+    /* GESTOR DE ESTADOS EN 4/4 CON COLOR TEMÁTICO Y CAMPOS SEPARADOS */
     .gm-state-manager-box {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      background: rgba(255,255,255,0.75);
+      gap: 5px;
+      background: #faf4e3;
       padding: 6px;
       border: 1.5px solid var(--border-gold);
-      border-radius: 3px;
-      margin-top: 5px;
+      border-radius: 4px;
+      margin-top: 6px;
       font-size: 11px;
     }
     .gm-state-inline-item {
       display: flex;
       align-items: center;
-      gap: 3px;
-      white-space: nowrap;
+      justify-content: space-between;
+      gap: 2px;
+      padding: 3px 4px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.15);
+      font-weight: bold;
     }
     .gm-state-inline-item input[type="number"], .gm-state-inline-item input[type="text"] {
-      width: 32px;
+      width: 30px;
       padding: 1px;
       font-size: 11px;
       text-align: center;
       border: 1px solid var(--border-dark);
       background: #fff;
+      border-radius: 2px;
     }
+
+    /* COLORES TEMÁTICOS PARA ESTADOS EN GM */
+    .gm-st-stun { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+    .gm-st-sellado { background: #e0e7ff; border-color: #818cf8; color: #3730a3; }
+    .gm-st-petrificado { background: #f1f5f9; border-color: #94a3b8; color: #334155; }
+    .gm-st-mareado { background: #fef9c3; border-color: #eab308; color: #854d0e; }
+    .gm-st-veneno { background: #f3e8ff; border-color: #c084fc; color: #6b21a8; }
+    .gm-st-sangrado { background: #ffe4e6; border-color: #f43f5e; color: #9f1239; }
+    .gm-st-curacion { background: #dcfce7; border-color: #4ade80; color: #166534; }
+    .gm-st-infectado { background: #ccfbf1; border-color: #2dd4bf; color: #115e59; }
+
     .gm-apply-state-btn {
       grid-column: 1 / -1;
       background: #1e4a28;
       color: #e8f5e9;
-      border: 1px solid #4ade80;
-      padding: 3px 8px;
+      border: 1.5px solid #4ade80;
+      padding: 4px 8px;
       font-family: var(--f-title);
       font-size: 11px;
       font-weight: bold;
       cursor: pointer;
       border-radius: 2px;
-      margin-top: 2px;
+      margin-top: 3px;
       text-align: center;
     }
     .gm-apply-state-btn:hover {
@@ -1630,6 +1734,26 @@
     .gm-badge-infectado { background: #047857; border: 1px solid #6ee7b7; }
     .gm-badge-custom { background: #374151; border: 1px solid #9ca3af; }
 
+    /* DESEO CONFIRMADO EN RESUMEN */
+    .gm-wish-container {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 4px 0;
+      border-bottom: 1px dotted rgba(0,0,0,0.15);
+    }
+    .gm-wish-item {
+      background: #faf5ff;
+      border: 1px solid #d8b4fe;
+      border-left: 3px solid #7e22ce;
+      border-radius: 3px;
+      padding: 3px 6px;
+      font-size: 12px;
+      color: #4a044e;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
     .gm-passives-wrap {
       margin-top: 6px;
       display: flex;
@@ -1675,11 +1799,14 @@
       .grid-2col { grid-template-columns: 1fr; gap: 8px; }
       .archetypes-grid { grid-template-columns: 1fr; gap: 8px; }
       .despiertas-wrapper { grid-template-columns: 1fr; }
-      .status-effects-grid { grid-template-columns: 1fr 1fr; }
       .box-frame { padding: 6px 4px; margin-bottom: 8px; }
       .archetype-box { padding: 6px 4px; }
       .arch-header { justify-content: space-between; gap: 4px; padding-bottom: 4px; }
       .arch-title-text { font-size: 13.5px; }
+
+      /* SELECTOR DESPLEGABLE DE HOJAS EN MÓVIL */
+      .role-bar-tabs { display: none !important; }
+      .mobile-role-selector-wrap { display: block !important; }
 
       .arch-diamonds-wrap { 
         gap: 8px !important; 
@@ -1716,8 +1843,8 @@
       }
 
       .btn-add-item {
-        padding: 3px 6px;
-        font-size: 11px;
+        padding: 2px 6px;
+        font-size: 10.5px;
       }
       .tech-slots-tag-mobile {
         font-size: 11px !important;
@@ -1838,12 +1965,17 @@
       </div>
     </div>
 
-    <!-- BARRA DE ROLES CON MASTER FIJO A LA IZQUIERDA -->
+    <!-- BARRA DE ROLES CON MASTER FIJO Y SELECTOR MÓVIL -->
     <div class="role-bar-wrap">
       <div class="gm-fixed-container">
         <button type="button" id="gm-role-btn" class="role-btn" onclick="switchRole('gm')">👑 Master</button>
       </div>
+      <!-- Pestañas para Escritorio -->
       <div class="role-bar-tabs" id="role-bar-container"></div>
+      <!-- Selector Desplegable para Celular -->
+      <div class="mobile-role-selector-wrap">
+        <select id="mobile-role-select" class="mobile-role-select" onchange="switchRole(this.value)"></select>
+      </div>
       <button type="button" class="btn-role-settings" onclick="openHubModal()" title="Menú de opciones">⚙️</button>
     </div>
 
@@ -1872,30 +2004,39 @@
         </h1>
       </div>
 
-      <!-- BANNER PODEROSO: ALTERACIÓN DEL MUNDO (DESEO) -->
-      <div class="world-alteration-banner">
+      <!-- BANNER DE ALTERACIÓN DEL MUNDO (DESEO) CON COLAPSO Y ESTADO AGOTADO -->
+      <div class="world-alteration-banner" id="world-wish-banner">
         <div class="world-alteration-title">
-          <span>🌌 ALTERACIÓN DEL MUNDO (Deseo de Realidad)</span>
-          <span class="world-alteration-badge">⚠️ 2 Usos de Mesa</span>
+          <span class="collapsible-header" onclick="toggleWorldWishCollapse()">
+            🌌 ALTERACIÓN DEL MUNDO (Deseo de Realidad) <span id="wish-collapse-icon">▼</span>
+          </span>
+          <span class="world-alteration-badge" id="wish-badge-count">⚠️ 2 Usos de Mesa</span>
         </div>
-        <div class="world-alteration-desc">
-          Poder de imposición absoluta para cambiar una regla o condición del mundo. <i>¡No olviden utilizarlo en momentos críticos!</i>
-        </div>
-        <div class="world-alteration-controls">
-          <label class="world-alt-check-label">
-            <input type="checkbox" id="world-wish-1" onchange="syncToFirebaseDebounced()">
-            <span>Deseo I Usado</span>
-          </label>
-          <label class="world-alt-check-label">
-            <input type="checkbox" id="world-wish-2" onchange="syncToFirebaseDebounced()">
-            <span>Deseo II Usado</span>
-          </label>
-          <input type="text" id="world-wish-note" class="world-alt-note" placeholder="Nota: Qué alteraron en el mundo..." oninput="syncToFirebaseDebounced()">
+        <div id="world-wish-content-wrap">
+          <div class="world-alteration-desc">
+            Poder de imposición absoluta para cambiar una regla o condición del mundo. <i>¡No olviden utilizarlo en momentos críticos!</i>
+          </div>
+          <div class="world-alteration-controls">
+            <label class="world-alt-check-label">
+              <input type="checkbox" id="world-wish-1" onchange="handleWishCheckboxChange()">
+              <span>Deseo I Usado</span>
+            </label>
+            <label class="world-alt-check-label">
+              <input type="checkbox" id="world-wish-2" onchange="handleWishCheckboxChange()">
+              <span>Deseo II Usado</span>
+            </label>
+            <div class="world-alt-input-wrap">
+              <input type="text" id="world-wish-note" class="world-alt-note" placeholder="Escribe el cambio en el mundo...">
+              <button type="button" class="btn-confirm-wish" onclick="confirmWishAction()">✓ Imponer Deseo</button>
+            </div>
+          </div>
+          <!-- DESEO CONFIRMADO REGISTRADO EN HOJA -->
+          <div id="confirmed-wish-display" class="confirmed-wish-card" style="display:none;"></div>
         </div>
       </div>
 
       <div class="grid-2col">
-        <!-- DATOS DEL PERSONAJE PLEGABLE CON BOTÓN DE AVATAR EN TÍTULO -->
+        <!-- DATOS DEL PERSONAJE PLEGABLE -->
         <div class="box-frame">
           <div class="box-frame-title">
             <span class="collapsible-header" onclick="toggleCharDataCollapse()">Datos del Personaje <span id="char-data-toggle-icon">▼</span></span>
@@ -1935,7 +2076,7 @@
           </div>
         </div>
         
-        <!-- 1. BARRA COMPARTIDA DE INICIATIVA Y D20 IMPACTO/CRÍTICO -->
+        <!-- BARRA COMPARTIDA DE INICIATIVA Y D20 IMPACTO/CRÍTICO -->
         <div class="shared-roll-bar">
           <div class="roll-subpanel">
             <span style="font-weight:bold; color:#4f250b;">⚡ INICIATIVA:</span>
@@ -1952,10 +2093,10 @@
           </div>
         </div>
 
-        <!-- 2. LISTADO DE ARMAS EN EL MEDIO -->
+        <!-- LISTADO DE ARMAS EN EL MEDIO -->
         <div class="weapons-list-container" id="weapons-container"></div>
 
-        <!-- 3. TABLA D6 AL FONDO -->
+        <!-- TABLA D6 AL FONDO -->
         <div class="d6-table-wrap">
           <table class="d6-table">
             <thead>
@@ -2053,7 +2194,7 @@
             </div>
           </div>
 
-          <!-- ESTADOS NEGATIVOS CON TURNOS (INCLUYE INFECTADO %) -->
+          <!-- ESTADOS NEGATIVOS -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:6px; border-top:1.5px dashed rgba(60,30,10,0.25);">
             <span style="font-family:var(--f-title); font-weight:bold; font-size:12px; color:#4f250b;">ESTADOS Y ALTERACIONES:</span>
             <button type="button" onclick="clearNegativeStates()" style="background:#5a1212; color:#ffe8b5; border:1px solid #bf8a3b; font-family:var(--f-title); font-size:10px; padding:2px 7px; cursor:pointer; border-radius:2px;">🧹 Limpiar Estados</button>
@@ -2061,55 +2202,63 @@
 
           <div class="status-effects-grid">
             <div class="status-effect-item">
-              <input type="checkbox" id="status-stun">
-              <label for="status-stun" style="cursor:pointer; flex:1;">⚡ Stun</label>
-              <input type="number" id="status-stun-turns" class="status-turn-input" placeholder="T" title="Turnos restantes" min="0">
+              <label for="status-stun"><input type="checkbox" id="status-stun"> ⚡ Stun</label>
+              <div class="status-inputs-wrap">
+                <input type="number" id="status-stun-turns" class="status-turn-input" placeholder="T" title="Turnos restantes" min="0">
+              </div>
             </div>
 
             <div class="status-effect-item">
-              <input type="checkbox" id="status-sellado">
-              <label for="status-sellado" style="cursor:pointer; flex:1;">🔒 Sellado</label>
-              <input type="number" id="status-sellado-turns" class="status-turn-input" placeholder="T" title="Turnos restantes" min="0">
+              <label for="status-sellado"><input type="checkbox" id="status-sellado"> 🔒 Sellado</label>
+              <div class="status-inputs-wrap">
+                <input type="number" id="status-sellado-turns" class="status-turn-input" placeholder="T" title="Turnos restantes" min="0">
+              </div>
             </div>
 
             <div class="status-effect-item">
-              <input type="checkbox" id="status-petrificado">
-              <label for="status-petrificado" style="cursor:pointer; flex:1;">🗿 Petrificado</label>
-              <input type="number" id="status-petrificado-turns" class="status-turn-input" placeholder="T" title="Turnos restantes" min="0">
+              <label for="status-petrificado"><input type="checkbox" id="status-petrificado"> 🗿 Petrificado</label>
+              <div class="status-inputs-wrap">
+                <input type="number" id="status-petrificado-turns" class="status-turn-input" placeholder="T" title="Turnos restantes" min="0">
+              </div>
             </div>
 
             <div class="status-effect-item">
-              <input type="checkbox" id="status-mareado">
-              <label for="status-mareado" style="cursor:pointer; flex:1;">💫 Mareado</label>
-              <input type="number" id="status-mareado-turns" class="status-turn-input" placeholder="T" title="Turnos restantes" min="0">
+              <label for="status-mareado"><input type="checkbox" id="status-mareado"> 💫 Mareado</label>
+              <div class="status-inputs-wrap">
+                <input type="number" id="status-mareado-turns" class="status-turn-input" placeholder="T" title="Turnos restantes" min="0">
+              </div>
             </div>
 
             <div class="status-effect-item">
-              <input type="checkbox" id="status-veneno">
-              <label for="status-veneno" style="cursor:pointer;">🧪 Ven:</label>
-              <input type="number" id="status-veneno-val" class="status-val-input" placeholder="Dmg" min="0">
-              <input type="number" id="status-veneno-turns" class="status-turn-input" placeholder="T" title="Turnos" min="0">
+              <label for="status-veneno"><input type="checkbox" id="status-veneno"> 🧪 Ven:</label>
+              <div class="status-inputs-wrap">
+                <input type="number" id="status-veneno-val" class="status-val-input" placeholder="Dmg" min="0">
+                <input type="number" id="status-veneno-turns" class="status-turn-input" placeholder="T" title="Turnos" min="0">
+              </div>
             </div>
 
             <div class="status-effect-item">
-              <input type="checkbox" id="status-sangrado">
-              <label for="status-sangrado" style="cursor:pointer;">🩸 Sang:</label>
-              <input type="number" id="status-sangrado-val" class="status-val-input" placeholder="Dmg" min="0">
-              <input type="number" id="status-sangrado-turns" class="status-turn-input" placeholder="T" title="Turnos" min="0">
+              <label for="status-sangrado"><input type="checkbox" id="status-sangrado"> 🩸 Sang:</label>
+              <div class="status-inputs-wrap">
+                <input type="number" id="status-sangrado-val" class="status-val-input" placeholder="Dmg" min="0">
+                <input type="number" id="status-sangrado-turns" class="status-turn-input" placeholder="T" title="Turnos" min="0">
+              </div>
             </div>
 
             <div class="status-effect-item">
-              <input type="checkbox" id="status-curacion">
-              <label for="status-curacion" style="cursor:pointer;">💖 Cura:</label>
-              <input type="number" id="status-curacion-val" class="status-val-input" placeholder="Reg" min="0">
-              <input type="number" id="status-curacion-turns" class="status-turn-input" placeholder="T" title="Turnos" min="0">
+              <label for="status-curacion"><input type="checkbox" id="status-curacion"> 💖 Cura:</label>
+              <div class="status-inputs-wrap">
+                <input type="number" id="status-curacion-val" class="status-val-input" placeholder="Reg" min="0">
+                <input type="number" id="status-curacion-turns" class="status-turn-input" placeholder="T" title="Turnos" min="0">
+              </div>
             </div>
 
             <div class="status-effect-item">
-              <input type="checkbox" id="status-infectado">
-              <label for="status-infectado" style="cursor:pointer;">🦠 Inf:</label>
-              <input type="number" id="status-infectado-val" class="status-val-input" placeholder="%" min="0" max="100">
-              <input type="number" id="status-infectado-turns" class="status-turn-input" placeholder="T" title="Turnos" min="0">
+              <label for="status-infectado"><input type="checkbox" id="status-infectado"> 🦠 Inf:</label>
+              <div class="status-inputs-wrap">
+                <input type="number" id="status-infectado-val" class="status-val-input" placeholder="%" min="0" max="100">
+                <input type="number" id="status-infectado-turns" class="status-turn-input" placeholder="T" title="Turnos" min="0">
+              </div>
             </div>
             
             <div class="status-custom-row">
@@ -2121,12 +2270,11 @@
           </div>
         </div>
 
-        <!-- ESENCIA Y ASPECTOS (UNIFICADO ARRIBA) -->
+        <!-- ESENCIA Y ASPECTOS (ARRIBA) -->
         <div class="box-frame" style="display:flex; flex-direction:column; justify-content:space-between;">
           <div>
             <div class="box-frame-title">Esencia y Aspectos</div>
 
-            <!-- GRADOS DE ESENCIA 1 AL 15 -->
             <div class="essence-embedded-wrap">
               <div class="essence-embedded-title">✨ ESENCIA (GRADOS 1 AL 15)</div>
               
@@ -2214,7 +2362,7 @@
               <div class="aspect-row"><span>🧰 ASISTENCIA (Pasivo)</span><div class="aspect-diamonds" data-aspect="asistencia"></div></div>
               <div class="aspect-row"><span>🌌 SINGULAR (Pasivo)</span><div class="aspect-diamonds" data-aspect="singular"></div></div>
 
-              <!-- RESUMEN EN VIVO DE ASPECTOS PASIVOS Y ACTIVOS -->
+              <!-- RESUMEN EN VIVO -->
               <div class="essence-mode-summary-box">
                 <b style="color:#731e0b;">📊 Balance de Esencia & Aspectos:</b><br>
                 • <b>Pasivos (Constantes):</b> <span id="summary-aspect-passives">Defensa HP +0% | Ranuras Téc: 4 | Conc +0</span><br>
@@ -2226,9 +2374,8 @@
         </div>
       </div>
 
-      <!-- ARQUETIPOS Y HABILIDADES -->
+      <!-- ARQUETIPOS Y HABILIDADES (CON PUNTOS EN CABECERA) -->
       <div class="box-frame">
-        <!-- PUNTOS DE HABILIDAD EN CABECERA -->
         <div class="skills-points-header-box">
           <div class="skills-points-title">
             <span>✨ PUNTOS DE HABILIDAD:</span>
@@ -2516,7 +2663,8 @@
         essence: 0,
         lastRoll: '-',
         lastInit: '-',
-        lastD20Crit: '-'
+        lastD20Crit: '-',
+        confirmedWish: null
       };
     }
 
@@ -2616,6 +2764,84 @@
       isCharDataCollapsed = !isCharDataCollapsed;
       wrap.style.display = isCharDataCollapsed ? 'none' : 'block';
       if (icon) icon.innerText = isCharDataCollapsed ? '▶' : '▼';
+    }
+
+    /* COLAPSO Y ESTADO DEL BANNER DE DESEOS */
+    let isWorldWishCollapsed = false;
+    function toggleWorldWishCollapse() {
+      const wrap = document.getElementById('world-wish-content-wrap');
+      const icon = document.getElementById('wish-collapse-icon');
+      if (!wrap) return;
+      isWorldWishCollapsed = !isWorldWishCollapsed;
+      wrap.style.display = isWorldWishCollapsed ? 'none' : 'block';
+      if (icon) icon.innerText = isWorldWishCollapsed ? '▶' : '▼';
+    }
+
+    function handleWishCheckboxChange() {
+      const w1 = document.getElementById('world-wish-1')?.checked || false;
+      const w2 = document.getElementById('world-wish-2')?.checked || false;
+      const banner = document.getElementById('world-wish-banner');
+      const badge = document.getElementById('wish-badge-count');
+
+      const usedCount = (w1 ? 1 : 0) + (w2 ? 1 : 0);
+      if (badge) {
+        badge.innerText = `${usedCount}/2 Usados`;
+      }
+
+      if (w1 && w2) {
+        banner.classList.add('wishes-exhausted');
+      } else {
+        banner.classList.remove('wishes-exhausted');
+      }
+
+      syncToFirebaseDebounced();
+    }
+
+    function confirmWishAction() {
+      const noteInput = document.getElementById('world-wish-note');
+      const text = (noteInput?.value || '').trim();
+      if (!text) {
+        showToast('⚠️ Escribe el cambio que deseas imponer en el mundo.');
+        return;
+      }
+
+      const pdata = allPlayersData[activeRole];
+      if (!pdata) return;
+
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      pdata.confirmedWish = { text: text, time: timeStr };
+      noteInput.value = '';
+
+      renderConfirmedWishDisplay();
+      syncToFirebaseDebounced();
+      showToast('🌌 ¡Deseo de Realidad impuesto en el mundo!');
+    }
+
+    function clearConfirmedWish() {
+      const pdata = allPlayersData[activeRole];
+      if (!pdata) return;
+      pdata.confirmedWish = null;
+      renderConfirmedWishDisplay();
+      syncToFirebaseDebounced();
+      showToast('🗑️ Deseo impuesto retirado.');
+    }
+
+    function renderConfirmedWishDisplay() {
+      const card = document.getElementById('confirmed-wish-display');
+      if (!card) return;
+      const pdata = allPlayersData[activeRole];
+      const wish = pdata?.confirmedWish;
+
+      if (wish && wish.text) {
+        card.style.display = 'flex';
+        card.innerHTML = `
+          <div><b style="color:#581c87;">🌌 Deseo Activo:</b> "${escapeHtml(wish.text)}" <small style="color:#777;">(${wish.time})</small></div>
+          <button type="button" onclick="clearConfirmedWish()" style="background:none; border:none; color:#b91c1c; font-weight:bold; cursor:pointer; font-size:13px;" title="Borrar deseo activo">✖</button>
+        `;
+      } else {
+        card.style.display = 'none';
+        card.innerHTML = '';
+      }
     }
 
     function restoreFullHp() {
@@ -2852,10 +3078,14 @@
 
         pdata.lastRoll = '-';
         pdata.lastD20Crit = '-';
+        pdata.lastInit = '-';
 
         pInputs['stat-hp-curr'] = currHp;
         pInputs['stat-smath-curr'] = currSmath;
       });
+
+      const initTag = document.getElementById('stat-init-total');
+      if (initTag) initTag.innerText = '-';
 
       saveActivePlayerToCloud(true);
       if (activeRole === 'gm') renderGMDashboard();
@@ -3388,10 +3618,14 @@
       if (allPlayersData[activeRole]) {
         allPlayersData[activeRole].lastRoll = '-';
         allPlayersData[activeRole].lastD20Crit = '-';
+        allPlayersData[activeRole].lastInit = '-';
       }
 
+      const initTag = document.getElementById('stat-init-total');
+      if (initTag) initTag.innerText = '-';
+
       syncToFirebaseDebounced();
-      showToast('🧹 Acciones y dados del turno limpiados.');
+      showToast('🧹 Acciones, dados e iniciativa del turno limpiados.');
     }
 
     function addPassiveRow(text = '') {
@@ -3406,7 +3640,6 @@
       item.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
     }
 
-    // USAR TÉCNICA Y GASTAR SMATH
     function useTechnique(btn) {
       const row = btn.closest('tr');
       const costInput = row.querySelector('.tech-cost-input');
@@ -3486,7 +3719,7 @@
       });
 
       try {
-        localStorage.setItem('requiem_smithnas_state_v13', JSON.stringify({
+        localStorage.setItem('requiem_smithnas_state_v14', JSON.stringify({
           players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList, pinnedMessage: pinnedMessage
         }));
       } catch(e) {}
@@ -3494,7 +3727,9 @@
 
     function renderRoleBar() {
       const container = document.getElementById('role-bar-container');
+      const mobileSelect = document.getElementById('mobile-role-select');
       container.innerHTML = '';
+      if (mobileSelect) mobileSelect.innerHTML = '';
 
       const gmBtn = document.getElementById('gm-role-btn');
       if (gmBtn) {
@@ -3502,18 +3737,39 @@
         else gmBtn.classList.remove('active');
       }
 
+      if (mobileSelect) {
+        const gmOpt = document.createElement('option');
+        gmOpt.value = 'gm';
+        gmOpt.innerText = '👑 Master';
+        mobileSelect.appendChild(gmOpt);
+      }
+
       playerList.forEach((pid, index) => {
         const pInputs = allPlayersData[pid]?.inputs || {};
         const icon = pInputs['char-icon'] || '⚔️';
         const charName = pInputs['char-name']?.trim();
         const label = charName ? `${icon} ${charName}` : `${icon} Jugador ${index + 1}`;
+        
+        // Pestaña Desktop
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
         btn.innerText = label;
         btn.onclick = () => switchRole(pid);
         container.appendChild(btn);
+
+        // Opción Mobile Selector
+        if (mobileSelect) {
+          const opt = document.createElement('option');
+          opt.value = pid;
+          opt.innerText = label;
+          mobileSelect.appendChild(opt);
+        }
       });
+
+      if (mobileSelect) {
+        mobileSelect.value = activeRole;
+      }
 
       const deleteBtn = document.getElementById('btn-delete-player');
       if (activeRole === 'gm' || playerList.length <= 1) deleteBtn.style.display = 'none';
@@ -3554,7 +3810,7 @@
       }
     }
 
-    // PANEL DEL MASTER CON ESTADOS EN 4/4 Y DADOS CONDICIONALES
+    // PANEL DEL MASTER
     function renderGMDashboard() {
       const cardsGrid = document.getElementById('gm-cards-container');
       cardsGrid.innerHTML = '';
@@ -3575,7 +3831,6 @@
         const essenceTier = getEssenceTierName(essenceLvl);
         const essenceDisplay = essenceLvl > 0 ? `${essenceLvl} (${essenceTier})` : '-';
 
-        // Deseos usados
         const wish1 = pChecks['world-wish-1'] ? 1 : 0;
         const wish2 = pChecks['world-wish-2'] ? 1 : 0;
         const totalWishesUsed = wish1 + wish2;
@@ -3623,6 +3878,17 @@
 
         let statusBadgesHtml = statusBadges.length > 0 ? statusBadges.join('') : '<span style="color:#777; font-size:12px; font-style:italic;">Normal</span>';
 
+        // Deseo activo en resumen
+        let confirmedWishHtml = '';
+        if (pdata.confirmedWish && pdata.confirmedWish.text) {
+          confirmedWishHtml = `
+            <div class="gm-wish-container">
+              <span style="font-weight:bold; font-size:11.5px; color:#581c87;">🌌 Deseo Impuesto Activo:</span>
+              <div class="gm-wish-item">"${escapeHtml(pdata.confirmedWish.text)}" <small>(${pdata.confirmedWish.time})</small></div>
+            </div>
+          `;
+        }
+
         let passivesHtml = '';
         const playerPassives = pdata.passives || [];
         if (playerPassives.length > 0) {
@@ -3640,8 +3906,7 @@
           `;
         }
 
-        // Ataque y Crítico solo si se tiraron este turno
-        const attackDisplay = (roll && roll !== '-') ? `<span style="color:var(--txt-red); font-weight:bold;">${roll}</span>` : `<span style="color:#777; font-style:italic;">Sin ataque en este turno</span>`;
+        const attackDisplay = (roll && roll !== '-') ? `<span style="color:var(--txt-red); font-weight:bold;">${roll}</span>` : `<span style="color:#777; font-style:italic;">Sin ataque</span>`;
         const critDisplay = (crit && crit !== '-') ? `<b style="color:#854d0e;">${crit}</b>` : `<span style="color:#777; font-style:italic;">-</span>`;
 
         const isBoxOpen = (openGmStateBoxId === pid);
@@ -3664,7 +3929,6 @@
             <div class="gm-stat-line"><span>🌌 Deseos:</span> <b>${totalWishesUsed}/2 Usados</b></div>
             <div class="gm-stat-line"><span>🔥 Modo:</span> <b style="color:#731e0b;">${pdata.essenceMode === 'none' ? 'Inactivo' : pdata.essenceMode.toUpperCase()}</b></div>
             
-            <!-- FILA ANCHA PARA ÚLTIMO ATAQUE -->
             <div class="gm-last-attack-full-row">
               <span style="font-weight:bold;">🎲 Último Ataque:</span>
               ${attackDisplay}
@@ -3680,45 +3944,45 @@
             <button type="button" class="gm-state-manager-toggle" onclick="toggleGmStateManager('${pid}')">⚡ Estados</button>
           </div>
 
-          <!-- GESTOR DE ESTADOS 4/4 CON BOTÓN OK -->
+          <!-- GESTOR DE ESTADOS 4/4 CON COLOR TEMÁTICO Y BOTÓN OK -->
           <div class="gm-state-manager-box" id="gm-state-box-${pid}" style="display:${isBoxOpen ? 'grid' : 'none'};" onclick="event.stopPropagation();">
-            <div class="gm-state-inline-item">
-              <input type="checkbox" id="${prefix}stun" ${pChecks['status-stun'] ? 'checked' : ''}> Stun
+            <div class="gm-state-inline-item gm-st-stun">
+              <label><input type="checkbox" id="${prefix}stun" ${pChecks['status-stun'] ? 'checked' : ''}> Stun</label>
               <input type="number" id="${prefix}stun-t" value="${pInputs['status-stun-turns']||''}" placeholder="T" title="Turnos">
             </div>
-            <div class="gm-state-inline-item">
-              <input type="checkbox" id="${prefix}sellado" ${pChecks['status-sellado'] ? 'checked' : ''}> Sell
+            <div class="gm-state-inline-item gm-st-sellado">
+              <label><input type="checkbox" id="${prefix}sellado" ${pChecks['status-sellado'] ? 'checked' : ''}> Sell</label>
               <input type="number" id="${prefix}sellado-t" value="${pInputs['status-sellado-turns']||''}" placeholder="T" title="Turnos">
             </div>
-            <div class="gm-state-inline-item">
-              <input type="checkbox" id="${prefix}petrificado" ${pChecks['status-petrificado'] ? 'checked' : ''}> Petr
+            <div class="gm-state-inline-item gm-st-petrificado">
+              <label><input type="checkbox" id="${prefix}petrificado" ${pChecks['status-petrificado'] ? 'checked' : ''}> Petr</label>
               <input type="number" id="${prefix}petrificado-t" value="${pInputs['status-petrificado-turns']||''}" placeholder="T" title="Turnos">
             </div>
-            <div class="gm-state-inline-item">
-              <input type="checkbox" id="${prefix}mareado" ${pChecks['status-mareado'] ? 'checked' : ''}> Mar
+            <div class="gm-state-inline-item gm-st-mareado">
+              <label><input type="checkbox" id="${prefix}mareado" ${pChecks['status-mareado'] ? 'checked' : ''}> Mar</label>
               <input type="number" id="${prefix}mareado-t" value="${pInputs['status-mareado-turns']||''}" placeholder="T" title="Turnos">
             </div>
             
-            <div class="gm-state-inline-item">
-              <input type="checkbox" id="${prefix}veneno" ${pChecks['status-veneno'] ? 'checked' : ''}> Ven:
+            <div class="gm-state-inline-item gm-st-veneno">
+              <label><input type="checkbox" id="${prefix}veneno" ${pChecks['status-veneno'] ? 'checked' : ''}> Ven:</label>
               <input type="number" id="${prefix}veneno-val" value="${pInputs['status-veneno-val'] || ''}" placeholder="D" title="Daño">
               <input type="number" id="${prefix}veneno-t" value="${pInputs['status-veneno-turns']||''}" placeholder="T" title="Turnos">
             </div>
 
-            <div class="gm-state-inline-item">
-              <input type="checkbox" id="${prefix}sangrado" ${pChecks['status-sangrado'] ? 'checked' : ''}> Sang:
+            <div class="gm-state-inline-item gm-st-sangrado">
+              <label><input type="checkbox" id="${prefix}sangrado" ${pChecks['status-sangrado'] ? 'checked' : ''}> Sang:</label>
               <input type="number" id="${prefix}sangrado-val" value="${pInputs['status-sangrado-val'] || ''}" placeholder="D" title="Daño">
               <input type="number" id="${prefix}sangrado-t" value="${pInputs['status-sangrado-turns']||''}" placeholder="T" title="Turnos">
             </div>
 
-            <div class="gm-state-inline-item">
-              <input type="checkbox" id="${prefix}curacion" ${pChecks['status-curacion'] ? 'checked' : ''}> Cur:
+            <div class="gm-state-inline-item gm-st-curacion">
+              <label><input type="checkbox" id="${prefix}curacion" ${pChecks['status-curacion'] ? 'checked' : ''}> Cur:</label>
               <input type="number" id="${prefix}curacion-val" value="${pInputs['status-curacion-val'] || ''}" placeholder="R" title="Regen">
               <input type="number" id="${prefix}curacion-t" value="${pInputs['status-curacion-turns']||''}" placeholder="T" title="Turnos">
             </div>
 
-            <div class="gm-state-inline-item">
-              <input type="checkbox" id="${prefix}infectado" ${pChecks['status-infectado'] ? 'checked' : ''}> Inf:
+            <div class="gm-state-inline-item gm-st-infectado">
+              <label><input type="checkbox" id="${prefix}infectado" ${pChecks['status-infectado'] ? 'checked' : ''}> Inf:</label>
               <input type="number" id="${prefix}infectado-val" value="${pInputs['status-infectado-val'] || ''}" placeholder="%" title="Porcentaje">
               <input type="number" id="${prefix}infectado-t" value="${pInputs['status-infectado-turns']||''}" placeholder="T" title="Turnos">
             </div>
@@ -3735,6 +3999,9 @@
             <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Acciones de Turno:</span>
             <div class="gm-actions-badges">${actionsBadgesHtml}</div>
           </div>
+
+          <!-- DESEO CONFIRMADO ABAJO DE ACCIONES DE TURNO -->
+          ${confirmedWishHtml}
 
           ${passivesHtml}
         `;
@@ -3788,7 +4055,6 @@
       closeModal();
     }
 
-    // ARQUETIPOS
     function setupArchetypeDiamonds() {
       ARCHETYPES.forEach(arch => {
         const wrap = document.querySelector(`.arch-diamonds-wrap[data-arch="${arch}"]`);
@@ -3824,7 +4090,6 @@
       }
     }
 
-    // ASPECTO DE LA ESENCIA
     function setupAspectDiamonds() {
       ASPECTS.forEach(asp => {
         const wrap = document.querySelector(`.aspect-diamonds[data-aspect="${asp}"]`);
@@ -3925,7 +4190,6 @@
       }
     }
 
-    // TÉCNICAS CON SMATH Y GASTO AUTOMÁTICO
     function addTechniqueRow(name = '', cost = 2, lvl1 = false, lvl2 = false, lvl3 = false) {
       const maxSlots = parseInt(document.getElementById('tech-slots-max')?.innerText) || 4;
       const currentCount = document.querySelectorAll('#techniques-body tr').length;
@@ -4015,7 +4279,8 @@
         essence: activeEssence,
         lastRoll: allPlayersData[activeRole]?.lastRoll || '-',
         lastInit: allPlayersData[activeRole]?.lastInit || '-',
-        lastD20Crit: allPlayersData[activeRole]?.lastD20Crit || '-'
+        lastD20Crit: allPlayersData[activeRole]?.lastD20Crit || '-',
+        confirmedWish: allPlayersData[activeRole]?.confirmedWish || null
       };
 
       document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
@@ -4092,6 +4357,10 @@
         const el = document.getElementById(`essence-mode-${m}`);
         if (el) el.checked = (currentEssenceMode === m);
       });
+
+      // Estado del banner de deseos
+      handleWishCheckboxChange();
+      renderConfirmedWishDisplay();
 
       ARCHETYPES.forEach(arch => {
         archLevelState[arch] = data.archLevels?.[arch] || 0;
@@ -4198,7 +4467,7 @@
       setupAvatarGrid();
 
       try {
-        const raw = localStorage.getItem('requiem_smithnas_state_v13');
+        const raw = localStorage.getItem('requiem_smithnas_state_v14');
         if (raw) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed.players)) playerList = parsed.players;
