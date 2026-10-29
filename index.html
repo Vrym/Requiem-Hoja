@@ -211,10 +211,9 @@
       flex-shrink: 0;
     }
 
-    /* BARRA DE ROLES CON ENGRANAJE FIJO */
+    /* BARRA DE ROLES CON MAESTRO SEPARADO Y ENGRANAJE FIJO */
     .role-bar-wrap {
       display: flex;
-      justify-content: space-between;
       align-items: center;
       background: #251308;
       padding: 6px 8px;
@@ -222,6 +221,17 @@
       margin-bottom: 12px;
       box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
       gap: 8px;
+      flex-wrap: wrap;
+    }
+    .role-bar-gm-box {
+      flex-shrink: 0;
+    }
+    .role-bar-v-sep {
+      width: 2px;
+      height: 24px;
+      background: var(--border-gold);
+      opacity: 0.55;
+      flex-shrink: 0;
     }
     .role-bar-tabs {
       display: flex;
@@ -273,7 +283,7 @@
     }
 
     /* MODALES */
-    #hub-modal-backdrop, #history-modal-backdrop, #modal-backdrop {
+    #hub-modal-backdrop, #history-modal-backdrop, #roll-history-modal-backdrop, #modal-backdrop {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0,0,0,0.75);
@@ -289,7 +299,7 @@
       outline: 2px solid var(--border-gold);
       outline-offset: -3px;
       padding: 18px;
-      max-width: 440px;
+      max-width: 460px;
       width: 100%;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.8);
@@ -384,7 +394,7 @@
       cursor: pointer;
     }
 
-    /* TÍTULO LIMPIO DE CORRIDO */
+    /* TÍTULO ESTILIZADO CON CONTRASTE */
     .main-title-wrap {
       text-align: center;
       margin-bottom: 12px;
@@ -392,13 +402,31 @@
       border-bottom: 2px dashed var(--border-gold);
     }
     .main-title-continuous {
-      font-family: var(--f-title);
-      font-size: clamp(18px, 4vw, 34px);
-      font-weight: 900;
-      color: #241105;
-      letter-spacing: 2px;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 7px;
       white-space: nowrap;
-      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+      margin: 0;
+    }
+    .title-word-main {
+      font-family: var(--f-title);
+      font-size: clamp(20px, 4.4vw, 36px);
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(180deg, #8b1313 0%, #360b02 80%, #1f0701 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 1px 2px rgba(212, 175, 55, 0.35);
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+    }
+    .title-word-mid {
+      font-family: var(--f-title);
+      font-size: clamp(12px, 2.3vw, 17px);
+      font-weight: 700;
+      color: #7a501e;
+      letter-spacing: 1.5px;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.45);
     }
 
     .grid-2col {
@@ -643,6 +671,7 @@
       cursor: pointer;
       border-radius: 2px;
       text-align: center;
+      transition: all 0.15s;
     }
     .weapon-badge {
       display: inline-flex;
@@ -1164,7 +1193,7 @@
     .mobile-th { display: none; }
     .desktop-th { display: inline; }
 
-    /* GM DASHBOARD ESCRITORIO (2 COLUMNAS AMPLIAS) */
+    /* GM DASHBOARD (ESCRITORIO: 2 COLUMNAS AMPLIAS) */
     #gm-dashboard-wrap {
       display: none;
       margin-bottom: 14px;
@@ -1209,6 +1238,17 @@
       align-items: center;
       font-size: 13.5px;
       padding: 2px 0;
+    }
+
+    /* MÓDULO DE MODIFICAR VIDA DESDE EL GM */
+    .gm-hp-mod-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px dotted rgba(0,0,0,0.15);
+      gap: 4px;
+      flex-wrap: wrap;
     }
 
     .gm-actions-container {
@@ -1281,7 +1321,7 @@
     }
 
     .history-list {
-      max-height: 300px;
+      max-height: 320px;
       overflow-y: auto;
       text-align: left;
       margin: 10px 0;
@@ -1312,7 +1352,6 @@
       .arch-header { justify-content: space-between; gap: 4px; padding-bottom: 4px; }
       .arch-title-text { font-size: 13.5px; }
 
-      /* MÁS ESPACIO ENTRE ROMBOS DE ARQUETIPO EXCLUSIVO EN CELULAR */
       .arch-diamonds-wrap { 
         gap: 9px !important; 
         padding: 2px 4px; 
@@ -1335,7 +1374,6 @@
       .essence-tier-card { padding: 6px 3px 5px 3px; gap: 4px; }
       .essence-tier-label { font-size: 9px; }
 
-      /* GM DASHBOARD EN 1 COLUMNA EN CELULAR */
       .gm-cards-grid {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -1388,6 +1426,18 @@
     </div>
   </div>
 
+  <!-- MODAL DE HISTORIAL DE TIRADAS D6 -->
+  <div id="roll-history-modal-backdrop">
+    <div class="hub-modal-box" style="max-width:520px;">
+      <div class="modal-title" style="color:#731e0b;">🎲 HISTORIAL DE TIRADAS</div>
+      <div class="history-list" id="dice-roll-history-list"></div>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button type="button" class="btn-modal-danger" id="btn-clear-rolls" onclick="clearRollHistory()" style="flex:1;">Limpiar Historial</button>
+        <button type="button" class="btn-modal-cancel" onclick="closeRollHistoryModal()" style="flex:1;">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast-msg"></div>
 
   <div class="sheet-container">
@@ -1418,8 +1468,10 @@
       </div>
     </div>
 
-    <!-- BARRA DE ROLES CON ENGRANAJE FIJO A LA DERECHA -->
+    <!-- BARRA DE ROLES CON MAESTRO FIJO A LA IZQUIERDA Y ENGRANAJE A LA DERECHA -->
     <div class="role-bar-wrap">
+      <div class="role-bar-gm-box" id="role-bar-gm"></div>
+      <div class="role-bar-v-sep"></div>
       <div class="role-bar-tabs" id="role-bar-container"></div>
       <button type="button" class="btn-role-settings" onclick="openHubModal()" title="Menú de opciones">⚙️</button>
     </div>
@@ -1434,9 +1486,13 @@
 
     <!-- FICHA INTERACTIVA COMPLETA -->
     <div id="player-sheet-wrap">
-      <!-- TÍTULO LIMPIO DE CORRIDO -->
+      <!-- TÍTULO ESTILIZADO -->
       <div class="main-title-wrap">
-        <h1 class="main-title-continuous">RÉQUIEM DE LOS SMITHNAS</h1>
+        <h1 class="main-title-continuous">
+          <span class="title-word-main">RÉQUIEM</span>
+          <span class="title-word-mid">DE LOS</span>
+          <span class="title-word-main">SMITHNAS</span>
+        </h1>
       </div>
 
       <div class="grid-2col">
@@ -1464,11 +1520,14 @@
         </div>
       </div>
 
-      <!-- ARMAS Y TABLA DE DAÑO (D6) -->
+      <!-- ARMAS Y TABLA DE DAÑO (D6) CON HISTORIAL -->
       <div class="box-frame">
         <div class="box-frame-title" style="display:flex; justify-content:space-between; align-items:center;">
           <span>Armas & Tabla de Daño (D6)</span>
-          <button type="button" class="btn-add-item" onclick="addWeaponRow()" style="margin:0; padding:2px 8px; font-size:11px;">+ Agregar Arma</button>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn-add-item" onclick="openRollHistoryModal()" style="margin:0; padding:2px 8px; font-size:11px; background:#2b1608;" title="Ver registro cronológico de tiradas">📜 Tiradas</button>
+            <button type="button" class="btn-add-item" onclick="addWeaponRow()" style="margin:0; padding:2px 8px; font-size:11px;">+ Agregar Arma</button>
+          </div>
         </div>
         
         <div class="d6-table-wrap">
@@ -1537,7 +1596,7 @@
               <input type="number" id="stat-hp-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+</span>
               <span id="stat-hp-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">=</span>
+              <span class="calc-tag">= Max:</span>
               <span id="stat-hp-max-total" class="calc-total">0</span>
             </div>
           </div>
@@ -1552,7 +1611,7 @@
               <input type="number" id="stat-smath-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+</span>
               <span id="stat-smath-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">=</span>
+              <span class="calc-tag">= Max:</span>
               <span id="stat-smath-max-total" class="calc-total">0</span>
             </div>
           </div>
@@ -1897,7 +1956,7 @@
           'status-curacion': false, 'status-custom-check': false
         },
         weapons: [
-          { id: 'w_' + Date.now(), name: 'Espada Vampira', baseDmg: 20, lastRoll: '-', lastDmg: '-' }
+          { id: 'w_' + Date.now(), name: 'Arma Principal', baseDmg: 20, lastRoll: '-', lastDmg: '-' }
         ],
         archLevels: { impulsor: 0, controlador: 0, perpetuador: 0, proyector: 0, evocador: 0, conmutador: 0 },
         techniques: [
@@ -1922,10 +1981,15 @@
       p4: createBlankCharacterData('')
     };
     let objectivesList = [];
+    let diceRollHistory = [];
 
     let activeRole = 'p1';
     let isRemoteUpdate = false;
     let modalActionType = '';
+
+    // COOLDOWN TIRADA D6 (3 SEGUNDOS)
+    let rollCooldownTimer = null;
+    let rollCooldownSeconds = 0;
 
     const archLevelState = {
       impulsor: 0, controlador: 0, perpetuador: 0, proyector: 0, evocador: 0, conmutador: 0
@@ -1954,11 +2018,18 @@
 
     function openHubModal() { document.getElementById('hub-modal-backdrop').style.display = 'flex'; }
     function closeHubModal() { document.getElementById('hub-modal-backdrop').style.display = 'none'; }
+    
     function openHistoryModal() {
       renderObjectivesHistory();
       document.getElementById('history-modal-backdrop').style.display = 'flex';
     }
     function closeHistoryModal() { document.getElementById('history-modal-backdrop').style.display = 'none'; }
+
+    function openRollHistoryModal() {
+      renderRollHistory();
+      document.getElementById('roll-history-modal-backdrop').style.display = 'flex';
+    }
+    function closeRollHistoryModal() { document.getElementById('roll-history-modal-backdrop').style.display = 'none'; }
 
     function restoreFullHp() {
       const maxTot = document.getElementById('stat-hp-max-total')?.innerText || '0';
@@ -1999,6 +2070,100 @@
       showToast('🧹 Estados y valores eliminados.');
     }
 
+    // ACCIONES DEL GM: MODIFICAR VIDA (DAÑAR / CURAR)
+    function gmModifyHp(pid, isDamage) {
+      const pdata = allPlayersData[pid];
+      if (!pdata) return;
+
+      const input = document.getElementById(`gm-hp-val-${pid}`);
+      const amount = parseInt(input?.value) || 0;
+      if (amount <= 0) {
+        showToast('⚠️ Ingresa una cantidad válida mayor a 0.');
+        return;
+      }
+
+      let bHp = 0;
+      ARCHETYPES.forEach(arch => {
+        bHp += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].hp;
+      });
+      const maxHp = (parseFloat(pdata.inputs?.['stat-hp-max-base']) || 0) + bHp;
+      let curHp = parseInt(pdata.inputs?.['stat-hp-curr']) || 0;
+
+      if (isDamage) {
+        curHp = Math.max(0, curHp - amount);
+        showToast(`💥 Se aplicaron ${amount} de daño a ${pdata.inputs['char-name'] || 'personaje'}.`);
+      } else {
+        curHp = Math.min(maxHp > 0 ? maxHp : 9999, curHp + amount);
+        showToast(`💚 Se curaron ${amount} puntos de vida.`);
+      }
+
+      pdata.inputs['stat-hp-curr'] = curHp;
+      if (input) input.value = '';
+
+      if (activeRole === pid) {
+        const sheetHpInput = document.getElementById('stat-hp-curr');
+        if (sheetHpInput) sheetHpInput.value = curHp;
+      }
+
+      saveActivePlayerToCloud(true);
+    }
+
+    // ACCIONES DEL GM: ASIGNAR ESTADOS DIRECTAMENTE
+    function gmApplyStatus(pid) {
+      const pdata = allPlayersData[pid];
+      if (!pdata) return;
+
+      const select = document.getElementById(`gm-add-status-select-${pid}`);
+      const statusKey = select?.value;
+      if (!statusKey) {
+        showToast('⚠️ Elige un estado para asignar.');
+        return;
+      }
+
+      if (!pdata.checkboxes) pdata.checkboxes = {};
+      pdata.checkboxes[statusKey] = true;
+
+      if (statusKey === 'status-veneno' && !pdata.inputs['status-veneno-val']) pdata.inputs['status-veneno-val'] = 10;
+      if (statusKey === 'status-sangrado' && !pdata.inputs['status-sangrado-val']) pdata.inputs['status-sangrado-val'] = 10;
+      if (statusKey === 'status-curacion' && !pdata.inputs['status-curacion-val']) pdata.inputs['status-curacion-val'] = 10;
+
+      if (activeRole === pid) {
+        applyDataToForm(pdata);
+      }
+
+      if (select) select.value = '';
+      saveActivePlayerToCloud(true);
+      showToast('🏷️ Estado asignado.');
+    }
+
+    function gmClearStatus(pid) {
+      const pdata = allPlayersData[pid];
+      if (!pdata) return;
+
+      const stateChecks = [
+        'status-stun', 'status-sellado', 'status-petrificado', 'status-mareado',
+        'status-veneno', 'status-sangrado', 'status-curacion', 'status-custom-check'
+      ];
+      stateChecks.forEach(k => {
+        if (pdata.checkboxes) pdata.checkboxes[k] = false;
+      });
+
+      const stateVals = [
+        'status-veneno-val', 'status-sangrado-val', 'status-curacion-val',
+        'status-custom-name', 'status-custom-val'
+      ];
+      stateVals.forEach(k => {
+        if (pdata.inputs) pdata.inputs[k] = '';
+      });
+
+      if (activeRole === pid) {
+        applyDataToForm(pdata);
+      }
+
+      saveActivePlayerToCloud(true);
+      showToast('🧹 Estados del jugador eliminados.');
+    }
+
     function updateSenderSelect() {
       const select = document.getElementById('table-msg-sender');
       if (!select) return;
@@ -2007,7 +2172,7 @@
 
       const gmOpt = document.createElement('option');
       gmOpt.value = '👑 Maestro (GM)';
-      gmOpt.innerText = '👑 Maestro (GM)';
+      gmOpt.innerText = '👑 Maestro';
       select.appendChild(gmOpt);
 
       playerList.forEach((pid, index) => {
@@ -2099,6 +2264,67 @@
       });
     }
 
+    // GESTIÓN DE TIRADAS Y COOLDOWN DE 3 SEGUNDOS
+    function startRollCooldown(seconds) {
+      rollCooldownSeconds = seconds;
+      updateRollButtonsText();
+      clearInterval(rollCooldownTimer);
+      rollCooldownTimer = setInterval(() => {
+        rollCooldownSeconds--;
+        if (rollCooldownSeconds <= 0) {
+          clearInterval(rollCooldownTimer);
+          rollCooldownSeconds = 0;
+        }
+        updateRollButtonsText();
+      }, 1000);
+    }
+
+    function updateRollButtonsText() {
+      const btns = document.querySelectorAll('.btn-roll-weapon');
+      btns.forEach(btn => {
+        if (rollCooldownSeconds > 0) {
+          btn.innerText = `⏳ Espera (${rollCooldownSeconds}s)`;
+          btn.disabled = true;
+          btn.style.opacity = '0.6';
+          btn.style.cursor = 'not-allowed';
+        } else {
+          btn.innerText = '🎲 Tirar D6';
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.cursor = 'pointer';
+        }
+      });
+    }
+
+    function renderRollHistory() {
+      const container = document.getElementById('dice-roll-history-list');
+      container.innerHTML = '';
+      if (!diceRollHistory || diceRollHistory.length === 0) {
+        container.innerHTML = '<div style="color:#777; font-style:italic; padding:10px; text-align:center;">No hay tiradas registradas aún.</div>';
+        return;
+      }
+      diceRollHistory.forEach(r => {
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `
+          <div>
+            <b style="color:#731e0b;">[${r.time}]</b> 
+            <b>${escapeHtml(r.charName)}</b> atacó con <i>${escapeHtml(r.weapon)}</i>: 
+            Dado <b style="color:#d97706;">${r.roll}</b> ➔ 
+            <b style="color:var(--txt-red); font-size:14px;">${r.damage} daño</b>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function clearRollHistory() {
+      diceRollHistory = [];
+      saveActivePlayerToCloud(true);
+      renderRollHistory();
+      showToast('🗑️ Historial de tiradas limpiado.');
+    }
+
     function addWeaponRow(id = null, name = 'Arma', baseDmg = 15, lastRoll = '-', lastDmg = '-') {
       const container = document.getElementById('weapons-container');
       const wId = id || ('w_' + Date.now());
@@ -2126,6 +2352,7 @@
       `;
       container.appendChild(card);
       recalcAllAutoStats();
+      updateRollButtonsText();
     }
 
     function deleteWeaponRow(wId) {
@@ -2144,6 +2371,11 @@
     }
 
     function rollWeaponD6(wId) {
+      if (rollCooldownSeconds > 0) {
+        showToast(`⏳ Espera ${rollCooldownSeconds}s antes de volver a tirar.`);
+        return;
+      }
+
       const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
       if (!card) return;
 
@@ -2157,10 +2389,24 @@
 
       updateReferenceD6Table(totalDmg, roll);
 
+      const charName = allPlayersData[activeRole]?.inputs?.['char-name']?.trim() || 'Personaje';
+      const rollRecord = {
+        id: 'r_' + Date.now(),
+        charName: charName,
+        weapon: wName,
+        roll: roll,
+        damage: finalDmg,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      };
+      diceRollHistory.unshift(rollRecord);
+      if (diceRollHistory.length > 50) diceRollHistory.pop();
+
       if (activeRole !== 'gm' && allPlayersData[activeRole]) {
         allPlayersData[activeRole].lastRoll = `${wName}: Dado ${roll} (${finalDmg} daño)`;
         saveActivePlayerToCloud(true);
       }
+
+      startRollCooldown(3);
     }
 
     function updateReferenceD6Table(baseVal, activeRoll = null) {
@@ -2282,6 +2528,7 @@
       if (Array.isArray(cloudData.playerList) && cloudData.playerList.length > 0) playerList = cloudData.playerList;
       if (cloudData.characters && typeof cloudData.characters === 'object') allPlayersData = cloudData.characters;
       if (Array.isArray(cloudData.objectives)) objectivesList = cloudData.objectives;
+      if (Array.isArray(cloudData.rollHistory)) diceRollHistory = cloudData.rollHistory;
 
       updateObjectiveBanner();
       renderRoleBar();
@@ -2309,7 +2556,8 @@
       gameRef.set({
         playerList: playerList,
         characters: allPlayersData,
-        objectives: objectivesList
+        objectives: objectivesList,
+        rollHistory: diceRollHistory
       }).then(() => {
         if (!silent) showToast('☁️ Sincronizado en vivo.');
       }).catch(err => {
@@ -2317,32 +2565,34 @@
       });
 
       try {
-        localStorage.setItem('requiem_smithnas_state_v10', JSON.stringify({
-          players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList
+        localStorage.setItem('requiem_smithnas_state_v11', JSON.stringify({
+          players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList, rollHistory: diceRollHistory
         }));
       } catch(e) {}
     }
 
     function renderRoleBar() {
-      const container = document.getElementById('role-bar-container');
-      container.innerHTML = '';
+      const gmContainer = document.getElementById('role-bar-gm');
+      const pContainer = document.getElementById('role-bar-container');
+      gmContainer.innerHTML = '';
+      pContainer.innerHTML = '';
 
       const gmBtn = document.createElement('button');
       gmBtn.type = 'button';
       gmBtn.className = `role-btn ${activeRole === 'gm' ? 'active' : ''}`;
       gmBtn.innerText = '👑 Maestro (GM)';
       gmBtn.onclick = () => switchRole('gm');
-      container.appendChild(gmBtn);
+      gmContainer.appendChild(gmBtn);
 
       playerList.forEach((pid, index) => {
         const charName = allPlayersData[pid]?.inputs?.['char-name']?.trim();
-        const label = charName ? `${index + 1}. ${charName}` : `Jugador ${index + 1}`;
+        const label = charName ? charName : `Jugador ${index + 1}`;
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
         btn.innerText = label;
         btn.onclick = () => switchRole(pid);
-        container.appendChild(btn);
+        pContainer.appendChild(btn);
       });
 
       const deleteBtn = document.getElementById('btn-delete-player');
@@ -2470,9 +2720,36 @@
             <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
             <div class="gm-stat-line"><span>🎲 Última Tirada:</span> <b style="color:var(--txt-red);">${roll}</b></div>
           </div>
+
+          <!-- MODIFICAR VIDA DIRECTAMENTE DESDE EL GM -->
+          <div class="gm-hp-mod-row">
+            <span style="font-weight:bold; font-size:12px; color:#4f250b;">❤️ Daño / Cura:</span>
+            <div style="display:flex; gap:3px; align-items:center;">
+              <input type="number" id="gm-hp-val-${pid}" placeholder="Cant." min="1" style="width:52px; font-size:13px; font-weight:bold; padding:2px; text-align:center; border:1px solid var(--border-dark); background:#fff; border-radius:2px;">
+              <button type="button" onclick="gmModifyHp('${pid}', true)" style="background:#731e0b; color:#ffe8b5; border:1px solid #360b02; padding:2px 7px; font-size:11px; font-weight:bold; cursor:pointer; border-radius:2px;">💥 Daño</button>
+              <button type="button" onclick="gmModifyHp('${pid}', false)" style="background:#1e4a28; color:#e8f5e9; border:1px solid #14532d; padding:2px 7px; font-size:11px; font-weight:bold; cursor:pointer; border-radius:2px;">💚 Cura</button>
+            </div>
+          </div>
           
+          <!-- ESTADOS ACTIVOS + MENÚ A LA DERECHA PARA ASIGNAR -->
           <div class="gm-actions-container">
-            <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Estados Activos:</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:4px; flex-wrap:wrap;">
+              <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Estados Activos:</span>
+              <div style="display:flex; gap:3px; align-items:center;">
+                <select id="gm-add-status-select-${pid}" style="background:#46250f; color:#faebd0; border:1px solid #bf8a3b; font-family:var(--f-title); font-size:10.5px; padding:2px 4px; border-radius:2px; outline:none;">
+                  <option value="">+ Estado...</option>
+                  <option value="status-stun">⚡ Stun</option>
+                  <option value="status-sellado">🔒 Sellado</option>
+                  <option value="status-petrificado">🗿 Petrificado</option>
+                  <option value="status-mareado">💫 Mareado</option>
+                  <option value="status-veneno">🧪 Veneno</option>
+                  <option value="status-sangrado">🩸 Sangrado</option>
+                  <option value="status-curacion">💖 Curación</option>
+                </select>
+                <button type="button" onclick="gmApplyStatus('${pid}')" style="background:#731e0b; color:#ffe8b5; border:1px solid #ffd700; font-size:10.5px; font-weight:bold; padding:2px 6px; cursor:pointer; border-radius:2px;">Aplicar</button>
+                <button type="button" onclick="gmClearStatus('${pid}')" style="background:#5a1212; color:#fff; border:1px solid #360b02; font-size:10.5px; padding:2px 5px; cursor:pointer; border-radius:2px;" title="Limpiar todos los estados">🧹</button>
+              </div>
+            </div>
             <div class="gm-status-badges">${statusBadgesHtml}</div>
           </div>
 
@@ -2827,7 +3104,7 @@
     }
 
     function exportJSON() {
-      const dataToExport = activeRole === 'gm' ? { players: playerList, data: allPlayersData, objectives: objectivesList } : (allPlayersData[activeRole] || gatherFormData());
+      const dataToExport = activeRole === 'gm' ? { players: playerList, data: allPlayersData, objectives: objectivesList, rollHistory: diceRollHistory } : (allPlayersData[activeRole] || gatherFormData());
       const charName = (activeRole !== 'gm' ? allPlayersData[activeRole]?.inputs?.['char-name']?.trim() : 'Partida_Completa') || 'Personaje';
       const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -2850,6 +3127,7 @@
             playerList = parsed.players;
             allPlayersData = parsed.data;
             if (parsed.objectives) objectivesList = parsed.objectives;
+            if (parsed.rollHistory) diceRollHistory = parsed.rollHistory;
             saveActivePlayerToCloud(true);
             switchRole('gm');
             showToast('📥 Partida completa importada.');
@@ -2872,12 +3150,13 @@
       setupClassifications();
 
       try {
-        const raw = localStorage.getItem('requiem_smithnas_state_v10');
+        const raw = localStorage.getItem('requiem_smithnas_state_v11');
         if (raw) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed.players)) playerList = parsed.players;
           if (parsed.data) allPlayersData = parsed.data;
           if (parsed.objectives) objectivesList = parsed.objectives;
+          if (parsed.rollHistory) diceRollHistory = parsed.rollHistory;
         }
       } catch(e) {}
 
