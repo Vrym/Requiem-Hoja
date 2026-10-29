@@ -96,42 +96,68 @@
       box-shadow: 0 0 6px #ef4444;
     }
 
-    /* BANNER DE OBJETIVOS EN VIVO */
+    /* BANNER DE LAS ÚLTIMAS 3 PUBLICACIONES DEL MÁSTER */
     .objective-banner {
       background: #2b1608;
       color: #faebd0;
       border: 1.5px solid var(--border-gold);
-      padding: 7px 10px;
+      padding: 8px 10px;
       margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
       border-radius: 3px;
       box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
     }
-    .objective-content {
-      font-family: var(--f-body);
-      font-size: 14.5px;
-      line-height: 1.25;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      flex: 1;
+    .objective-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dotted rgba(218, 165, 32, 0.4);
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+    .objective-header-title {
+      font-family: var(--f-title);
+      font-size: 12.5px;
+      font-weight: bold;
+      color: #ffd700;
+      letter-spacing: 0.5px;
     }
     .objective-btn {
       background: #46250f;
       color: #faebd0;
       border: 1px solid #bf8a3b;
-      padding: 3px 8px;
+      padding: 2px 7px;
       font-family: var(--f-title);
       font-size: 11px;
       cursor: pointer;
       border-radius: 2px;
+    }
+    .latest-objectives-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .objective-row {
+      font-family: var(--f-body);
+      font-size: 13.5px;
+      line-height: 1.25;
+      display: flex;
+      gap: 6px;
+      align-items: baseline;
+    }
+    .obj-time {
+      color: #eab308;
+      font-family: var(--f-title);
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .obj-text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    /* BARRA DE ROLES Y HUB DE OPCIONES */
+    /* BARRA DE ROLES CON BOTÓN DE MENÚ HUB */
     .role-bar-wrap {
       display: flex;
       justify-content: space-between;
@@ -163,10 +189,7 @@
       transition: all 0.15s ease;
       border-radius: 2px;
     }
-    .role-btn:hover {
-      background: #6c3a19;
-      color: #fff;
-    }
+    .role-btn:hover { background: #6c3a19; color: #fff; }
     .role-btn.active {
       background: #8b1313;
       color: #fff;
@@ -190,15 +213,10 @@
       cursor: pointer;
       border-radius: 3px;
       letter-spacing: 0.5px;
-      box-shadow: 0 0 6px rgba(0,0,0,0.5);
-    }
-    .btn-menu-hub:hover {
-      background: #942b13;
-      color: #fff;
     }
 
-    /* MODAL DE HUB DE OPCIONES */
-    #hub-modal-backdrop, #history-modal-backdrop {
+    /* MODALES */
+    #hub-modal-backdrop, #history-modal-backdrop, #modal-backdrop {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0,0,0,0.75);
@@ -263,17 +281,6 @@
       max-width: 90%;
     }
 
-    /* MODAL DE CONFIRMACIÓN */
-    #modal-backdrop {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100000;
-      padding: 16px;
-    }
     .modal-box {
       background: #f5e9d2;
       border: 4px double var(--border-dark);
@@ -320,24 +327,50 @@
       cursor: pointer;
     }
 
+    /* TÍTULO DE CORRIDO EN UNA SOLA LÍNEA */
     .main-title-wrap {
       text-align: center;
       margin-bottom: 12px;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
       border-bottom: 2px dashed var(--border-gold);
     }
-    .main-title-wrap h2 {
+    .main-title-continuous {
       font-family: var(--f-title);
-      font-size: 15px;
-      color: #6a3a14;
-      letter-spacing: 3px;
-    }
-    .main-title-wrap h1 {
-      font-family: var(--f-title);
-      font-size: clamp(24px, 5vw, 38px);
+      font-size: clamp(17px, 3.8vw, 32px);
+      font-weight: 900;
       color: #241105;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
+      white-space: nowrap;
       text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+      margin-bottom: 6px;
+    }
+
+    /* RECUADRO CON EL ÚLTIMO MENSAJE DEL MASTER DEBAJO DEL TÍTULO */
+    .title-msg-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(43, 22, 8, 0.08);
+      border: 1px solid var(--border-gold);
+      padding: 4px 10px;
+      border-radius: 4px;
+      max-width: 95%;
+      font-size: 13.5px;
+      color: #3b1b07;
+    }
+    .title-msg-label {
+      font-family: var(--f-title);
+      font-weight: bold;
+      color: #731e0b;
+      white-space: nowrap;
+      font-size: 12px;
+    }
+    .title-msg-text {
+      font-family: var(--f-body);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .grid-2col {
@@ -418,14 +451,12 @@
       flex-shrink: 0;
     }
 
-    /* ESTADOS Y EFECTOS ALTERADOS (CON ESTADO LIBRE) */
+    /* ESTADOS Y EFECTOS ALTERADOS */
     .status-effects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 5px;
       margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1.5px dashed rgba(60,30,10,0.25);
     }
     .status-effect-item {
       display: flex;
@@ -476,7 +507,7 @@
       outline: none;
     }
 
-    /* TABLA D6 */
+    /* TABLA D6 GUÍA */
     .d6-table-wrap {
       width: 100%;
       margin-bottom: 10px;
@@ -510,59 +541,83 @@
       font-weight: 900 !important;
     }
 
-    .d6-controls {
+    /* GESTIÓN DE ARMAS DINÁMICAS */
+    .weapons-list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .weapon-card {
+      background: #dcbe92;
+      border: 1px solid var(--border-dark);
+      padding: 6px 8px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      background: #dcbe92;
-      padding: 8px 10px;
-      border: 1px solid var(--border-dark);
+      gap: 6px;
+      border-radius: 3px;
     }
-    .d6-controls-group {
+    .weapon-name-input {
+      flex: 1 1 140px;
+      background: #fff;
+      border: 1.5px solid var(--border-dark);
+      font-family: var(--f-body);
+      font-size: 15px;
+      font-weight: bold;
+      padding: 3px 6px;
+      border-radius: 2px;
+      outline: none;
+    }
+    .weapon-inputs-group {
       display: flex;
       align-items: center;
-      gap: 5px;
-    }
-    .d6-controls label {
+      gap: 4px;
       font-family: var(--f-title);
-      font-weight: bold;
-      font-size: 13px;
+      font-size: 12px;
     }
-    .d6-base-input {
-      width: 55px;
+    .weapon-base-input {
+      width: 50px;
       padding: 3px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       font-family: var(--f-body);
       border: 1.5px solid var(--border-dark);
       background: #fff;
       text-align: center;
+      border-radius: 2px;
     }
-    .btn-roll {
+    .btn-roll-weapon {
       background: #731e0b;
       color: #ffe8b5;
       font-family: var(--f-title);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
-      padding: 6px 12px;
-      border: 2px solid #360b02;
+      padding: 5px 10px;
+      border: 1.5px solid #360b02;
       cursor: pointer;
+      border-radius: 2px;
     }
-    .roll-result-badge {
+    .weapon-badge {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      font-size: 14px;
-      font-weight: bold;
+      gap: 4px;
       background: #fff;
       padding: 3px 6px;
       border: 1px solid var(--border-dark);
+      border-radius: 2px;
+      font-size: 13px;
+      font-weight: bold;
     }
-    .roll-result-badge span {
-      font-size: 17px;
-      color: var(--txt-red);
+    .btn-del-weapon {
+      background: none;
+      border: none;
+      color: #7f1d1d;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0 4px;
     }
 
     /* COMBATE AUTOMATIZADO */
@@ -610,6 +665,22 @@
       color: var(--txt-red);
       min-width: 24px;
       text-align: center;
+    }
+    .btn-stat-max {
+      background: #46250f;
+      color: #ffe8b5;
+      border: 1px solid #bf8a3b;
+      font-family: var(--f-title);
+      font-size: 10px;
+      padding: 2px 5px;
+      border-radius: 2px;
+      cursor: pointer;
+      white-space: nowrap;
+      margin-left: 2px;
+    }
+    .btn-stat-max:hover {
+      background: #731e0b;
+      color: #fff;
     }
 
     /* ARQUETIPOS */
@@ -954,7 +1025,7 @@
     .mobile-th { display: none; }
     .desktop-th { display: inline; }
 
-    /* ESENCIA DE 1 A 15 EN GRUPOS ORDENADOS (NUNCA SE DESALINEA) */
+    /* ESENCIA DE 1 A 15 EN GRUPOS ORDENADOS */
     .essence-embedded-wrap {
       margin-top: 10px;
       padding-top: 8px;
@@ -1133,7 +1204,6 @@
       word-break: break-word;
     }
 
-    /* HISTORIAL LIST */
     .history-list {
       max-height: 300px;
       overflow-y: auto;
@@ -1172,9 +1242,6 @@
       .skill-boxes { gap: 2.5px; }
       .skill-boxes input[type="checkbox"] { width: 17.5px; height: 17.5px; }
       .skill-bonus-tag { width: 30px; font-size: 11px; padding: 1px 0; }
-      .d6-controls { flex-direction: column; align-items: stretch; text-align: center; }
-      .d6-controls-group { justify-content: center; }
-      .btn-roll { width: 100%; }
       .desktop-th { display: none; }
       .mobile-th { display: inline-block; line-height: 1.1; }
       .grade-bonus-table th, .grade-bonus-table td { font-size: 11px; padding: 4px 1px; }
@@ -1197,7 +1264,7 @@
     </div>
   </div>
 
-  <!-- HUB DE OPCIONES FLOTANTE / MODAL -->
+  <!-- HUB DE OPCIONES FLOTANTE -->
   <div id="hub-modal-backdrop">
     <div class="hub-modal-box">
       <div class="modal-title" style="color:#3b1b07;">⚙️ MENÚ DE OPCIONES</div>
@@ -1236,12 +1303,15 @@
       </div>
     </div>
 
-    <!-- BANNER DE OBJETIVOS / ANUNCIOS EN VIVO -->
+    <!-- BANNER DE LAS ÚLTIMAS 3 PUBLICACIONES DEL MÁSTER -->
     <div class="objective-banner">
-      <div class="objective-content">
-        <b>🎯 Objetivo:</b> <span id="latest-objective-text">Sin objetivos activos por el momento.</span>
+      <div class="objective-header">
+        <span class="objective-header-title">🎯 ÚLTIMOS MENSAJES DEL MÁSTER</span>
+        <button type="button" class="objective-btn" onclick="openHistoryModal()">📜 Ver Historial Completo</button>
       </div>
-      <button type="button" class="objective-btn" onclick="openHistoryModal()">📜 Historial</button>
+      <div id="latest-objectives-container" class="latest-objectives-list">
+        <div class="objective-row"><span class="obj-text" style="color:#aaa; font-style:italic;">Sin mensajes activos por el momento.</span></div>
+      </div>
     </div>
 
     <!-- BARRA DE ROLES CON BOTÓN DE MENÚ HUB -->
@@ -1252,7 +1322,6 @@
 
     <!-- PANEL DEL MAESTRO (GM DASHBOARD) -->
     <div id="gm-dashboard-wrap">
-      <!-- CONSOLA DE OBJETIVOS DEL GM -->
       <div class="box-frame" style="background:rgba(255,255,255,0.7); border-color:#8c5826;">
         <div class="box-frame-title">📢 Transmitir Nuevo Objetivo / Mensaje a la Mesa</div>
         <div style="display:flex; gap:6px; flex-wrap:wrap;">
@@ -1269,10 +1338,15 @@
 
     <!-- FICHA INTERACTIVA COMPLETA -->
     <div id="player-sheet-wrap">
+      <!-- TÍTULO DE CORRIDO Y ÚLTIMO MENSAJE DEL MÁSTER ABAJO -->
       <div class="main-title-wrap">
-        <h1>RÉQUIEM</h1>
-        <h2>DE LOS</h2>
-        <h1>SMITHNAS</h1>
+        <h1 class="main-title-continuous">RÉQUIEM DE LOS SMITHNAS</h1>
+        <div>
+          <div class="title-msg-box">
+            <span class="title-msg-label">📢 MÁSTER:</span>
+            <span id="title-latest-msg-text" class="title-msg-text">Sin mensajes activos.</span>
+          </div>
+        </div>
       </div>
 
       <div class="grid-2col">
@@ -1300,9 +1374,14 @@
         </div>
       </div>
 
-      <!-- TABLA DE DAÑO (D6) AUTOMATIZADA -->
+      <!-- ARMAS Y TABLA DE DAÑO (D6) -->
       <div class="box-frame">
-        <div class="box-frame-title">Tabla de Daño (D6)</div>
+        <div class="box-frame-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Armas & Tabla de Daño (D6)</span>
+          <button type="button" class="btn-add-item" onclick="addWeaponRow()" style="margin:0; padding:2px 8px; font-size:11px;">+ Agregar Arma</button>
+        </div>
+        
+        <!-- TABLA GUÍA DE MULTIPLICADORES -->
         <div class="d6-table-wrap">
           <table class="d6-table">
             <thead>
@@ -1319,7 +1398,7 @@
             <tbody>
               <tr class="row-mult"><td><b>MULT.</b></td><td>-30%</td><td>-15%</td><td>0</td><td>0</td><td>+15%</td><td>+30%</td></tr>
               <tr class="row-damage">
-                <td><b>DAÑO</b></td>
+                <td><b>REF.</b></td>
                 <td id="calc-dmg-1">-</td><td id="calc-dmg-2">-</td><td id="calc-dmg-3">-</td>
                 <td id="calc-dmg-4">-</td><td id="calc-dmg-5">-</td><td id="calc-dmg-6">-</td>
               </tr>
@@ -1327,26 +1406,11 @@
           </table>
         </div>
 
-        <div class="d6-controls">
-          <div class="d6-controls-group">
-            <label>DAÑO BASE:</label>
-            <input type="number" id="baseDamage-base" class="d6-base-input" value="0" min="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-            <span class="calc-tag">+ Bono:</span>
-            <span id="dmg-bono-text" class="calc-tag" style="font-weight:bold; color:#731e0b;">+0</span>
-            <span class="calc-tag">= Total:</span>
-            <span id="dmg-total-text" class="calc-total">0</span>
-          </div>
-
-          <button type="button" class="btn-roll" onclick="rollD6()">🎲 TIRAR D6</button>
-
-          <div class="d6-controls-group">
-            <div class="roll-result-badge">TIRADA: <span id="display-roll">-</span></div>
-            <div class="roll-result-badge">DAÑO: <span id="display-final-dmg">-</span></div>
-          </div>
-        </div>
+        <!-- LISTADO DE ARMAS PERSONALIZABLES -->
+        <div class="weapons-list-container" id="weapons-container"></div>
       </div>
 
-      <!-- COMBATE AUTOMATIZADO + ESTADOS -->
+      <!-- COMBATE AUTOMATIZADO + ESTADOS NEGATIVOS -->
       <div class="grid-2col">
         <div class="box-frame">
           <div class="box-frame-title">Estadísticas de Combate</div>
@@ -1380,6 +1444,7 @@
             <div class="combat-inputs">
               <span class="calc-tag">Act:</span>
               <input type="number" id="stat-hp-curr" placeholder="Act" oninput="syncToFirebaseDebounced();">
+              <button type="button" onclick="restoreFullHp()" class="btn-stat-max" title="Restablecer al total máximo">💖 Max</button>
               <span class="calc-tag">/ Base:</span>
               <input type="number" id="stat-hp-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+</span>
@@ -1394,6 +1459,7 @@
             <div class="combat-inputs">
               <span class="calc-tag">Act:</span>
               <input type="number" id="stat-smath-curr" placeholder="Act" oninput="syncToFirebaseDebounced();">
+              <button type="button" onclick="restoreFullSmath()" class="btn-stat-max" title="Restablecer al total máximo">⚡ Max</button>
               <span class="calc-tag">/ Base:</span>
               <input type="number" id="stat-smath-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+</span>
@@ -1410,7 +1476,12 @@
             </div>
           </div>
 
-          <!-- ESTADOS / ALTERACIONES COMPLETOS -->
+          <!-- ESTADOS NEGATIVOS CON BOTÓN DE LIMPIEZA -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:6px; border-top:1.5px dashed rgba(60,30,10,0.25);">
+            <span style="font-family:var(--f-title); font-weight:bold; font-size:12px; color:#4f250b;">ESTADOS Y ALTERACIONES:</span>
+            <button type="button" onclick="clearNegativeStates()" style="background:#5a1212; color:#ffe8b5; border:1px solid #bf8a3b; font-family:var(--f-title); font-size:10px; padding:2px 7px; cursor:pointer; border-radius:2px;">🧹 Limpiar Estados</button>
+          </div>
+
           <div class="status-effects-grid">
             <div class="status-effect-item"><input type="checkbox" id="status-stun"><label for="status-stun" style="cursor:pointer; flex:1;">⚡ <b>Stun</b></label></div>
             <div class="status-effect-item"><input type="checkbox" id="status-sellado"><label for="status-sellado" style="cursor:pointer; flex:1;">🔒 <b>Sellado</b></label></div>
@@ -1420,7 +1491,6 @@
             <div class="status-effect-item"><input type="checkbox" id="status-sangrado"><label for="status-sangrado" style="cursor:pointer; flex:1;">🩸 <b>Sangrado</b></label><input type="number" id="status-sangrado-val" class="status-val-input" placeholder="Daño" min="0"></div>
             <div class="status-effect-item"><input type="checkbox" id="status-curacion"><label for="status-curacion" style="cursor:pointer; flex:1;">💖 <b>Curación</b></label><input type="number" id="status-curacion-val" class="status-val-input" placeholder="Regen" min="0"></div>
             
-            <!-- ESTADO LIBRE PERSONALIZABLE -->
             <div class="status-custom-row">
               <input type="checkbox" id="status-custom-check">
               <input type="text" id="status-custom-name" class="status-custom-name" placeholder="Otro estado / condición...">
@@ -1456,7 +1526,7 @@
               <span id="pts-restantes" style="font-size:20px; font-weight:bold; color:#166534; padding-right:6px;">0</span>
             </div>
 
-            <!-- SECCIÓN DE ESENCIA AGRUPADA (1 AL 15 RESPONSIVE) -->
+            <!-- ESENCIA (1 AL 15 EN GRUPOS ORDENADOS) -->
             <div class="essence-embedded-wrap">
               <div class="essence-embedded-title">✨ ESENCIA (GRADOS 1 AL 15)</div>
               <div class="essence-tiers-flex">
@@ -1692,7 +1762,6 @@
     const db = firebase.database();
     const gameRef = db.ref('smithnas_session');
 
-    // TABLA DE BONIFICACIONES POR CADA PUNTO DE ARQUETIPO
     const GRADE_BONUSES = {
       impulsor:    { dmg: 7, pc: 1, pd: 1, hp: 10, smath: 3, ph: 15 },
       controlador: { dmg: 3, pc: 1, pd: 3, hp: 5,  smath: 2, ph: 25 },
@@ -1712,7 +1781,7 @@
         inputs: {
           'char-name': name, 'char-raza': '', 'char-subraza': '', 'char-oficio': '',
           'char-exp': '', 'char-esencia': '',
-          'baseDamage-base': 0, 'stat-pc-base': 0, 'stat-pd-base': 0,
+          'stat-pc-base': 0, 'stat-pd-base': 0,
           'stat-hp-curr': '', 'stat-hp-max-base': 0,
           'stat-smath-curr': '', 'stat-smath-max-base': 0,
           'stat-conc': '', 'pts-base': 0,
@@ -1726,6 +1795,9 @@
           'status-mareado': false, 'status-veneno': false, 'status-sangrado': false,
           'status-curacion': false, 'status-custom-check': false
         },
+        weapons: [
+          { id: 'w_' + Date.now(), name: 'Arma Principal', baseDmg: 20, lastRoll: '-', lastDmg: '-' }
+        ],
         archLevels: { impulsor: 0, controlador: 0, perpetuador: 0, proyector: 0, evocador: 0, conmutador: 0 },
         techniques: [
           { name: '', type: false, lvl1: false, lvl2: false, lvl3: false },
@@ -1788,7 +1860,38 @@
     }
     function closeHistoryModal() { document.getElementById('history-modal-backdrop').style.display = 'none'; }
 
-    // GESTIÓN DE OBJETIVOS / MENSAJES DEL MÁSTER
+    // RESTABLECER VIDA Y SMATH AL MÁXIMO TOTAL
+    function restoreFullHp() {
+      const maxTot = document.getElementById('stat-hp-max-total')?.innerText || '0';
+      const currInput = document.getElementById('stat-hp-curr');
+      if (currInput) currInput.value = maxTot;
+      syncToFirebaseDebounced();
+      showToast('💖 Resencia restablecida al máximo.');
+    }
+
+    function restoreFullSmath() {
+      const maxTot = document.getElementById('stat-smath-max-total')?.innerText || '0';
+      const currInput = document.getElementById('stat-smath-curr');
+      if (currInput) currInput.value = maxTot;
+      syncToFirebaseDebounced();
+      showToast('⚡ Smath restablecido al máximo.');
+    }
+
+    // LIMPIAR TODOS LOS ESTADOS NEGATIVOS
+    function clearNegativeStates() {
+      const stateIds = [
+        'status-stun', 'status-sellado', 'status-petrificado', 'status-mareado',
+        'status-veneno', 'status-sangrado', 'status-curacion', 'status-custom-check'
+      ];
+      stateIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.checked = false;
+      });
+      syncToFirebaseDebounced();
+      showToast('🧹 Estados negativos limpiados.');
+    }
+
+    // PUBLICACIÓN Y RESUMEN DE LAS ÚLTIMAS 3 PUBLICACIONES DEL MÁSTER
     function broadcastObjective() {
       const input = document.getElementById('gm-objective-input');
       const text = (input.value || '').trim();
@@ -1836,11 +1939,109 @@
     }
 
     function updateObjectiveBanner() {
-      const bannerText = document.getElementById('latest-objective-text');
+      // 1. Último mensaje debajo del título
+      const titleMsgText = document.getElementById('title-latest-msg-text');
       if (objectivesList && objectivesList.length > 0) {
-        bannerText.innerText = objectivesList[0].text;
+        titleMsgText.innerText = objectivesList[0].text;
       } else {
-        bannerText.innerText = 'Sin objetivos activos por el momento.';
+        titleMsgText.innerText = 'Sin mensajes activos.';
+      }
+
+      // 2. Resumen con las últimas 3 publicaciones en el banner superior
+      const bannerList = document.getElementById('latest-objectives-container');
+      bannerList.innerHTML = '';
+      const top3 = (objectivesList || []).slice(0, 3);
+      if (top3.length === 0) {
+        bannerList.innerHTML = `<div class="objective-row"><span class="obj-text" style="color:#aaa; font-style:italic;">Sin mensajes activos por el momento.</span></div>`;
+        return;
+      }
+      top3.forEach(obj => {
+        const row = document.createElement('div');
+        row.className = 'objective-row';
+        row.innerHTML = `<span class="obj-time">[${obj.time}]</span> <span class="obj-text">${escapeHtml(obj.text)}</span>`;
+        bannerList.appendChild(row);
+      });
+    }
+
+    // ARMAS DINÁMICAS
+    function addWeaponRow(id = null, name = 'Arma', baseDmg = 15, lastRoll = '-', lastDmg = '-') {
+      const container = document.getElementById('weapons-container');
+      const wId = id || ('w_' + Date.now());
+      const card = document.createElement('div');
+      card.className = 'weapon-card';
+      card.setAttribute('data-id', wId);
+
+      card.innerHTML = `
+        <input type="text" class="weapon-name-input" value="${escapeHtml(name)}" placeholder="Nombre del arma..." oninput="syncToFirebaseDebounced();">
+        <div class="weapon-inputs-group">
+          <span>Base:</span>
+          <input type="number" class="weapon-base-input" value="${baseDmg}" min="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+          <span>+ Bono: <b class="weapon-bono-text">+0</b> =</span>
+          <span class="weapon-total-text" style="color:var(--txt-red); font-size:16px; font-weight:bold;">${baseDmg}</span>
+        </div>
+        <button type="button" class="btn-roll-weapon" onclick="rollWeaponD6('${wId}')">🎲 Tirar D6</button>
+        <div class="weapon-badge">
+          <span>Tirada: <b class="weapon-roll-val" style="color:var(--txt-red);">${lastRoll}</b></span>
+          <span style="margin-left:4px;">Daño: <b class="weapon-dmg-val" style="color:var(--txt-red);">${lastDmg}</b></span>
+        </div>
+        <button type="button" class="btn-del-weapon" onclick="deleteWeaponRow('${wId}')" title="Eliminar arma">✖</button>
+      `;
+      container.appendChild(card);
+      recalcAllAutoStats();
+    }
+
+    function deleteWeaponRow(wId) {
+      const cards = document.querySelectorAll('#weapons-container .weapon-card');
+      if (cards.length <= 1) {
+        showToast('⚠️ Debes conservar al menos un arma.');
+        return;
+      }
+      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
+      if (card) {
+        card.remove();
+        recalcAllAutoStats();
+        syncToFirebaseDebounced();
+        showToast('🗑️ Arma eliminada.');
+      }
+    }
+
+    function rollWeaponD6(wId) {
+      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
+      if (!card) return;
+
+      const wName = card.querySelector('.weapon-name-input')?.value.trim() || 'Arma';
+      const totalDmg = parseFloat(card.querySelector('.weapon-total-text')?.innerText) || 0;
+      const roll = Math.floor(Math.random() * 6) + 1;
+      const finalDmg = Math.round(totalDmg * (1 + MULTIPLICADORES[roll - 1]));
+
+      card.querySelector('.weapon-roll-val').innerText = roll;
+      card.querySelector('.weapon-dmg-val').innerText = finalDmg;
+
+      // Resaltar en tabla D6 de referencia
+      updateReferenceD6Table(totalDmg, roll);
+
+      // Enviar resultado detallado al resumen del Máster
+      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastRoll = `${wName}: Dado ${roll} (${finalDmg} daño)`;
+        saveActivePlayerToCloud(true);
+      }
+    }
+
+    function updateReferenceD6Table(baseVal, activeRoll = null) {
+      for (let i = 1; i <= 6; i++) {
+        const cell = document.getElementById('calc-dmg-' + i);
+        const colHeader = document.getElementById('d6-col-' + i);
+        if (cell && colHeader) {
+          const val = Math.round(baseVal * (1 + MULTIPLICADORES[i - 1]));
+          cell.innerText = baseVal > 0 ? val : '-';
+          if (activeRoll && i === activeRoll) {
+            colHeader.classList.add('active-column');
+            cell.classList.add('active-column');
+          } else {
+            colHeader.classList.remove('active-column');
+            cell.classList.remove('active-column');
+          }
+        }
       }
     }
 
@@ -1858,12 +2059,17 @@
         bPh    += lvl * b.ph;
       });
 
-      // 1. DAÑO D6
-      const baseDmgVal = parseFloat(document.getElementById('baseDamage-base')?.value) || 0;
-      const totalDmg = baseDmgVal + bDmg;
-      document.getElementById('dmg-bono-text').innerText = `+${bDmg}`;
-      document.getElementById('dmg-total-text').innerText = totalDmg;
-      updateDamageTable(totalDmg);
+      // 1. ARMAS
+      document.querySelectorAll('#weapons-container .weapon-card').forEach(card => {
+        const base = parseFloat(card.querySelector('.weapon-base-input')?.value) || 0;
+        card.querySelector('.weapon-bono-text').innerText = `+${bDmg}`;
+        card.querySelector('.weapon-total-text').innerText = base + bDmg;
+      });
+
+      // Actualizar tabla D6 guía con el arma 1
+      const firstCard = document.querySelector('#weapons-container .weapon-card');
+      const firstTotal = firstCard ? (parseFloat(firstCard.querySelector('.weapon-total-text')?.innerText) || 0) : 0;
+      updateReferenceD6Table(firstTotal);
 
       // 2. PC
       const basePcVal = parseFloat(document.getElementById('stat-pc-base')?.value) || 0;
@@ -1894,7 +2100,7 @@
       updateSkillsAndPoints(totalPhObt);
     }
 
-    // EXTRAER ACCIONES ACTIVAS
+    // ACCIONES POR TURNO
     function getActiveActionsList(chk = {}) {
       const acts = [];
       if (chk['act-atacar']) acts.push('⚔️ Atacar');
@@ -1985,7 +2191,7 @@
       });
 
       try {
-        localStorage.setItem('requiem_smithnas_state_v5', JSON.stringify({
+        localStorage.setItem('requiem_smithnas_state_v6', JSON.stringify({
           players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList
         }));
       } catch(e) {}
@@ -2058,7 +2264,7 @@
       }
     }
 
-    // PANEL DEL MAESTRO CON PASIVAS FIT-CONTENT Y ESENCIA
+    // PANEL DEL MAESTRO CON TIRADAS POR ARMA DETALLADAS
     function renderGMDashboard() {
       const cardsGrid = document.getElementById('gm-cards-container');
       cardsGrid.innerHTML = '';
@@ -2075,7 +2281,6 @@
         const essenceLvl = pdata.essence || 0;
         const essenceDisplay = essenceLvl > 0 ? essenceLvl : '-';
 
-        // Cálculos de totales del jugador para el GM
         let bDmg = 0, bPc = 0, bPd = 0, bHp = 0, bSmath = 0;
         ARCHETYPES.forEach(arch => {
           const lvl = pdata.archLevels?.[arch] || 0;
@@ -2144,7 +2349,7 @@
           <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
           <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pcTot} / ${pdTot}</b></div>
           <div class="gm-stat-line"><span>✨ Esencia (Grado):</span> <b style="color:#731e0b; font-size:15px;">${essenceDisplay}</b></div>
-          <div class="gm-stat-line"><span>🎲 Último D6:</span> <b style="color:var(--txt-red); font-size:15px;">${roll}</b></div>
+          <div class="gm-stat-line"><span>🎲 Última Tirada:</span> <b style="color:var(--txt-red); font-size:14px;">${roll}</b></div>
           
           <div class="gm-actions-container">
             <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Estados Activos:</span>
@@ -2162,7 +2367,7 @@
       });
     }
 
-    // MODAL DE REINICIAR Y BORRAR
+    // MODAL
     function openResetModal() {
       modalActionType = 'reset';
       document.getElementById('modal-title-text').innerText = '⚠️ REINICIAR FICHA';
@@ -2206,54 +2411,6 @@
         }
       }
       closeModal();
-    }
-
-    // TIRADA D6
-    function updateDamageTable(totalDmg = null) {
-      if (totalDmg === null) {
-        totalDmg = parseFloat(document.getElementById('dmg-total-text')?.innerText) || 0;
-      }
-      for (let i = 1; i <= 6; i++) {
-        const cell = document.getElementById('calc-dmg-' + i);
-        if (cell) {
-          const finalVal = Math.round(totalDmg * (1 + MULTIPLICADORES[i - 1]));
-          cell.innerText = totalDmg > 0 ? finalVal : '-';
-        }
-      }
-      const rollBadge = document.getElementById('display-roll');
-      const lastRoll = parseInt(rollBadge.innerText);
-      if (lastRoll >= 1 && lastRoll <= 6) {
-        const finalRollDmg = Math.round(totalDmg * (1 + MULTIPLICADORES[lastRoll - 1]));
-        document.getElementById('display-final-dmg').innerText = finalRollDmg;
-      }
-    }
-
-    function rollD6() {
-      const roll = Math.floor(Math.random() * 6) + 1;
-      const totalDmg = parseFloat(document.getElementById('dmg-total-text')?.innerText) || 0;
-      const finalDmg = Math.round(totalDmg * (1 + MULTIPLICADORES[roll - 1]));
-
-      document.getElementById('display-roll').innerText = roll;
-      document.getElementById('display-final-dmg').innerText = finalDmg;
-
-      for (let i = 1; i <= 6; i++) {
-        const headerCol = document.getElementById('d6-col-' + i);
-        const cellCol = document.getElementById('calc-dmg-' + i);
-        if (headerCol && cellCol) {
-          if (i === roll) {
-            headerCol.classList.add('active-column');
-            cellCol.classList.add('active-column');
-          } else {
-            headerCol.classList.remove('active-column');
-            cellCol.classList.remove('active-column');
-          }
-        }
-      }
-
-      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
-        allPlayersData[activeRole].lastRoll = `${roll} (${finalDmg} daño)`;
-        saveActivePlayerToCloud(true);
-      }
     }
 
     // ARQUETIPOS Y HABILIDADES
@@ -2396,10 +2553,8 @@
 
       for (let i = 1; i <= 15; i++) {
         const el = document.getElementById('seal-' + i);
-        if (el) {
-          if (i <= activeEssence) el.classList.add('active');
-          else el.classList.remove('active');
-        }
+        if (i <= activeEssence) el.classList.add('active');
+        else el.classList.remove('active');
       }
       syncToFirebaseDebounced();
     }
@@ -2435,6 +2590,7 @@
       const data = {
         inputs: {},
         checkboxes: {},
+        weapons: [],
         archLevels: { ...archLevelState },
         techniques: [],
         passives: [],
@@ -2443,12 +2599,23 @@
         lastRoll: allPlayersData[activeRole]?.lastRoll || '-'
       };
 
-      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"]').forEach(el => {
+      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
         if (el.id) data.inputs[el.id] = el.value;
       });
 
       document.querySelectorAll('#player-sheet-wrap input[type="checkbox"]').forEach(el => {
         if (el.id) data.checkboxes[el.id] = el.checked;
+      });
+
+      // Armas
+      document.querySelectorAll('#weapons-container .weapon-card').forEach(card => {
+        data.weapons.push({
+          id: card.getAttribute('data-id'),
+          name: card.querySelector('.weapon-name-input')?.value || '',
+          baseDmg: parseFloat(card.querySelector('.weapon-base-input')?.value) || 0,
+          lastRoll: card.querySelector('.weapon-roll-val')?.innerText || '-',
+          lastDmg: card.querySelector('.weapon-dmg-val')?.innerText || '-'
+        });
       });
 
       document.querySelectorAll('#techniques-body tr').forEach(row => {
@@ -2480,7 +2647,7 @@
     function applyDataToForm(data) {
       if (!data) return;
 
-      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"]').forEach(el => {
+      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
         if (el.id) el.value = data.inputs?.[el.id] ?? '';
       });
 
@@ -2492,6 +2659,15 @@
         archLevelState[arch] = data.archLevels?.[arch] || 0;
         renderArchDiamonds(arch);
       });
+
+      // Armas
+      const weaponsContainer = document.getElementById('weapons-container');
+      weaponsContainer.innerHTML = '';
+      if (data.weapons && Array.isArray(data.weapons) && data.weapons.length > 0) {
+        data.weapons.forEach(w => addWeaponRow(w.id, w.name, w.baseDmg, w.lastRoll, w.lastDmg));
+      } else {
+        addWeaponRow();
+      }
 
       const techBody = document.getElementById('techniques-body');
       techBody.innerHTML = '';
@@ -2577,7 +2753,7 @@
       setupClassifications();
 
       try {
-        const raw = localStorage.getItem('requiem_smithnas_state_v5');
+        const raw = localStorage.getItem('requiem_smithnas_state_v6');
         if (raw) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed.players)) playerList = parsed.players;
