@@ -132,7 +132,7 @@
       border-radius: 2px;
     }
 
-    /* MENSAJE FIJADO (PIN) */
+    /* MENSAJE FIJADO */
     .pinned-msg-box {
       background: rgba(115, 30, 11, 0.35);
       border: 1.5px solid #ffd700;
@@ -346,7 +346,7 @@
       grid-template-columns: repeat(6, 1fr);
       gap: 8px;
       margin: 12px 0;
-      max-height: 240px;
+      max-height: 250px;
       overflow-y: auto;
       padding: 6px;
       background: rgba(0,0,0,0.05);
@@ -471,6 +471,83 @@
       font-weight: 600;
       color: #7c2d12;
       letter-spacing: 1.5px;
+    }
+
+    /* BANNER DE ALTERACIÓN DEL MUNDO (DESEO) */
+    .world-alteration-banner {
+      background: linear-gradient(135deg, rgba(67, 24, 92, 0.15) 0%, rgba(147, 51, 234, 0.08) 50%, rgba(180, 83, 9, 0.12) 100%), var(--bg-box);
+      border: 2px solid #7e22ce;
+      outline: 1px solid var(--border-gold);
+      outline-offset: -3px;
+      border-radius: 4px;
+      padding: 8px 10px;
+      margin-bottom: 12px;
+      box-shadow: inset 0 0 12px rgba(126, 34, 206, 0.15), 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .world-alteration-title {
+      font-family: var(--f-title);
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #581c87;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid rgba(126, 34, 206, 0.3);
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+    }
+    .world-alteration-badge {
+      font-size: 11px;
+      font-weight: bold;
+      color: #b45309;
+      background: #fef3c7;
+      padding: 1px 6px;
+      border-radius: 3px;
+      border: 1px solid #fde68a;
+    }
+    .world-alteration-desc {
+      font-family: var(--f-body);
+      font-size: 12.5px;
+      color: #3b1b07;
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+    .world-alteration-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .world-alt-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--f-title);
+      font-size: 12px;
+      font-weight: bold;
+      color: #4a044e;
+      cursor: pointer;
+      background: rgba(255,255,255,0.6);
+      padding: 2px 8px;
+      border-radius: 3px;
+      border: 1px solid rgba(126, 34, 206, 0.25);
+    }
+    .world-alt-check-label input {
+      width: 16px;
+      height: 16px;
+      accent-color: #7e22ce;
+      cursor: pointer;
+    }
+    .world-alt-note {
+      flex: 1;
+      min-width: 140px;
+      background: #fff;
+      border: 1px solid var(--border-dark);
+      padding: 2px 6px;
+      font-family: var(--f-body);
+      font-size: 13px;
+      border-radius: 2px;
+      outline: none;
     }
 
     .grid-2col {
@@ -663,7 +740,7 @@
       font-weight: 900 !important;
     }
 
-    /* BARRA COMPARTIDA DE INICIATIVA Y D20 CRÍTICO/IMPACTO */
+    /* BARRA COMPARTIDA DE INICIATIVA Y D20 IMPACTO/CRÍTICO */
     .shared-roll-bar {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -851,7 +928,7 @@
       white-space: nowrap;
     }
 
-    /* ESENCIA Y ASPECTOS (ARRIBA) */
+    /* ESENCIA Y ASPECTOS */
     .essence-embedded-wrap {
       padding-bottom: 6px;
       text-align: center;
@@ -865,26 +942,28 @@
       letter-spacing: 1px;
     }
 
-    /* ACTIVACIÓN DE MODOS (5 MODOS) */
+    /* ACTIVACIÓN DE MODOS EN BLOQUE SIMÉTRICO */
     .essence-activation-bar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
       background: rgba(0,0,0,0.06);
       border: 1.5px solid var(--border-dark);
       border-radius: 4px;
-      padding: 5px 6px;
+      padding: 6px 8px;
       margin-bottom: 8px;
       font-family: var(--f-title);
       font-size: 11px;
-      flex-wrap: wrap;
+    }
+    .essence-modes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 10px;
+      text-align: left;
     }
     .essence-act-mode {
       display: inline-flex;
       align-items: center;
-      gap: 2px;
+      gap: 3px;
       cursor: pointer;
+      white-space: nowrap;
     }
     .essence-act-mode.disabled {
       opacity: 0.55;
@@ -956,7 +1035,7 @@
       line-height: 1.1;
     }
 
-    /* ASPECTO DE LA ESENCIA Y SU BALANCE */
+    /* ASPECTO DE LA ESENCIA */
     .aspects-container-box {
       margin-top: 10px;
       padding-top: 8px;
@@ -1128,7 +1207,6 @@
       margin: 0;
       flex-shrink: 0;
     }
-    /* ESPACIO EXTRA CON LA CASILLA 8 */
     .skill-bonus-tag {
       width: 34px;
       margin-left: 6px;
@@ -1149,7 +1227,7 @@
       border-color: #360b02;
     }
 
-    /* TÉCNICAS CON SMATH Y BOTÓN USAR */
+    /* TÉCNICAS CON SMATH Y GASTO AUTOMÁTICO */
     .techniques-table-wrap { width: 100%; }
     .techniques-table {
       width: 100%;
@@ -1456,14 +1534,14 @@
       margin-left: auto;
     }
     
-    /* GESTOR DE ESTADOS EN 4/4 */
+    /* GESTOR DE ESTADOS EN 4/4 CON TURNOS Y CONFIRMACIÓN */
     .gm-state-manager-box {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
       background: rgba(255,255,255,0.75);
       padding: 6px;
-      border: 1px solid var(--border-dark);
+      border: 1.5px solid var(--border-gold);
       border-radius: 3px;
       margin-top: 5px;
       font-size: 11px;
@@ -1475,12 +1553,30 @@
       white-space: nowrap;
     }
     .gm-state-inline-item input[type="number"], .gm-state-inline-item input[type="text"] {
-      width: 36px;
+      width: 32px;
       padding: 1px;
       font-size: 11px;
       text-align: center;
       border: 1px solid var(--border-dark);
       background: #fff;
+    }
+    .gm-apply-state-btn {
+      grid-column: 1 / -1;
+      background: #1e4a28;
+      color: #e8f5e9;
+      border: 1px solid #4ade80;
+      padding: 3px 8px;
+      font-family: var(--f-title);
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 2px;
+      margin-top: 2px;
+      text-align: center;
+    }
+    .gm-apply-state-btn:hover {
+      background: #286b38;
+      color: #fff;
     }
 
     .gm-actions-container {
@@ -1619,6 +1715,15 @@
         justify-content: space-between;
       }
 
+      .btn-add-item {
+        padding: 3px 6px;
+        font-size: 11px;
+      }
+      .tech-slots-tag-mobile {
+        font-size: 11px !important;
+        white-space: nowrap;
+      }
+
       .gm-cards-grid {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -1744,7 +1849,6 @@
 
     <!-- PANEL DEL MASTER -->
     <div id="gm-dashboard-wrap">
-      <!-- BOTÓN COMPACTO DE AVANCE DE TURNO GLOBAL -->
       <div class="box-frame" style="background:#2c1507; border-color:#ffd700; text-align:center; padding:6px;">
         <button type="button" id="btn-gm-advance-turn" onclick="gmAdvanceGlobalTurn()" style="background:#731e0b; color:#ffe8b5; border:1.5px solid #ffd700; padding:6px 14px; font-family:var(--f-title); font-size:12.5px; font-weight:bold; cursor:pointer; border-radius:3px; letter-spacing:0.5px;">
           ⏳ Avanzar Turno Global
@@ -1766,6 +1870,28 @@
           <span class="main-title-sub">DE LOS</span>
           <span>SMITHNAS</span>
         </h1>
+      </div>
+
+      <!-- BANNER PODEROSO: ALTERACIÓN DEL MUNDO (DESEO) -->
+      <div class="world-alteration-banner">
+        <div class="world-alteration-title">
+          <span>🌌 ALTERACIÓN DEL MUNDO (Deseo de Realidad)</span>
+          <span class="world-alteration-badge">⚠️ 2 Usos de Mesa</span>
+        </div>
+        <div class="world-alteration-desc">
+          Poder de imposición absoluta para cambiar una regla o condición del mundo. <i>¡No olviden utilizarlo en momentos críticos!</i>
+        </div>
+        <div class="world-alteration-controls">
+          <label class="world-alt-check-label">
+            <input type="checkbox" id="world-wish-1" onchange="syncToFirebaseDebounced()">
+            <span>Deseo I Usado</span>
+          </label>
+          <label class="world-alt-check-label">
+            <input type="checkbox" id="world-wish-2" onchange="syncToFirebaseDebounced()">
+            <span>Deseo II Usado</span>
+          </label>
+          <input type="text" id="world-wish-note" class="world-alt-note" placeholder="Nota: Qué alteraron en el mundo..." oninput="syncToFirebaseDebounced()">
+        </div>
       </div>
 
       <div class="grid-2col">
@@ -1809,7 +1935,7 @@
           </div>
         </div>
         
-        <!-- 1. BARRA COMPARTIDA DE INICIATIVA Y D20 CRÍTICO/IMPACTO -->
+        <!-- 1. BARRA COMPARTIDA DE INICIATIVA Y D20 IMPACTO/CRÍTICO -->
         <div class="shared-roll-bar">
           <div class="roll-subpanel">
             <span style="font-weight:bold; color:#4f250b;">⚡ INICIATIVA:</span>
@@ -2004,22 +2130,28 @@
             <div class="essence-embedded-wrap">
               <div class="essence-embedded-title">✨ ESENCIA (GRADOS 1 AL 15)</div>
               
-              <!-- SELECTOR DE ACTIVACIÓN DE MODOS (5 MODOS) -->
+              <!-- SELECTOR DE ACTIVACIÓN DE MODOS EN BLOQUE SIMÉTRICO -->
               <div class="essence-activation-bar">
-                <span style="font-weight:bold; color:#731e0b;">MODO:</span>
-                <span class="essence-act-mode disabled" title="Latente no tiene activación"><input type="checkbox" disabled> ✖ Latente</span>
-                <label class="essence-act-mode" style="color:#78350f;">
-                  <input type="checkbox" id="essence-mode-despierta" onchange="toggleEssenceActivation('despierta')"> 🔥 Despierta (1 Sm/t)
-                </label>
-                <label class="essence-act-mode" style="color:#831843;">
-                  <input type="checkbox" id="essence-mode-manifestada" onchange="toggleEssenceActivation('manifestada')"> ⚡ Manifestada (2 Sm/t)
-                </label>
-                <label class="essence-act-mode" style="color:#4338ca;">
-                  <input type="checkbox" id="essence-mode-trascendida" onchange="toggleEssenceActivation('trascendida')"> 🌌 Trascendida (3 Sm/t)
-                </label>
-                <label class="essence-act-mode" style="color:#7e22ce;">
-                  <input type="checkbox" id="essence-mode-ascendida" onchange="toggleEssenceActivation('ascendida')"> 👑 Ascendida (4 Sm/t)
-                </label>
+                <div style="font-weight:bold; color:#731e0b; width:100%; text-align:center; margin-bottom:4px; font-size:12px;">
+                  ⚡ ACTIVACIÓN DE MODOS DE ESENCIA
+                </div>
+                <div class="essence-modes-grid">
+                  <div class="essence-act-mode disabled" title="Latente no tiene activación">
+                    <input type="checkbox" disabled> ✖ Latente (Bloqueado)
+                  </div>
+                  <label class="essence-act-mode" style="color:#831843;">
+                    <input type="checkbox" id="essence-mode-manifestada" onchange="toggleEssenceActivation('manifestada')"> ⚡ Manifestada (2 Sm/t)
+                  </label>
+                  <label class="essence-act-mode" style="color:#78350f;">
+                    <input type="checkbox" id="essence-mode-despierta" onchange="toggleEssenceActivation('despierta')"> 🔥 Despierta (1 Sm/t)
+                  </label>
+                  <label class="essence-act-mode" style="color:#7e22ce;">
+                    <input type="checkbox" id="essence-mode-ascendida" onchange="toggleEssenceActivation('ascendida')"> 👑 Ascendida (4 Sm/t)
+                  </label>
+                  <label class="essence-act-mode" style="color:#4338ca; grid-column: 1 / -1; justify-content: center;">
+                    <input type="checkbox" id="essence-mode-trascendida" onchange="toggleEssenceActivation('trascendida')"> 🌌 Trascendida (3 Sm/t)
+                  </label>
+                </div>
               </div>
 
               <!-- FILA 1: 3 GRUPOS -->
@@ -2071,7 +2203,7 @@
               </div>
             </div>
 
-            <!-- ASPECTOS DE LA ESENCIA (SUBIDO AQUÍ) -->
+            <!-- ASPECTOS DE LA ESENCIA -->
             <div class="aspects-container-box">
               <div style="font-family:var(--f-title); font-size:13px; font-weight:bold; margin-bottom:6px; text-align:center; color:#4f250b;">
                 🌌 ASPECTO DE LA ESENCIA
@@ -2094,9 +2226,9 @@
         </div>
       </div>
 
-      <!-- ARQUETIPOS Y HABILIDADES (CON PUNTOS INTEGRADOS EN CABECERA) -->
+      <!-- ARQUETIPOS Y HABILIDADES -->
       <div class="box-frame">
-        <!-- PUNTOS DE HABILIDAD EN CABECERA (HORIZONTAL EN ESCRITORIO) -->
+        <!-- PUNTOS DE HABILIDAD EN CABECERA -->
         <div class="skills-points-header-box">
           <div class="skills-points-title">
             <span>✨ PUNTOS DE HABILIDAD:</span>
@@ -2207,8 +2339,8 @@
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
           <button type="button" class="btn-add-item" onclick="addTechniqueRow()">+ Agregar Poder / Técnica</button>
-          <span style="font-size:12px; font-family:var(--f-title); color:#583c14;">
-            Ranuras disponibles: <b id="tech-slots-used">0</b> / <b id="tech-slots-max">4</b>
+          <span class="tech-slots-tag-mobile" style="font-size:12px; font-family:var(--f-title); color:#583c14;">
+            Ranuras: <b id="tech-slots-used">0</b> / <b id="tech-slots-max">4</b>
           </span>
         </div>
 
@@ -2292,7 +2424,10 @@
     const AVATAR_OPTIONS = [
       '⚔️', '🏹', '🪄', '🛡️', '🗡️', '🐺', '💀', '🔮', '🩸', '🐲', 
       '🦅', '🥷', '👑', '🔥', '⚡', '🌙', '🧙‍♂️', '🧝', '🧛', '🧌', 
-      '🪓', '🔨', '✝️', '📜', '👁️', '💎', '🎲', '🪐', '🎭', '🌲'
+      '🪓', '🔨', '✝️', '📜', '👁️', '💎', '🎲', '🪐', '🎭', '🌲',
+      '🦁', '🐯', '🐍', '🦂', '🕷️', '🦇', '👻', '🧟', '🦄', '🔱',
+      '🗿', '🏺', '⛓️', '🕯️', '🗝️', '🧪', '💥', '☄️', '🌪️', '🌊',
+      '❄️', '☀️', '⚜️', '🪙', '🧿', '🎪', '🦉', '🕊️'
     ];
 
     const firebaseConfig = {
@@ -2327,6 +2462,7 @@
     let isRollInCooldown = false;
     let isGmTurnCooldown = false;
     let diceRollsHistory = [];
+    let openGmStateBoxId = null;
 
     function getEssenceTierName(lvl) {
       if (lvl >= 13) return 'Ascendida';
@@ -2347,6 +2483,7 @@
           'stat-hp-curr': '', 'stat-hp-max-base': 0,
           'stat-smath-curr': '', 'stat-smath-max-base': 0,
           'stat-conc': '', 'stat-init-bono': 0, 'pts-base': 0,
+          'world-wish-note': '',
           'status-veneno-val': '', 'status-sangrado-val': '', 'status-curacion-val': '',
           'status-infectado-val': '', 'status-custom-name': '', 'status-custom-val': '',
           'status-stun-turns': '', 'status-sellado-turns': '', 'status-petrificado-turns': '',
@@ -2356,6 +2493,7 @@
           'tech-sec2-name': '', 'tech-sec2-cost': '', 'tech-sec3-name': '', 'tech-sec3-cost': ''
         },
         checkboxes: {
+          'world-wish-1': false, 'world-wish-2': false,
           'status-stun': false, 'status-sellado': false, 'status-petrificado': false,
           'status-mareado': false, 'status-veneno': false, 'status-sangrado': false,
           'status-curacion': false, 'status-infectado': false, 'status-custom-check': false
@@ -2470,7 +2608,6 @@
       showToast(`🛡️ Ícono cambiado a ${icon}`);
     }
 
-    // PLEGAR / DESPLEGAR DATOS DEL PERSONAJE
     let isCharDataCollapsed = false;
     function toggleCharDataCollapse() {
       const wrap = document.getElementById('char-data-content-wrap');
@@ -2522,7 +2659,6 @@
       showToast('🧹 Estados, valores y turnos eliminados.');
     }
 
-    // ACCIONES DIRECTAS DEL MASTER EN EL PANEL GM
     function gmDirectHpChange(pid, isHeal) {
       const input = document.getElementById(`gm-hp-amt-${pid}`);
       const val = parseInt(input?.value) || 0;
@@ -2557,27 +2693,52 @@
       renderGMDashboard();
     }
 
-    function gmToggleState(pid, stateKey, isChecked) {
-      if (!allPlayersData[pid]) return;
-      if (!allPlayersData[pid].checkboxes) allPlayersData[pid].checkboxes = {};
-      allPlayersData[pid].checkboxes[stateKey] = isChecked;
-      saveActivePlayerToCloud(true);
+    function toggleGmStateManager(pid) {
+      openGmStateBoxId = (openGmStateBoxId === pid) ? null : pid;
       renderGMDashboard();
     }
 
-    function gmUpdateStateVal(pid, inputKey, val) {
-      if (!allPlayersData[pid]) return;
-      if (!allPlayersData[pid].inputs) allPlayersData[pid].inputs = {};
-      allPlayersData[pid].inputs[inputKey] = val;
+    function gmApplyStateChanges(pid) {
+      const pdata = allPlayersData[pid];
+      if (!pdata) return;
+      if (!pdata.checkboxes) pdata.checkboxes = {};
+      if (!pdata.inputs) pdata.inputs = {};
+
+      const prefix = `gm-st-${pid}-`;
+      pdata.checkboxes['status-stun'] = document.getElementById(prefix + 'stun')?.checked || false;
+      pdata.inputs['status-stun-turns'] = document.getElementById(prefix + 'stun-t')?.value || '';
+
+      pdata.checkboxes['status-sellado'] = document.getElementById(prefix + 'sellado')?.checked || false;
+      pdata.inputs['status-sellado-turns'] = document.getElementById(prefix + 'sellado-t')?.value || '';
+
+      pdata.checkboxes['status-petrificado'] = document.getElementById(prefix + 'petrificado')?.checked || false;
+      pdata.inputs['status-petrificado-turns'] = document.getElementById(prefix + 'petrificado-t')?.value || '';
+
+      pdata.checkboxes['status-mareado'] = document.getElementById(prefix + 'mareado')?.checked || false;
+      pdata.inputs['status-mareado-turns'] = document.getElementById(prefix + 'mareado-t')?.value || '';
+
+      pdata.checkboxes['status-veneno'] = document.getElementById(prefix + 'veneno')?.checked || false;
+      pdata.inputs['status-veneno-val'] = document.getElementById(prefix + 'veneno-val')?.value || '';
+      pdata.inputs['status-veneno-turns'] = document.getElementById(prefix + 'veneno-t')?.value || '';
+
+      pdata.checkboxes['status-sangrado'] = document.getElementById(prefix + 'sangrado')?.checked || false;
+      pdata.inputs['status-sangrado-val'] = document.getElementById(prefix + 'sangrado-val')?.value || '';
+      pdata.inputs['status-sangrado-turns'] = document.getElementById(prefix + 'sangrado-t')?.value || '';
+
+      pdata.checkboxes['status-curacion'] = document.getElementById(prefix + 'curacion')?.checked || false;
+      pdata.inputs['status-curacion-val'] = document.getElementById(prefix + 'curacion-val')?.value || '';
+      pdata.inputs['status-curacion-turns'] = document.getElementById(prefix + 'curacion-t')?.value || '';
+
+      pdata.checkboxes['status-infectado'] = document.getElementById(prefix + 'infectado')?.checked || false;
+      pdata.inputs['status-infectado-val'] = document.getElementById(prefix + 'infectado-val')?.value || '';
+      pdata.inputs['status-infectado-turns'] = document.getElementById(prefix + 'infectado-t')?.value || '';
+
+      openGmStateBoxId = null;
       saveActivePlayerToCloud(true);
+      renderGMDashboard();
+      showToast(`✓ Estados de ${pdata.inputs?.['char-name'] || 'PJ'} actualizados.`);
     }
 
-    function toggleGmStateManager(pid) {
-      const el = document.getElementById(`gm-state-box-${pid}`);
-      if (el) el.style.display = el.style.display === 'none' ? 'grid' : 'none';
-    }
-
-    // AVANCE DE TURNO GLOBAL CON COOLDOWN DE 10S Y PROCESAMIENTO DE TURNOS
     function gmAdvanceGlobalTurn() {
       if (isGmTurnCooldown) {
         showToast('⏳ Espera al enfriamiento de turno.');
@@ -2636,7 +2797,7 @@
         let currHp = parseFloat(pInputs['stat-hp-curr']) || 0;
         let currSmath = parseFloat(pInputs['stat-smath-curr']) || 0;
 
-        // Efectos de daño/cura de estados
+        // Efectos de daño y cura
         if (pChecks['status-veneno']) {
           const vDmg = parseFloat(pInputs['status-veneno-val']) || 0;
           currHp = Math.max(0, currHp - vDmg);
@@ -2650,7 +2811,7 @@
           currHp = Math.min(maxHp, currHp + cReg);
         }
 
-        // Reducción de contador de turnos de estados
+        // Descontar contador de turnos de estados
         stateKeys.forEach(item => {
           if (pChecks[item.chk]) {
             let t = parseInt(pInputs[item.turn]) || 0;
@@ -2663,7 +2824,7 @@
           }
         });
 
-        // Drenaje de Smath por esencia
+        // Drenaje de Smath por activación
         let smathDrain = 0;
         if (pdata.essenceMode === 'despierta') smathDrain = 1;
         else if (pdata.essenceMode === 'manifestada') smathDrain = 2;
@@ -2673,14 +2834,13 @@
         if (smathDrain > 0) {
           currSmath = Math.max(0, currSmath - smathDrain);
           if (currSmath === 0) {
-            // Apagar modo y descontar vida proporcional
             pdata.essenceMode = 'none';
             const flatHpBefore = baseHp + Math.round(baseHp * (0.20 * defLvl));
             currHp = Math.min(flatHpBefore, currHp);
           }
         }
 
-        // Desmarcar acciones del turno
+        // Desmarcar acciones y RESETEAR tiradas de dados al cambiar turno
         pChecks['act-atacar'] = false;
         pChecks['act-conc-1'] = false;
         pChecks['act-conc-2'] = false;
@@ -2690,6 +2850,9 @@
         pChecks['act-mot-1'] = false;
         pChecks['act-mot-2'] = false;
 
+        pdata.lastRoll = '-';
+        pdata.lastD20Crit = '-';
+
         pInputs['stat-hp-curr'] = currHp;
         pInputs['stat-smath-curr'] = currSmath;
       });
@@ -2697,7 +2860,7 @@
       saveActivePlayerToCloud(true);
       if (activeRole === 'gm') renderGMDashboard();
       else if (allPlayersData[activeRole]) applyDataToForm(allPlayersData[activeRole]);
-      showToast('⏳ Turno avanzado: Estados resueltos, turnos restados y Smath procesado.');
+      showToast('⏳ Turno avanzado: Estados resueltos, turnos restados y dados reseteados.');
     }
 
     function updateSenderSelect() {
@@ -3046,7 +3209,7 @@
         });
       }
 
-      // Smath de activación inmediato para manifestada
+      // Smath de activación inmediato
       if (newMode === 'manifestada' && currentEssenceMode !== 'manifestada') {
         const smathInput = document.getElementById('stat-smath-curr');
         let curSmath = parseFloat(smathInput?.value) || 0;
@@ -3059,7 +3222,6 @@
         if (smathInput) smathInput.value = curSmath;
       }
 
-      // Cálculo del bono de vida a sumar/restar
       let bHp = 0;
       ARCHETYPES.forEach(arch => {
         bHp += (archLevelState[arch] || 0) * GRADE_BONUSES[arch].hp;
@@ -3222,8 +3384,14 @@
         const el = document.getElementById(id);
         if (el) el.checked = false;
       });
+
+      if (allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastRoll = '-';
+        allPlayersData[activeRole].lastD20Crit = '-';
+      }
+
       syncToFirebaseDebounced();
-      showToast('🧹 Acciones del turno desmarcadas.');
+      showToast('🧹 Acciones y dados del turno limpiados.');
     }
 
     function addPassiveRow(text = '') {
@@ -3318,7 +3486,7 @@
       });
 
       try {
-        localStorage.setItem('requiem_smithnas_state_v12', JSON.stringify({
+        localStorage.setItem('requiem_smithnas_state_v13', JSON.stringify({
           players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList, pinnedMessage: pinnedMessage
         }));
       } catch(e) {}
@@ -3386,7 +3554,7 @@
       }
     }
 
-    // PANEL DEL MASTER CON GESTIÓN DE ESTADOS 4/4
+    // PANEL DEL MASTER CON ESTADOS EN 4/4 Y DADOS CONDICIONALES
     function renderGMDashboard() {
       const cardsGrid = document.getElementById('gm-cards-container');
       cardsGrid.innerHTML = '';
@@ -3400,11 +3568,17 @@
         const charName = pInputs['char-name'] || `Jugador ${idx + 1}`;
         const hpCurr = pInputs['stat-hp-curr'] || '0';
         const roll = pdata.lastRoll || '-';
+        const crit = pdata.lastD20Crit || '-';
         const init = pdata.lastInit || '-';
         
         const essenceLvl = pdata.essence || 0;
         const essenceTier = getEssenceTierName(essenceLvl);
         const essenceDisplay = essenceLvl > 0 ? `${essenceLvl} (${essenceTier})` : '-';
+
+        // Deseos usados
+        const wish1 = pChecks['world-wish-1'] ? 1 : 0;
+        const wish2 = pChecks['world-wish-2'] ? 1 : 0;
+        const totalWishesUsed = wish1 + wish2;
 
         let bHp = 0, bSmath = 0, bPc = 0, bPd = 0;
         ARCHETYPES.forEach(arch => {
@@ -3466,6 +3640,13 @@
           `;
         }
 
+        // Ataque y Crítico solo si se tiraron este turno
+        const attackDisplay = (roll && roll !== '-') ? `<span style="color:var(--txt-red); font-weight:bold;">${roll}</span>` : `<span style="color:#777; font-style:italic;">Sin ataque en este turno</span>`;
+        const critDisplay = (crit && crit !== '-') ? `<b style="color:#854d0e;">${crit}</b>` : `<span style="color:#777; font-style:italic;">-</span>`;
+
+        const isBoxOpen = (openGmStateBoxId === pid);
+        const prefix = `gm-st-${pid}-`;
+
         const card = document.createElement('div');
         card.className = 'gm-player-card';
         card.innerHTML = `
@@ -3479,12 +3660,14 @@
             <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
             <div class="gm-stat-line"><span>✨ Esencia:</span> <b style="color:#731e0b;">${essenceDisplay}</b></div>
             <div class="gm-stat-line"><span>⚡ Iniciativa:</span> <b style="color:#b45309;">${init}</b></div>
+            <div class="gm-stat-line"><span>🎯 Crítico D20:</span> ${critDisplay}</div>
+            <div class="gm-stat-line"><span>🌌 Deseos:</span> <b>${totalWishesUsed}/2 Usados</b></div>
             <div class="gm-stat-line"><span>🔥 Modo:</span> <b style="color:#731e0b;">${pdata.essenceMode === 'none' ? 'Inactivo' : pdata.essenceMode.toUpperCase()}</b></div>
             
             <!-- FILA ANCHA PARA ÚLTIMO ATAQUE -->
             <div class="gm-last-attack-full-row">
               <span style="font-weight:bold;">🎲 Último Ataque:</span>
-              <span style="color:var(--txt-red); font-weight:bold;">${roll}</span>
+              ${attackDisplay}
             </div>
           </div>
           
@@ -3497,32 +3680,50 @@
             <button type="button" class="gm-state-manager-toggle" onclick="toggleGmStateManager('${pid}')">⚡ Estados</button>
           </div>
 
-          <!-- GESTOR DESPLEGABLE DIRECTO DE ESTADOS EN 4/4 QUE NO SE CIERRA -->
-          <div class="gm-state-manager-box" id="gm-state-box-${pid}" style="display:none;" onclick="event.stopPropagation();">
-            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-stun'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-stun', this.checked)"> Stun</div>
-            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-sellado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-sellado', this.checked)"> Sellado</div>
-            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-petrificado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-petrificado', this.checked)"> Petrificado</div>
-            <div class="gm-state-inline-item"><input type="checkbox" ${pChecks['status-mareado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-mareado', this.checked)"> Mareado</div>
+          <!-- GESTOR DE ESTADOS 4/4 CON BOTÓN OK -->
+          <div class="gm-state-manager-box" id="gm-state-box-${pid}" style="display:${isBoxOpen ? 'grid' : 'none'};" onclick="event.stopPropagation();">
+            <div class="gm-state-inline-item">
+              <input type="checkbox" id="${prefix}stun" ${pChecks['status-stun'] ? 'checked' : ''}> Stun
+              <input type="number" id="${prefix}stun-t" value="${pInputs['status-stun-turns']||''}" placeholder="T" title="Turnos">
+            </div>
+            <div class="gm-state-inline-item">
+              <input type="checkbox" id="${prefix}sellado" ${pChecks['status-sellado'] ? 'checked' : ''}> Sell
+              <input type="number" id="${prefix}sellado-t" value="${pInputs['status-sellado-turns']||''}" placeholder="T" title="Turnos">
+            </div>
+            <div class="gm-state-inline-item">
+              <input type="checkbox" id="${prefix}petrificado" ${pChecks['status-petrificado'] ? 'checked' : ''}> Petr
+              <input type="number" id="${prefix}petrificado-t" value="${pInputs['status-petrificado-turns']||''}" placeholder="T" title="Turnos">
+            </div>
+            <div class="gm-state-inline-item">
+              <input type="checkbox" id="${prefix}mareado" ${pChecks['status-mareado'] ? 'checked' : ''}> Mar
+              <input type="number" id="${prefix}mareado-t" value="${pInputs['status-mareado-turns']||''}" placeholder="T" title="Turnos">
+            </div>
             
             <div class="gm-state-inline-item">
-              <input type="checkbox" ${pChecks['status-veneno'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-veneno', this.checked)"> Ven:
-              <input type="number" value="${pInputs['status-veneno-val'] || ''}" placeholder="D" onchange="gmUpdateStateVal('${pid}', 'status-veneno-val', this.value)">
+              <input type="checkbox" id="${prefix}veneno" ${pChecks['status-veneno'] ? 'checked' : ''}> Ven:
+              <input type="number" id="${prefix}veneno-val" value="${pInputs['status-veneno-val'] || ''}" placeholder="D" title="Daño">
+              <input type="number" id="${prefix}veneno-t" value="${pInputs['status-veneno-turns']||''}" placeholder="T" title="Turnos">
             </div>
 
             <div class="gm-state-inline-item">
-              <input type="checkbox" ${pChecks['status-sangrado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-sangrado', this.checked)"> Sang:
-              <input type="number" value="${pInputs['status-sangrado-val'] || ''}" placeholder="D" onchange="gmUpdateStateVal('${pid}', 'status-sangrado-val', this.value)">
+              <input type="checkbox" id="${prefix}sangrado" ${pChecks['status-sangrado'] ? 'checked' : ''}> Sang:
+              <input type="number" id="${prefix}sangrado-val" value="${pInputs['status-sangrado-val'] || ''}" placeholder="D" title="Daño">
+              <input type="number" id="${prefix}sangrado-t" value="${pInputs['status-sangrado-turns']||''}" placeholder="T" title="Turnos">
             </div>
 
             <div class="gm-state-inline-item">
-              <input type="checkbox" ${pChecks['status-curacion'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-curacion', this.checked)"> Cura:
-              <input type="number" value="${pInputs['status-curacion-val'] || ''}" placeholder="R" onchange="gmUpdateStateVal('${pid}', 'status-curacion-val', this.value)">
+              <input type="checkbox" id="${prefix}curacion" ${pChecks['status-curacion'] ? 'checked' : ''}> Cur:
+              <input type="number" id="${prefix}curacion-val" value="${pInputs['status-curacion-val'] || ''}" placeholder="R" title="Regen">
+              <input type="number" id="${prefix}curacion-t" value="${pInputs['status-curacion-turns']||''}" placeholder="T" title="Turnos">
             </div>
 
             <div class="gm-state-inline-item">
-              <input type="checkbox" ${pChecks['status-infectado'] ? 'checked' : ''} onchange="gmToggleState('${pid}', 'status-infectado', this.checked)"> Inf:
-              <input type="number" value="${pInputs['status-infectado-val'] || ''}" placeholder="%" onchange="gmUpdateStateVal('${pid}', 'status-infectado-val', this.value)">
+              <input type="checkbox" id="${prefix}infectado" ${pChecks['status-infectado'] ? 'checked' : ''}> Inf:
+              <input type="number" id="${prefix}infectado-val" value="${pInputs['status-infectado-val'] || ''}" placeholder="%" title="Porcentaje">
+              <input type="number" id="${prefix}infectado-t" value="${pInputs['status-infectado-turns']||''}" placeholder="T" title="Turnos">
             </div>
+
+            <button type="button" class="gm-apply-state-btn" onclick="gmApplyStateChanges('${pid}')">✓ OK (Confirmar Estados)</button>
           </div>
 
           <div class="gm-actions-container">
@@ -3997,7 +4198,7 @@
       setupAvatarGrid();
 
       try {
-        const raw = localStorage.getItem('requiem_smithnas_state_v12');
+        const raw = localStorage.getItem('requiem_smithnas_state_v13');
         if (raw) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed.players)) playerList = parsed.players;
