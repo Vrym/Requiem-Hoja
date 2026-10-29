@@ -65,7 +65,7 @@
       position: relative;
     }
 
-    /* BARRA SUPERIOR DE CONEXIÓN Y ESTADO */
+    /* BARRA DE ESTADO DE CONEXIÓN */
     .status-bar {
       display: flex;
       justify-content: space-between;
@@ -837,7 +837,7 @@
     }
     .gm-cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 12px;
       margin-bottom: 14px;
     }
@@ -864,9 +864,42 @@
     .gm-stat-line {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       font-size: 14px;
       padding: 3px 0;
       border-bottom: 1px dotted rgba(0,0,0,0.15);
+    }
+
+    /* INSIGNIAS DE ACCIÓN PARA EL GM */
+    .gm-actions-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 6px 0;
+      border-bottom: 1px dotted rgba(0,0,0,0.15);
+    }
+    .gm-actions-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .gm-action-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: #731e0b;
+      color: #ffe8b5;
+      border: 1px solid #ffd700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: bold;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    .gm-action-badge.mot {
+      background: #b45309;
+      border-color: #fef08a;
+      color: #fff;
     }
 
     /* AJUSTES CELULAR */
@@ -988,7 +1021,7 @@
 
   <div class="sheet-container">
 
-    <!-- BARRA DE ESTADO DE CONEXIÓN CON FIREBASE -->
+    <!-- BARRA DE ESTADO DE CONEXIÓN -->
     <div class="status-bar">
       <span>🔥 Réquiem Smithnas — Servidor de Mesa</span>
       <div class="status-badge">
@@ -1055,8 +1088,12 @@
           </div>
         </div>
 
+        <!-- ACCIONES POR TURNO (CON BOTÓN NUEVO TURNO) -->
         <div class="box-frame">
-          <div class="box-frame-title">Acciones por Turno</div>
+          <div class="box-frame-title" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Acciones por Turno</span>
+            <button type="button" onclick="clearTurnActions()" title="Desmarcar todas las acciones" style="background:#46250f; color:#faebd0; border:1px solid #bf8a3b; font-size:11px; padding:2px 7px; cursor:pointer; font-family:var(--f-title); border-radius:2px;">🧹 Nuevo Turno</button>
+          </div>
           <div class="action-row">
             <span class="action-icon">⚔️</span>
             <span style="flex:1;"><b>Atacar</b> — 1 vez/turno (1 acción).</span>
@@ -1441,7 +1478,7 @@
   </div>
 
   <script>
-    // --- CONFIGURACIÓN DE FIREBASE DEL USUARIO ---
+    // CONFIGURACIÓN DE FIREBASE
     const firebaseConfig = {
       apiKey: "AIzaSyClIcL0oWN92Jkl1Npt7gtFQ8QTAqPucNk",
       authDomain: "requiem-hoja.firebaseapp.com",
@@ -1540,6 +1577,31 @@
       el.style.height = Math.max(22, el.scrollHeight) + 'px';
     }
 
+    // EXTRAER ACCIONES ACTIVAS DE CADA JUGADOR
+    function getActiveActionsList(chk = {}) {
+      const acts = [];
+      if (chk['act-atacar']) acts.push('⚔️ Atacar');
+      if (chk['act-conc-1'] && chk['act-conc-2']) acts.push('🧘 Concentrarse x2');
+      else if (chk['act-conc-1'] || chk['act-conc-2']) acts.push('🧘 Concentrarse x1');
+      if (chk['act-def']) acts.push('🛡️ Defenderse');
+      if (chk['act-desp-1'] && chk['act-desp-2']) acts.push('🏃 Desplazarse x2');
+      else if (chk['act-desp-1'] || chk['act-desp-2']) acts.push('🏃 Desplazarse x1');
+      if (chk['act-mot-1']) acts.push('🔥 Motivación (3 Sm)');
+      if (chk['act-mot-2']) acts.push('🔥 Motivación (5 Sm)');
+      return acts;
+    }
+
+    // DESMARCAR ACCIONES DEL TURNO
+    function clearTurnActions() {
+      const actionIds = ['act-atacar', 'act-conc-1', 'act-conc-2', 'act-def', 'act-desp-1', 'act-desp-2', 'act-mot-1', 'act-mot-2'];
+      actionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.checked = false;
+      });
+      syncToFirebaseDebounced();
+      showToast('🧹 Acciones del turno desmarcadas.');
+    }
+
     // SINCRONIZACIÓN EN TIEMPO REAL CON FIREBASE
     gameRef.on('value', snapshot => {
       const cloudData = snapshot.val();
@@ -1586,12 +1648,11 @@
         playerList: playerList,
         characters: allPlayersData
       }).then(() => {
-        if (!silent) showToast('☁️ Sincronizado en vivo con la mesa.');
+        if (!silent) showToast('☁️ Sincronizado en vivo.');
       }).catch(err => {
-        if (!silent) showToast('⚠️ Guardado local (sin conexión al servidor).');
+        if (!silent) showToast('⚠️ Guardado local (sin conexión).');
       });
 
-      // Respaldo en memoria local
       try {
         localStorage.setItem('requiem_smithnas_state_v3', JSON.stringify({
           players: playerList, data: allPlayersData, activeRole: activeRole
@@ -1669,6 +1730,7 @@
       }
     }
 
+    // PANEL DEL MAESTRO CON ACCIONES DEL TURNO
     function renderGMDashboard() {
       const cardsGrid = document.getElementById('gm-cards-container');
       cardsGrid.innerHTML = '';
@@ -1686,26 +1748,38 @@
         const pd = pInputs['stat-pd'] || '0';
         const roll = pdata.lastRoll || '-';
 
+        // Acciones que el jugador tiene tildadas en este turno
+        const activeActs = getActiveActionsList(pdata.checkboxes || {});
+        let actionsBadgesHtml = '<span style="color:#777; font-size:12px; font-style:italic;">Sin acciones en este turno</span>';
+        if (activeActs.length > 0) {
+          actionsBadgesHtml = activeActs.map(act => {
+            const isMot = act.includes('Motivación');
+            return `<span class="gm-action-badge ${isMot ? 'mot' : ''}">${escapeHtml(act)}</span>`;
+          }).join('');
+        }
+
         const card = document.createElement('div');
         card.className = 'gm-player-card';
         card.innerHTML = `
           <div class="gm-card-title">
             <span>⚔️ ${escapeHtml(charName)}</span>
-            <button type="button" onclick="switchRole('${pid}')" style="background:#4a2b13; border:1px solid #bf8a3b; color:#fff; font-size:11px; padding:2px 6px; cursor:pointer; font-family:var(--f-title);">Editar</button>
+            <button type="button" onclick="switchRole('${pid}')" style="background:#4a2b13; border:1px solid #bf8a3b; color:#fff; font-size:11px; padding:2px 6px; cursor:pointer; font-family:var(--f-title); border-radius:2px;">Abrir Ficha</button>
           </div>
           <div class="gm-stat-line"><span>Oficio:</span> <b>${escapeHtml(oficio)}</b></div>
           <div class="gm-stat-line"><span>❤️ Resencia:</span> <b>${hpCurr} / ${hpMax}</b></div>
           <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMax}</b></div>
           <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pc} / ${pd}</b></div>
-          <div class="gm-stat-line" style="border-bottom:none; margin-top:4px;">
-            <span>🎲 Último D6:</span> <b style="color:var(--txt-red); font-size:16px;">${roll}</b>
+          <div class="gm-stat-line"><span>🎲 Último D6:</span> <b style="color:var(--txt-red); font-size:15px;">${roll}</b></div>
+          <div class="gm-actions-container">
+            <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Acciones de Turno:</span>
+            <div class="gm-actions-badges">${actionsBadgesHtml}</div>
           </div>
         `;
         cardsGrid.appendChild(card);
       });
     }
 
-    // MODAL REINICIAR Y BORRAR
+    // MODAL
     function openResetModal() {
       modalActionType = 'reset';
       document.getElementById('modal-title-text').innerText = '⚠️ REINICIAR FICHA';
@@ -2117,7 +2191,6 @@
       setupClassifications();
       setupEssenceSeals();
 
-      // Cargar respaldo local mientras conecta Firebase
       try {
         const raw = localStorage.getItem('requiem_smithnas_state_v3');
         if (raw) {
@@ -2130,7 +2203,7 @@
       renderRoleBar();
       switchRole('p1');
 
-      // Auto-sincronización con debounce en cambios de inputs
+      // Sincronizar en tiempo real tanto inputs de texto como checkboxes
       document.getElementById('player-sheet-wrap').addEventListener('input', () => syncToFirebaseDebounced());
       document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced());
     });
