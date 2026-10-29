@@ -39,11 +39,12 @@
       color: var(--txt-dark);
       font-family: var(--f-body);
       font-size: 16px;
-      padding: 6px 2px;
+      padding: 6px 4px 60px 4px;
       display: flex;
       justify-content: center;
       overflow-x: hidden;
       min-height: 100vh;
+      width: 100%;
     }
 
     .sheet-container {
@@ -157,10 +158,10 @@
       white-space: nowrap;
     }
 
-    /* BARRA DE ROLES CON BOTÓN DE MENÚ HUB */
+    /* BARRA DE ROLES LIMPIA */
     .role-bar-wrap {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       flex-wrap: wrap;
       gap: 6px;
@@ -174,6 +175,7 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      justify-content: center;
       gap: 5px;
     }
     .role-btn {
@@ -197,22 +199,30 @@
       box-shadow: 0 0 8px rgba(255, 215, 0, 0.45);
       font-weight: bold;
     }
-    .btn-add-player {
-      background: #1e4a28;
-      border-color: #4ade80;
-      color: #e8f5e9;
-    }
-    .btn-menu-hub {
+
+    /* BOTÓN FLOTANTE ENGRANAJE FIJO EN LA ESQUINA INFERIOR DERECHA */
+    #floating-hub-btn {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
       background: #731e0b;
       color: #ffe8b5;
-      border: 1.5px solid #ffd700;
-      padding: 5px 12px;
-      font-family: var(--f-title);
-      font-size: 12px;
-      font-weight: bold;
+      border: 2px solid #ffd700;
+      font-size: 24px;
       cursor: pointer;
-      border-radius: 3px;
-      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s, background 0.15s;
+    }
+    #floating-hub-btn:hover {
+      transform: scale(1.08);
+      background: #8b1313;
     }
 
     /* MODALES */
@@ -327,11 +337,11 @@
       cursor: pointer;
     }
 
-    /* TÍTULO DE CORRIDO EN UNA SOLA LÍNEA */
+    /* TÍTULO CONTINUO SIN SUBTÍTULOS QUE CAIGAN */
     .main-title-wrap {
       text-align: center;
       margin-bottom: 12px;
-      padding-bottom: 8px;
+      padding-bottom: 6px;
       border-bottom: 2px dashed var(--border-gold);
     }
     .main-title-continuous {
@@ -342,35 +352,6 @@
       letter-spacing: 2px;
       white-space: nowrap;
       text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
-      margin-bottom: 6px;
-    }
-
-    /* RECUADRO CON EL ÚLTIMO MENSAJE DEL MASTER DEBAJO DEL TÍTULO */
-    .title-msg-box {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      background: rgba(43, 22, 8, 0.08);
-      border: 1px solid var(--border-gold);
-      padding: 4px 10px;
-      border-radius: 4px;
-      max-width: 95%;
-      font-size: 13.5px;
-      color: #3b1b07;
-    }
-    .title-msg-label {
-      font-family: var(--f-title);
-      font-weight: bold;
-      color: #731e0b;
-      white-space: nowrap;
-      font-size: 12px;
-    }
-    .title-msg-text {
-      font-family: var(--f-body);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     .grid-2col {
@@ -388,6 +369,7 @@
       padding: 10px;
       margin-bottom: 12px;
       box-shadow: inset 0 0 10px rgba(90, 45, 15, 0.1);
+      width: 100%;
     }
     .box-frame-title {
       font-family: var(--f-title);
@@ -467,6 +449,7 @@
       padding: 3px 5px;
       border: 1px solid rgba(60,30,10,0.18);
       border-radius: 3px;
+      min-width: 0;
     }
     .status-effect-item input[type="checkbox"] {
       width: 16px;
@@ -485,6 +468,7 @@
       border: 1px solid var(--border-dark) !important;
       background: #fff !important;
       border-radius: 2px;
+      flex-shrink: 0;
     }
     .status-custom-row {
       grid-column: 1 / -1;
@@ -505,6 +489,7 @@
       font-size: 14px;
       padding: 1px 4px;
       outline: none;
+      min-width: 0;
     }
 
     /* TABLA D6 GUÍA */
@@ -569,6 +554,7 @@
       padding: 3px 6px;
       border-radius: 2px;
       outline: none;
+      min-width: 0;
     }
     .weapon-inputs-group {
       display: flex;
@@ -576,6 +562,7 @@
       gap: 4px;
       font-family: var(--f-title);
       font-size: 12px;
+      flex-wrap: wrap;
     }
     .weapon-base-input {
       width: 50px;
@@ -620,7 +607,7 @@
       padding: 0 4px;
     }
 
-    /* COMBATE AUTOMATIZADO */
+    /* COMBATE RESPONSIVE LIMPIO */
     .combat-stat-row {
       display: flex;
       justify-content: space-between;
@@ -641,6 +628,8 @@
       display: flex;
       align-items: center;
       gap: 3px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
     .combat-inputs input {
       width: 48px;
@@ -950,7 +939,7 @@
       vertical-align: top;
     }
     .inventory-table th {
-      background: #dfc89d;
+      background: #dfcb9f;
       font-family: var(--f-title);
       font-size: 12px;
       text-align: center;
@@ -1223,16 +1212,74 @@
       font-size: 13.5px;
     }
 
-    /* AJUSTES CELULAR */
+    /* ========================================================
+       AJUSTES EXCLUSIVOS CELULAR (RESPONSIVE SIN DESBORDES)
+       ======================================================== */
     @media (max-width: 650px) {
-      body { padding: 4px 2px; }
-      .sheet-container { padding: 6px 3px; border-width: 3px; }
+      body { padding: 4px 2px 70px 2px; }
+      .sheet-container { padding: 6px 4px; border-width: 3px; }
       .grid-2col { grid-template-columns: 1fr; gap: 8px; }
       .archetypes-grid { grid-template-columns: 1fr; gap: 8px; }
       .despiertas-wrapper { grid-template-columns: 1fr; }
-      .status-effects-grid { grid-template-columns: 1fr 1fr; }
-      .box-frame { padding: 6px 3px; margin-bottom: 8px; }
+      .box-frame { padding: 6px 4px; margin-bottom: 8px; }
       .archetype-box { padding: 6px 4px; }
+      
+      /* COMBATE EN CELULAR: ETIQUETAS ARRIBA Y CASILLAS ABAJO CON AJUSTE FLEXIBLE */
+      .combat-stat-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 5px 0;
+      }
+      .combat-inputs {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 3px;
+        background: rgba(0,0,0,0.03);
+        padding: 4px 6px;
+        border-radius: 3px;
+      }
+      .combat-stat-row label {
+        font-size: 13px;
+      }
+      .combat-inputs input {
+        width: 44px;
+        font-size: 14px;
+      }
+
+      /* ARMAS EN CELULAR: APILADO VERTICAL LIMPIO */
+      .weapon-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+      }
+      .weapon-inputs-group {
+        justify-content: space-between;
+        width: 100%;
+      }
+      .btn-roll-weapon {
+        width: 100%;
+        padding: 6px;
+      }
+      .weapon-badge {
+        justify-content: space-between;
+      }
+
+      /* ESTADOS EN CELULAR */
+      .status-effects-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+      }
+      .status-effect-item {
+        font-size: 12px;
+        padding: 2px 4px;
+      }
+      .status-val-input {
+        width: 36px !important;
+        font-size: 13px !important;
+      }
+
       .arch-header { justify-content: space-between; gap: 4px; padding-bottom: 4px; }
       .arch-title-text { font-size: 13.5px; }
       .arch-diamonds-wrap { gap: 4px; padding: 2px 3px; }
@@ -1242,15 +1289,22 @@
       .skill-boxes { gap: 2.5px; }
       .skill-boxes input[type="checkbox"] { width: 17.5px; height: 17.5px; }
       .skill-bonus-tag { width: 30px; font-size: 11px; padding: 1px 0; }
+
       .desktop-th { display: none; }
       .mobile-th { display: inline-block; line-height: 1.1; }
       .grade-bonus-table th, .grade-bonus-table td { font-size: 11px; padding: 4px 1px; }
       .inventory-table th, .inventory-table td { font-size: 12px; padding: 3px 1px; }
       .inventory-table textarea { font-size: 12px; line-height: 1.2; padding: 1px 1px; }
+
+      .essence-stages { font-size: 9px; }
+      .essence-seal { width: 26px; height: 26px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- BOTÓN FLOTANTE ENGRANAJE (FIJO EN ESQUINA INFERIOR DERECHA) -->
+  <button type="button" id="floating-hub-btn" onclick="openHubModal()" title="Menú de Opciones">⚙️</button>
 
   <!-- MODAL DE CONFIRMACIÓN -->
   <div id="modal-backdrop">
@@ -1264,11 +1318,12 @@
     </div>
   </div>
 
-  <!-- HUB DE OPCIONES FLOTANTE -->
+  <!-- HUB DE OPCIONES FLOTANTE (INCLUYE NUEVO PJ) -->
   <div id="hub-modal-backdrop">
     <div class="hub-modal-box">
       <div class="modal-title" style="color:#3b1b07;">⚙️ MENÚ DE OPCIONES</div>
       <div class="hub-actions-grid">
+        <button type="button" class="hub-btn" onclick="addNewPlayer(); closeHubModal();" style="background:#1e4a28; border-color:#4ade80; grid-column:1 / -1; font-weight:bold;">➕ Nuevo Personaje</button>
         <button type="button" class="hub-btn" onclick="saveActivePlayerToCloud(false); closeHubModal();">☁️ Sincronizar</button>
         <button type="button" class="hub-btn" onclick="exportJSON(); closeHubModal();">📤 Exportar</button>
         <label for="importFile" class="hub-btn" style="margin:0;">📥 Importar</label>
@@ -1307,26 +1362,26 @@
     <div class="objective-banner">
       <div class="objective-header">
         <span class="objective-header-title">🎯 ÚLTIMOS MENSAJES DEL MÁSTER</span>
-        <button type="button" class="objective-btn" onclick="openHistoryModal()">📜 Ver Historial Completo</button>
+        <button type="button" class="objective-btn" onclick="openHistoryModal()">📜 Historial</button>
       </div>
       <div id="latest-objectives-container" class="latest-objectives-list">
         <div class="objective-row"><span class="obj-text" style="color:#aaa; font-style:italic;">Sin mensajes activos por el momento.</span></div>
       </div>
     </div>
 
-    <!-- BARRA DE ROLES CON BOTÓN DE MENÚ HUB -->
+    <!-- BARRA DE ROLES LIMPIA (SOLO PESTAÑAS) -->
     <div class="role-bar-wrap">
       <div class="role-bar-tabs" id="role-bar-container"></div>
-      <button type="button" class="btn-menu-hub" onclick="openHubModal()">⚙️ Menú</button>
     </div>
 
     <!-- PANEL DEL MAESTRO (GM DASHBOARD) -->
     <div id="gm-dashboard-wrap">
-      <div class="box-frame" style="background:rgba(255,255,255,0.7); border-color:#8c5826;">
-        <div class="box-frame-title">📢 Transmitir Nuevo Objetivo / Mensaje a la Mesa</div>
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <input type="text" id="gm-objective-input" placeholder="Escribe el objetivo o evento para todos los jugadores..." style="flex:1; min-width:200px; padding:6px; font-family:var(--f-body); font-size:15px; border:1.5px solid var(--border-dark); background:#fff;">
-          <button type="button" onclick="broadcastObjective()" style="background:#731e0b; color:#ffe8b5; border:1.5px solid #ffd700; padding:6px 14px; font-family:var(--f-title); font-size:13px; font-weight:bold; cursor:pointer; border-radius:2px;">Publicar</button>
+      <!-- CONSOLA COMPACTA DEL GM -->
+      <div class="box-frame" style="background:rgba(255,255,255,0.7); border-color:#8c5826; padding:6px 8px;">
+        <div class="box-frame-title" style="font-size:13px; margin-bottom:6px; padding-bottom:2px;">📢 Transmitir Nuevo Objetivo / Mensaje a la Mesa</div>
+        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+          <input type="text" id="gm-objective-input" placeholder="Escribe el objetivo..." style="flex:1; min-width:180px; max-width:420px; padding:4px 8px; font-family:var(--f-body); font-size:13.5px; border:1.5px solid var(--border-dark); background:#fff; border-radius:2px;">
+          <button type="button" onclick="broadcastObjective()" style="background:#731e0b; color:#ffe8b5; border:1px solid #ffd700; padding:4px 12px; font-family:var(--f-title); font-size:12px; font-weight:bold; cursor:pointer; border-radius:2px;">Publicar</button>
         </div>
       </div>
 
@@ -1338,15 +1393,9 @@
 
     <!-- FICHA INTERACTIVA COMPLETA -->
     <div id="player-sheet-wrap">
-      <!-- TÍTULO DE CORRIDO Y ÚLTIMO MENSAJE DEL MÁSTER ABAJO -->
+      <!-- TÍTULO DE CORRIDO CONTINUO -->
       <div class="main-title-wrap">
         <h1 class="main-title-continuous">RÉQUIEM DE LOS SMITHNAS</h1>
-        <div>
-          <div class="title-msg-box">
-            <span class="title-msg-label">📢 MÁSTER:</span>
-            <span id="title-latest-msg-text" class="title-msg-text">Sin mensajes activos.</span>
-          </div>
-        </div>
       </div>
 
       <div class="grid-2col">
@@ -1422,7 +1471,7 @@
               <input type="number" id="stat-pc-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+ Bono:</span>
               <span id="stat-pc-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">=</span>
+              <span class="calc-tag">= Total:</span>
               <span id="stat-pc-total" class="calc-total">0</span>
             </div>
           </div>
@@ -1434,7 +1483,7 @@
               <input type="number" id="stat-pd-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+ Bono:</span>
               <span id="stat-pd-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">=</span>
+              <span class="calc-tag">= Total:</span>
               <span id="stat-pd-total" class="calc-total">0</span>
             </div>
           </div>
@@ -1476,7 +1525,7 @@
             </div>
           </div>
 
-          <!-- ESTADOS NEGATIVOS CON BOTÓN DE LIMPIEZA -->
+          <!-- ESTADOS NEGATIVOS CON BOTÓN DE LIMPIEZA TOTAL -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:6px; border-top:1.5px dashed rgba(60,30,10,0.25);">
             <span style="font-family:var(--f-title); font-weight:bold; font-size:12px; color:#4f250b;">ESTADOS Y ALTERACIONES:</span>
             <button type="button" onclick="clearNegativeStates()" style="background:#5a1212; color:#ffe8b5; border:1px solid #bf8a3b; font-family:var(--f-title); font-size:10px; padding:2px 7px; cursor:pointer; border-radius:2px;">🧹 Limpiar Estados</button>
@@ -1511,7 +1560,7 @@
                 <input type="number" id="pts-base" value="0" style="width:48px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
                 <span class="calc-tag">+ Bono:</span>
                 <span id="pts-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-                <span class="calc-tag">=</span>
+                <span class="calc-tag">= Total:</span>
                 <span id="pts-obtenidos-total" class="calc-total">0</span>
               </div>
             </div>
@@ -1675,8 +1724,8 @@
           <div>
             <div class="awakened-node"><div class="awakened-node-title">TÉCNICA PRINCIPAL:</div><input type="text" id="tech-princ-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-princ-cost" style="width:75px;"></div></div>
             <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA I:</div><input type="text" id="tech-sec1-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec1-cost" style="width:75px;"></div></div>
-            <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div><input type="text" id="tech-sec2-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec2-cost" style="width:75px;"></div></div>
-            <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div><input type="text" id="tech-sec3-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec3-cost" style="width:75px;"></div></div>
+            <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div><input type="text" id="tech-sec2-name" placeholder="Nombre..."></div>
+            <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div><input type="text" id="tech-sec3-name" placeholder="Nombre..."></div>
           </div>
 
           <div style="background:rgba(255,255,255,0.3); border:1.5px solid var(--border-dark); padding:8px;">
@@ -1776,6 +1825,15 @@
     const SKILL_BONUSES = ['+0', '+1', '+2', '+4', '+6', '+9', '+12', 'x2D'];
     const ARCHETYPES = ['impulsor', 'controlador', 'perpetuador', 'proyector', 'evocador', 'conmutador'];
 
+    function getEssenceStageName(lvl) {
+      if (!lvl || lvl <= 0) return '';
+      if (lvl <= 3) return 'Latente';
+      if (lvl <= 6) return 'Despierta';
+      if (lvl <= 9) return 'Manifiesta';
+      if (lvl <= 12) return 'Trascendida';
+      return 'Ascendida';
+    }
+
     function createBlankCharacterData(name = '') {
       return {
         inputs: {
@@ -1788,7 +1846,7 @@
           'status-veneno-val': '', 'status-sangrado-val': '', 'status-curacion-val': '',
           'status-custom-name': '', 'status-custom-val': '',
           'tech-princ-name': '', 'tech-princ-cost': '', 'tech-sec1-name': '', 'tech-sec1-cost': '',
-          'tech-sec2-name': '', 'tech-sec2-cost': '', 'tech-sec3-name': '', 'tech-sec3-cost': ''
+          'tech-sec2-name': '', 'tech-sec3-name': ''
         },
         checkboxes: {
           'status-stun': false, 'status-sellado': false, 'status-petrificado': false,
@@ -1860,7 +1918,7 @@
     }
     function closeHistoryModal() { document.getElementById('history-modal-backdrop').style.display = 'none'; }
 
-    // RESTABLECER VIDA Y SMATH AL MÁXIMO TOTAL
+    // RESTABLECER VIDA Y SMATH
     function restoreFullHp() {
       const maxTot = document.getElementById('stat-hp-max-total')?.innerText || '0';
       const currInput = document.getElementById('stat-hp-curr');
@@ -1877,7 +1935,7 @@
       showToast('⚡ Smath restablecido al máximo.');
     }
 
-    // LIMPIAR TODOS LOS ESTADOS NEGATIVOS
+    // LIMPIAR TODOS LOS ESTADOS NEGATIVOS Y SUS VALORES
     function clearNegativeStates() {
       const stateIds = [
         'status-stun', 'status-sellado', 'status-petrificado', 'status-mareado',
@@ -1887,8 +1945,16 @@
         const el = document.getElementById(id);
         if (el) el.checked = false;
       });
+
+      // Borrar también valores
+      const valIds = ['status-veneno-val', 'status-sangrado-val', 'status-curacion-val', 'status-custom-name', 'status-custom-val'];
+      valIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+
       syncToFirebaseDebounced();
-      showToast('🧹 Estados negativos limpiados.');
+      showToast('🧹 Estados negativos y valores limpiados.');
     }
 
     // PUBLICACIÓN Y RESUMEN DE LAS ÚLTIMAS 3 PUBLICACIONES DEL MÁSTER
@@ -1931,23 +1997,13 @@
           ? `<button type="button" onclick="deleteObjective('${obj.id}')" style="background:#731e0b; color:#fff; border:none; padding:3px 7px; border-radius:2px; cursor:pointer; font-size:11px;" title="Borrar mensaje">🗑️</button>` 
           : '';
         item.innerHTML = `
-          <div><b style="color:#731e0b;">[${obj.time}]</b> ${escapeHtml(obj.text)}</div>
-          ${deleteBtnHtml}
+          <div><b style="color:#731e0b;">[${obj.time}]</b> ${escapeHtml(obj.text)}</div>${deleteBtnHtml}
         `;
         histContainer.appendChild(item);
       });
     }
 
     function updateObjectiveBanner() {
-      // 1. Último mensaje debajo del título
-      const titleMsgText = document.getElementById('title-latest-msg-text');
-      if (objectivesList && objectivesList.length > 0) {
-        titleMsgText.innerText = objectivesList[0].text;
-      } else {
-        titleMsgText.innerText = 'Sin mensajes activos.';
-      }
-
-      // 2. Resumen con las últimas 3 publicaciones en el banner superior
       const bannerList = document.getElementById('latest-objectives-container');
       bannerList.innerHTML = '';
       const top3 = (objectivesList || []).slice(0, 3);
@@ -1981,794 +2037,4 @@
         </div>
         <button type="button" class="btn-roll-weapon" onclick="rollWeaponD6('${wId}')">🎲 Tirar D6</button>
         <div class="weapon-badge">
-          <span>Tirada: <b class="weapon-roll-val" style="color:var(--txt-red);">${lastRoll}</b></span>
-          <span style="margin-left:4px;">Daño: <b class="weapon-dmg-val" style="color:var(--txt-red);">${lastDmg}</b></span>
-        </div>
-        <button type="button" class="btn-del-weapon" onclick="deleteWeaponRow('${wId}')" title="Eliminar arma">✖</button>
-      `;
-      container.appendChild(card);
-      recalcAllAutoStats();
-    }
-
-    function deleteWeaponRow(wId) {
-      const cards = document.querySelectorAll('#weapons-container .weapon-card');
-      if (cards.length <= 1) {
-        showToast('⚠️ Debes conservar al menos un arma.');
-        return;
-      }
-      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
-      if (card) {
-        card.remove();
-        recalcAllAutoStats();
-        syncToFirebaseDebounced();
-        showToast('🗑️ Arma eliminada.');
-      }
-    }
-
-    function rollWeaponD6(wId) {
-      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
-      if (!card) return;
-
-      const wName = card.querySelector('.weapon-name-input')?.value.trim() || 'Arma';
-      const totalDmg = parseFloat(card.querySelector('.weapon-total-text')?.innerText) || 0;
-      const roll = Math.floor(Math.random() * 6) + 1;
-      const finalDmg = Math.round(totalDmg * (1 + MULTIPLICADORES[roll - 1]));
-
-      card.querySelector('.weapon-roll-val').innerText = roll;
-      card.querySelector('.weapon-dmg-val').innerText = finalDmg;
-
-      // Resaltar en tabla D6 de referencia
-      updateReferenceD6Table(totalDmg, roll);
-
-      // Enviar resultado detallado al resumen del Máster
-      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
-        allPlayersData[activeRole].lastRoll = `${wName}: Dado ${roll} (${finalDmg} daño)`;
-        saveActivePlayerToCloud(true);
-      }
-    }
-
-    function updateReferenceD6Table(baseVal, activeRoll = null) {
-      for (let i = 1; i <= 6; i++) {
-        const cell = document.getElementById('calc-dmg-' + i);
-        const colHeader = document.getElementById('d6-col-' + i);
-        if (cell && colHeader) {
-          const val = Math.round(baseVal * (1 + MULTIPLICADORES[i - 1]));
-          cell.innerText = baseVal > 0 ? val : '-';
-          if (activeRoll && i === activeRoll) {
-            colHeader.classList.add('active-column');
-            cell.classList.add('active-column');
-          } else {
-            colHeader.classList.remove('active-column');
-            cell.classList.remove('active-column');
-          }
-        }
-      }
-    }
-
-    // CÁLCULO AUTOMATIZADO DE BONIFICACIONES POR GRADO
-    function recalcAllAutoStats() {
-      let bDmg = 0, bPc = 0, bPd = 0, bHp = 0, bSmath = 0, bPh = 0;
-      ARCHETYPES.forEach(arch => {
-        const lvl = archLevelState[arch] || 0;
-        const b = GRADE_BONUSES[arch];
-        bDmg   += lvl * b.dmg;
-        bPc    += lvl * b.pc;
-        bPd    += lvl * b.pd;
-        bHp    += lvl * b.hp;
-        bSmath += lvl * b.smath;
-        bPh    += lvl * b.ph;
-      });
-
-      // 1. ARMAS
-      document.querySelectorAll('#weapons-container .weapon-card').forEach(card => {
-        const base = parseFloat(card.querySelector('.weapon-base-input')?.value) || 0;
-        card.querySelector('.weapon-bono-text').innerText = `+${bDmg}`;
-        card.querySelector('.weapon-total-text').innerText = base + bDmg;
-      });
-
-      // Actualizar tabla D6 guía con el arma 1
-      const firstCard = document.querySelector('#weapons-container .weapon-card');
-      const firstTotal = firstCard ? (parseFloat(firstCard.querySelector('.weapon-total-text')?.innerText) || 0) : 0;
-      updateReferenceD6Table(firstTotal);
-
-      // 2. PC
-      const basePcVal = parseFloat(document.getElementById('stat-pc-base')?.value) || 0;
-      document.getElementById('stat-pc-bono').innerText = `+${bPc}`;
-      document.getElementById('stat-pc-total').innerText = basePcVal + bPc;
-
-      // 3. PD
-      const basePdVal = parseFloat(document.getElementById('stat-pd-base')?.value) || 0;
-      document.getElementById('stat-pd-bono').innerText = `+${bPd}`;
-      document.getElementById('stat-pd-total').innerText = basePdVal + bPd;
-
-      // 4. RESENCIA
-      const baseHpMaxVal = parseFloat(document.getElementById('stat-hp-max-base')?.value) || 0;
-      document.getElementById('stat-hp-bono').innerText = `+${bHp}`;
-      document.getElementById('stat-hp-max-total').innerText = baseHpMaxVal + bHp;
-
-      // 5. SMATH
-      const baseSmathMaxVal = parseFloat(document.getElementById('stat-smath-max-base')?.value) || 0;
-      document.getElementById('stat-smath-bono').innerText = `+${bSmath}`;
-      document.getElementById('stat-smath-max-total').innerText = baseSmathMaxVal + bSmath;
-
-      // 6. HABILIDADES
-      const basePhVal = parseFloat(document.getElementById('pts-base')?.value) || 0;
-      const totalPhObt = basePhVal + bPh;
-      document.getElementById('pts-bono').innerText = `+${bPh}`;
-      document.getElementById('pts-obtenidos-total').innerText = totalPhObt;
-
-      updateSkillsAndPoints(totalPhObt);
-    }
-
-    // ACCIONES POR TURNO
-    function getActiveActionsList(chk = {}) {
-      const acts = [];
-      if (chk['act-atacar']) acts.push('⚔️ Atacar');
-      if (chk['act-conc-1'] && chk['act-conc-2']) acts.push('🧘 Concentrarse x2');
-      else if (chk['act-conc-1'] || chk['act-conc-2']) acts.push('🧘 Concentrarse x1');
-      if (chk['act-def']) acts.push('🛡️ Defenderse');
-      if (chk['act-desp-1'] && chk['act-desp-2']) acts.push('🏃 Desplazarse x2');
-      else if (chk['act-desp-1'] || chk['act-desp-2']) acts.push('🏃 Desplazarse x1');
-      if (chk['act-mot-1']) acts.push('🔥 Motivación (3 Sm)');
-      if (chk['act-mot-2']) acts.push('🔥 Motivación (5 Sm)');
-      return acts;
-    }
-
-    function clearTurnActions() {
-      const actionIds = ['act-atacar', 'act-conc-1', 'act-conc-2', 'act-def', 'act-desp-1', 'act-desp-2', 'act-mot-1', 'act-mot-2'];
-      actionIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.checked = false;
-      });
-      syncToFirebaseDebounced();
-      showToast('🧹 Acciones del turno desmarcadas.');
-    }
-
-    // PASIVAS DINÁMICAS
-    function addPassiveRow(text = '') {
-      const container = document.getElementById('passives-list-container');
-      const item = document.createElement('div');
-      item.className = 'passive-entry-item';
-      item.innerHTML = `
-        <textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(text)}</textarea>
-        <button type="button" class="btn-del-passive" onclick="this.closest('.passive-entry-item').remove(); syncToFirebaseDebounced();" title="Eliminar pasiva">✖</button>
-      `;
-      container.appendChild(item);
-      item.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
-    }
-
-    // FIREBASE EN VIVO
-    db.ref('.info/connected').on('value', snap => {
-      const isOnline = snap.val() === true;
-      const dot = document.getElementById('live-dot');
-      const txt = document.getElementById('live-status-text');
-      if (dot && txt) {
-        if (isOnline) { dot.classList.remove('offline'); txt.innerText = 'En vivo'; }
-        else { dot.classList.add('offline'); txt.innerText = 'Desconectado'; }
-      }
-    });
-
-    gameRef.on('value', snapshot => {
-      const cloudData = snapshot.val();
-      if (!cloudData) return;
-
-      isRemoteUpdate = true;
-
-      if (Array.isArray(cloudData.playerList) && cloudData.playerList.length > 0) playerList = cloudData.playerList;
-      if (cloudData.characters && typeof cloudData.characters === 'object') allPlayersData = cloudData.characters;
-      if (Array.isArray(cloudData.objectives)) objectivesList = cloudData.objectives;
-
-      updateObjectiveBanner();
-      renderRoleBar();
-
-      if (activeRole === 'gm') renderGMDashboard();
-      else if (allPlayersData[activeRole]) applyDataToForm(allPlayersData[activeRole]);
-
-      isRemoteUpdate = false;
-    });
-
-    let syncTimeout = null;
-    function syncToFirebaseDebounced() {
-      if (isRemoteUpdate) return;
-      clearTimeout(syncTimeout);
-      syncTimeout = setTimeout(() => { saveActivePlayerToCloud(true); }, 350);
-    }
-
-    function saveActivePlayerToCloud(silent = false) {
-      if (activeRole !== 'gm') {
-        allPlayersData[activeRole] = gatherFormData();
-        renderRoleBar();
-      }
-
-      gameRef.set({
-        playerList: playerList,
-        characters: allPlayersData,
-        objectives: objectivesList
-      }).then(() => {
-        if (!silent) showToast('☁️ Sincronizado en vivo.');
-      }).catch(err => {
-        if (!silent) showToast('⚠️ Guardado local (sin conexión).');
-      });
-
-      try {
-        localStorage.setItem('requiem_smithnas_state_v6', JSON.stringify({
-          players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList
-        }));
-      } catch(e) {}
-    }
-
-    // PESTAÑAS DE JUGADORES
-    function renderRoleBar() {
-      const container = document.getElementById('role-bar-container');
-      container.innerHTML = '';
-
-      const gmBtn = document.createElement('button');
-      gmBtn.type = 'button';
-      gmBtn.className = `role-btn ${activeRole === 'gm' ? 'active' : ''}`;
-      gmBtn.innerText = '👑 Maestro (GM)';
-      gmBtn.onclick = () => switchRole('gm');
-      container.appendChild(gmBtn);
-
-      playerList.forEach((pid, index) => {
-        const charName = allPlayersData[pid]?.inputs?.['char-name']?.trim();
-        const label = charName ? `${index + 1}. ${charName}` : `Jugador ${index + 1}`;
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
-        btn.innerText = label;
-        btn.onclick = () => switchRole(pid);
-        container.appendChild(btn);
-      });
-
-      const addBtn = document.createElement('button');
-      addBtn.type = 'button';
-      addBtn.className = 'role-btn btn-add-player';
-      addBtn.innerText = '➕ Nuevo PJ';
-      addBtn.onclick = addNewPlayer;
-      container.appendChild(addBtn);
-
-      const deleteBtn = document.getElementById('btn-delete-player');
-      if (activeRole === 'gm' || playerList.length <= 1) deleteBtn.style.display = 'none';
-      else deleteBtn.style.display = 'flex';
-    }
-
-    function addNewPlayer() {
-      const newIndex = playerList.length + 1;
-      const newPid = 'p' + Date.now();
-      playerList.push(newPid);
-      allPlayersData[newPid] = createBlankCharacterData('');
-      saveActivePlayerToCloud(true);
-      switchRole(newPid);
-      showToast(`✨ Se agregó el Jugador ${newIndex}`);
-    }
-
-    function switchRole(roleId) {
-      if (activeRole !== 'gm' && allPlayersData[activeRole] && !isRemoteUpdate) {
-        allPlayersData[activeRole] = gatherFormData();
-      }
-
-      activeRole = roleId;
-      renderRoleBar();
-
-      const gmWrap = document.getElementById('gm-dashboard-wrap');
-      const sheetWrap = document.getElementById('player-sheet-wrap');
-
-      if (activeRole === 'gm') {
-        gmWrap.style.display = 'block';
-        sheetWrap.style.display = 'none';
-        renderGMDashboard();
-      } else {
-        gmWrap.style.display = 'none';
-        sheetWrap.style.display = 'block';
-        applyDataToForm(allPlayersData[activeRole] || createBlankCharacterData(''));
-      }
-    }
-
-    // PANEL DEL MAESTRO CON TIRADAS POR ARMA DETALLADAS
-    function renderGMDashboard() {
-      const cardsGrid = document.getElementById('gm-cards-container');
-      cardsGrid.innerHTML = '';
-
-      playerList.forEach((pid, idx) => {
-        const pdata = allPlayersData[pid] || createBlankCharacterData('');
-        const pInputs = pdata.inputs || {};
-        const pChecks = pdata.checkboxes || {};
-
-        const charName = pInputs['char-name'] || `Jugador ${idx + 1}`;
-        const oficio = pInputs['char-oficio'] || 'Sin oficio';
-        const hpCurr = pInputs['stat-hp-curr'] || '0';
-        const roll = pdata.lastRoll || '-';
-        const essenceLvl = pdata.essence || 0;
-        const essenceDisplay = essenceLvl > 0 ? essenceLvl : '-';
-
-        let bDmg = 0, bPc = 0, bPd = 0, bHp = 0, bSmath = 0;
-        ARCHETYPES.forEach(arch => {
-          const lvl = pdata.archLevels?.[arch] || 0;
-          const b = GRADE_BONUSES[arch];
-          bDmg += lvl * b.dmg; bPc += lvl * b.pc; bPd += lvl * b.pd; bHp += lvl * b.hp; bSmath += lvl * b.smath;
-        });
-        const hpMaxTot = (parseFloat(pInputs['stat-hp-max-base']) || 0) + bHp;
-        const smCurr = pInputs['stat-smath-curr'] || '0';
-        const smMaxTot = (parseFloat(pInputs['stat-smath-max-base']) || 0) + bSmath;
-        const pcTot = (parseFloat(pInputs['stat-pc-base']) || 0) + bPc;
-        const pdTot = (parseFloat(pInputs['stat-pd-base']) || 0) + bPd;
-
-        // Acciones
-        const activeActs = getActiveActionsList(pChecks);
-        let actionsBadgesHtml = '<span style="color:#777; font-size:12px; font-style:italic;">Sin acciones</span>';
-        if (activeActs.length > 0) {
-          actionsBadgesHtml = activeActs.map(act => {
-            const isMot = act.includes('Motivación');
-            return `<span class="gm-action-badge ${isMot ? 'mot' : ''}">${escapeHtml(act)}</span>`;
-          }).join('');
-        }
-
-        // Estados
-        const statusBadges = [];
-        if (pChecks['status-stun']) statusBadges.push(`<span class="gm-badge-status gm-badge-stun">⚡ Stun</span>`);
-        if (pChecks['status-sellado']) statusBadges.push(`<span class="gm-badge-status gm-badge-sellado">🔒 Sellado</span>`);
-        if (pChecks['status-petrificado']) statusBadges.push(`<span class="gm-badge-status gm-badge-petrificado">🗿 Petrificado</span>`);
-        if (pChecks['status-mareado']) statusBadges.push(`<span class="gm-badge-status gm-badge-mareado">💫 Mareado</span>`);
-        if (pChecks['status-veneno']) statusBadges.push(`<span class="gm-badge-status gm-badge-veneno">🧪 Veneno (-${pInputs['status-veneno-val'] || '0'})</span>`);
-        if (pChecks['status-sangrado']) statusBadges.push(`<span class="gm-badge-status gm-badge-sangrado">🩸 Sangrado (-${pInputs['status-sangrado-val'] || '0'})</span>`);
-        if (pChecks['status-curacion']) statusBadges.push(`<span class="gm-badge-status gm-badge-curacion">💖 Curación (+${pInputs['status-curacion-val'] || '0'})</span>`);
-        if (pChecks['status-custom-check'] && pInputs['status-custom-name']) {
-          const cVal = pInputs['status-custom-val'] ? ` (${pInputs['status-custom-val']})` : '';
-          statusBadges.push(`<span class="gm-badge-status gm-badge-custom">🏷️ ${escapeHtml(pInputs['status-custom-name'])}${escapeHtml(cVal)}</span>`);
-        }
-
-        let statusBadgesHtml = statusBadges.length > 0 ? statusBadges.join('') : '<span style="color:#777; font-size:12px; font-style:italic;">Normal</span>';
-
-        // Pasivas fit-content
-        let passivesHtml = '';
-        const playerPassives = pdata.passives || [];
-        if (playerPassives.length > 0) {
-          const passivesItems = playerPassives.map(pas => `
-            <div class="gm-passive-item">
-              <span style="font-weight:bold; color:#731e0b;">📜</span> ${escapeHtml(pas)}
-            </div>
-          `).join('');
-
-          passivesHtml = `
-            <div class="gm-passives-wrap">
-              <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Pasivas:</span>
-              ${passivesItems}
-            </div>
-          `;
-        }
-
-        const card = document.createElement('div');
-        card.className = 'gm-player-card';
-        card.innerHTML = `
-          <div class="gm-card-title">
-            <span>⚔️ ${escapeHtml(charName)}</span>
-            <button type="button" onclick="switchRole('${pid}')" style="background:#4a2b13; border:1px solid #bf8a3b; color:#fff; font-size:11px; padding:2px 6px; cursor:pointer; font-family:var(--f-title); border-radius:2px;">Abrir Ficha</button>
-          </div>
-          <div class="gm-stat-line"><span>Oficio:</span> <b>${escapeHtml(oficio)}</b></div>
-          <div class="gm-stat-line"><span>❤️ Resencia:</span> <b>${hpCurr} / ${hpMaxTot}</b></div>
-          <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
-          <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pcTot} / ${pdTot}</b></div>
-          <div class="gm-stat-line"><span>✨ Esencia (Grado):</span> <b style="color:#731e0b; font-size:15px;">${essenceDisplay}</b></div>
-          <div class="gm-stat-line"><span>🎲 Última Tirada:</span> <b style="color:var(--txt-red); font-size:14px;">${roll}</b></div>
-          
-          <div class="gm-actions-container">
-            <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Estados Activos:</span>
-            <div class="gm-status-badges">${statusBadgesHtml}</div>
-          </div>
-
-          <div class="gm-actions-container">
-            <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Acciones de Turno:</span>
-            <div class="gm-actions-badges">${actionsBadgesHtml}</div>
-          </div>
-
-          ${passivesHtml}
-        `;
-        cardsGrid.appendChild(card);
-      });
-    }
-
-    // MODAL
-    function openResetModal() {
-      modalActionType = 'reset';
-      document.getElementById('modal-title-text').innerText = '⚠️ REINICIAR FICHA';
-      document.getElementById('modal-desc-text').innerText = '¿Estás seguro de que deseas limpiar esta hoja? Todos los datos se borrarán.';
-      document.getElementById('modal-confirm-btn').innerText = 'Sí, Reiniciar';
-      document.getElementById('modal-backdrop').style.display = 'flex';
-    }
-
-    function openDeletePlayerModal() {
-      if (playerList.length <= 1) { showToast('⚠️ No podés borrar al único jugador.'); return; }
-      modalActionType = 'delete_player';
-      const curIndex = playerList.indexOf(activeRole) + 1;
-      const charName = allPlayersData[activeRole]?.inputs?.['char-name']?.trim() || `Jugador ${curIndex}`;
-      document.getElementById('modal-title-text').innerText = '❌ ELIMINAR JUGADOR';
-      document.getElementById('modal-desc-text').innerText = `¿Estás seguro de que deseas eliminar permanentemente a "${charName}"?`;
-      document.getElementById('modal-confirm-btn').innerText = 'Sí, Eliminar';
-      document.getElementById('modal-backdrop').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('modal-backdrop').style.display = 'none';
-      modalActionType = '';
-    }
-
-    function executeModalAction() {
-      if (modalActionType === 'reset') {
-        allPlayersData[activeRole] = createBlankCharacterData('');
-        applyDataToForm(allPlayersData[activeRole]);
-        saveActivePlayerToCloud(true);
-        renderRoleBar();
-        showToast('🗑️ Ficha reiniciada.');
-      } else if (modalActionType === 'delete_player') {
-        const idx = playerList.indexOf(activeRole);
-        if (idx > -1) {
-          delete allPlayersData[activeRole];
-          playerList.splice(idx, 1);
-          const nextRole = playerList[0] || 'gm';
-          saveActivePlayerToCloud(true);
-          switchRole(nextRole);
-          showToast('🗑️ Jugador eliminado.');
-        }
-      }
-      closeModal();
-    }
-
-    // ARQUETIPOS Y HABILIDADES
-    function setupArchetypeDiamonds() {
-      ARCHETYPES.forEach(arch => {
-        const wrap = document.querySelector(`.arch-diamonds-wrap[data-arch="${arch}"]`);
-        if (!wrap) return;
-        wrap.innerHTML = '';
-        for (let i = 1; i <= 8; i++) {
-          const diamond = document.createElement('span');
-          diamond.className = 'arch-diamond';
-          diamond.title = `Nivel ${i}`;
-          diamond.id = `arch-dia-${arch}-${i}`;
-          diamond.onclick = () => toggleArchLevel(arch, i);
-          wrap.appendChild(diamond);
-        }
-      });
-    }
-
-    function toggleArchLevel(arch, level) {
-      if (archLevelState[arch] === level) archLevelState[arch] = level - 1;
-      else archLevelState[arch] = level;
-      renderArchDiamonds(arch);
-      recalcAllAutoStats();
-      syncToFirebaseDebounced();
-    }
-
-    function renderArchDiamonds(arch) {
-      const current = archLevelState[arch] || 0;
-      for (let i = 1; i <= 8; i++) {
-        const d = document.getElementById(`arch-dia-${arch}-${i}`);
-        if (d) {
-          if (i <= current) d.classList.add('active');
-          else d.classList.remove('active');
-        }
-      }
-    }
-
-    function setupSkillBoxes() {
-      const containers = document.querySelectorAll('.skill-boxes');
-      containers.forEach(container => {
-        const skillId = container.getAttribute('data-skill');
-        container.innerHTML = '';
-        for (let i = 0; i < 8; i++) {
-          const chk = document.createElement('input');
-          chk.type = 'checkbox';
-          chk.id = `sk-${skillId}-${i}`;
-          chk.title = `${SKILL_BONUSES[i]} (Coste: ${SKILL_COSTS[i]} PH)`;
-          chk.addEventListener('click', function() {
-            handleSkillCheckboxClick(skillId, i, this.checked);
-          });
-          container.appendChild(chk);
-        }
-      });
-    }
-
-    function handleSkillCheckboxClick(skillId, index, isChecked) {
-      for (let i = 0; i < 8; i++) {
-        const chk = document.getElementById(`sk-${skillId}-${i}`);
-        if (!chk) continue;
-        if (isChecked && i <= index) chk.checked = true;
-        else if (!isChecked && i >= index) chk.checked = false;
-      }
-      recalcAllAutoStats();
-      syncToFirebaseDebounced();
-    }
-
-    function updateSkillsAndPoints(totalPhObt = null) {
-      let totalSpent = 0;
-      for (let s = 1; s <= 30; s++) {
-        let highestChecked = -1;
-        for (let i = 0; i < 8; i++) {
-          const chk = document.getElementById(`sk-${s}-${i}`);
-          if (chk && chk.checked) {
-            totalSpent += SKILL_COSTS[i];
-            highestChecked = i;
-          }
-        }
-        const tag = document.getElementById(`sk-bonus-${s}`);
-        if (tag) {
-          if (highestChecked >= 0) {
-            tag.innerText = SKILL_BONUSES[highestChecked];
-            tag.classList.add('has-bonus');
-          } else {
-            tag.innerText = '—';
-            tag.classList.remove('has-bonus');
-          }
-        }
-      }
-
-      document.getElementById('pts-gastados').innerText = totalSpent;
-      if (totalPhObt === null) {
-        totalPhObt = parseFloat(document.getElementById('pts-obtenidos-total')?.innerText) || 0;
-      }
-      const rem = totalPhObt - totalSpent;
-      const remEl = document.getElementById('pts-restantes');
-      if (remEl) {
-        remEl.innerText = rem;
-        remEl.style.color = rem < 0 ? '#b91c1c' : '#166534';
-      }
-    }
-
-    function addTechniqueRow(name = '', isCheckedType = false, lvl1 = false, lvl2 = false, lvl3 = false) {
-      const tbody = document.getElementById('techniques-body');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><textarea class="tech-row-name" rows="1" placeholder="Poder/Técnica..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(name)}</textarea></td>
-        <td style="text-align:center;"><input type="checkbox" class="tech-row-type" ${isCheckedType ? 'checked' : ''} style="accent-color:#551c66; width:14px; height:14px; cursor:pointer; margin-top:4px;"></td>
-        <td>
-          <div class="lvl-checkboxes">
-            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''}>
-            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''}>
-            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''}>
-          </div>
-        </td>
-        <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
-      `;
-      tbody.appendChild(tr);
-      tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
-    }
-
-    function setupClassifications() {
-      const groups = document.querySelectorAll('.classification-diamonds');
-      groups.forEach(group => {
-        const cat = group.getAttribute('data-class');
-        group.innerHTML = '';
-        for (let i = 1; i <= 5; i++) {
-          const chk = document.createElement('input');
-          chk.type = 'checkbox';
-          chk.id = `class-${cat}-${i}`;
-          group.appendChild(chk);
-        }
-      });
-    }
-
-    let activeEssence = 0;
-    function toggleEssence(lvl) {
-      if (activeEssence === lvl) activeEssence = lvl - 1;
-      else activeEssence = lvl;
-
-      for (let i = 1; i <= 15; i++) {
-        const el = document.getElementById('seal-' + i);
-        if (i <= activeEssence) el.classList.add('active');
-        else el.classList.remove('active');
-      }
-      syncToFirebaseDebounced();
-    }
-
-    function addInventoryRow(name = '', qty = '', weight = '', desc = '') {
-      const tbody = document.getElementById('inventory-body');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(name)}</textarea></td>
-        <td><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td>
-        <td><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(weight)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td>
-        <td><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(desc)}</textarea></td>
-        <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
-      `;
-      tbody.appendChild(tr);
-      tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
-      calcTotalWeight();
-    }
-
-    function calcTotalWeight() {
-      const weights = document.querySelectorAll('.inv-weight');
-      const quantities = document.querySelectorAll('.inv-qty');
-      let total = 0;
-      weights.forEach((wInput, idx) => {
-        const w = parseFloat(wInput.value) || 0;
-        const q = parseFloat(quantities[idx]?.value) || 1;
-        total += (w * q);
-      });
-      document.getElementById('total-weight').innerText = total.toFixed(1);
-    }
-
-    function gatherFormData() {
-      const data = {
-        inputs: {},
-        checkboxes: {},
-        weapons: [],
-        archLevels: { ...archLevelState },
-        techniques: [],
-        passives: [],
-        inventory: [],
-        essence: activeEssence,
-        lastRoll: allPlayersData[activeRole]?.lastRoll || '-'
-      };
-
-      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
-        if (el.id) data.inputs[el.id] = el.value;
-      });
-
-      document.querySelectorAll('#player-sheet-wrap input[type="checkbox"]').forEach(el => {
-        if (el.id) data.checkboxes[el.id] = el.checked;
-      });
-
-      // Armas
-      document.querySelectorAll('#weapons-container .weapon-card').forEach(card => {
-        data.weapons.push({
-          id: card.getAttribute('data-id'),
-          name: card.querySelector('.weapon-name-input')?.value || '',
-          baseDmg: parseFloat(card.querySelector('.weapon-base-input')?.value) || 0,
-          lastRoll: card.querySelector('.weapon-roll-val')?.innerText || '-',
-          lastDmg: card.querySelector('.weapon-dmg-val')?.innerText || '-'
-        });
-      });
-
-      document.querySelectorAll('#techniques-body tr').forEach(row => {
-        data.techniques.push({
-          name: row.querySelector('.tech-row-name')?.value || '',
-          type: row.querySelector('.tech-row-type')?.checked || false,
-          lvl1: row.querySelector('.tech-row-lvl1')?.checked || false,
-          lvl2: row.querySelector('.tech-row-lvl2')?.checked || false,
-          lvl3: row.querySelector('.tech-row-lvl3')?.checked || false
-        });
-      });
-
-      document.querySelectorAll('#passives-list-container .passive-row-text').forEach(tx => {
-        if (tx.value.trim().length > 0) data.passives.push(tx.value.trim());
-      });
-
-      document.querySelectorAll('#inventory-body tr').forEach(row => {
-        data.inventory.push({
-          name: row.querySelector('.inv-name')?.value || '',
-          qty: row.querySelector('.inv-qty')?.value || '',
-          weight: row.querySelector('.inv-weight')?.value || '',
-          desc: row.querySelector('.inv-desc')?.value || ''
-        });
-      });
-
-      return data;
-    }
-
-    function applyDataToForm(data) {
-      if (!data) return;
-
-      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
-        if (el.id) el.value = data.inputs?.[el.id] ?? '';
-      });
-
-      document.querySelectorAll('#player-sheet-wrap input[type="checkbox"]').forEach(el => {
-        if (el.id) el.checked = data.checkboxes?.[el.id] ?? false;
-      });
-
-      ARCHETYPES.forEach(arch => {
-        archLevelState[arch] = data.archLevels?.[arch] || 0;
-        renderArchDiamonds(arch);
-      });
-
-      // Armas
-      const weaponsContainer = document.getElementById('weapons-container');
-      weaponsContainer.innerHTML = '';
-      if (data.weapons && Array.isArray(data.weapons) && data.weapons.length > 0) {
-        data.weapons.forEach(w => addWeaponRow(w.id, w.name, w.baseDmg, w.lastRoll, w.lastDmg));
-      } else {
-        addWeaponRow();
-      }
-
-      const techBody = document.getElementById('techniques-body');
-      techBody.innerHTML = '';
-      if (data.techniques && data.techniques.length > 0) {
-        data.techniques.forEach(t => addTechniqueRow(t.name, t.type, t.lvl1, t.lvl2, t.lvl3));
-      } else {
-        addTechniqueRow(); addTechniqueRow();
-      }
-
-      const passivesContainer = document.getElementById('passives-list-container');
-      passivesContainer.innerHTML = '';
-      if (data.passives && Array.isArray(data.passives) && data.passives.length > 0) {
-        data.passives.forEach(p => addPassiveRow(p));
-      } else {
-        addPassiveRow();
-      }
-
-      const invBody = document.getElementById('inventory-body');
-      invBody.innerHTML = '';
-      if (data.inventory && data.inventory.length > 0) {
-        data.inventory.forEach(i => addInventoryRow(i.name, i.qty, i.weight, i.desc));
-      } else {
-        addInventoryRow(); addInventoryRow();
-      }
-
-      activeEssence = data.essence || 0;
-      for (let i = 1; i <= 15; i++) {
-        const el = document.getElementById('seal-' + i);
-        if (el) {
-          if (i <= activeEssence) el.classList.add('active');
-          else el.classList.remove('active');
-        }
-      }
-
-      document.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
-      recalcAllAutoStats();
-      calcTotalWeight();
-    }
-
-    function exportJSON() {
-      const dataToExport = activeRole === 'gm' ? { players: playerList, data: allPlayersData, objectives: objectivesList } : (allPlayersData[activeRole] || gatherFormData());
-      const charName = (activeRole !== 'gm' ? allPlayersData[activeRole]?.inputs?.['char-name']?.trim() : 'Partida_Completa') || 'Personaje';
-      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${charName}_Smithnas.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('📤 Ficha exportada con éxito.');
-    }
-
-    function importJSON(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const parsed = JSON.parse(e.target.result);
-          if (parsed.players && parsed.data) {
-            playerList = parsed.players;
-            allPlayersData = parsed.data;
-            if (parsed.objectives) objectivesList = parsed.objectives;
-            saveActivePlayerToCloud(true);
-            switchRole('gm');
-            showToast('📥 Partida completa importada.');
-          } else {
-            allPlayersData[activeRole] = parsed;
-            applyDataToForm(parsed);
-            saveActivePlayerToCloud(true);
-            showToast('📥 Ficha importada.');
-          }
-        } catch (err) {
-          showToast('❌ Error al procesar el archivo JSON.');
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      setupArchetypeDiamonds();
-      setupSkillBoxes();
-      setupClassifications();
-
-      try {
-        const raw = localStorage.getItem('requiem_smithnas_state_v6');
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed.players)) playerList = parsed.players;
-          if (parsed.data) allPlayersData = parsed.data;
-          if (parsed.objectives) objectivesList = parsed.objectives;
-        }
-      } catch(e) {}
-
-      updateObjectiveBanner();
-      renderRoleBar();
-      switchRole('p1');
-
-      document.getElementById('player-sheet-wrap').addEventListener('input', () => syncToFirebaseDebounced());
-      document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced());
-    });
-  </script>
-</body>
-</html>
+          <span>Tirada
