@@ -490,7 +490,7 @@
       letter-spacing: 1.5px;
     }
 
-    /* BANNER DE ALTERACIÓN DEL MUNDO (DESEO) CON ESTADO AGOTADO EN GRIS */
+    /* BANNER DE DESEO */
     .world-alteration-banner {
       background: linear-gradient(135deg, rgba(67, 24, 92, 0.15) 0%, rgba(147, 51, 234, 0.08) 50%, rgba(180, 83, 9, 0.12) 100%), var(--bg-box);
       border: 2px solid #7e22ce;
@@ -710,7 +710,7 @@
       flex-shrink: 0;
     }
 
-    /* ESTADOS Y EFECTOS ALTERADOS CON COLOR Y FORMATO LIMPIO */
+    /* ESTADOS Y EFECTOS ALTERADOS */
     .status-effects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -1031,53 +1031,48 @@
       letter-spacing: 1px;
     }
 
-    /* BARRA Y GRILLA DE MODOS DE ESENCIA */
-.essence-activation-bar {
-  background: rgba(0,0,0,0.06);
-  border: 1.5px solid var(--border-dark);
-  border-radius: 4px;
-  padding: 6px 8px;
-  margin-bottom: 8px;
-  font-family: var(--f-title);
-  font-size: 11px;
-}
-
-.essence-activation-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 5px;
-  padding-bottom: 3px;
-  border-bottom: 1px dotted rgba(60, 30, 10, 0.25);
-}
-
-.essence-activation-title {
-  font-weight: bold;
-  color: #731e0b;
-  font-size: 11.5px;
-}
-
-.essence-modes-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 12px;
-  text-align: left;
-}
-
-.essence-act-mode {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.essence-act-mode.disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
+    /* ACTIVACIÓN DE MODOS: LATENTE ARRIBA A LA DERECHA */
+    .essence-activation-bar {
+      background: rgba(0,0,0,0.06);
+      border: 1.5px solid var(--border-dark);
+      border-radius: 4px;
+      padding: 6px 8px;
+      margin-bottom: 8px;
+      font-family: var(--f-title);
+      font-size: 11px;
+    }
+    .essence-activation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 5px;
+      padding-bottom: 3px;
+      border-bottom: 1px dotted rgba(60, 30, 10, 0.25);
+    }
+    .essence-activation-title {
+      font-weight: bold;
+      color: #731e0b;
+      font-size: 11.5px;
+    }
+    .essence-modes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 12px;
+      text-align: left;
+    }
+    .essence-act-mode {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .essence-act-mode.disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
 
     /* ESTRUCTURA ESENCIA 3 ARRIBA Y 2 ABAJO */
     .essence-row-3 {
@@ -1642,7 +1637,7 @@
       margin-left: auto;
     }
     
-    /* GESTOR DE ESTADOS EN 4/4 CON COLOR TEMÁTICO Y CAMPOS SEPARADOS */
+    /* GESTOR DE ESTADOS EN 4/4 CON COLOR TEMÁTICO */
     .gm-state-manager-box {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -1674,7 +1669,6 @@
       border-radius: 2px;
     }
 
-    /* COLORES TEMÁTICOS PARA ESTADOS EN GM */
     .gm-st-stun { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
     .gm-st-sellado { background: #e0e7ff; border-color: #818cf8; color: #3730a3; }
     .gm-st-petrificado { background: #f1f5f9; border-color: #94a3b8; color: #334155; }
@@ -1754,7 +1748,6 @@
     .gm-badge-infectado { background: #047857; border: 1px solid #6ee7b7; }
     .gm-badge-custom { background: #374151; border: 1px solid #9ca3af; }
 
-    /* DESEO CONFIRMADO EN RESUMEN */
     .gm-wish-container {
       display: flex;
       flex-direction: column;
@@ -1824,7 +1817,6 @@
       .arch-header { justify-content: space-between; gap: 4px; padding-bottom: 4px; }
       .arch-title-text { font-size: 13.5px; }
 
-      /* SELECTOR DESPLEGABLE DE HOJAS EN MÓVIL */
       .role-bar-tabs { display: none !important; }
       .mobile-role-selector-wrap { display: block !important; }
 
@@ -1990,9 +1982,7 @@
       <div class="gm-fixed-container">
         <button type="button" id="gm-role-btn" class="role-btn" onclick="switchRole('gm')">👑 Master</button>
       </div>
-      <!-- Pestañas para Escritorio -->
       <div class="role-bar-tabs" id="role-bar-container"></div>
-      <!-- Selector Desplegable para Celular -->
       <div class="mobile-role-selector-wrap">
         <select id="mobile-role-select" class="mobile-role-select" onchange="switchRole(this.value)"></select>
       </div>
@@ -2015,7 +2005,6 @@
 
     <!-- FICHA INTERACTIVA COMPLETA -->
     <div id="player-sheet-wrap">
-      <!-- TÍTULO DE CORRIDO CON ESTILO -->
       <div class="main-title-wrap">
         <h1 class="main-title-continuous">
           <span>RÉQUIEM</span>
@@ -2024,7 +2013,7 @@
         </h1>
       </div>
 
-      <!-- BANNER DE ALTERACIÓN DEL MUNDO (DESEO) CON COLAPSO Y ESTADO AGOTADO -->
+      <!-- BANNER DE ALTERACIÓN DEL MUNDO (DESEO) -->
       <div class="world-alteration-banner" id="world-wish-banner">
         <div class="world-alteration-title">
           <span class="collapsible-header" onclick="toggleWorldWishCollapse()">
@@ -2050,7 +2039,6 @@
               <button type="button" class="btn-confirm-wish" onclick="confirmWishAction()">✓ Imponer Deseo</button>
             </div>
           </div>
-          <!-- DESEO CONFIRMADO REGISTRADO EN HOJA -->
           <div id="confirmed-wish-display" class="confirmed-wish-card" style="display:none;"></div>
         </div>
       </div>
@@ -2063,12 +2051,12 @@
             <button type="button" id="char-avatar-btn" class="avatar-picker-trigger" onclick="openAvatarModal()" title="Cambiar ícono">⚔️</button>
           </div>
           <div id="char-data-content-wrap">
-            <div class="header-info-line"><label>NOMBRE:</label><input type="text" id="char-name" oninput="updateSenderSelect(); syncToFirebaseDebounced();"></div>
-            <div class="header-info-line"><label>RAZA:</label><input type="text" id="char-raza"></div>
-            <div class="header-info-line"><label>SUBRAZA:</label><input type="text" id="char-subraza"></div>
-            <div class="header-info-line"><label>OFICIO:</label><input type="text" id="char-oficio"></div>
-            <div class="header-info-line"><label>EXPERIENCIA:</label><input type="text" id="char-exp"></div>
-            <div class="header-info-line"><label>ESENCIA:</label><input type="text" id="char-esencia"></div>
+            <div class="header-info-line"><label>NOMBRE:</label><input type="text" id="char-name" oninput="syncToFirebaseDebounced(1200)" onblur="updateSenderSelect(); renderRoleBar();"></div>
+            <div class="header-info-line"><label>RAZA:</label><input type="text" id="char-raza" oninput="syncToFirebaseDebounced(1200)"></div>
+            <div class="header-info-line"><label>SUBRAZA:</label><input type="text" id="char-subraza" oninput="syncToFirebaseDebounced(1200)"></div>
+            <div class="header-info-line"><label>OFICIO:</label><input type="text" id="char-oficio" oninput="syncToFirebaseDebounced(1200)"></div>
+            <div class="header-info-line"><label>EXPERIENCIA:</label><input type="text" id="char-exp" oninput="syncToFirebaseDebounced(1200)"></div>
+            <div class="header-info-line"><label>ESENCIA:</label><input type="text" id="char-esencia" oninput="syncToFirebaseDebounced(1200)"></div>
           </div>
         </div>
 
@@ -2296,41 +2284,31 @@
             <div class="box-frame-title">Esencia y Aspectos</div>
 
             <div class="essence-embedded-wrap">
-              <div class="essence-embedded-title">✨ ESENCIA </div>
+              <div class="essence-embedded-title">✨ ESENCIA (GRADOS 1 AL 15)</div>
               
-            <!-- SELECTOR DE ACTIVACIÓN DE MODOS REORGANIZADO -->
-<div class="essence-activation-bar">
-  <!-- Fila superior: Título a la izquierda y Latente arriba a la derecha -->
-  <div class="essence-activation-header">
-    <span class="essence-activation-title">⚡ ACTIVACIÓN DE MODOS DE ESENCIA</span>
-    <div class="essence-act-mode disabled" title="Latente no tiene activación">
-      <input type="checkbox" disabled> ✖ Latente (Bloqueado)
-    </div>
-  </div>
-
-  <!-- Bloque inferior: Despierta y Manifestada a la izquierda / Trascendida y Ascendida a la derecha -->
-  <div class="essence-modes-grid">
-    <!-- Columna Izquierda (Fila 1) -->
-    <label class="essence-act-mode" style="color:#78350f;">
-      <input type="checkbox" id="essence-mode-despierta" onchange="toggleEssenceActivation('despierta')"> 🔥 Despierta (1 Sm/t)
-    </label>
-
-    <!-- Columna Derecha (Fila 1) -->
-    <label class="essence-act-mode" style="color:#4338ca;">
-      <input type="checkbox" id="essence-mode-trascendida" onchange="toggleEssenceActivation('trascendida')"> 🌌 Trascendida (3 Sm/t)
-    </label>
-
-    <!-- Columna Izquierda (Fila 2) -->
-    <label class="essence-act-mode" style="color:#831843;">
-      <input type="checkbox" id="essence-mode-manifestada" onchange="toggleEssenceActivation('manifestada')"> ⚡ Manifestada (2 Sm/t)
-    </label>
-
-    <!-- Columna Derecha (Fila 2) -->
-    <label class="essence-act-mode" style="color:#7e22ce;">
-      <input type="checkbox" id="essence-mode-ascendida" onchange="toggleEssenceActivation('ascendida')"> 👑 Ascendida (4 Sm/t)
-    </label>
-  </div>
-</div>
+              <!-- SELECTOR DE ACTIVACIÓN DE MODOS: LATENTE ARRIBA A LA DERECHA -->
+              <div class="essence-activation-bar">
+                <div class="essence-activation-header">
+                  <span class="essence-activation-title">⚡ ACTIVACIÓN DE MODOS DE ESENCIA</span>
+                  <div class="essence-act-mode disabled" title="Latente no tiene activación">
+                    <input type="checkbox" disabled> ✖ Latente (Bloqueado)
+                  </div>
+                </div>
+                <div class="essence-modes-grid">
+                  <label class="essence-act-mode" style="color:#78350f;">
+                    <input type="checkbox" id="essence-mode-despierta" onchange="toggleEssenceActivation('despierta')"> 🔥 Despierta (1 Sm/t)
+                  </label>
+                  <label class="essence-act-mode" style="color:#4338ca;">
+                    <input type="checkbox" id="essence-mode-trascendida" onchange="toggleEssenceActivation('trascendida')"> 🌌 Trascendida (3 Sm/t)
+                  </label>
+                  <label class="essence-act-mode" style="color:#831843;">
+                    <input type="checkbox" id="essence-mode-manifestada" onchange="toggleEssenceActivation('manifestada')"> ⚡ Manifestada (2 Sm/t)
+                  </label>
+                  <label class="essence-act-mode" style="color:#7e22ce;">
+                    <input type="checkbox" id="essence-mode-ascendida" onchange="toggleEssenceActivation('ascendida')"> 👑 Ascendida (4 Sm/t)
+                  </label>
+                </div>
+              </div>
 
               <!-- FILA 1: 3 GRUPOS -->
               <div class="essence-row-3">
@@ -2534,10 +2512,10 @@
       <div class="box-frame">
         <div class="box-frame-title">Técnicas Despiertas</div>
         <div class="despiertas-wrapper">
-          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA PRINCIPAL:</div><input type="text" id="tech-princ-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-princ-cost" style="width:75px;"></div></div>
-          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA I:</div><input type="text" id="tech-sec1-name" placeholder="Nombre..."><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec1-cost" style="width:75px;"></div></div>
-          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div><input type="text" id="tech-sec2-name" placeholder="Nombre..."></div>
-          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div><input type="text" id="tech-sec3-name" placeholder="Nombre..."></div>
+          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA PRINCIPAL:</div><input type="text" id="tech-princ-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)"><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-princ-cost" style="width:75px;" oninput="syncToFirebaseDebounced(1200)"></div></div>
+          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA I:</div><input type="text" id="tech-sec1-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)"><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec1-cost" style="width:75px;" oninput="syncToFirebaseDebounced(1200)"></div></div>
+          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div><input type="text" id="tech-sec2-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)"></div>
+          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div><input type="text" id="tech-sec3-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)"></div>
         </div>
       </div>
 
@@ -2566,7 +2544,7 @@
         </div>
       </div>
 
-      <!-- BONIFICACIONES POR GRADO (MATRIZ GUÍA) -->
+      <!-- BONIFICACIONES POR GRADO -->
       <div class="box-frame">
         <div class="box-frame-title">Bonificaciones por Grado</div>
         <div class="grade-table-wrap">
@@ -2640,6 +2618,9 @@
     let isGmTurnCooldown = false;
     let diceRollsHistory = [];
     let openGmStateBoxId = null;
+
+    let isCloudInitialized = false;
+    let lastLocalSaveTime = 0;
 
     function getEssenceTierName(lvl) {
       if (lvl >= 13) return 'Ascendida';
@@ -2796,7 +2777,6 @@
       if (icon) icon.innerText = isCharDataCollapsed ? '▶' : '▼';
     }
 
-    /* COLAPSO Y ESTADO DEL BANNER DE DESEOS */
     let isWorldWishCollapsed = false;
     function toggleWorldWishCollapse() {
       const wrap = document.getElementById('world-wish-content-wrap');
@@ -3053,7 +3033,6 @@
         let currHp = parseFloat(pInputs['stat-hp-curr']) || 0;
         let currSmath = parseFloat(pInputs['stat-smath-curr']) || 0;
 
-        // Efectos de daño y cura
         if (pChecks['status-veneno']) {
           const vDmg = parseFloat(pInputs['status-veneno-val']) || 0;
           currHp = Math.max(0, currHp - vDmg);
@@ -3067,7 +3046,6 @@
           currHp = Math.min(maxHp, currHp + cReg);
         }
 
-        // Descontar contador de turnos de estados
         stateKeys.forEach(item => {
           if (pChecks[item.chk]) {
             let t = parseInt(pInputs[item.turn]) || 0;
@@ -3080,7 +3058,6 @@
           }
         });
 
-        // Drenaje de Smath por activación
         let smathDrain = 0;
         if (pdata.essenceMode === 'despierta') smathDrain = 1;
         else if (pdata.essenceMode === 'manifestada') smathDrain = 2;
@@ -3096,7 +3073,6 @@
           }
         }
 
-        // Desmarcar acciones y RESETEAR tiradas de dados al cambiar turno
         pChecks['act-atacar'] = false;
         pChecks['act-conc-1'] = false;
         pChecks['act-conc-2'] = false;
@@ -3294,7 +3270,7 @@
 
       card.innerHTML = `
         <div class="weapon-top-row">
-          <input type="text" class="weapon-name-input" value="${escapeHtml(name)}" placeholder="Nombre del arma..." oninput="syncToFirebaseDebounced();">
+          <input type="text" class="weapon-name-input" value="${escapeHtml(name)}" placeholder="Nombre del arma..." oninput="syncToFirebaseDebounced(1200);">
           <button type="button" class="btn-del-weapon" onclick="deleteWeaponRow('${wId}')" title="Eliminar arma">✖</button>
         </div>
         <div class="weapon-mid-row">
@@ -3378,7 +3354,6 @@
       }
     }
 
-    // INICIATIVA Y D20 DE IMPACTO / CRÍTICO
     function rollInitiative() {
       const bono = parseInt(document.getElementById('stat-init-bono')?.value) || 0;
       const d20 = Math.floor(Math.random() * 20) + 1;
@@ -3453,7 +3428,6 @@
       }
     }
 
-    // MODOS DE ESENCIA Y PROPORCIÓN DE VIDA SUMADA A LA ACTUAL Y TOTAL
     function toggleEssenceActivation(mode) {
       const modes = ['despierta', 'manifestada', 'trascendida', 'ascendida'];
       const clickedEl = document.getElementById(`essence-mode-${mode}`);
@@ -3469,7 +3443,6 @@
         });
       }
 
-      // Smath de activación inmediato
       if (newMode === 'manifestada' && currentEssenceMode !== 'manifestada') {
         const smathInput = document.getElementById('stat-smath-curr');
         let curSmath = parseFloat(smathInput?.value) || 0;
@@ -3514,7 +3487,6 @@
       showToast(`✨ Modo Esencia: ${newMode === 'none' ? 'Inactivo' : newMode.toUpperCase()}`);
     }
 
-    // CÁLCULO DE BONOS
     function recalcAllAutoStats() {
       let bDmg = 0, bPc = 0, bPd = 0, bHp = 0, bSmath = 0, bPh = 0;
       ARCHETYPES.forEach(arch => {
@@ -3534,7 +3506,6 @@
       const asiLvl = aspectState.asistencia || 0;
       const sinLvl = aspectState.singular || 0;
 
-      // Resumen visual
       const sumPass = document.getElementById('summary-aspect-passives');
       const sumDesp = document.getElementById('summary-bonus-despierta');
       const sumMani = document.getElementById('summary-bonus-manifestada');
@@ -3548,12 +3519,10 @@
         sumMani.innerText = `Daño +${ofeLvl * 10}% | +${defLvl * 2} PD | +${tacLvl * 2} Crítico`;
       }
 
-      // Aspecto Ofensivo
       let aspectDmgPercent = 0;
       if (currentEssenceMode === 'despierta') aspectDmgPercent = ofeLvl * 0.05;
       else if (currentEssenceMode === 'manifestada') aspectDmgPercent = ofeLvl * 0.10;
 
-      // Armas
       document.querySelectorAll('#weapons-container .weapon-card').forEach(card => {
         const base = parseFloat(card.querySelector('.weapon-base-input')?.value) || 0;
         const flatDmg = base + bDmg;
@@ -3566,12 +3535,10 @@
       const firstTotal = firstCard ? (parseFloat(firstCard.querySelector('.weapon-total-text')?.innerText) || 0) : 0;
       updateReferenceD6Table(firstTotal);
 
-      // PC
       const basePcVal = parseFloat(document.getElementById('stat-pc-base')?.value) || 0;
       document.getElementById('stat-pc-bono').innerText = `+${bPc}`;
       document.getElementById('stat-pc-total').innerText = basePcVal + bPc;
 
-      // PD
       let aspectPdBonus = 0;
       if (currentEssenceMode === 'despierta') aspectPdBonus = defLvl * 1;
       else if (currentEssenceMode === 'manifestada') aspectPdBonus = defLvl * 2;
@@ -3579,7 +3546,6 @@
       document.getElementById('stat-pd-bono').innerText = `+${bPd + aspectPdBonus}`;
       document.getElementById('stat-pd-total').innerText = basePdVal + bPd + aspectPdBonus;
 
-      // HP (Pasiva Defensiva + Re-esencia)
       const baseHpMaxVal = parseFloat(document.getElementById('stat-hp-max-base')?.value) || 0;
       const flatHp = baseHpMaxVal + bHp;
       const defPassiveHp = Math.round(flatHp * (0.20 * defLvl));
@@ -3591,26 +3557,22 @@
       document.getElementById('stat-hp-bono').innerText = `+${bHp + defPassiveHp}${currentEssenceMode !== 'none' ? ` (${currentEssenceMode === 'despierta' ? '+50%' : '+100%'})` : ''}`;
       document.getElementById('stat-hp-max-total').innerText = totalCalculatedHp;
 
-      // SMATH
       const baseSmathMaxVal = parseFloat(document.getElementById('stat-smath-max-base')?.value) || 0;
       document.getElementById('stat-smath-bono').innerText = `+${bSmath}`;
       document.getElementById('stat-smath-max-total').innerText = baseSmathMaxVal + bSmath;
 
-      // CONCENTRACIÓN
       let aspectConcBonus = sinLvl * 2;
       const concEl = document.getElementById('stat-conc');
       if (concEl && aspectConcBonus > 0 && !concEl.value) {
         concEl.value = aspectConcBonus;
       }
 
-      // TÁCTICA PARA D20 CRÍTICO
       let critBonus = 0;
       if (currentEssenceMode === 'despierta') critBonus = tacLvl * 1;
       else if (currentEssenceMode === 'manifestada') critBonus = tacLvl * 2;
       const critTag = document.getElementById('tactical-crit-bonus-tag');
       if (critTag) critTag.innerText = `+${critBonus}`;
 
-      // PUNTOS DE HABILIDAD (INTEGRADOS EN CABECERA DE ARQUETIPOS)
       const basePhVal = parseFloat(document.getElementById('pts-base')?.value) || 0;
       const totalPhObt = basePhVal + bPh;
       document.getElementById('pts-bono').innerText = `+${bPh}`;
@@ -3618,7 +3580,6 @@
 
       updateSkillsAndPoints(totalPhObt);
 
-      // RANURAS DE TÉCNICAS (ASISTENCIA)
       let maxTechSlots = 4 + (asiLvl * 2);
       const curTechCount = document.querySelectorAll('#techniques-body tr').length;
       document.getElementById('tech-slots-used').innerText = curTechCount;
@@ -3663,7 +3624,7 @@
       const item = document.createElement('div');
       item.className = 'passive-entry-item';
       item.innerHTML = `
-        <textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(text)}</textarea>
+        <textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(text)}</textarea>
         <button type="button" class="btn-del-passive" onclick="this.closest('.passive-entry-item').remove(); syncToFirebaseDebounced();" title="Eliminar pasiva">✖</button>
       `;
       container.appendChild(item);
@@ -3701,14 +3662,73 @@
       }
     });
 
+    // SISTEMA DE RECUPERACIÓN DE DATOS LOCALES PREVIOS SI LA NUBE ESTÁ VACÍA
+    function recoverFromLocalStorage() {
+      const keysToSearch = [
+        'requiem_smithnas_state_persistent',
+        'requiem_smithnas_state_v14',
+        'requiem_smithnas_state_v13',
+        'requiem_smithnas_state_v12',
+        'requiem_smithnas_state_v11',
+        'requiem_smithnas_state_v10',
+        'requiem_smithnas_state_v9',
+        'requiem_smithnas_state_v8',
+        'requiem_smithnas_state_v7',
+        'requiem_smithnas_state_v6'
+      ];
+
+      for (let k of keysToSearch) {
+        try {
+          const raw = localStorage.getItem(k);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed.characters && Object.keys(parsed.characters).length > 0) {
+              allPlayersData = parsed.characters;
+              if (Array.isArray(parsed.playerList) && parsed.playerList.length > 0) playerList = parsed.playerList;
+              if (parsed.objectives) objectivesList = parsed.objectives;
+              if (parsed.pinnedMessage !== undefined) pinnedMessage = parsed.pinnedMessage;
+              if (parsed.diceHistory) diceRollsHistory = parsed.diceHistory;
+              showToast('♻️ Se restauraron tus fichas guardadas.');
+              return true;
+            }
+          }
+        } catch(e) {}
+      }
+      return false;
+    }
+
+    // LISTENER FIREBASE SEGURO CONTRA PÉRDIDA DE FOCO Y CONTRA SOBREESCRITURAS
     gameRef.on('value', snapshot => {
       const cloudData = snapshot.val();
+
+      if (!isCloudInitialized) {
+        isCloudInitialized = true;
+        if (cloudData && cloudData.characters && Object.keys(cloudData.characters).length > 0) {
+          if (Array.isArray(cloudData.playerList) && cloudData.playerList.length > 0) playerList = cloudData.playerList;
+          allPlayersData = cloudData.characters;
+          if (Array.isArray(cloudData.objectives)) objectivesList = cloudData.objectives;
+          if (Array.isArray(cloudData.diceHistory)) diceRollsHistory = cloudData.diceHistory;
+          if (cloudData.pinnedMessage !== undefined) pinnedMessage = cloudData.pinnedMessage;
+        } else {
+          recoverFromLocalStorage();
+          saveActivePlayerToCloud(true);
+        }
+
+        updateObjectiveBanner();
+        renderRoleBar();
+        updateSenderSelect();
+
+        if (activeRole === 'gm') renderGMDashboard();
+        else if (allPlayersData[activeRole]) applyDataToForm(allPlayersData[activeRole]);
+        return;
+      }
+
       if (!cloudData) return;
 
-      isRemoteUpdate = true;
+      const isOwnRecentEcho = (Date.now() - lastLocalSaveTime < 1500);
 
       if (Array.isArray(cloudData.playerList) && cloudData.playerList.length > 0) playerList = cloudData.playerList;
-      if (cloudData.characters && typeof cloudData.characters === 'object') allPlayersData = cloudData.characters;
+      if (cloudData.characters) allPlayersData = cloudData.characters;
       if (Array.isArray(cloudData.objectives)) objectivesList = cloudData.objectives;
       if (Array.isArray(cloudData.diceHistory)) diceRollsHistory = cloudData.diceHistory;
       if (cloudData.pinnedMessage !== undefined) pinnedMessage = cloudData.pinnedMessage;
@@ -3717,40 +3737,55 @@
       renderRoleBar();
       updateSenderSelect();
 
-      if (activeRole === 'gm') renderGMDashboard();
-      else if (allPlayersData[activeRole]) applyDataToForm(allPlayersData[activeRole]);
+      if (activeRole === 'gm') {
+        renderGMDashboard();
+      } else {
+        const activeTag = document.activeElement ? document.activeElement.tagName : '';
+        const isTyping = (activeTag === 'INPUT' || activeTag === 'TEXTAREA');
 
-      isRemoteUpdate = false;
+        if (!isOwnRecentEcho || !isTyping) {
+          applyDataToForm(allPlayersData[activeRole]);
+        }
+      }
     });
 
     let syncTimeout = null;
-    function syncToFirebaseDebounced() {
-      if (isRemoteUpdate) return;
+    function syncToFirebaseDebounced(delay = 1000) {
+      if (isRemoteUpdate || !isCloudInitialized) return;
       clearTimeout(syncTimeout);
-      syncTimeout = setTimeout(() => { saveActivePlayerToCloud(true); }, 350);
+      syncTimeout = setTimeout(() => { saveActivePlayerToCloud(true); }, delay);
     }
 
     function saveActivePlayerToCloud(silent = false) {
+      if (!isCloudInitialized) {
+        console.warn("Guardado bloqueado: esperando datos iniciales de Firebase.");
+        return;
+      }
+
+      lastLocalSaveTime = Date.now();
+
       if (activeRole !== 'gm') {
         allPlayersData[activeRole] = gatherFormData();
         renderRoleBar();
       }
 
-      gameRef.set({
+      const payload = {
         playerList: playerList,
         characters: allPlayersData,
         objectives: objectivesList,
         pinnedMessage: pinnedMessage,
         diceHistory: diceRollsHistory.slice(0, 30)
-      }).then(() => {
+      };
+
+      gameRef.set(payload).then(() => {
         if (!silent) showToast('☁️ Sincronizado en vivo.');
       }).catch(err => {
         if (!silent) showToast('⚠️ Guardado local (sin conexión).');
       });
 
       try {
-        localStorage.setItem('requiem_smithnas_state_v14', JSON.stringify({
-          players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList, pinnedMessage: pinnedMessage
+        localStorage.setItem('requiem_smithnas_state_persistent', JSON.stringify({
+          playerList: playerList, characters: allPlayersData, activeRole: activeRole, objectives: objectivesList, pinnedMessage: pinnedMessage
         }));
       } catch(e) {}
     }
@@ -3780,7 +3815,6 @@
         const charName = pInputs['char-name']?.trim();
         const label = charName ? `${icon} ${charName}` : `${icon} Jugador ${index + 1}`;
         
-        // Pestaña Desktop
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
@@ -3788,7 +3822,6 @@
         btn.onclick = () => switchRole(pid);
         container.appendChild(btn);
 
-        // Opción Mobile Selector
         if (mobileSelect) {
           const opt = document.createElement('option');
           opt.value = pid;
@@ -3807,12 +3840,17 @@
     }
 
     function addNewPlayer() {
+      if (!isCloudInitialized) {
+        showToast('⚠️ Esperando conexión con el servidor...');
+        return;
+      }
       const newIndex = playerList.length + 1;
       const newPid = 'p' + Date.now();
       playerList.push(newPid);
       allPlayersData[newPid] = createBlankCharacterData('');
-      saveActivePlayerToCloud(true);
+      
       switchRole(newPid);
+      saveActivePlayerToCloud(true);
       updateSenderSelect();
       showToast(`✨ Se agregó el Jugador ${newIndex}`);
     }
@@ -3840,7 +3878,6 @@
       }
     }
 
-    // PANEL DEL MASTER
     function renderGMDashboard() {
       const cardsGrid = document.getElementById('gm-cards-container');
       cardsGrid.innerHTML = '';
@@ -3908,7 +3945,6 @@
 
         let statusBadgesHtml = statusBadges.length > 0 ? statusBadges.join('') : '<span style="color:#777; font-size:12px; font-style:italic;">Normal</span>';
 
-        // Deseo activo en resumen
         let confirmedWishHtml = '';
         if (pdata.confirmedWish && pdata.confirmedWish.text) {
           confirmedWishHtml = `
@@ -3965,7 +4001,6 @@
             </div>
           </div>
           
-          <!-- CONTROL DIRECTO DE VIDA -->
           <div class="gm-direct-heal-damage">
             <span>Impacto:</span>
             <input type="number" id="gm-hp-amt-${pid}" placeholder="Nº" min="1">
@@ -3974,7 +4009,6 @@
             <button type="button" class="gm-state-manager-toggle" onclick="toggleGmStateManager('${pid}')">⚡ Estados</button>
           </div>
 
-          <!-- GESTOR DE ESTADOS 4/4 CON COLOR TEMÁTICO Y BOTÓN OK -->
           <div class="gm-state-manager-box" id="gm-state-box-${pid}" style="display:${isBoxOpen ? 'grid' : 'none'};" onclick="event.stopPropagation();">
             <div class="gm-state-inline-item gm-st-stun">
               <label><input type="checkbox" id="${prefix}stun" ${pChecks['status-stun'] ? 'checked' : ''}> Stun</label>
@@ -4030,7 +4064,6 @@
             <div class="gm-actions-badges">${actionsBadgesHtml}</div>
           </div>
 
-          <!-- DESEO CONFIRMADO ABAJO DE ACCIONES DE TURNO -->
           ${confirmedWishHtml}
 
           ${passivesHtml}
@@ -4155,7 +4188,6 @@
         if (chk) chk.checked = (i <= curLvl);
       }
     }
-
     function setupSkillBoxes() {
       const containers = document.querySelectorAll('.skill-boxes');
       containers.forEach(container => {
@@ -4220,6 +4252,7 @@
       }
     }
 
+    // TÉCNICAS CON SMATH Y GASTO AUTOMÁTICO
     function addTechniqueRow(name = '', cost = 2, lvl1 = false, lvl2 = false, lvl3 = false) {
       const maxSlots = parseInt(document.getElementById('tech-slots-max')?.innerText) || 4;
       const currentCount = document.querySelectorAll('#techniques-body tr').length;
@@ -4232,7 +4265,7 @@
       const tbody = document.getElementById('techniques-body');
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><textarea class="tech-row-name" rows="1" placeholder="Poder/Técnica..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(name)}</textarea></td>
+        <td><textarea class="tech-row-name" rows="1" placeholder="Poder/Técnica..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(name)}</textarea></td>
         <td style="text-align:center;">
           <div style="display:inline-flex; align-items:center; gap:3px;">
             <input type="number" class="tech-cost-input" value="${cost}" min="0" style="width:36px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="syncToFirebaseDebounced();">
@@ -4272,10 +4305,10 @@
       const tbody = document.getElementById('inventory-body');
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(name)}</textarea></td>
+        <td><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(name)}</textarea></td>
         <td><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td>
         <td><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(weight)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td>
-        <td><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(desc)}</textarea></td>
+        <td><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(desc)}</textarea></td>
         <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
       `;
       tbody.appendChild(tr);
@@ -4388,7 +4421,7 @@
         if (el) el.checked = (currentEssenceMode === m);
       });
 
-      // Estado del banner de deseos
+      // Deseos
       handleWishCheckboxChange();
       renderConfirmedWishDisplay();
 
@@ -4443,13 +4476,19 @@
         }
       }
 
+      const initTag = document.getElementById('stat-init-total');
+      if (initTag) initTag.innerText = data.lastInit || '-';
+
+      const critTag = document.getElementById('d20-crit-result-val');
+      if (critTag) critTag.innerText = (data.lastD20Crit && data.lastD20Crit !== '-') ? data.lastD20Crit : '-';
+
       document.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
       recalcAllAutoStats();
       calcTotalWeight();
     }
 
     function exportJSON() {
-      const dataToExport = activeRole === 'gm' ? { players: playerList, data: allPlayersData, objectives: objectivesList, pinnedMessage: pinnedMessage, diceHistory: diceRollsHistory } : (allPlayersData[activeRole] || gatherFormData());
+      const dataToExport = activeRole === 'gm' ? { playerList: playerList, characters: allPlayersData, objectives: objectivesList, pinnedMessage: pinnedMessage, diceHistory: diceRollsHistory } : (allPlayersData[activeRole] || gatherFormData());
       const charName = (activeRole !== 'gm' ? allPlayersData[activeRole]?.inputs?.['char-name']?.trim() : 'Partida_Completa') || 'Personaje';
       const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -4468,9 +4507,9 @@
       reader.onload = function(e) {
         try {
           const parsed = JSON.parse(e.target.result);
-          if (parsed.players && parsed.data) {
-            playerList = parsed.players;
-            allPlayersData = parsed.data;
+          if (parsed.characters && typeof parsed.characters === 'object') {
+            if (Array.isArray(parsed.playerList) && parsed.playerList.length > 0) playerList = parsed.playerList;
+            allPlayersData = parsed.characters;
             if (parsed.objectives) objectivesList = parsed.objectives;
             if (parsed.pinnedMessage !== undefined) pinnedMessage = parsed.pinnedMessage;
             if (parsed.diceHistory) diceRollsHistory = parsed.diceHistory;
@@ -4496,25 +4535,21 @@
       setupSkillBoxes();
       setupAvatarGrid();
 
-      try {
-        const raw = localStorage.getItem('requiem_smithnas_state_v14');
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed.players)) playerList = parsed.players;
-          if (parsed.data) allPlayersData = parsed.data;
-          if (parsed.objectives) objectivesList = parsed.objectives;
-          if (parsed.pinnedMessage !== undefined) pinnedMessage = parsed.pinnedMessage;
-          if (parsed.diceHistory) diceRollsHistory = parsed.diceHistory;
-        }
-      } catch(e) {}
+      recoverFromLocalStorage();
 
       updateObjectiveBanner();
       renderRoleBar();
       updateSenderSelect();
       switchRole('p1');
 
-      document.getElementById('player-sheet-wrap').addEventListener('input', () => syncToFirebaseDebounced());
-      document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced());
+      document.getElementById('player-sheet-wrap').addEventListener('input', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+          syncToFirebaseDebounced(1200);
+        } else {
+          syncToFirebaseDebounced(400);
+        }
+      });
+      document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced(400));
     });
   </script>
 </body>
