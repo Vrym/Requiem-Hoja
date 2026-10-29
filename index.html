@@ -39,12 +39,11 @@
       color: var(--txt-dark);
       font-family: var(--f-body);
       font-size: 16px;
-      padding: 6px 4px 60px 4px;
+      padding: 6px 2px;
       display: flex;
       justify-content: center;
       overflow-x: hidden;
       min-height: 100vh;
-      width: 100%;
     }
 
     .sheet-container {
@@ -158,13 +157,11 @@
       white-space: nowrap;
     }
 
-    /* BARRA DE ROLES LIMPIA */
+    /* BARRA DE ROLES */
     .role-bar-wrap {
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
       background: #251308;
       padding: 6px 8px;
       border: 2px solid var(--border-gold);
@@ -174,8 +171,8 @@
     .role-bar-tabs {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       gap: 5px;
     }
     .role-btn {
@@ -200,29 +197,29 @@
       font-weight: bold;
     }
 
-    /* BOTÓN FLOTANTE ENGRANAJE FIJO EN LA ESQUINA INFERIOR DERECHA */
-    #floating-hub-btn {
+    /* BOTÓN FLOTANTE FIJO DEL ENGRANAJE (HUB) */
+    .btn-floating-hub {
       position: fixed;
-      bottom: 22px;
-      right: 22px;
+      bottom: 20px;
+      right: 20px;
       width: 48px;
       height: 48px;
       border-radius: 50%;
       background: #731e0b;
       color: #ffe8b5;
-      border: 2px solid #ffd700;
-      font-size: 24px;
-      cursor: pointer;
+      border: 2.5px solid #ffd700;
       box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-      z-index: 99999;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.15s, background 0.15s;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 99999;
+      transition: transform 0.2s, background 0.2s;
     }
-    #floating-hub-btn:hover {
-      transform: scale(1.08);
-      background: #8b1313;
+    .btn-floating-hub:hover {
+      transform: scale(1.1) rotate(45deg);
+      background: #942b13;
     }
 
     /* MODALES */
@@ -337,16 +334,16 @@
       cursor: pointer;
     }
 
-    /* TÍTULO CONTINUO SIN SUBTÍTULOS QUE CAIGAN */
+    /* TÍTULO LIMPIO DE CORRIDO */
     .main-title-wrap {
       text-align: center;
       margin-bottom: 12px;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
       border-bottom: 2px dashed var(--border-gold);
     }
     .main-title-continuous {
       font-family: var(--f-title);
-      font-size: clamp(17px, 3.8vw, 32px);
+      font-size: clamp(18px, 4vw, 34px);
       font-weight: 900;
       color: #241105;
       letter-spacing: 2px;
@@ -369,7 +366,6 @@
       padding: 10px;
       margin-bottom: 12px;
       box-shadow: inset 0 0 10px rgba(90, 45, 15, 0.1);
-      width: 100%;
     }
     .box-frame-title {
       font-family: var(--f-title);
@@ -449,7 +445,6 @@
       padding: 3px 5px;
       border: 1px solid rgba(60,30,10,0.18);
       border-radius: 3px;
-      min-width: 0;
     }
     .status-effect-item input[type="checkbox"] {
       width: 16px;
@@ -468,7 +463,6 @@
       border: 1px solid var(--border-dark) !important;
       background: #fff !important;
       border-radius: 2px;
-      flex-shrink: 0;
     }
     .status-custom-row {
       grid-column: 1 / -1;
@@ -489,7 +483,6 @@
       font-size: 14px;
       padding: 1px 4px;
       outline: none;
-      min-width: 0;
     }
 
     /* TABLA D6 GUÍA */
@@ -526,7 +519,7 @@
       font-weight: 900 !important;
     }
 
-    /* GESTIÓN DE ARMAS DINÁMICAS */
+    /* ARMAS DINÁMICAS RESPONSIVE */
     .weapons-list-container {
       display: flex;
       flex-direction: column;
@@ -554,7 +547,6 @@
       padding: 3px 6px;
       border-radius: 2px;
       outline: none;
-      min-width: 0;
     }
     .weapon-inputs-group {
       display: flex;
@@ -607,7 +599,7 @@
       padding: 0 4px;
     }
 
-    /* COMBATE RESPONSIVE LIMPIO */
+    /* COMBATE AUTOMATIZADO RESPONSIVE */
     .combat-stat-row {
       display: flex;
       justify-content: space-between;
@@ -615,6 +607,7 @@
       padding: 5px 0;
       border-bottom: 1px dashed rgba(60,30,10,0.25);
       gap: 6px;
+      flex-wrap: wrap;
     }
     .combat-stat-row label {
       font-family: var(--f-title);
@@ -629,7 +622,6 @@
       align-items: center;
       gap: 3px;
       flex-wrap: wrap;
-      justify-content: flex-end;
     }
     .combat-inputs input {
       width: 48px;
@@ -678,7 +670,6 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
-
     .archetype-box {
       border: 2px solid var(--border-dark);
       padding: 8px 8px;
@@ -707,7 +698,6 @@
       font-weight: bold;
       letter-spacing: 0.5px;
     }
-
     .arch-diamonds-wrap {
       display: inline-flex;
       align-items: center;
@@ -785,9 +775,7 @@
     }
 
     /* TÉCNICAS */
-    .techniques-table-wrap {
-      width: 100%;
-    }
+    .techniques-table-wrap { width: 100%; }
     .techniques-table {
       width: 100%;
       border-collapse: collapse;
@@ -922,9 +910,7 @@
     }
 
     /* MOCHILA */
-    .inventory-table-wrap {
-      width: 100%;
-    }
+    .inventory-table-wrap { width: 100%; }
     .inventory-table {
       width: 100%;
       border-collapse: collapse;
@@ -988,9 +974,7 @@
     }
 
     /* BONIFICACIONES POR GRADO */
-    .grade-table-wrap {
-      width: 100%;
-    }
+    .grade-table-wrap { width: 100%; }
     .grade-bonus-table {
       width: 100%;
       border-collapse: collapse;
@@ -1010,7 +994,6 @@
       font-family: var(--f-title);
       font-size: 11px;
     }
-
     .mobile-th { display: none; }
     .desktop-th { display: inline; }
 
@@ -1044,8 +1027,8 @@
       flex-direction: column;
       align-items: center;
       gap: 4px;
-      min-width: 95px;
-      flex: 1 1 95px;
+      min-width: 85px;
+      flex: 1 1 85px;
     }
     .essence-tier-circles {
       display: flex;
@@ -1122,7 +1105,6 @@
       border-bottom: 1px dotted rgba(0,0,0,0.15);
     }
 
-    /* INSIGNIAS EN GM */
     .gm-actions-container {
       display: flex;
       flex-direction: column;
@@ -1173,7 +1155,6 @@
     .gm-badge-curacion { background: #14532d; border: 1px solid #86efac; }
     .gm-badge-custom { background: #374151; border: 1px solid #9ca3af; }
 
-    /* PASIVAS FIT-CONTENT EN GM */
     .gm-passives-wrap {
       margin-top: 6px;
       display: flex;
@@ -1212,74 +1193,16 @@
       font-size: 13.5px;
     }
 
-    /* ========================================================
-       AJUSTES EXCLUSIVOS CELULAR (RESPONSIVE SIN DESBORDES)
-       ======================================================== */
+    /* REGLAS RESPONSIVE EXCLUSIVAS PARA CELULAR (SIN DESBORDES) */
     @media (max-width: 650px) {
-      body { padding: 4px 2px 70px 2px; }
+      body { padding: 4px 2px; }
       .sheet-container { padding: 6px 4px; border-width: 3px; }
       .grid-2col { grid-template-columns: 1fr; gap: 8px; }
       .archetypes-grid { grid-template-columns: 1fr; gap: 8px; }
       .despiertas-wrapper { grid-template-columns: 1fr; }
+      .status-effects-grid { grid-template-columns: 1fr 1fr; }
       .box-frame { padding: 6px 4px; margin-bottom: 8px; }
       .archetype-box { padding: 6px 4px; }
-      
-      /* COMBATE EN CELULAR: ETIQUETAS ARRIBA Y CASILLAS ABAJO CON AJUSTE FLEXIBLE */
-      .combat-stat-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-        padding: 5px 0;
-      }
-      .combat-inputs {
-        width: 100%;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        gap: 3px;
-        background: rgba(0,0,0,0.03);
-        padding: 4px 6px;
-        border-radius: 3px;
-      }
-      .combat-stat-row label {
-        font-size: 13px;
-      }
-      .combat-inputs input {
-        width: 44px;
-        font-size: 14px;
-      }
-
-      /* ARMAS EN CELULAR: APILADO VERTICAL LIMPIO */
-      .weapon-card {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 5px;
-      }
-      .weapon-inputs-group {
-        justify-content: space-between;
-        width: 100%;
-      }
-      .btn-roll-weapon {
-        width: 100%;
-        padding: 6px;
-      }
-      .weapon-badge {
-        justify-content: space-between;
-      }
-
-      /* ESTADOS EN CELULAR */
-      .status-effects-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 4px;
-      }
-      .status-effect-item {
-        font-size: 12px;
-        padding: 2px 4px;
-      }
-      .status-val-input {
-        width: 36px !important;
-        font-size: 13px !important;
-      }
-
       .arch-header { justify-content: space-between; gap: 4px; padding-bottom: 4px; }
       .arch-title-text { font-size: 13.5px; }
       .arch-diamonds-wrap { gap: 4px; padding: 2px 3px; }
@@ -1290,21 +1213,36 @@
       .skill-boxes input[type="checkbox"] { width: 17.5px; height: 17.5px; }
       .skill-bonus-tag { width: 30px; font-size: 11px; padding: 1px 0; }
 
+      /* FILAS DE COMBATE Y ARMAS EN CELULAR */
+      .combat-stat-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 6px 0;
+      }
+      .combat-inputs {
+        width: 100%;
+        justify-content: flex-end;
+        gap: 3px;
+      }
+      .weapon-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+      .weapon-inputs-group {
+        justify-content: space-between;
+      }
+
       .desktop-th { display: none; }
       .mobile-th { display: inline-block; line-height: 1.1; }
       .grade-bonus-table th, .grade-bonus-table td { font-size: 11px; padding: 4px 1px; }
       .inventory-table th, .inventory-table td { font-size: 12px; padding: 3px 1px; }
       .inventory-table textarea { font-size: 12px; line-height: 1.2; padding: 1px 1px; }
-
-      .essence-stages { font-size: 9px; }
-      .essence-seal { width: 26px; height: 26px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
-
-  <!-- BOTÓN FLOTANTE ENGRANAJE (FIJO EN ESQUINA INFERIOR DERECHA) -->
-  <button type="button" id="floating-hub-btn" onclick="openHubModal()" title="Menú de Opciones">⚙️</button>
 
   <!-- MODAL DE CONFIRMACIÓN -->
   <div id="modal-backdrop">
@@ -1318,12 +1256,12 @@
     </div>
   </div>
 
-  <!-- HUB DE OPCIONES FLOTANTE (INCLUYE NUEVO PJ) -->
+  <!-- HUB DE OPCIONES FLOTANTE (CON NUEVO PJ INCLUIDO) -->
   <div id="hub-modal-backdrop">
     <div class="hub-modal-box">
       <div class="modal-title" style="color:#3b1b07;">⚙️ MENÚ DE OPCIONES</div>
       <div class="hub-actions-grid">
-        <button type="button" class="hub-btn" onclick="addNewPlayer(); closeHubModal();" style="background:#1e4a28; border-color:#4ade80; grid-column:1 / -1; font-weight:bold;">➕ Nuevo Personaje</button>
+        <button type="button" class="hub-btn" onclick="addNewPlayer(); closeHubModal();" style="background:#1e4a28; color:#e8f5e9;">➕ Nuevo PJ</button>
         <button type="button" class="hub-btn" onclick="saveActivePlayerToCloud(false); closeHubModal();">☁️ Sincronizar</button>
         <button type="button" class="hub-btn" onclick="exportJSON(); closeHubModal();">📤 Exportar</button>
         <label for="importFile" class="hub-btn" style="margin:0;">📥 Importar</label>
@@ -1335,6 +1273,9 @@
       <button type="button" class="btn-modal-cancel" onclick="closeHubModal()" style="width:100%;">Cerrar Menú</button>
     </div>
   </div>
+
+  <!-- BOTÓN FLOTANTE FIJO CON EL ENGRANAJE -->
+  <button type="button" class="btn-floating-hub" onclick="openHubModal()" title="Menú de opciones">⚙️</button>
 
   <!-- MODAL DE HISTORIAL DE OBJETIVOS -->
   <div id="history-modal-backdrop">
@@ -1362,26 +1303,25 @@
     <div class="objective-banner">
       <div class="objective-header">
         <span class="objective-header-title">🎯 ÚLTIMOS MENSAJES DEL MÁSTER</span>
-        <button type="button" class="objective-btn" onclick="openHistoryModal()">📜 Historial</button>
+        <button type="button" class="objective-btn" onclick="openHistoryModal()">📜 Ver Historial Completo</button>
       </div>
       <div id="latest-objectives-container" class="latest-objectives-list">
         <div class="objective-row"><span class="obj-text" style="color:#aaa; font-style:italic;">Sin mensajes activos por el momento.</span></div>
       </div>
     </div>
 
-    <!-- BARRA DE ROLES LIMPIA (SOLO PESTAÑAS) -->
+    <!-- BARRA DE ROLES -->
     <div class="role-bar-wrap">
       <div class="role-bar-tabs" id="role-bar-container"></div>
     </div>
 
     <!-- PANEL DEL MAESTRO (GM DASHBOARD) -->
     <div id="gm-dashboard-wrap">
-      <!-- CONSOLA COMPACTA DEL GM -->
-      <div class="box-frame" style="background:rgba(255,255,255,0.7); border-color:#8c5826; padding:6px 8px;">
-        <div class="box-frame-title" style="font-size:13px; margin-bottom:6px; padding-bottom:2px;">📢 Transmitir Nuevo Objetivo / Mensaje a la Mesa</div>
-        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-          <input type="text" id="gm-objective-input" placeholder="Escribe el objetivo..." style="flex:1; min-width:180px; max-width:420px; padding:4px 8px; font-family:var(--f-body); font-size:13.5px; border:1.5px solid var(--border-dark); background:#fff; border-radius:2px;">
-          <button type="button" onclick="broadcastObjective()" style="background:#731e0b; color:#ffe8b5; border:1px solid #ffd700; padding:4px 12px; font-family:var(--f-title); font-size:12px; font-weight:bold; cursor:pointer; border-radius:2px;">Publicar</button>
+      <div class="box-frame" style="background:rgba(255,255,255,0.7); border-color:#8c5826;">
+        <div class="box-frame-title">📢 Transmitir Mensaje a la Mesa</div>
+        <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
+          <input type="text" id="gm-objective-input" placeholder="Escribe el objetivo o mensaje..." style="max-width:380px; width:100%; padding:4px 8px; font-family:var(--f-body); font-size:14px; border:1.5px solid var(--border-dark); background:#fff; border-radius:2px;">
+          <button type="button" onclick="broadcastObjective()" style="background:#731e0b; color:#ffe8b5; border:1.5px solid #ffd700; padding:4px 12px; font-family:var(--f-title); font-size:12px; font-weight:bold; cursor:pointer; border-radius:2px;">Publicar</button>
         </div>
       </div>
 
@@ -1393,7 +1333,7 @@
 
     <!-- FICHA INTERACTIVA COMPLETA -->
     <div id="player-sheet-wrap">
-      <!-- TÍTULO DE CORRIDO CONTINUO -->
+      <!-- TÍTULO LIMPIO DE CORRIDO -->
       <div class="main-title-wrap">
         <h1 class="main-title-continuous">RÉQUIEM DE LOS SMITHNAS</h1>
       </div>
@@ -1430,7 +1370,6 @@
           <button type="button" class="btn-add-item" onclick="addWeaponRow()" style="margin:0; padding:2px 8px; font-size:11px;">+ Agregar Arma</button>
         </div>
         
-        <!-- TABLA GUÍA DE MULTIPLICADORES -->
         <div class="d6-table-wrap">
           <table class="d6-table">
             <thead>
@@ -1455,7 +1394,6 @@
           </table>
         </div>
 
-        <!-- LISTADO DE ARMAS PERSONALIZABLES -->
         <div class="weapons-list-container" id="weapons-container"></div>
       </div>
 
@@ -1471,7 +1409,7 @@
               <input type="number" id="stat-pc-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+ Bono:</span>
               <span id="stat-pc-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">= Total:</span>
+              <span class="calc-tag">=</span>
               <span id="stat-pc-total" class="calc-total">0</span>
             </div>
           </div>
@@ -1483,7 +1421,7 @@
               <input type="number" id="stat-pd-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <span class="calc-tag">+ Bono:</span>
               <span id="stat-pd-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-              <span class="calc-tag">= Total:</span>
+              <span class="calc-tag">=</span>
               <span id="stat-pd-total" class="calc-total">0</span>
             </div>
           </div>
@@ -1496,7 +1434,7 @@
               <button type="button" onclick="restoreFullHp()" class="btn-stat-max" title="Restablecer al total máximo">💖 Max</button>
               <span class="calc-tag">/ Base:</span>
               <input type="number" id="stat-hp-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-              <span class="calc-tag">+</span>
+              <span class="calc-tag">+ Bono:</span>
               <span id="stat-hp-bono" class="calc-tag" style="font-weight:bold;">+0</span>
               <span class="calc-tag">= Max:</span>
               <span id="stat-hp-max-total" class="calc-total">0</span>
@@ -1511,7 +1449,7 @@
               <button type="button" onclick="restoreFullSmath()" class="btn-stat-max" title="Restablecer al total máximo">⚡ Max</button>
               <span class="calc-tag">/ Base:</span>
               <input type="number" id="stat-smath-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-              <span class="calc-tag">+</span>
+              <span class="calc-tag">+ Bono:</span>
               <span id="stat-smath-bono" class="calc-tag" style="font-weight:bold;">+0</span>
               <span class="calc-tag">= Max:</span>
               <span id="stat-smath-max-total" class="calc-total">0</span>
@@ -1525,7 +1463,7 @@
             </div>
           </div>
 
-          <!-- ESTADOS NEGATIVOS CON BOTÓN DE LIMPIEZA TOTAL -->
+          <!-- ESTADOS NEGATIVOS -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:6px; border-top:1.5px dashed rgba(60,30,10,0.25);">
             <span style="font-family:var(--f-title); font-weight:bold; font-size:12px; color:#4f250b;">ESTADOS Y ALTERACIONES:</span>
             <button type="button" onclick="clearNegativeStates()" style="background:#5a1212; color:#ffe8b5; border:1px solid #bf8a3b; font-family:var(--f-title); font-size:10px; padding:2px 7px; cursor:pointer; border-radius:2px;">🧹 Limpiar Estados</button>
@@ -1548,7 +1486,7 @@
           </div>
         </div>
 
-        <!-- HABILIDADES Y ESENCIA (UNIFICADO) -->
+        <!-- HABILIDADES Y ESENCIA -->
         <div class="box-frame" style="display:flex; flex-direction:column; justify-content:space-between;">
           <div>
             <div class="box-frame-title">Habilidades y Esencia</div>
@@ -1560,7 +1498,7 @@
                 <input type="number" id="pts-base" value="0" style="width:48px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
                 <span class="calc-tag">+ Bono:</span>
                 <span id="pts-bono" class="calc-tag" style="font-weight:bold;">+0</span>
-                <span class="calc-tag">= Total:</span>
+                <span class="calc-tag">=</span>
                 <span id="pts-obtenidos-total" class="calc-total">0</span>
               </div>
             </div>
@@ -1575,7 +1513,7 @@
               <span id="pts-restantes" style="font-size:20px; font-weight:bold; color:#166534; padding-right:6px;">0</span>
             </div>
 
-            <!-- ESENCIA (1 AL 15 EN GRUPOS ORDENADOS) -->
+            <!-- ESENCIA (1 AL 15) -->
             <div class="essence-embedded-wrap">
               <div class="essence-embedded-title">✨ ESENCIA (GRADOS 1 AL 15)</div>
               <div class="essence-tiers-flex">
@@ -1707,7 +1645,6 @@
           <button type="button" class="btn-add-item" onclick="addTechniqueRow()">+ Agregar Poder / Técnica</button>
         </div>
 
-        <!-- PASIVAS COMO BLOQUES INDIVIDUALES -->
         <div class="passives-section-wrap">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <label style="font-family:var(--f-title); font-weight:bold; font-size:13.5px; color:#4f250b;">📜 Habilidades Pasivas (Inicio de Turno / Constantes):</label>
@@ -1764,7 +1701,7 @@
         </div>
       </div>
 
-      <!-- BONIFICACIONES POR GRADO (MATRIZ GUÍA) -->
+      <!-- BONIFICACIONES POR GRADO -->
       <div class="box-frame">
         <div class="box-frame-title">Bonificaciones por Grado</div>
         <div class="grade-table-wrap">
@@ -1796,7 +1733,6 @@
   </div>
 
   <script>
-    // CONFIGURACIÓN DE FIREBASE
     const firebaseConfig = {
       apiKey: "AIzaSyClIcL0oWN92Jkl1Npt7gtFQ8QTAqPucNk",
       authDomain: "requiem-hoja.firebaseapp.com",
@@ -1825,13 +1761,13 @@
     const SKILL_BONUSES = ['+0', '+1', '+2', '+4', '+6', '+9', '+12', 'x2D'];
     const ARCHETYPES = ['impulsor', 'controlador', 'perpetuador', 'proyector', 'evocador', 'conmutador'];
 
-    function getEssenceStageName(lvl) {
-      if (!lvl || lvl <= 0) return '';
-      if (lvl <= 3) return 'Latente';
-      if (lvl <= 6) return 'Despierta';
-      if (lvl <= 9) return 'Manifiesta';
-      if (lvl <= 12) return 'Trascendida';
-      return 'Ascendida';
+    function getEssenceTierName(lvl) {
+      if (lvl >= 13) return 'Ascendida';
+      if (lvl >= 10) return 'Trascendida';
+      if (lvl >= 7) return 'Manifiesta';
+      if (lvl >= 4) return 'Despierta';
+      if (lvl >= 1) return 'Latente';
+      return '';
     }
 
     function createBlankCharacterData(name = '') {
@@ -1846,7 +1782,7 @@
           'status-veneno-val': '', 'status-sangrado-val': '', 'status-curacion-val': '',
           'status-custom-name': '', 'status-custom-val': '',
           'tech-princ-name': '', 'tech-princ-cost': '', 'tech-sec1-name': '', 'tech-sec1-cost': '',
-          'tech-sec2-name': '', 'tech-sec3-name': ''
+          'tech-sec2-name': '', 'tech-sec2-cost': '', 'tech-sec3-name': '', 'tech-sec3-cost': ''
         },
         checkboxes: {
           'status-stun': false, 'status-sellado': false, 'status-petrificado': false,
@@ -1854,7 +1790,7 @@
           'status-curacion': false, 'status-custom-check': false
         },
         weapons: [
-          { id: 'w_' + Date.now(), name: 'Arma Principal', baseDmg: 20, lastRoll: '-', lastDmg: '-' }
+          { id: 'w_' + Date.now(), name: 'Espada Vampira', baseDmg: 20, lastRoll: '-', lastDmg: '-' }
         ],
         archLevels: { impulsor: 0, controlador: 0, perpetuador: 0, proyector: 0, evocador: 0, conmutador: 0 },
         techniques: [
@@ -1909,7 +1845,6 @@
       el.style.height = Math.max(22, el.scrollHeight) + 'px';
     }
 
-    // MODALES
     function openHubModal() { document.getElementById('hub-modal-backdrop').style.display = 'flex'; }
     function closeHubModal() { document.getElementById('hub-modal-backdrop').style.display = 'none'; }
     function openHistoryModal() {
@@ -1918,7 +1853,6 @@
     }
     function closeHistoryModal() { document.getElementById('history-modal-backdrop').style.display = 'none'; }
 
-    // RESTABLECER VIDA Y SMATH
     function restoreFullHp() {
       const maxTot = document.getElementById('stat-hp-max-total')?.innerText || '0';
       const currInput = document.getElementById('stat-hp-curr');
@@ -1935,29 +1869,30 @@
       showToast('⚡ Smath restablecido al máximo.');
     }
 
-    // LIMPIAR TODOS LOS ESTADOS NEGATIVOS Y SUS VALORES
+    // LIMPIAR TODOS LOS ESTADOS NEGATIVOS Y BORRAR SUS VALORES
     function clearNegativeStates() {
-      const stateIds = [
+      const stateChecks = [
         'status-stun', 'status-sellado', 'status-petrificado', 'status-mareado',
         'status-veneno', 'status-sangrado', 'status-curacion', 'status-custom-check'
       ];
-      stateIds.forEach(id => {
+      stateChecks.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.checked = false;
       });
 
-      // Borrar también valores
-      const valIds = ['status-veneno-val', 'status-sangrado-val', 'status-curacion-val', 'status-custom-name', 'status-custom-val'];
-      valIds.forEach(id => {
+      const stateValues = [
+        'status-veneno-val', 'status-sangrado-val', 'status-curacion-val',
+        'status-custom-name', 'status-custom-val'
+      ];
+      stateValues.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
       });
 
       syncToFirebaseDebounced();
-      showToast('🧹 Estados negativos y valores limpiados.');
+      showToast('🧹 Estados y valores eliminados.');
     }
 
-    // PUBLICACIÓN Y RESUMEN DE LAS ÚLTIMAS 3 PUBLICACIONES DEL MÁSTER
     function broadcastObjective() {
       const input = document.getElementById('gm-objective-input');
       const text = (input.value || '').trim();
@@ -1973,7 +1908,7 @@
       objectivesList.unshift(newObj);
       input.value = '';
       saveActivePlayerToCloud(true);
-      showToast('📢 Objetivo publicado a toda la mesa.');
+      showToast('📢 Mensaje publicado a la mesa.');
     }
 
     function deleteObjective(id) {
@@ -1997,7 +1932,8 @@
           ? `<button type="button" onclick="deleteObjective('${obj.id}')" style="background:#731e0b; color:#fff; border:none; padding:3px 7px; border-radius:2px; cursor:pointer; font-size:11px;" title="Borrar mensaje">🗑️</button>` 
           : '';
         item.innerHTML = `
-          <div><b style="color:#731e0b;">[${obj.time}]</b> ${escapeHtml(obj.text)}</div>${deleteBtnHtml}
+          <div><b style="color:#731e0b;">[${obj.time}]</b> ${escapeHtml(obj.text)}</div>
+          ${deleteBtnHtml}
         `;
         histContainer.appendChild(item);
       });
@@ -2037,4 +1973,783 @@
         </div>
         <button type="button" class="btn-roll-weapon" onclick="rollWeaponD6('${wId}')">🎲 Tirar D6</button>
         <div class="weapon-badge">
-          <span>Tirada
+          <span>Tirada: <b class="weapon-roll-val" style="color:var(--txt-red);">${lastRoll}</b></span>
+          <span style="margin-left:4px;">Daño: <b class="weapon-dmg-val" style="color:var(--txt-red);">${lastDmg}</b></span>
+        </div>
+        <button type="button" class="btn-del-weapon" onclick="deleteWeaponRow('${wId}')" title="Eliminar arma">✖</button>
+      `;
+      container.appendChild(card);
+      recalcAllAutoStats();
+    }
+
+    function deleteWeaponRow(wId) {
+      const cards = document.querySelectorAll('#weapons-container .weapon-card');
+      if (cards.length <= 1) {
+        showToast('⚠️ Debes conservar al menos un arma.');
+        return;
+      }
+      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
+      if (card) {
+        card.remove();
+        recalcAllAutoStats();
+        syncToFirebaseDebounced();
+        showToast('🗑️ Arma eliminada.');
+      }
+    }
+
+    function rollWeaponD6(wId) {
+      const card = document.querySelector(`#weapons-container .weapon-card[data-id="${wId}"]`);
+      if (!card) return;
+
+      const wName = card.querySelector('.weapon-name-input')?.value.trim() || 'Arma';
+      const totalDmg = parseFloat(card.querySelector('.weapon-total-text')?.innerText) || 0;
+      const roll = Math.floor(Math.random() * 6) + 1;
+      const finalDmg = Math.round(totalDmg * (1 + MULTIPLICADORES[roll - 1]));
+
+      card.querySelector('.weapon-roll-val').innerText = roll;
+      card.querySelector('.weapon-dmg-val').innerText = finalDmg;
+
+      updateReferenceD6Table(totalDmg, roll);
+
+      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastRoll = `${wName}: Dado ${roll} (${finalDmg} daño)`;
+        saveActivePlayerToCloud(true);
+      }
+    }
+
+    function updateReferenceD6Table(baseVal, activeRoll = null) {
+      for (let i = 1; i <= 6; i++) {
+        const cell = document.getElementById('calc-dmg-' + i);
+        const colHeader = document.getElementById('d6-col-' + i);
+        if (cell && colHeader) {
+          const val = Math.round(baseVal * (1 + MULTIPLICADORES[i - 1]));
+          cell.innerText = baseVal > 0 ? val : '-';
+          if (activeRoll && i === activeRoll) {
+            colHeader.classList.add('active-column');
+            cell.classList.add('active-column');
+          } else {
+            colHeader.classList.remove('active-column');
+            cell.classList.remove('active-column');
+          }
+        }
+      }
+    }
+
+    // CÁLCULO DE BONIFICACIONES POR GRADO
+    function recalcAllAutoStats() {
+      let bDmg = 0, bPc = 0, bPd = 0, bHp = 0, bSmath = 0, bPh = 0;
+      ARCHETYPES.forEach(arch => {
+        const lvl = archLevelState[arch] || 0;
+        const b = GRADE_BONUSES[arch];
+        bDmg   += lvl * b.dmg;
+        bPc    += lvl * b.pc;
+        bPd    += lvl * b.pd;
+        bHp    += lvl * b.hp;
+        bSmath += lvl * b.smath;
+        bPh    += lvl * b.ph;
+      });
+
+      // ARMAS
+      document.querySelectorAll('#weapons-container .weapon-card').forEach(card => {
+        const base = parseFloat(card.querySelector('.weapon-base-input')?.value) || 0;
+        card.querySelector('.weapon-bono-text').innerText = `+${bDmg}`;
+        card.querySelector('.weapon-total-text').innerText = base + bDmg;
+      });
+
+      const firstCard = document.querySelector('#weapons-container .weapon-card');
+      const firstTotal = firstCard ? (parseFloat(firstCard.querySelector('.weapon-total-text')?.innerText) || 0) : 0;
+      updateReferenceD6Table(firstTotal);
+
+      // PC
+      const basePcVal = parseFloat(document.getElementById('stat-pc-base')?.value) || 0;
+      document.getElementById('stat-pc-bono').innerText = `+${bPc}`;
+      document.getElementById('stat-pc-total').innerText = basePcVal + bPc;
+
+      // PD
+      const basePdVal = parseFloat(document.getElementById('stat-pd-base')?.value) || 0;
+      document.getElementById('stat-pd-bono').innerText = `+${bPd}`;
+      document.getElementById('stat-pd-total').innerText = basePdVal + bPd;
+
+      // RESENCIA
+      const baseHpMaxVal = parseFloat(document.getElementById('stat-hp-max-base')?.value) || 0;
+      document.getElementById('stat-hp-bono').innerText = `+${bHp}`;
+      document.getElementById('stat-hp-max-total').innerText = baseHpMaxVal + bHp;
+
+      // SMATH
+      const baseSmathMaxVal = parseFloat(document.getElementById('stat-smath-max-base')?.value) || 0;
+      document.getElementById('stat-smath-bono').innerText = `+${bSmath}`;
+      document.getElementById('stat-smath-max-total').innerText = baseSmathMaxVal + bSmath;
+
+      // HABILIDADES
+      const basePhVal = parseFloat(document.getElementById('pts-base')?.value) || 0;
+      const totalPhObt = basePhVal + bPh;
+      document.getElementById('pts-bono').innerText = `+${bPh}`;
+      document.getElementById('pts-obtenidos-total').innerText = totalPhObt;
+
+      updateSkillsAndPoints(totalPhObt);
+    }
+
+    // ACCIONES POR TURNO
+    function getActiveActionsList(chk = {}) {
+      const acts = [];
+      if (chk['act-atacar']) acts.push('⚔️ Atacar');
+      if (chk['act-conc-1'] && chk['act-conc-2']) acts.push('🧘 Concentrarse x2');
+      else if (chk['act-conc-1'] || chk['act-conc-2']) acts.push('🧘 Concentrarse x1');
+      if (chk['act-def']) acts.push('🛡️ Defenderse');
+      if (chk['act-desp-1'] && chk['act-desp-2']) acts.push('🏃 Desplazarse x2');
+      else if (chk['act-desp-1'] || chk['act-desp-2']) acts.push('🏃 Desplazarse x1');
+      if (chk['act-mot-1']) acts.push('🔥 Motivación (3 Sm)');
+      if (chk['act-mot-2']) acts.push('🔥 Motivación (5 Sm)');
+      return acts;
+    }
+
+    function clearTurnActions() {
+      const actionIds = ['act-atacar', 'act-conc-1', 'act-conc-2', 'act-def', 'act-desp-1', 'act-desp-2', 'act-mot-1', 'act-mot-2'];
+      actionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.checked = false;
+      });
+      syncToFirebaseDebounced();
+      showToast('🧹 Acciones del turno desmarcadas.');
+    }
+
+    // PASIVAS DINÁMICAS
+    function addPassiveRow(text = '') {
+      const container = document.getElementById('passives-list-container');
+      const item = document.createElement('div');
+      item.className = 'passive-entry-item';
+      item.innerHTML = `
+        <textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(text)}</textarea>
+        <button type="button" class="btn-del-passive" onclick="this.closest('.passive-entry-item').remove(); syncToFirebaseDebounced();" title="Eliminar pasiva">✖</button>
+      `;
+      container.appendChild(item);
+      item.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
+    }
+
+    // SINCRONIZACIÓN FIREBASE
+    db.ref('.info/connected').on('value', snap => {
+      const isOnline = snap.val() === true;
+      const dot = document.getElementById('live-dot');
+      const txt = document.getElementById('live-status-text');
+      if (dot && txt) {
+        if (isOnline) { dot.classList.remove('offline'); txt.innerText = 'En vivo'; }
+        else { dot.classList.add('offline'); txt.innerText = 'Desconectado'; }
+      }
+    });
+
+    gameRef.on('value', snapshot => {
+      const cloudData = snapshot.val();
+      if (!cloudData) return;
+
+      isRemoteUpdate = true;
+
+      if (Array.isArray(cloudData.playerList) && cloudData.playerList.length > 0) playerList = cloudData.playerList;
+      if (cloudData.characters && typeof cloudData.characters === 'object') allPlayersData = cloudData.characters;
+      if (Array.isArray(cloudData.objectives)) objectivesList = cloudData.objectives;
+
+      updateObjectiveBanner();
+      renderRoleBar();
+
+      if (activeRole === 'gm') renderGMDashboard();
+      else if (allPlayersData[activeRole]) applyDataToForm(allPlayersData[activeRole]);
+
+      isRemoteUpdate = false;
+    });
+
+    let syncTimeout = null;
+    function syncToFirebaseDebounced() {
+      if (isRemoteUpdate) return;
+      clearTimeout(syncTimeout);
+      syncTimeout = setTimeout(() => { saveActivePlayerToCloud(true); }, 350);
+    }
+
+    function saveActivePlayerToCloud(silent = false) {
+      if (activeRole !== 'gm') {
+        allPlayersData[activeRole] = gatherFormData();
+        renderRoleBar();
+      }
+
+      gameRef.set({
+        playerList: playerList,
+        characters: allPlayersData,
+        objectives: objectivesList
+      }).then(() => {
+        if (!silent) showToast('☁️ Sincronizado en vivo.');
+      }).catch(err => {
+        if (!silent) showToast('⚠️ Guardado local (sin conexión).');
+      });
+
+      try {
+        localStorage.setItem('requiem_smithnas_state_v7', JSON.stringify({
+          players: playerList, data: allPlayersData, activeRole: activeRole, objectives: objectivesList
+        }));
+      } catch(e) {}
+    }
+
+    // PESTAÑAS
+    function renderRoleBar() {
+      const container = document.getElementById('role-bar-container');
+      container.innerHTML = '';
+
+      const gmBtn = document.createElement('button');
+      gmBtn.type = 'button';
+      gmBtn.className = `role-btn ${activeRole === 'gm' ? 'active' : ''}`;
+      gmBtn.innerText = '👑 Maestro (GM)';
+      gmBtn.onclick = () => switchRole('gm');
+      container.appendChild(gmBtn);
+
+      playerList.forEach((pid, index) => {
+        const charName = allPlayersData[pid]?.inputs?.['char-name']?.trim();
+        const label = charName ? `${index + 1}. ${charName}` : `Jugador ${index + 1}`;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
+        btn.innerText = label;
+        btn.onclick = () => switchRole(pid);
+        container.appendChild(btn);
+      });
+
+      const deleteBtn = document.getElementById('btn-delete-player');
+      if (activeRole === 'gm' || playerList.length <= 1) deleteBtn.style.display = 'none';
+      else deleteBtn.style.display = 'flex';
+    }
+
+    function addNewPlayer() {
+      const newIndex = playerList.length + 1;
+      const newPid = 'p' + Date.now();
+      playerList.push(newPid);
+      allPlayersData[newPid] = createBlankCharacterData('');
+      saveActivePlayerToCloud(true);
+      switchRole(newPid);
+      showToast(`✨ Se agregó el Jugador ${newIndex}`);
+    }
+
+    function switchRole(roleId) {
+      if (activeRole !== 'gm' && allPlayersData[activeRole] && !isRemoteUpdate) {
+        allPlayersData[activeRole] = gatherFormData();
+      }
+
+      activeRole = roleId;
+      renderRoleBar();
+
+      const gmWrap = document.getElementById('gm-dashboard-wrap');
+      const sheetWrap = document.getElementById('player-sheet-wrap');
+
+      if (activeRole === 'gm') {
+        gmWrap.style.display = 'block';
+        sheetWrap.style.display = 'none';
+        renderGMDashboard();
+      } else {
+        gmWrap.style.display = 'none';
+        sheetWrap.style.display = 'block';
+        applyDataToForm(allPlayersData[activeRole] || createBlankCharacterData(''));
+      }
+    }
+
+    // PANEL DEL MAESTRO CON FASE DE ESENCIA (DESPIERTA, ASCENDIDA, ETC.)
+    function renderGMDashboard() {
+      const cardsGrid = document.getElementById('gm-cards-container');
+      cardsGrid.innerHTML = '';
+
+      playerList.forEach((pid, idx) => {
+        const pdata = allPlayersData[pid] || createBlankCharacterData('');
+        const pInputs = pdata.inputs || {};
+        const pChecks = pdata.checkboxes || {};
+
+        const charName = pInputs['char-name'] || `Jugador ${idx + 1}`;
+        const oficio = pInputs['char-oficio'] || 'Sin oficio';
+        const hpCurr = pInputs['stat-hp-curr'] || '0';
+        const roll = pdata.lastRoll || '-';
+        
+        const essenceLvl = pdata.essence || 0;
+        const essenceTier = getEssenceTierName(essenceLvl);
+        const essenceDisplay = essenceLvl > 0 ? `${essenceLvl} (${essenceTier})` : '-';
+
+        let bDmg = 0, bPc = 0, bPd = 0, bHp = 0, bSmath = 0;
+        ARCHETYPES.forEach(arch => {
+          const lvl = pdata.archLevels?.[arch] || 0;
+          const b = GRADE_BONUSES[arch];
+          bDmg += lvl * b.dmg; bPc += lvl * b.pc; bPd += lvl * b.pd; bHp += lvl * b.hp; bSmath += lvl * b.smath;
+        });
+        const hpMaxTot = (parseFloat(pInputs['stat-hp-max-base']) || 0) + bHp;
+        const smCurr = pInputs['stat-smath-curr'] || '0';
+        const smMaxTot = (parseFloat(pInputs['stat-smath-max-base']) || 0) + bSmath;
+        const pcTot = (parseFloat(pInputs['stat-pc-base']) || 0) + bPc;
+        const pdTot = (parseFloat(pInputs['stat-pd-base']) || 0) + bPd;
+
+        const activeActs = getActiveActionsList(pChecks);
+        let actionsBadgesHtml = '<span style="color:#777; font-size:12px; font-style:italic;">Sin acciones</span>';
+        if (activeActs.length > 0) {
+          actionsBadgesHtml = activeActs.map(act => {
+            const isMot = act.includes('Motivación');
+            return `<span class="gm-action-badge ${isMot ? 'mot' : ''}">${escapeHtml(act)}</span>`;
+          }).join('');
+        }
+
+        const statusBadges = [];
+        if (pChecks['status-stun']) statusBadges.push(`<span class="gm-badge-status gm-badge-stun">⚡ Stun</span>`);
+        if (pChecks['status-sellado']) statusBadges.push(`<span class="gm-badge-status gm-badge-sellado">🔒 Sellado</span>`);
+        if (pChecks['status-petrificado']) statusBadges.push(`<span class="gm-badge-status gm-badge-petrificado">🗿 Petrificado</span>`);
+        if (pChecks['status-mareado']) statusBadges.push(`<span class="gm-badge-status gm-badge-mareado">💫 Mareado</span>`);
+        if (pChecks['status-veneno']) statusBadges.push(`<span class="gm-badge-status gm-badge-veneno">🧪 Veneno (-${pInputs['status-veneno-val'] || '0'})</span>`);
+        if (pChecks['status-sangrado']) statusBadges.push(`<span class="gm-badge-status gm-badge-sangrado">🩸 Sangrado (-${pInputs['status-sangrado-val'] || '0'})</span>`);
+        if (pChecks['status-curacion']) statusBadges.push(`<span class="gm-badge-status gm-badge-curacion">💖 Curación (+${pInputs['status-curacion-val'] || '0'})</span>`);
+        if (pChecks['status-custom-check'] && pInputs['status-custom-name']) {
+          const cVal = pInputs['status-custom-val'] ? ` (${pInputs['status-custom-val']})` : '';
+          statusBadges.push(`<span class="gm-badge-status gm-badge-custom">🏷️ ${escapeHtml(pInputs['status-custom-name'])}${escapeHtml(cVal)}</span>`);
+        }
+
+        let statusBadgesHtml = statusBadges.length > 0 ? statusBadges.join('') : '<span style="color:#777; font-size:12px; font-style:italic;">Normal</span>';
+
+        let passivesHtml = '';
+        const playerPassives = pdata.passives || [];
+        if (playerPassives.length > 0) {
+          const passivesItems = playerPassives.map(pas => `
+            <div class="gm-passive-item">
+              <span style="font-weight:bold; color:#731e0b;">📜</span> ${escapeHtml(pas)}
+            </div>
+          `).join('');
+
+          passivesHtml = `
+            <div class="gm-passives-wrap">
+              <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Pasivas:</span>
+              ${passivesItems}
+            </div>
+          `;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'gm-player-card';
+        card.innerHTML = `
+          <div class="gm-card-title">
+            <span>⚔️ ${escapeHtml(charName)}</span>
+            <button type="button" onclick="switchRole('${pid}')" style="background:#4a2b13; border:1px solid #bf8a3b; color:#fff; font-size:11px; padding:2px 6px; cursor:pointer; font-family:var(--f-title); border-radius:2px;">Abrir Ficha</button>
+          </div>
+          <div class="gm-stat-line"><span>Oficio:</span> <b>${escapeHtml(oficio)}</b></div>
+          <div class="gm-stat-line"><span>❤️ Resencia:</span> <b>${hpCurr} / ${hpMaxTot}</b></div>
+          <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
+          <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pcTot} / ${pdTot}</b></div>
+          <div class="gm-stat-line"><span>✨ Esencia (Grado):</span> <b style="color:#731e0b; font-size:14px;">${essenceDisplay}</b></div>
+          <div class="gm-stat-line"><span>🎲 Última Tirada:</span> <b style="color:var(--txt-red); font-size:14px;">${roll}</b></div>
+          
+          <div class="gm-actions-container">
+            <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Estados Activos:</span>
+            <div class="gm-status-badges">${statusBadgesHtml}</div>
+          </div>
+
+          <div class="gm-actions-container">
+            <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Acciones de Turno:</span>
+            <div class="gm-actions-badges">${actionsBadgesHtml}</div>
+          </div>
+
+          ${passivesHtml}
+        `;
+        cardsGrid.appendChild(card);
+      });
+    }
+
+    // MODAL
+    function openResetModal() {
+      modalActionType = 'reset';
+      document.getElementById('modal-title-text').innerText = '⚠️ REINICIAR FICHA';
+      document.getElementById('modal-desc-text').innerText = '¿Estás seguro de que deseas limpiar esta hoja? Todos los datos se borrarán.';
+      document.getElementById('modal-confirm-btn').innerText = 'Sí, Reiniciar';
+      document.getElementById('modal-backdrop').style.display = 'flex';
+    }
+
+    function openDeletePlayerModal() {
+      if (playerList.length <= 1) { showToast('⚠️ No podés borrar al único jugador.'); return; }
+      modalActionType = 'delete_player';
+      const curIndex = playerList.indexOf(activeRole) + 1;
+      const charName = allPlayersData[activeRole]?.inputs?.['char-name']?.trim() || `Jugador ${curIndex}`;
+      document.getElementById('modal-title-text').innerText = '❌ ELIMINAR JUGADOR';
+      document.getElementById('modal-desc-text').innerText = `¿Estás seguro de que deseas eliminar permanentemente a "${charName}"?`;
+      document.getElementById('modal-confirm-btn').innerText = 'Sí, Eliminar';
+      document.getElementById('modal-backdrop').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-backdrop').style.display = 'none';
+      modalActionType = '';
+    }
+
+    function executeModalAction() {
+      if (modalActionType === 'reset') {
+        allPlayersData[activeRole] = createBlankCharacterData('');
+        applyDataToForm(allPlayersData[activeRole]);
+        saveActivePlayerToCloud(true);
+        renderRoleBar();
+        showToast('🗑️ Ficha reiniciada.');
+      } else if (modalActionType === 'delete_player') {
+        const idx = playerList.indexOf(activeRole);
+        if (idx > -1) {
+          delete allPlayersData[activeRole];
+          playerList.splice(idx, 1);
+          const nextRole = playerList[0] || 'gm';
+          saveActivePlayerToCloud(true);
+          switchRole(nextRole);
+          showToast('🗑️ Jugador eliminado.');
+        }
+      }
+      closeModal();
+    }
+
+    // ARQUETIPOS Y HABILIDADES
+    function setupArchetypeDiamonds() {
+      ARCHETYPES.forEach(arch => {
+        const wrap = document.querySelector(`.arch-diamonds-wrap[data-arch="${arch}"]`);
+        if (!wrap) return;
+        wrap.innerHTML = '';
+        for (let i = 1; i <= 8; i++) {
+          const diamond = document.createElement('span');
+          diamond.className = 'arch-diamond';
+          diamond.title = `Nivel ${i}`;
+          diamond.id = `arch-dia-${arch}-${i}`;
+          diamond.onclick = () => toggleArchLevel(arch, i);
+          wrap.appendChild(diamond);
+        }
+      });
+    }
+
+    function toggleArchLevel(arch, level) {
+      if (archLevelState[arch] === level) archLevelState[arch] = level - 1;
+      else archLevelState[arch] = level;
+      renderArchDiamonds(arch);
+      recalcAllAutoStats();
+      syncToFirebaseDebounced();
+    }
+
+    function renderArchDiamonds(arch) {
+      const current = archLevelState[arch] || 0;
+      for (let i = 1; i <= 8; i++) {
+        const d = document.getElementById(`arch-dia-${arch}-${i}`);
+        if (d) {
+          if (i <= current) d.classList.add('active');
+          else d.classList.remove('active');
+        }
+      }
+    }
+
+    function setupSkillBoxes() {
+      const containers = document.querySelectorAll('.skill-boxes');
+      containers.forEach(container => {
+        const skillId = container.getAttribute('data-skill');
+        container.innerHTML = '';
+        for (let i = 0; i < 8; i++) {
+          const chk = document.createElement('input');
+          chk.type = 'checkbox';
+          chk.id = `sk-${skillId}-${i}`;
+          chk.title = `${SKILL_BONUSES[i]} (Coste: ${SKILL_COSTS[i]} PH)`;
+          chk.addEventListener('click', function() {
+            handleSkillCheckboxClick(skillId, i, this.checked);
+          });
+          container.appendChild(chk);
+        }
+      });
+    }
+
+    function handleSkillCheckboxClick(skillId, index, isChecked) {
+      for (let i = 0; i < 8; i++) {
+        const chk = document.getElementById(`sk-${skillId}-${i}`);
+        if (!chk) continue;
+        if (isChecked && i <= index) chk.checked = true;
+        else if (!isChecked && i >= index) chk.checked = false;
+      }
+      recalcAllAutoStats();
+      syncToFirebaseDebounced();
+    }
+
+    function updateSkillsAndPoints(totalPhObt = null) {
+      let totalSpent = 0;
+      for (let s = 1; s <= 30; s++) {
+        let highestChecked = -1;
+        for (let i = 0; i < 8; i++) {
+          const chk = document.getElementById(`sk-${s}-${i}`);
+          if (chk && chk.checked) {
+            totalSpent += SKILL_COSTS[i];
+            highestChecked = i;
+          }
+        }
+        const tag = document.getElementById(`sk-bonus-${s}`);
+        if (tag) {
+          if (highestChecked >= 0) {
+            tag.innerText = SKILL_BONUSES[highestChecked];
+            tag.classList.add('has-bonus');
+          } else {
+            tag.innerText = '—';
+            tag.classList.remove('has-bonus');
+          }
+        }
+      }
+
+      document.getElementById('pts-gastados').innerText = totalSpent;
+      if (totalPhObt === null) {
+        totalPhObt = parseFloat(document.getElementById('pts-obtenidos-total')?.innerText) || 0;
+      }
+      const rem = totalPhObt - totalSpent;
+      const remEl = document.getElementById('pts-restantes');
+      if (remEl) {
+        remEl.innerText = rem;
+        remEl.style.color = rem < 0 ? '#b91c1c' : '#166534';
+      }
+    }
+
+    function addTechniqueRow(name = '', isCheckedType = false, lvl1 = false, lvl2 = false, lvl3 = false) {
+      const tbody = document.getElementById('techniques-body');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><textarea class="tech-row-name" rows="1" placeholder="Poder/Técnica..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(name)}</textarea></td>
+        <td style="text-align:center;"><input type="checkbox" class="tech-row-type" ${isCheckedType ? 'checked' : ''} style="accent-color:#551c66; width:14px; height:14px; cursor:pointer; margin-top:4px;"></td>
+        <td>
+          <div class="lvl-checkboxes">
+            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''}>
+            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''}>
+            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''}>
+          </div>
+        </td>
+        <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
+      `;
+      tbody.appendChild(tr);
+      tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
+    }
+
+    function setupClassifications() {
+      const groups = document.querySelectorAll('.classification-diamonds');
+      groups.forEach(group => {
+        const cat = group.getAttribute('data-class');
+        group.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const chk = document.createElement('input');
+          chk.type = 'checkbox';
+          chk.id = `class-${cat}-${i}`;
+          group.appendChild(chk);
+        }
+      });
+    }
+
+    let activeEssence = 0;
+    function toggleEssence(lvl) {
+      if (activeEssence === lvl) activeEssence = lvl - 1;
+      else activeEssence = lvl;
+
+      for (let i = 1; i <= 15; i++) {
+        const el = document.getElementById('seal-' + i);
+        if (el) {
+          if (i <= activeEssence) el.classList.add('active');
+          else el.classList.remove('active');
+        }
+      }
+      syncToFirebaseDebounced();
+    }
+
+    function addInventoryRow(name = '', qty = '', weight = '', desc = '') {
+      const tbody = document.getElementById('inventory-body');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(name)}</textarea></td>
+        <td><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td>
+        <td><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(weight)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td>
+        <td><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced();">${escapeHtml(desc)}</textarea></td>
+        <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
+      `;
+      tbody.appendChild(tr);
+      tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
+      calcTotalWeight();
+    }
+
+    function calcTotalWeight() {
+      const weights = document.querySelectorAll('.inv-weight');
+      const quantities = document.querySelectorAll('.inv-qty');
+      let total = 0;
+      weights.forEach((wInput, idx) => {
+        const w = parseFloat(wInput.value) || 0;
+        const q = parseFloat(quantities[idx]?.value) || 1;
+        total += (w * q);
+      });
+      document.getElementById('total-weight').innerText = total.toFixed(1);
+    }
+
+    function gatherFormData() {
+      const data = {
+        inputs: {},
+        checkboxes: {},
+        weapons: [],
+        archLevels: { ...archLevelState },
+        techniques: [],
+        passives: [],
+        inventory: [],
+        essence: activeEssence,
+        lastRoll: allPlayersData[activeRole]?.lastRoll || '-'
+      };
+
+      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
+        if (el.id) data.inputs[el.id] = el.value;
+      });
+
+      document.querySelectorAll('#player-sheet-wrap input[type="checkbox"]').forEach(el => {
+        if (el.id) data.checkboxes[el.id] = el.checked;
+      });
+
+      document.querySelectorAll('#weapons-container .weapon-card').forEach(card => {
+        data.weapons.push({
+          id: card.getAttribute('data-id'),
+          name: card.querySelector('.weapon-name-input')?.value || '',
+          baseDmg: parseFloat(card.querySelector('.weapon-base-input')?.value) || 0,
+          lastRoll: card.querySelector('.weapon-roll-val')?.innerText || '-',
+          lastDmg: card.querySelector('.weapon-dmg-val')?.innerText || '-'
+        });
+      });
+
+      document.querySelectorAll('#techniques-body tr').forEach(row => {
+        data.techniques.push({
+          name: row.querySelector('.tech-row-name')?.value || '',
+          type: row.querySelector('.tech-row-type')?.checked || false,
+          lvl1: row.querySelector('.tech-row-lvl1')?.checked || false,
+          lvl2: row.querySelector('.tech-row-lvl2')?.checked || false,
+          lvl3: row.querySelector('.tech-row-lvl3')?.checked || false
+        });
+      });
+
+      document.querySelectorAll('#passives-list-container .passive-row-text').forEach(tx => {
+        if (tx.value.trim().length > 0) data.passives.push(tx.value.trim());
+      });
+
+      document.querySelectorAll('#inventory-body tr').forEach(row => {
+        data.inventory.push({
+          name: row.querySelector('.inv-name')?.value || '',
+          qty: row.querySelector('.inv-qty')?.value || '',
+          weight: row.querySelector('.inv-weight')?.value || '',
+          desc: row.querySelector('.inv-desc')?.value || ''
+        });
+      });
+
+      return data;
+    }
+
+    function applyDataToForm(data) {
+      if (!data) return;
+
+      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"], #player-sheet-wrap textarea').forEach(el => {
+        if (el.id) el.value = data.inputs?.[el.id] ?? '';
+      });
+
+      document.querySelectorAll('#player-sheet-wrap input[type="checkbox"]').forEach(el => {
+        if (el.id) el.checked = data.checkboxes?.[el.id] ?? false;
+      });
+
+      ARCHETYPES.forEach(arch => {
+        archLevelState[arch] = data.archLevels?.[arch] || 0;
+        renderArchDiamonds(arch);
+      });
+
+      const weaponsContainer = document.getElementById('weapons-container');
+      weaponsContainer.innerHTML = '';
+      if (data.weapons && Array.isArray(data.weapons) && data.weapons.length > 0) {
+        data.weapons.forEach(w => addWeaponRow(w.id, w.name, w.baseDmg, w.lastRoll, w.lastDmg));
+      } else {
+        addWeaponRow();
+      }
+
+      const techBody = document.getElementById('techniques-body');
+      techBody.innerHTML = '';
+      if (data.techniques && data.techniques.length > 0) {
+        data.techniques.forEach(t => addTechniqueRow(t.name, t.type, t.lvl1, t.lvl2, t.lvl3));
+      } else {
+        addTechniqueRow(); addTechniqueRow();
+      }
+
+      const passivesContainer = document.getElementById('passives-list-container');
+      passivesContainer.innerHTML = '';
+      if (data.passives && Array.isArray(data.passives) && data.passives.length > 0) {
+        data.passives.forEach(p => addPassiveRow(p));
+      } else {
+        addPassiveRow();
+      }
+
+      const invBody = document.getElementById('inventory-body');
+      invBody.innerHTML = '';
+      if (data.inventory && data.inventory.length > 0) {
+        data.inventory.forEach(i => addInventoryRow(i.name, i.qty, i.weight, i.desc));
+      } else {
+        addInventoryRow(); addInventoryRow();
+      }
+
+      activeEssence = data.essence || 0;
+      for (let i = 1; i <= 15; i++) {
+        const el = document.getElementById('seal-' + i);
+        if (el) {
+          if (i <= activeEssence) el.classList.add('active');
+          else el.classList.remove('active');
+        }
+      }
+
+      document.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
+      recalcAllAutoStats();
+      calcTotalWeight();
+    }
+
+    function exportJSON() {
+      const dataToExport = activeRole === 'gm' ? { players: playerList, data: allPlayersData, objectives: objectivesList } : (allPlayersData[activeRole] || gatherFormData());
+      const charName = (activeRole !== 'gm' ? allPlayersData[activeRole]?.inputs?.['char-name']?.trim() : 'Partida_Completa') || 'Personaje';
+      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${charName}_Smithnas.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📤 Ficha exportada con éxito.');
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.players && parsed.data) {
+            playerList = parsed.players;
+            allPlayersData = parsed.data;
+            if (parsed.objectives) objectivesList = parsed.objectives;
+            saveActivePlayerToCloud(true);
+            switchRole('gm');
+            showToast('📥 Partida completa importada.');
+          } else {
+            allPlayersData[activeRole] = parsed;
+            applyDataToForm(parsed);
+            saveActivePlayerToCloud(true);
+            showToast('📥 Ficha importada.');
+          }
+        } catch (err) {
+          showToast('❌ Error al procesar el archivo JSON.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setupArchetypeDiamonds();
+      setupSkillBoxes();
+      setupClassifications();
+
+      try {
+        const raw = localStorage.getItem('requiem_smithnas_state_v7');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed.players)) playerList = parsed.players;
+          if (parsed.data) allPlayersData = parsed.data;
+          if (parsed.objectives) objectivesList = parsed.objectives;
+        }
+      } catch(e) {}
+
+      updateObjectiveBanner();
+      renderRoleBar();
+      switchRole('p1');
+
+      document.getElementById('player-sheet-wrap').addEventListener('input', () => syncToFirebaseDebounced());
+      document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced());
+    });
+  </script>
+</body>
+</html>
