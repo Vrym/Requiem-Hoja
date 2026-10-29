@@ -1,7 +1,3 @@
-<details>
-<summary><b>📦 Clic aquí para desplegar / copiar el código completo (index.html)</b></summary>
-
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -100,7 +96,7 @@
       box-shadow: 0 0 6px #ef4444;
     }
 
-    /* BANNER DE MENSAJES DE LA MESA Y COMPOSITOR GLOBAL */
+    /* BANNER DE LAS ÚLTIMAS 3 PUBLICACIONES + CHAT GLOBAL */
     .objective-banner {
       background: #2b1608;
       color: #faebd0;
@@ -167,7 +163,7 @@
       white-space: nowrap;
     }
 
-    /* COMPOSITOR DE MENSAJE GLOBAL */
+    /* COMPOSITOR DE MENSAJE GLOBAL COMPACTO */
     .table-msg-composer {
       display: flex;
       gap: 6px;
@@ -182,17 +178,18 @@
       border: 1px solid #bf8a3b;
       font-family: var(--f-title);
       font-size: 11.5px;
-      padding: 4px 6px;
+      padding: 3px 6px;
       border-radius: 2px;
       outline: none;
-      max-width: 150px;
+      max-width: 140px;
     }
     .table-msg-input {
       flex: 1;
-      min-width: 150px;
+      min-width: 140px;
+      max-width: 420px;
       background: #fff;
       border: 1px solid var(--border-dark);
-      padding: 4px 8px;
+      padding: 3px 7px;
       font-family: var(--f-body);
       font-size: 13.5px;
       border-radius: 2px;
@@ -202,7 +199,7 @@
       background: #731e0b;
       color: #ffe8b5;
       border: 1px solid #ffd700;
-      padding: 4px 10px;
+      padding: 3px 10px;
       font-family: var(--f-title);
       font-size: 11.5px;
       font-weight: bold;
@@ -592,8 +589,6 @@
     .weapon-name-input {
       flex: 1;
       height: 28px;
-      max-height: 28px;
-      line-height: 28px;
       background: #fff;
       border: 1.5px solid var(--border-dark);
       font-family: var(--f-body);
@@ -665,7 +660,7 @@
       padding: 0 4px;
     }
 
-    /* COMBATE ESTRUCTURADO */
+    /* COMBATE ESTRUCTURADO Y COMPACTO */
     .combat-stat-card {
       background: rgba(0,0,0,0.03);
       border: 1px solid rgba(60,30,10,0.18);
@@ -1144,15 +1139,15 @@
     .mobile-th { display: none; }
     .desktop-th { display: inline; }
 
-    /* GM DASHBOARD */
+    /* GM DASHBOARD ESCRITORIO (2 COLUMNAS AMPLIAS) */
     #gm-dashboard-wrap {
       display: none;
       margin-bottom: 14px;
     }
     .gm-cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
       margin-bottom: 14px;
     }
     .gm-player-card {
@@ -1175,13 +1170,21 @@
       justify-content: space-between;
       align-items: center;
     }
+
+    /* CUADRÍCULA INTERNA EN EL GM PARA ESCRITORIO */
+    .gm-stats-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 12px;
+      padding: 4px 0;
+      border-bottom: 1px dotted rgba(0,0,0,0.15);
+    }
     .gm-stat-line {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
-      padding: 3px 0;
-      border-bottom: 1px dotted rgba(0,0,0,0.15);
+      font-size: 13.5px;
+      padding: 2px 0;
     }
 
     .gm-actions-container {
@@ -1307,6 +1310,16 @@
       .essence-seal { width: 26px; height: 26px; font-size: 12px; }
       .essence-tier-card { min-width: 76px; flex: 1 1 76px; padding: 4px 3px; gap: 4px; }
       .essence-tier-label { font-size: 9.5px; }
+
+      /* GM DASHBOARD EN 1 COLUMNA EN CELULAR */
+      .gm-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .gm-stats-columns {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
     }
   </style>
 </head>
@@ -1324,7 +1337,7 @@
     </div>
   </div>
 
-  <!-- HUB DE OPCIONES -->
+  <!-- HUB DE OPCIONES (CON NUEVO PJ INCLUIDO) -->
   <div id="hub-modal-backdrop">
     <div class="hub-modal-box">
       <div class="modal-title" style="color:#3b1b07;">⚙️ MENÚ DE OPCIONES</div>
@@ -1774,7 +1787,7 @@
         </div>
       </div>
 
-      <!-- BONIFICACIONES POR GRADO -->
+      <!-- BONIFICACIONES POR GRADO (MATRIZ GUÍA) -->
       <div class="box-frame">
         <div class="box-frame-title">Bonificaciones por Grado</div>
         <div class="grade-table-wrap">
@@ -1806,6 +1819,7 @@
   </div>
 
   <script>
+    // CONFIGURACIÓN DE FIREBASE
     const firebaseConfig = {
       apiKey: "AIzaSyClIcL0oWN92Jkl1Npt7gtFQ8QTAqPucNk",
       authDomain: "requiem-hoja.firebaseapp.com",
@@ -1942,6 +1956,7 @@
       showToast('⚡ Smath restablecido al máximo.');
     }
 
+    // LIMPIAR TODOS LOS ESTADOS NEGATIVOS Y BORRAR SUS VALORES
     function clearNegativeStates() {
       const stateChecks = [
         'status-stun', 'status-sellado', 'status-petrificado', 'status-mareado',
@@ -2431,12 +2446,14 @@
             <span>⚔️ ${escapeHtml(charName)}</span>
             <button type="button" onclick="switchRole('${pid}')" style="background:#4a2b13; border:1px solid #bf8a3b; color:#fff; font-size:11px; padding:2px 6px; cursor:pointer; font-family:var(--f-title); border-radius:2px;">Abrir Ficha</button>
           </div>
-          <div class="gm-stat-line"><span>Oficio:</span> <b>${escapeHtml(oficio)}</b></div>
-          <div class="gm-stat-line"><span>❤️ Resencia:</span> <b>${hpCurr} / ${hpMaxTot}</b></div>
-          <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
-          <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pcTot} / ${pdTot}</b></div>
-          <div class="gm-stat-line"><span>✨ Esencia:</span> <b style="color:#731e0b; font-size:13.5px;">${essenceDisplay}</b></div>
-          <div class="gm-stat-line"><span>🎲 Última Tirada:</span> <b style="color:var(--txt-red); font-size:14px;">${roll}</b></div>
+          <div class="gm-stats-columns">
+            <div class="gm-stat-line"><span>Oficio:</span> <b>${escapeHtml(oficio)}</b></div>
+            <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pcTot} / ${pdTot}</b></div>
+            <div class="gm-stat-line"><span>❤️ Resencia:</span> <b>${hpCurr} / ${hpMaxTot}</b></div>
+            <div class="gm-stat-line"><span>✨ Esencia:</span> <b style="color:#731e0b;">${essenceDisplay}</b></div>
+            <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
+            <div class="gm-stat-line"><span>🎲 Última Tirada:</span> <b style="color:var(--txt-red);">${roll}</b></div>
+          </div>
           
           <div class="gm-actions-container">
             <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Estados Activos:</span>
@@ -2859,6 +2876,3 @@
   </script>
 </body>
 </html>
-```
-
-</details>
