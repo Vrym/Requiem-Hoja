@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réquiem de los Smithnas - Hoja de Personaje</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=MedievalSharp&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-pergamino: #e6d3ad;
+      --bg-box: rgba(244, 232, 206, 0.88);
+      --border-dark: #3a1e0b;
+      --border-gold: #93672b;
+      --txt-dark: #231408;
+      --txt-red: #7c1414;
+      --txt-gold: #583c14;
+      --f-title: 'Cinzel', serif;
+      --f-body: 'MedievalSharp', cursive, serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: #d8c298;
+      background-image: 
+        radial-gradient(circle at 50% 20%, #f7ecd5 0%, #e8d5b1 50%, #cbb184 100%),
+        radial-gradient(circle at 10% 90%, rgba(65, 35, 10, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(65, 35, 10, 0.12) 0%, transparent 40%),
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(50,25,5,0.03) 3px, rgba(50,25,5,0.03) 6px);
+      color: var(--txt-dark);
+      font-family: var(--f-body);
+      font-size: 16px;
+      padding: 6px 2px;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .sheet-container {
+      width: 100%;
+      max-width: 1100px;
+      background-color: var(--bg-pergamino);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(255,255,255,0.5) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(70, 38, 12, 0.22) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, #fbf1dc 15%, #eddab3 65%, #d1b482 100%),
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(60,30,8,0.03) 3px, rgba(60,30,8,0.03) 6px);
+      border: 4px double var(--border-dark);
+      outline: 2px solid var(--border-gold);
+      outline-offset: -4px;
+      box-shadow: 
+        inset 0 0 50px rgba(80, 40, 10, 0.35),
+        0 6px 20px rgba(60, 30, 10, 0.45);
+      padding: 14px 10px;
+      position: relative;
+    }
+
+    /* BARRA DE ROLES Y PESTAÑAS DINÁMICAS */
+    .role-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      background: #251308;
+      padding: 8px 10px;
+      border: 2px solid var(--border-gold);
+      margin-bottom: 12px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
+    }
+    .role-btn {
+      background: #46250f;
+      color: #faebd0;
+      border: 1px solid #bf8a3b;
+      padding: 6px 12px;
+      font-family: var(--f-title);
+      font-size: 13px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.15s ease;
+      border-radius: 2px;
+    }
+    .role-btn:hover {
+      background: #6c3a19;
+      color: #fff;
+    }
+    .role-btn.active {
+      background: #8b1313;
+      color: #fff;
+      border-color: #ffd700;
+      box-shadow: 0 0 8px rgba(255, 215, 0, 0.45);
+      font-weight: bold;
+    }
+    .btn-add-player {
+      background: #1e4a28;
+      border-color: #4ade80;
+      color: #e8f5e9;
+    }
+    .btn-add-player:hover {
+      background: #286b38;
+      color: #fff;
+    }
+
+    /* BARRA SUPERIOR DE ACCIONES */
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      background: #2b170a;
+      padding: 6px 8px;
+      border: 2px solid var(--border-gold);
+      margin-bottom: 14px;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+    }
+    .top-actions button, .top-actions label {
+      background: #46250f;
+      color: #faebd0;
+      border: 1px solid #bf8a3b;
+      padding: 5px 10px;
+      font-family: var(--f-title);
+      font-size: 12px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 2px;
+    }
+    .top-actions button:hover, .top-actions label:hover {
+      background: #6c3a19;
+      color: #fff;
+    }
+    #importFile { display: none; }
+
+    /* TOAST */
+    #toast-msg {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2a1408;
+      color: #fbebd0;
+      border: 2px solid var(--border-gold);
+      padding: 10px 20px;
+      font-family: var(--f-title);
+      font-size: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.85);
+      z-index: 99999;
+      display: none;
+      text-align: center;
+      border-radius: 4px;
+      max-width: 90%;
+    }
+
+    /* MODAL */
+    #modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100000;
+      padding: 16px;
+    }
+    .modal-box {
+      background: #f5e9d2;
+      border: 4px double var(--border-dark);
+      outline: 2px solid var(--border-gold);
+      outline-offset: -3px;
+      padding: 20px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+    .modal-title {
+      font-family: var(--f-title);
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--txt-red);
+      margin-bottom: 8px;
+    }
+    .modal-desc {
+      font-family: var(--f-body);
+      font-size: 15px;
+      color: #2b1608;
+      margin-bottom: 16px;
+    }
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-modal-danger {
+      background: #731e0b;
+      color: #ffe8b5;
+      border: 1px solid #360b02;
+      padding: 7px 16px;
+      font-family: var(--f-title);
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-modal-cancel {
+      background: #46250f;
+      color: #f7e6c4;
+      border: 1px solid #bf8a3b;
+      padding: 7px 16px;
+      font-family: var(--f-title);
+      cursor: pointer;
+    }
+
+    .main-title-wrap {
+      text-align: center;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 2px dashed var(--border-gold);
+    }
+    .main-title-wrap h2 {
+      font-family: var(--f-title);
+      font-size: 15px;
+      color: #6a3a14;
+      letter-spacing: 3px;
+    }
+    .main-title-wrap h1 {
+      font-family: var(--f-title);
+      font-size: clamp(24px, 5vw, 38px);
+      color: #241105;
+      letter-spacing: 3px;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .box-frame {
+      background: var(--bg-box);
+      border: 2px solid var(--border-dark);
+      outline: 1px solid rgba(147, 103, 43, 0.5);
+      outline-offset: -3px;
+      padding: 10px;
+      margin-bottom: 12px;
+      box-shadow: inset 0 0 10px rgba(90, 45, 15, 0.1);
+    }
+    .box-frame-title {
+      font-family: var(--f-title);
+      font-size: 15px;
+      font-weight: 700;
+      color: #3b1b07;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--border-dark);
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    .header-info-line {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+    .header-info-line label {
+      font-family: var(--f-title);
+      font-weight: 700;
+      font-size: 13px;
+      min-width: 95px;
+      color: #2e1505;
+    }
+    .header-info-line input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #6b4421;
+      font-family: var(--f-body);
+      font-size: 16px;
+      color: #120a04;
+      padding: 2px 4px;
+      outline: none;
+      min-width: 0;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+      border-bottom: 1px dotted rgba(60,30,10,0.25);
+      font-size: 14px;
+    }
+    .action-icon {
+      font-weight: bold;
+      width: 20px;
+      text-align: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .action-row input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: #61220a;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* TABLA D6 */
+    .d6-table-wrap {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .d6-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      border: 2px solid var(--border-dark);
+      background: #faf4e3;
+      table-layout: fixed;
+    }
+    .d6-table th, .d6-table td {
+      border: 1px solid var(--border-dark);
+      padding: 5px 2px;
+      word-break: break-word;
+    }
+    .d6-table th {
+      font-family: var(--f-title);
+      font-size: 13px;
+      background: #dfc89d;
+      color: #2b1305;
+    }
+    .row-tirada { background: #eedfc2; }
+    .row-mult { font-size: 13px; color: #5a2c0f; }
+    .row-damage { background: #fffcf4; font-size: 18px; color: var(--txt-red); font-weight: bold; }
+    
+    .active-column {
+      background-color: #ffd875 !important;
+      box-shadow: inset 0 0 0 3px #a36500;
+      font-weight: 900 !important;
+    }
+
+    .d6-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #dcbe92;
+      padding: 8px 10px;
+      border: 1px solid var(--border-dark);
+    }
+    .d6-controls-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .d6-controls label {
+      font-family: var(--f-title);
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .d6-controls input[type="number"] {
+      width: 75px;
+      padding: 4px;
+      font-size: 17px;
+      font-weight: bold;
+      font-family: var(--f-body);
+      border: 2px solid var(--border-dark);
+      background: #fff;
+      text-align: center;
+    }
+    .btn-roll {
+      background: #731e0b;
+      color: #ffe8b5;
+      font-family: var(--f-title);
+      font-size: 14px;
+      font-weight: bold;
+      padding: 6px 12px;
+      border: 2px solid #360b02;
+      cursor: pointer;
+    }
+    .roll-result-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 15px;
+      font-weight: bold;
+      background: #fff;
+      padding: 3px 6px;
+      border: 1px solid var(--border-dark);
+    }
+    .roll-result-badge span {
+      font-size: 18px;
+      color: var(--txt-red);
+    }
+
+    /* COMBATE */
+    .combat-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px dashed rgba(60,30,10,0.25);
+      gap: 6px;
+    }
+    .combat-stat-row label {
+      font-family: var(--f-title);
+      font-weight: bold;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .combat-inputs {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .combat-inputs input {
+      width: 60px;
+      padding: 3px;
+      font-size: 17px;
+      font-weight: bold;
+      font-family: var(--f-body);
+      text-align: center;
+      border: 1.5px solid var(--border-dark);
+      background: #fffdf7;
+    }
+
+    /* ARQUETIPOS */
+    .archetypes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .archetype-box {
+      border: 2px solid var(--border-dark);
+      padding: 8px 8px;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+      min-width: 0;
+    }
+    .arch-impulsor { background: rgba(220, 60, 40, 0.12); border-color: #8c2415; }
+    .arch-controlador { background: rgba(30, 90, 160, 0.12); border-color: #174273; }
+    .arch-perpetuador { background: rgba(130, 80, 40, 0.12); border-color: #573516; }
+    .arch-proyector { background: rgba(50, 130, 60, 0.12); border-color: #1f5e26; }
+    .arch-evocador { background: rgba(220, 150, 20, 0.15); border-color: #855b08; }
+    .arch-conmutador { background: rgba(120, 50, 140, 0.12); border-color: #551c66; }
+
+    .arch-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      border-bottom: 1.5px solid currentColor;
+      padding-bottom: 5px;
+      margin-bottom: 6px;
+    }
+    .arch-title-text {
+      font-family: var(--f-title);
+      font-size: 14.5px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .arch-diamonds-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 4px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.12);
+    }
+    .arch-diamond {
+      width: 12px;
+      height: 12px;
+      border: 1.5px solid currentColor;
+      background: rgba(255, 255, 255, 0.7);
+      transform: rotate(45deg);
+      cursor: pointer;
+      display: inline-block;
+      flex-shrink: 0;
+      transition: all 0.1s ease;
+    }
+    .arch-diamond.active {
+      background: currentColor;
+      box-shadow: 0 0 3px currentColor;
+    }
+
+    .skill-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3.5px 0;
+      border-bottom: 1px dotted rgba(0,0,0,0.18);
+      gap: 4px;
+      min-width: 0;
+    }
+    .skill-name {
+      flex: 1 1 auto;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 600;
+      min-width: 60px;
+    }
+    .skill-boxes {
+      display: flex;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .skill-boxes input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #3b1807;
+      margin: 0;
+      flex-shrink: 0;
+    }
+    .skill-bonus-tag {
+      width: 34px;
+      flex-shrink: 0;
+      text-align: center;
+      font-family: var(--f-title);
+      font-size: 12px;
+      font-weight: bold;
+      padding: 1px 0;
+      background: #dfcb9f;
+      border: 1px solid var(--border-dark);
+      color: #553112;
+      border-radius: 3px;
+    }
+    .skill-bonus-tag.has-bonus {
+      background: #731e0b;
+      color: #ffe8b5;
+      border-color: #360b02;
+    }
+
+    /* TÉCNICAS */
+    .techniques-table-wrap {
+      width: 100%;
+    }
+    .techniques-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      table-layout: fixed;
+    }
+    .techniques-table th {
+      font-family: var(--f-title);
+      font-size: 12px;
+      text-align: left;
+      border-bottom: 1.5px solid var(--border-dark);
+      padding: 4px 3px;
+      background: #deca9f;
+    }
+    .techniques-table td {
+      padding: 4px 3px;
+      border-bottom: 1px dotted rgba(0,0,0,0.2);
+      vertical-align: top;
+    }
+    .techniques-table textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #7a5833;
+      font-family: var(--f-body);
+      font-size: 14.5px;
+      padding: 2px 0;
+      resize: none;
+      overflow: hidden;
+      display: block;
+      line-height: 1.25;
+      field-sizing: content;
+    }
+    .lvl-checkboxes {
+      display: flex;
+      gap: 3px;
+      justify-content: center;
+      margin-top: 4px;
+    }
+    .lvl-checkboxes input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      accent-color: #731e0b;
+      cursor: pointer;
+    }
+
+    .despiertas-wrapper {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 12px;
+    }
+    .awakened-node {
+      background: rgba(255,255,255,0.45);
+      border: 1.5px solid var(--border-dark);
+      padding: 6px 8px;
+      margin-bottom: 8px;
+    }
+    .awakened-node-title {
+      font-family: var(--f-title);
+      font-size: 13px;
+      font-weight: bold;
+      color: #4f250b;
+    }
+    .awakened-node input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #7a5833;
+      font-family: var(--f-body);
+      font-size: 15px;
+      padding: 2px;
+    }
+
+    .classification-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px dashed rgba(0,0,0,0.25);
+      font-size: 13px;
+      font-family: var(--f-title);
+    }
+    .classification-diamonds {
+      display: flex;
+      gap: 3px;
+    }
+    .classification-diamonds input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      accent-color: #8a2be2;
+      cursor: pointer;
+    }
+
+    /* MOCHILA CON MULTILÍNEA */
+    .inventory-table-wrap {
+      width: 100%;
+    }
+    .inventory-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px;
+      table-layout: fixed;
+    }
+    .inventory-table th, .inventory-table td {
+      border: 1px solid var(--border-dark);
+      padding: 4px 3px;
+      font-size: 14px;
+      word-break: break-word;
+      vertical-align: top;
+    }
+    .inventory-table th {
+      background: #dfc89d;
+      font-family: var(--f-title);
+      font-size: 12px;
+      text-align: center;
+    }
+    .inventory-table textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px dotted rgba(122, 88, 51, 0.4);
+      font-family: var(--f-body);
+      font-size: 14px;
+      color: var(--txt-dark);
+      resize: none;
+      overflow: hidden;
+      display: block;
+      line-height: 1.25;
+      padding: 2px 2px;
+      min-height: 22px;
+      field-sizing: content;
+      box-sizing: border-box;
+    }
+    .inventory-table textarea:focus {
+      outline: none;
+      border-bottom: 1.5px solid var(--border-gold);
+      background: rgba(255, 255, 255, 0.4);
+    }
+    .inventory-table input[type="number"] {
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-family: var(--f-body);
+      font-size: 14px;
+      padding: 2px 1px;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .btn-add-item {
+      background: #442813;
+      color: #fff;
+      border: 1px solid #c9933e;
+      padding: 5px 10px;
+      font-family: var(--f-title);
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    /* BONIFICACIONES POR GRADO */
+    .grade-table-wrap {
+      width: 100%;
+    }
+    .grade-bonus-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      border: 2px solid var(--border-dark);
+      font-size: 13px;
+      background: #faf5e7;
+      table-layout: fixed;
+    }
+    .grade-bonus-table th, .grade-bonus-table td {
+      border: 1px solid var(--border-dark);
+      padding: 4px 1px;
+      word-break: break-word;
+    }
+    .grade-bonus-table th {
+      background: #dfcb9f;
+      font-family: var(--f-title);
+      font-size: 11px;
+    }
+
+    .mobile-th { display: none; }
+    .desktop-th { display: inline; }
+
+    /* ESENCIA */
+    .essence-container {
+      margin-top: 6px;
+      background: rgba(226, 206, 159, 0.85);
+      border: 2px solid var(--border-dark);
+      padding: 10px;
+      text-align: center;
+    }
+    .essence-title {
+      font-family: var(--f-title);
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      letter-spacing: 2px;
+    }
+    .essence-circles {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .essence-seal {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--border-dark);
+      background: #fbf7ee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--f-title);
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+    }
+    .essence-seal.active {
+      background: #731e0b;
+      color: #ffe8b5;
+      border-color: #ffd700;
+      box-shadow: 0 0 6px #d97706;
+    }
+    .essence-stages {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      font-family: var(--f-title);
+      font-size: 11px;
+      font-weight: bold;
+      border-top: 1px solid var(--border-dark);
+      padding-top: 5px;
+    }
+
+    /* GM DASHBOARD */
+    #gm-dashboard-wrap {
+      display: none;
+      margin-bottom: 14px;
+    }
+    .gm-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .gm-player-card {
+      background: #faf4e3;
+      border: 2px solid var(--border-dark);
+      outline: 1px solid rgba(147, 103, 43, 0.4);
+      outline-offset: -2px;
+      padding: 10px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+    }
+    .gm-card-title {
+      font-family: var(--f-title);
+      font-weight: bold;
+      font-size: 15px;
+      color: #731e0b;
+      border-bottom: 1.5px solid #8c5826;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .gm-stat-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      padding: 3px 0;
+      border-bottom: 1px dotted rgba(0,0,0,0.15);
+    }
+
+    /* AJUSTES CELULAR */
+    @media (max-width: 650px) {
+      body {
+        padding: 4px 2px;
+      }
+      .sheet-container {
+        padding: 6px 3px;
+        border-width: 3px;
+      }
+      .grid-2col {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .archetypes-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .despiertas-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .box-frame {
+        padding: 6px 3px;
+        margin-bottom: 8px;
+      }
+      .archetype-box {
+        padding: 6px 4px;
+      }
+
+      .arch-header {
+        justify-content: space-between;
+        gap: 4px;
+        padding-bottom: 4px;
+      }
+      .arch-title-text {
+        font-size: 13.5px;
+      }
+      .arch-diamonds-wrap {
+        gap: 4px;
+        padding: 2px 3px;
+      }
+      .arch-diamond {
+        width: 11.5px;
+        height: 11.5px;
+      }
+
+      .skill-row {
+        gap: 3px;
+        padding: 3px 0;
+      }
+      .skill-name {
+        font-size: 13px;
+        min-width: 50px;
+      }
+      .skill-boxes {
+        gap: 2.5px;
+      }
+      .skill-boxes input[type="checkbox"] {
+        width: 17.5px;
+        height: 17.5px;
+      }
+      .skill-bonus-tag {
+        width: 30px;
+        font-size: 11px;
+        padding: 1px 0;
+      }
+
+      .d6-controls {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      .d6-controls-group {
+        justify-content: center;
+      }
+      .btn-roll {
+        width: 100%;
+      }
+
+      .desktop-th { display: none; }
+      .mobile-th { display: inline-block; line-height: 1.1; }
+
+      .grade-bonus-table th, .grade-bonus-table td {
+        font-size: 11px;
+        padding: 4px 1px;
+      }
+
+      .inventory-table th, .inventory-table td {
+        font-size: 12px;
+        padding: 3px 1px;
+      }
+      .inventory-table textarea {
+        font-size: 12px;
+        line-height: 1.2;
+        padding: 1px 1px;
+      }
+
+      .essence-stages { font-size: 9px; }
+      .essence-seal { width: 31px; height: 31px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MODAL DE CONFIRMACIÓN -->
+  <div id="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-title" id="modal-title-text">⚠️ REINICIAR FICHA</div>
+      <div class="modal-desc" id="modal-desc-text">¿Estás seguro de que deseas limpiar esta hoja? Todos los datos no guardados en JSON se perderán.</div>
+      <div class="modal-buttons">
+        <button type="button" class="btn-modal-danger" id="modal-confirm-btn" onclick="executeModalAction()">Confirmar</button>
+        <button type="button" class="btn-modal-cancel" onclick="closeModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-msg"></div>
+
+  <div class="sheet-container">
+
+    <!-- SELECTOR DE ROL Y JUGADORES DINÁMICOS (SIN AVISOS LATERALES QUE CORRAN EL DIV) -->
+    <div class="role-bar" id="role-bar-container">
+      <!-- Se inyectan dinámicamente los botones de GM, Jugadores y + Nuevo Jugador -->
+    </div>
+
+    <!-- ACCIONES DE HOJA -->
+    <div class="top-actions">
+      <button type="button" onclick="saveActivePlayerToStorage(false)">💾 Guardar</button>
+      <button type="button" onclick="exportJSON()">📤 Exportar</button>
+      <label for="importFile">📥 Importar</label>
+      <input type="file" id="importFile" accept=".json" onchange="importJSON(event)">
+      <button type="button" onclick="window.print()">🖨️ Imprimir</button>
+      <button type="button" onclick="openResetModal()" style="background:#5a1212;">🗑️ Reiniciar</button>
+      <button type="button" id="btn-delete-player" onclick="openDeletePlayerModal()" style="background:#701212; display:none;">❌ Borrar Jugador</button>
+    </div>
+
+    <!-- PANEL DEL MAESTRO (GM DASHBOARD) -->
+    <div id="gm-dashboard-wrap">
+      <div class="box-frame">
+        <div class="box-frame-title">👑 Panel del Maestro del Rol (Vista en Vivo)</div>
+        <div class="gm-cards-grid" id="gm-cards-container">
+          <!-- Tarjetas en vivo de cada jugador -->
+        </div>
+      </div>
+    </div>
+
+    <!-- FICHA INTERACTIVA COMPLETA -->
+    <div id="player-sheet-wrap">
+      <div class="main-title-wrap">
+        <h2>DE LOS</h2>
+        <h1>RÉQUIEM SMITHNAS</h1>
+      </div>
+
+      <div class="grid-2col">
+        <div class="box-frame">
+          <div class="box-frame-title">Datos del Personaje</div>
+          <div class="header-info-line">
+            <label>NOMBRE:</label>
+            <input type="text" id="char-name">
+          </div>
+          <div class="header-info-line">
+            <label>RAZA:</label>
+            <input type="text" id="char-raza">
+          </div>
+          <div class="header-info-line">
+            <label>SUBRAZA:</label>
+            <input type="text" id="char-subraza">
+          </div>
+          <div class="header-info-line">
+            <label>OFICIO:</label>
+            <input type="text" id="char-oficio">
+          </div>
+          <div class="header-info-line">
+            <label>EXPERIENCIA:</label>
+            <input type="text" id="char-exp">
+          </div>
+          <div class="header-info-line">
+            <label>ESENCIA:</label>
+            <input type="text" id="char-esencia">
+          </div>
+        </div>
+
+        <div class="box-frame">
+          <div class="box-frame-title">Acciones por Turno</div>
+          <div class="action-row">
+            <span class="action-icon">⚔️</span>
+            <span style="flex:1;"><b>Atacar</b> — 1 vez/turno (1 acción).</span>
+            <input type="checkbox" id="act-atacar">
+          </div>
+          <div class="action-row">
+            <span class="action-icon">🧘</span>
+            <span style="flex:1;"><b>Concentrarse</b> — hasta 2 veces (1 acc).</span>
+            <input type="checkbox" id="act-conc-1">
+            <input type="checkbox" id="act-conc-2">
+          </div>
+          <div class="action-row">
+            <span class="action-icon">🛡️</span>
+            <span style="flex:1;"><b>Defenderse</b> — 1 vez/turno (2 acciones).</span>
+            <input type="checkbox" id="act-def">
+          </div>
+          <div class="action-row">
+            <span class="action-icon">🏃</span>
+            <span style="flex:1;"><b>Desplazarse</b> — hasta 2 veces (1 acc).</span>
+            <input type="checkbox" id="act-desp-1">
+            <input type="checkbox" id="act-desp-2">
+          </div>
+          <div class="action-row">
+            <span class="action-icon">🔥</span>
+            <span style="flex:1;"><b>Motivación</b> — 3/5 Smath (mov, téc o atq).</span>
+            <input type="checkbox" id="act-mot-1" title="1ª vez: 3 Smath">
+            <input type="checkbox" id="act-mot-2" title="2ª vez: 5 Smath">
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLA DE DAÑO (D6) -->
+      <div class="box-frame">
+        <div class="box-frame-title">Tabla de Daño (D6)</div>
+        
+        <div class="d6-table-wrap">
+          <table class="d6-table">
+            <thead>
+              <tr class="row-tirada">
+                <th style="width: 22%;">TIRADA</th>
+                <th id="d6-col-1" style="width: 13%;">1</th>
+                <th id="d6-col-2" style="width: 13%;">2</th>
+                <th id="d6-col-3" style="width: 13%;">3</th>
+                <th id="d6-col-4" style="width: 13%;">4</th>
+                <th id="d6-col-5" style="width: 13%;">5</th>
+                <th id="d6-col-6" style="width: 13%;">6</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-mult">
+                <td><b>MULT.</b></td>
+                <td>-30%</td>
+                <td>-15%</td>
+                <td>0</td>
+                <td>0</td>
+                <td>+15%</td>
+                <td>+30%</td>
+              </tr>
+              <tr class="row-damage">
+                <td><b>DAÑO</b></td>
+                <td id="calc-dmg-1">-</td>
+                <td id="calc-dmg-2">-</td>
+                <td id="calc-dmg-3">-</td>
+                <td id="calc-dmg-4">-</td>
+                <td id="calc-dmg-5">-</td>
+                <td id="calc-dmg-6">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d6-controls">
+          <div class="d6-controls-group">
+            <label for="baseDamage">DAÑO BASE:</label>
+            <input type="number" id="baseDamage" value="0" min="0" oninput="updateDamageTable()" onchange="updateDamageTable()">
+          </div>
+
+          <button type="button" class="btn-roll" onclick="rollD6()">🎲 TIRAR D6</button>
+
+          <div class="d6-controls-group">
+            <div class="roll-result-badge">TIRADA: <span id="display-roll">-</span></div>
+            <div class="roll-result-badge">DAÑO: <span id="display-final-dmg">-</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <div class="box-frame">
+          <div class="box-frame-title">Estadísticas de Combate</div>
+          
+          <div class="combat-stat-row">
+            <label>🗡️ PC (+ 6SS)</label>
+            <div class="combat-inputs">
+              <input type="number" id="stat-pc" placeholder="0">
+            </div>
+          </div>
+
+          <div class="combat-stat-row">
+            <label>🛡️ PD (DEFENSA)</label>
+            <div class="combat-inputs">
+              <input type="number" id="stat-pd" placeholder="0">
+            </div>
+          </div>
+
+          <div class="combat-stat-row">
+            <label>❤️ RESENCIA (HP)</label>
+            <div class="combat-inputs">
+              <input type="number" id="stat-hp-curr" placeholder="Act"> /
+              <input type="number" id="stat-hp-max" placeholder="Max">
+            </div>
+          </div>
+
+          <div class="combat-stat-row">
+            <label>⚡ SMATH</label>
+            <div class="combat-inputs">
+              <input type="number" id="stat-smath-curr" placeholder="Act"> /
+              <input type="number" id="stat-smath-max" placeholder="Max">
+            </div>
+          </div>
+
+          <div class="combat-stat-row">
+            <label>⚔️ CONCENTRACIÓN</label>
+            <div class="combat-inputs">
+              <input type="number" id="stat-conc" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="box-frame" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="box-frame-title">Habilidades & Puntos</div>
+            <div class="combat-stat-row">
+              <label>PUNTOS OBTENIDOS:</label>
+              <input type="number" id="pts-obtenidos" value="0" style="width:75px; font-size:17px; text-align:center;">
+            </div>
+            <div class="combat-stat-row">
+              <label>PUNTOS GASTADOS:</label>
+              <span id="pts-gastados" style="font-size:22px; font-weight:bold; color:var(--txt-red); padding-right:10px;">0</span>
+            </div>
+            <div class="combat-stat-row">
+              <label>COSTES:</label>
+              <input type="text" id="pts-costes" value="+0(3) +1(1) +2(1) +4(2) +6(2) +9(3) +12(3) x2D(5)" style="width:100%; max-width:250px; font-size:11px; padding:2px;">
+            </div>
+          </div>
+          <div style="font-size:11px; color:#553112; font-style:italic; padding-top:4px;">
+            * Los rombos de nivel de arquetipo no descuentan PH. Solo las 8 casillas de cada habilidad suman puntos gastados.
+          </div>
+        </div>
+      </div>
+
+      <!-- ARQUETIPOS Y HABILIDADES -->
+      <div class="box-frame">
+        <div class="box-frame-title">Arquetipos y Habilidades</div>
+
+        <div class="archetypes-grid">
+          <div class="archetype-box arch-impulsor">
+            <div class="arch-header" style="color:#8c2415;">
+              <span class="arch-title-text">🔥 IMPULSOR</span>
+              <div class="arch-diamonds-wrap" data-arch="impulsor"></div>
+            </div>
+            <div class="skill-row"><span class="skill-name">01. Vigor</span><div class="skill-boxes" data-skill="1"></div><span class="skill-bonus-tag" id="sk-bonus-1">—</span></div>
+            <div class="skill-row"><span class="skill-name">02. Reflejos</span><div class="skill-boxes" data-skill="2"></div><span class="skill-bonus-tag" id="sk-bonus-2">—</span></div>
+            <div class="skill-row"><span class="skill-name">03. Sensorial</span><div class="skill-boxes" data-skill="3"></div><span class="skill-bonus-tag" id="sk-bonus-3">—</span></div>
+            <div class="skill-row"><span class="skill-name">04. Intimidar</span><div class="skill-boxes" data-skill="4"></div><span class="skill-bonus-tag" id="sk-bonus-4">—</span></div>
+            <div class="skill-row"><span class="skill-name">05. Cultura</span><div class="skill-boxes" data-skill="5"></div><span class="skill-bonus-tag" id="sk-bonus-5">—</span></div>
+          </div>
+
+          <div class="archetype-box arch-controlador">
+            <div class="arch-header" style="color:#174273;">
+              <span class="arch-title-text">👁️ CONTROLADOR</span>
+              <div class="arch-diamonds-wrap" data-arch="controlador"></div>
+            </div>
+            <div class="skill-row"><span class="skill-name">06. Motricidad</span><div class="skill-boxes" data-skill="6"></div><span class="skill-bonus-tag" id="sk-bonus-6">—</span></div>
+            <div class="skill-row"><span class="skill-name">07. Lógica</span><div class="skill-boxes" data-skill="7"></div><span class="skill-bonus-tag" id="sk-bonus-7">—</span></div>
+            <div class="skill-row"><span class="skill-name">08. Detectar</span><div class="skill-boxes" data-skill="8"></div><span class="skill-bonus-tag" id="sk-bonus-8">—</span></div>
+            <div class="skill-row"><span class="skill-name">09. Convencer</span><div class="skill-boxes" data-skill="9"></div><span class="skill-bonus-tag" id="sk-bonus-9">—</span></div>
+            <div class="skill-row"><span class="skill-name">10. Política</span><div class="skill-boxes" data-skill="10"></div><span class="skill-bonus-tag" id="sk-bonus-10">—</span></div>
+          </div>
+
+          <div class="archetype-box arch-perpetuador">
+            <div class="arch-header" style="color:#573516;">
+              <span class="arch-title-text">⛰️ PERPETUADOR</span>
+              <div class="arch-diamonds-wrap" data-arch="perpetuador"></div>
+            </div>
+            <div class="skill-row"><span class="skill-name">11. Aguante</span><div class="skill-boxes" data-skill="11"></div><span class="skill-bonus-tag" id="sk-bonus-11">—</span></div>
+            <div class="skill-row"><span class="skill-name">12. Medicina</span><div class="skill-boxes" data-skill="12"></div><span class="skill-bonus-tag" id="sk-bonus-12">—</span></div>
+            <div class="skill-row"><span class="skill-name">13. Memoria</span><div class="skill-boxes" data-skill="13"></div><span class="skill-bonus-tag" id="sk-bonus-13">—</span></div>
+            <div class="skill-row"><span class="skill-name">14. Primacía</span><div class="skill-boxes" data-skill="14"></div><span class="skill-bonus-tag" id="sk-bonus-14">—</span></div>
+            <div class="skill-row"><span class="skill-name">15. Historia</span><div class="skill-boxes" data-skill="15"></div><span class="skill-bonus-tag" id="sk-bonus-15">—</span></div>
+          </div>
+
+          <div class="archetype-box arch-proyector">
+            <div class="arch-header" style="color:#1f5e26;">
+              <span class="arch-title-text">✳️ PROYECTOR</span>
+              <div class="arch-diamonds-wrap" data-arch="proyector"></div>
+            </div>
+            <div class="skill-row"><span class="skill-name">16. Agilidad</span><div class="skill-boxes" data-skill="16"></div><span class="skill-bonus-tag" id="sk-bonus-16">—</span></div>
+            <div class="skill-row"><span class="skill-name">17. Deducir</span><div class="skill-boxes" data-skill="17"></div><span class="skill-bonus-tag" id="sk-bonus-17">—</span></div>
+            <div class="skill-row"><span class="skill-name">18. Rastrear</span><div class="skill-boxes" data-skill="18"></div><span class="skill-bonus-tag" id="sk-bonus-18">—</span></div>
+            <div class="skill-row"><span class="skill-name">19. Seducción</span><div class="skill-boxes" data-skill="19"></div><span class="skill-bonus-tag" id="sk-bonus-19">—</span></div>
+            <div class="skill-row"><span class="skill-name">20. Geografía</span><div class="skill-boxes" data-skill="20"></div><span class="skill-bonus-tag" id="sk-bonus-20">—</span></div>
+          </div>
+
+          <div class="archetype-box arch-evocador">
+            <div class="arch-header" style="color:#855b08;">
+              <span class="arch-title-text">☀️ EVOCADOR</span>
+              <div class="arch-diamonds-wrap" data-arch="evocador"></div>
+            </div>
+            <div class="skill-row"><span class="skill-name">21. Magia</span><div class="skill-boxes" data-skill="21"></div><span class="skill-bonus-tag" id="sk-bonus-21">—</span></div>
+            <div class="skill-row"><span class="skill-name">22. Empatía</span><div class="skill-boxes" data-skill="22"></div><span class="skill-bonus-tag" id="sk-bonus-22">—</span></div>
+            <div class="skill-row"><span class="skill-name">23. Per. Mág.</span><div class="skill-boxes" data-skill="23"></div><span class="skill-bonus-tag" id="sk-bonus-23">—</span></div>
+            <div class="skill-row"><span class="skill-name">24. Voz</span><div class="skill-boxes" data-skill="24"></div><span class="skill-bonus-tag" id="sk-bonus-24">—</span></div>
+            <div class="skill-row"><span class="skill-name">25. Supervivencia</span><div class="skill-boxes" data-skill="25"></div><span class="skill-bonus-tag" id="sk-bonus-25">—</span></div>
+          </div>
+
+          <div class="archetype-box arch-conmutador">
+            <div class="arch-header" style="color:#551c66;">
+              <span class="arch-title-text">🌙 CONMUTADOR</span>
+              <div class="arch-diamonds-wrap" data-arch="conmutador"></div>
+            </div>
+            <div class="skill-row"><span class="skill-name">26. Sigilo</span><div class="skill-boxes" data-skill="26"></div><span class="skill-bonus-tag" id="sk-bonus-26">—</span></div>
+            <div class="skill-row"><span class="skill-name">27. Voluntad</span><div class="skill-boxes" data-skill="27"></div><span class="skill-bonus-tag" id="sk-bonus-27">—</span></div>
+            <div class="skill-row"><span class="skill-name">28. Visual</span><div class="skill-boxes" data-skill="28"></div><span class="skill-bonus-tag" id="sk-bonus-28">—</span></div>
+            <div class="skill-row"><span class="skill-name">29. Engaño</span><div class="skill-boxes" data-skill="29"></div><span class="skill-bonus-tag" id="sk-bonus-29">—</span></div>
+            <div class="skill-row"><span class="skill-name">30. Auditiva</span><div class="skill-boxes" data-skill="30"></div><span class="skill-bonus-tag" id="sk-bonus-30">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TÉCNICAS -->
+      <div class="box-frame">
+        <div class="box-frame-title">Técnicas & Poderes</div>
+        <div class="techniques-table-wrap">
+          <table class="techniques-table">
+            <thead>
+              <tr>
+                <th style="width:52%;">NOMBRE TÉCNICA</th>
+                <th style="width:12%; text-align:center;">TIPO</th>
+                <th style="width:28%; text-align:center;">NIVEL</th>
+                <th style="width:8%; text-align:center;">✖</th>
+              </tr>
+            </thead>
+            <tbody id="techniques-body">
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top: 6px;">
+          <button type="button" class="btn-add-item" onclick="addTechniqueRow()">+ Agregar Poder / Técnica</button>
+        </div>
+      </div>
+
+      <!-- TÉCNICAS DESPIERTAS -->
+      <div class="box-frame">
+        <div class="box-frame-title">Técnicas Despiertas</div>
+        <div class="despiertas-wrapper">
+          <div>
+            <div class="awakened-node">
+              <div class="awakened-node-title">TÉCNICA PRINCIPAL:</div>
+              <input type="text" id="tech-princ-name" placeholder="Nombre...">
+              <div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-princ-cost" style="width:75px;"></div>
+            </div>
+            <div class="awakened-node">
+              <div class="awakened-node-title">TÉCNICA SECUNDARIA I:</div>
+              <input type="text" id="tech-sec1-name" placeholder="Nombre...">
+              <div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec1-cost" style="width:75px;"></div>
+            </div>
+            <div class="awakened-node">
+              <div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div>
+              <input type="text" id="tech-sec2-name" placeholder="Nombre...">
+              <div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec2-cost" style="width:75px;"></div>
+            </div>
+            <div class="awakened-node">
+              <div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div>
+              <input type="text" id="tech-sec3-name" placeholder="Nombre...">
+              <div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec3-cost" style="width:75px;"></div>
+            </div>
+          </div>
+
+          <div style="background:rgba(255,255,255,0.3); border:1.5px solid var(--border-dark); padding:8px;">
+            <div style="font-family:var(--f-title); font-size:13px; font-weight:bold; margin-bottom:6px; text-align:center; border-bottom:1px solid var(--border-dark); padding-bottom:3px;">
+              CLASIFICACIÓN
+            </div>
+            <div class="classification-row"><span>OFENSIVA</span><div class="classification-diamonds" data-class="ofensiva"></div></div>
+            <div class="classification-row"><span>DEFENSIVA</span><div class="classification-diamonds" data-class="defensiva"></div></div>
+            <div class="classification-row"><span>TÁCTICA</span><div class="classification-diamonds" data-class="tactica"></div></div>
+            <div class="classification-row"><span>UTILIDAD</span><div class="classification-diamonds" data-class="utilidad"></div></div>
+            <div class="classification-row"><span>SINGULAR</span><div class="classification-diamonds" data-class="singular"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOCHILA -->
+      <div class="box-frame">
+        <div class="box-frame-title">Mochila</div>
+        <div class="inventory-table-wrap">
+          <table class="inventory-table">
+            <thead>
+              <tr>
+                <th style="width: 34%;">OBJETOS</th>
+                <th style="width: 14%;">CANT.</th>
+                <th style="width: 16%;">PESO</th>
+                <th style="width: 28%;">DESC.</th>
+                <th style="width: 8%;">✖</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-body">
+            </tbody>
+          </table>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+          <button type="button" class="btn-add-item" onclick="addInventoryRow()">+ Agregar Objeto</button>
+          <div style="font-family:var(--f-title); font-weight:bold; font-size:14px;">
+            PESO TOTAL: <span id="total-weight" style="color:var(--txt-red);">0</span> Kg
+          </div>
+        </div>
+      </div>
+
+      <!-- BONIFICACIONES POR GRADO -->
+      <div class="box-frame">
+        <div class="box-frame-title">Bonificaciones por Grado</div>
+        <div class="grade-table-wrap">
+          <table class="grade-bonus-table">
+            <thead>
+              <tr>
+                <th style="width: 20%;">
+                  <span class="desktop-th">ATRIBUTO</span>
+                  <span class="mobile-th">ATR.</span>
+                </th>
+                <th style="width: 13.3%;">
+                  <span class="desktop-th">🔥 IMPULSOR</span>
+                  <span class="mobile-th">🔥<br>Imp</span>
+                </th>
+                <th style="width: 13.3%;">
+                  <span class="desktop-th">👁️ CONTROLADOR</span>
+                  <span class="mobile-th">👁️<br>Ctrl</span>
+                </th>
+                <th style="width: 13.3%;">
+                  <span class="desktop-th">⛰️ PERPETUADOR</span>
+                  <span class="mobile-th">⛰️<br>Perp</span>
+                </th>
+                <th style="width: 13.3%;">
+                  <span class="desktop-th">✳️ PROYECTOR</span>
+                  <span class="mobile-th">✳️<br>Proy</span>
+                </th>
+                <th style="width: 13.3%;">
+                  <span class="desktop-th">🌙 CONMUTADOR</span>
+                  <span class="mobile-th">🌙<br>Conm</span>
+                </th>
+                <th style="width: 13.3%;">
+                  <span class="desktop-th">☀️ EVOCADOR</span>
+                  <span class="mobile-th">☀️<br>Evoc</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><b>DAÑO</b></td><td>7</td><td>3</td><td>5</td><td>7</td><td>5</td><td>3</td></tr>
+              <tr><td><b>PC</b></td><td>1</td><td>1</td><td>0</td><td>2</td><td>2</td><td>0</td></tr>
+              <tr><td><b>PD</b></td><td>1</td><td>3</td><td>2</td><td>1</td><td>2</td><td>3</td></tr>
+              <tr><td><b>RESENCIA</b></td><td>10</td><td>5</td><td>15</td><td>5</td><td>5</td><td>15</td></tr>
+              <tr><td><b>SMATH</b></td><td>3</td><td>2</td><td>1</td><td>2</td><td>2</td><td>3</td></tr>
+              <tr><td><b>HABILIDADES</b></td><td>15</td><td>25</td><td>20</td><td>15</td><td>25</td><td>20</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ESENCIA (GRADOS 1 A 15) -->
+      <div class="essence-container">
+        <div class="essence-title">ESENCIA (GRADOS)</div>
+        <div class="essence-circles" id="essence-circles-wrap">
+        </div>
+        <div class="essence-stages">
+          <div>LATENTE<br>1 a 3</div>
+          <div>DESPIERTA<br>4 a 6</div>
+          <div>MANIFIESTA<br>7 a 9</div>
+          <div>TRASCENDIDA<br>10 a 12</div>
+          <div>ASCENDIDA<br>13 a 15</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const MULTIPLICADORES = [-0.30, -0.15, 0, 0, 0.15, 0.30];
+    const SKILL_COSTS = [3, 1, 1, 2, 2, 3, 3, 5];
+    const SKILL_BONUSES = ['+0', '+1', '+2', '+4', '+6', '+9', '+12', 'x2D'];
+    const ARCHETYPES = ['impulsor', 'controlador', 'perpetuador', 'proyector', 'evocador', 'conmutador'];
+
+    // ESTRUCTURA BASE 100% LIMPIA (SIN DATOS DE EJEMPLO)
+    function createBlankCharacterData(name = '') {
+      return {
+        inputs: {
+          'char-name': name,
+          'char-raza': '',
+          'char-subraza': '',
+          'char-oficio': '',
+          'char-exp': '',
+          'char-esencia': '',
+          'baseDamage': 0,
+          'stat-pc': '',
+          'stat-pd': '',
+          'stat-hp-curr': '',
+          'stat-hp-max': '',
+          'stat-smath-curr': '',
+          'stat-smath-max': '',
+          'stat-conc': '',
+          'pts-obtenidos': 0,
+          'pts-costes': '+0(3) +1(1) +2(1) +4(2) +6(2) +9(3) +12(3) x2D(5)',
+          'tech-princ-name': '', 'tech-princ-cost': '',
+          'tech-sec1-name': '', 'tech-sec1-cost': '',
+          'tech-sec2-name': '', 'tech-sec2-cost': '',
+          'tech-sec3-name': '', 'tech-sec3-cost': ''
+        },
+        checkboxes: {},
+        archLevels: {
+          impulsor: 0,
+          controlador: 0,
+          perpetuador: 0,
+          proyector: 0,
+          evocador: 0,
+          conmutador: 0
+        },
+        techniques: [
+          { name: '', type: false, lvl1: false, lvl2: false, lvl3: false },
+          { name: '', type: false, lvl1: false, lvl2: false, lvl3: false }
+        ],
+        inventory: [
+          { name: '', qty: '', weight: '', desc: '' },
+          { name: '', qty: '', weight: '', desc: '' }
+        ],
+        essence: 0,
+        lastRoll: '-'
+      };
+    }
+
+    // ESTADO MULTIJUGADOR DINÁMICO
+    let playerList = ['p1', 'p2', 'p3', 'p4'];
+    let allPlayersData = {
+      p1: createBlankCharacterData(''),
+      p2: createBlankCharacterData(''),
+      p3: createBlankCharacterData(''),
+      p4: createBlankCharacterData('')
+    };
+
+    let activeRole = 'p1';
+    let modalActionType = '';
+
+    const archLevelState = {
+      impulsor: 0,
+      controlador: 0,
+      perpetuador: 0,
+      proyector: 0,
+      evocador: 0,
+      conmutador: 0
+    };
+
+    let toastTimer = null;
+    function showToast(text) {
+      const el = document.getElementById('toast-msg');
+      if (!el) return;
+      el.innerText = text;
+      el.style.display = 'block';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        el.style.display = 'none';
+      }, 3000);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function autoResizeTextarea(el) {
+      if (!el) return;
+      el.style.height = 'auto';
+      el.style.height = Math.max(22, el.scrollHeight) + 'px';
+    }
+
+    // CONSTRUCCIÓN DE LA BARRA DE PESTAÑAS (GM + JUGADORES + BOTÓN AGREGAR)
+    function renderRoleBar() {
+      const container = document.getElementById('role-bar-container');
+      container.innerHTML = '';
+
+      // Botón GM
+      const gmBtn = document.createElement('button');
+      gmBtn.type = 'button';
+      gmBtn.className = `role-btn ${activeRole === 'gm' ? 'active' : ''}`;
+      gmBtn.innerText = '👑 Maestro (GM)';
+      gmBtn.onclick = () => switchRole('gm');
+      container.appendChild(gmBtn);
+
+      // Botones de Jugadores
+      playerList.forEach((pid, index) => {
+        const charName = allPlayersData[pid]?.inputs?.['char-name']?.trim();
+        const label = charName ? `${index + 1}. ${charName}` : `Jugador ${index + 1}`;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
+        btn.innerText = label;
+        btn.onclick = () => switchRole(pid);
+        container.appendChild(btn);
+      });
+
+      // Botón para Agregar Jugador
+      const addBtn = document.createElement('button');
+      addBtn.type = 'button';
+      addBtn.className = 'role-btn btn-add-player';
+      addBtn.innerText = '➕ Nuevo Jugador';
+      addBtn.onclick = addNewPlayer;
+      container.appendChild(addBtn);
+
+      // Mostrar/ocultar botón de borrar jugador según la pestaña
+      const deleteBtn = document.getElementById('btn-delete-player');
+      if (activeRole === 'gm' || playerList.length <= 1) {
+        deleteBtn.style.display = 'none';
+      } else {
+        deleteBtn.style.display = 'inline-flex';
+      }
+    }
+
+    function addNewPlayer() {
+      const newIndex = playerList.length + 1;
+      const newPid = 'p' + Date.now();
+      playerList.push(newPid);
+      allPlayersData[newPid] = createBlankCharacterData('');
+      saveAllToStorage();
+      switchRole(newPid);
+      showToast(`✨ Se agregó el Jugador ${newIndex}`);
+    }
+
+    function switchRole(roleId) {
+      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
+        allPlayersData[activeRole] = gatherFormData();
+      }
+
+      activeRole = roleId;
+      renderRoleBar();
+
+      const gmWrap = document.getElementById('gm-dashboard-wrap');
+      const sheetWrap = document.getElementById('player-sheet-wrap');
+
+      if (activeRole === 'gm') {
+        gmWrap.style.display = 'block';
+        sheetWrap.style.display = 'none';
+        renderGMDashboard();
+      } else {
+        gmWrap.style.display = 'none';
+        sheetWrap.style.display = 'block';
+        applyDataToForm(allPlayersData[activeRole] || createBlankCharacterData(''));
+      }
+    }
+
+    // PANEL DEL MAESTRO
+    function renderGMDashboard() {
+      const cardsGrid = document.getElementById('gm-cards-container');
+      cardsGrid.innerHTML = '';
+
+      playerList.forEach((pid, idx) => {
+        const pdata = allPlayersData[pid] || createBlankCharacterData('');
+        const pInputs = pdata.inputs || {};
+        const charName = pInputs['char-name'] || `Jugador ${idx + 1}`;
+        const oficio = pInputs['char-oficio'] || 'Sin oficio';
+        const hpCurr = pInputs['stat-hp-curr'] || '0';
+        const hpMax = pInputs['stat-hp-max'] || '0';
+        const smCurr = pInputs['stat-smath-curr'] || '0';
+        const smMax = pInputs['stat-smath-max'] || '0';
+        const pc = pInputs['stat-pc'] || '0';
+        const pd = pInputs['stat-pd'] || '0';
+        const roll = pdata.lastRoll || '-';
+
+        const card = document.createElement('div');
+        card.className = 'gm-player-card';
+        card.innerHTML = `
+          <div class="gm-card-title">
+            <span>⚔️ ${escapeHtml(charName)}</span>
+            <button type="button" onclick="switchRole('${pid}')" style="background:#4a2b13; border:1px solid #bf8a3b; color:#fff; font-size:11px; padding:2px 6px; cursor:pointer; font-family:var(--f-title);">Editar</button>
+          </div>
+          <div class="gm-stat-line"><span>Oficio:</span> <b>${escapeHtml(oficio)}</b></div>
+          <div class="gm-stat-line"><span>❤️ Resencia:</span> <b>${hpCurr} / ${hpMax}</b></div>
+          <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMax}</b></div>
+          <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pc} / ${pd}</b></div>
+          <div class="gm-stat-line" style="border-bottom:none; margin-top:4px;">
+            <span>🎲 Último D6:</span> <b style="color:var(--txt-red); font-size:16px;">${roll}</b>
+          </div>
+        `;
+        cardsGrid.appendChild(card);
+      });
+    }
+
+    // MODAL DE ACCIONES
+    function openResetModal() {
+      modalActionType = 'reset';
+      document.getElementById('modal-title-text').innerText = '⚠️ REINICIAR FICHA';
+      document.getElementById('modal-desc-text').innerText = '¿Estás seguro de que deseas limpiar esta hoja? Todos los datos se borrarán.';
+      document.getElementById('modal-confirm-btn').innerText = 'Sí, Reiniciar';
+      document.getElementById('modal-backdrop').style.display = 'flex';
+    }
+
+    function openDeletePlayerModal() {
+      if (playerList.length <= 1) {
+        showToast('⚠️ No podés borrar al único jugador restante.');
+        return;
+      }
+      modalActionType = 'delete_player';
+      const curIndex = playerList.indexOf(activeRole) + 1;
+      const charName = allPlayersData[activeRole]?.inputs?.['char-name']?.trim() || `Jugador ${curIndex}`;
+      document.getElementById('modal-title-text').innerText = '❌ ELIMINAR JUGADOR';
+      document.getElementById('modal-desc-text').innerText = `¿Estás seguro de que deseas eliminar permanentemente a "${charName}"?`;
+      document.getElementById('modal-confirm-btn').innerText = 'Sí, Eliminar';
+      document.getElementById('modal-backdrop').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-backdrop').style.display = 'none';
+      modalActionType = '';
+    }
+
+    function executeModalAction() {
+      if (modalActionType === 'reset') {
+        confirmResetActiveSheet();
+      } else if (modalActionType === 'delete_player') {
+        confirmDeleteActivePlayer();
+      }
+      closeModal();
+    }
+
+    function confirmResetActiveSheet() {
+      allPlayersData[activeRole] = createBlankCharacterData('');
+      applyDataToForm(allPlayersData[activeRole]);
+      saveAllToStorage();
+      renderRoleBar();
+      showToast('🗑️ Ficha reiniciada por completo.');
+    }
+
+    function confirmDeleteActivePlayer() {
+      const idx = playerList.indexOf(activeRole);
+      if (idx > -1) {
+        delete allPlayersData[activeRole];
+        playerList.splice(idx, 1);
+        const nextRole = playerList[0] || 'gm';
+        saveAllToStorage();
+        switchRole(nextRole);
+        showToast('🗑️ Jugador eliminado.');
+      }
+    }
+
+    // TABLA DE DAÑO D6
+    function updateDamageTable() {
+      const baseInput = document.getElementById('baseDamage');
+      const baseVal = parseFloat(baseInput.value) || 0;
+
+      for (let i = 1; i <= 6; i++) {
+        const cell = document.getElementById('calc-dmg-' + i);
+        if (cell) {
+          const finalVal = Math.round(baseVal * (1 + MULTIPLICADORES[i - 1]));
+          cell.innerText = baseVal > 0 ? finalVal : '-';
+        }
+      }
+
+      const rollBadge = document.getElementById('display-roll');
+      const lastRoll = parseInt(rollBadge.innerText);
+      if (lastRoll >= 1 && lastRoll <= 6) {
+        const finalRollDmg = Math.round(baseVal * (1 + MULTIPLICADORES[lastRoll - 1]));
+        document.getElementById('display-final-dmg').innerText = finalRollDmg;
+      }
+    }
+
+    function rollD6() {
+      const roll = Math.floor(Math.random() * 6) + 1;
+      const baseInput = document.getElementById('baseDamage');
+      const baseVal = parseFloat(baseInput.value) || 0;
+      const finalDmg = Math.round(baseVal * (1 + MULTIPLICADORES[roll - 1]));
+
+      document.getElementById('display-roll').innerText = roll;
+      document.getElementById('display-final-dmg').innerText = finalDmg;
+
+      for (let i = 1; i <= 6; i++) {
+        const headerCol = document.getElementById('d6-col-' + i);
+        const cellCol = document.getElementById('calc-dmg-' + i);
+        if (headerCol && cellCol) {
+          if (i === roll) {
+            headerCol.classList.add('active-column');
+            cellCol.classList.add('active-column');
+          } else {
+            headerCol.classList.remove('active-column');
+            cellCol.classList.remove('active-column');
+          }
+        }
+      }
+
+      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastRoll = `${roll} (${finalDmg} daño)`;
+        saveActivePlayerToStorage(true);
+      }
+    }
+
+    // ARQUETIPOS
+    function setupArchetypeDiamonds() {
+      ARCHETYPES.forEach(arch => {
+        const wrap = document.querySelector(`.arch-diamonds-wrap[data-arch="${arch}"]`);
+        if (!wrap) return;
+        wrap.innerHTML = '';
+        for (let i = 1; i <= 8; i++) {
+          const diamond = document.createElement('span');
+          diamond.className = 'arch-diamond';
+          diamond.title = `Nivel ${i}`;
+          diamond.id = `arch-dia-${arch}-${i}`;
+          diamond.onclick = () => toggleArchLevel(arch, i);
+          wrap.appendChild(diamond);
+        }
+      });
+    }
+
+    function toggleArchLevel(arch, level) {
+      if (archLevelState[arch] === level) {
+        archLevelState[arch] = level - 1;
+      } else {
+        archLevelState[arch] = level;
+      }
+      renderArchDiamonds(arch);
+      saveActivePlayerToStorage(true);
+    }
+
+    function renderArchDiamonds(arch) {
+      const current = archLevelState[arch] || 0;
+      for (let i = 1; i <= 8; i++) {
+        const d = document.getElementById(`arch-dia-${arch}-${i}`);
+        if (d) {
+          if (i <= current) d.classList.add('active');
+          else d.classList.remove('active');
+        }
+      }
+    }
+
+    function setupSkillBoxes() {
+      const containers = document.querySelectorAll('.skill-boxes');
+      containers.forEach(container => {
+        const skillId = container.getAttribute('data-skill');
+        container.innerHTML = '';
+        for (let i = 0; i < 8; i++) {
+          const chk = document.createElement('input');
+          chk.type = 'checkbox';
+          chk.id = `sk-${skillId}-${i}`;
+          chk.title = `${SKILL_BONUSES[i]} (Coste: ${SKILL_COSTS[i]} PH)`;
+          chk.addEventListener('click', function() {
+            handleSkillCheckboxClick(skillId, i, this.checked);
+          });
+          container.appendChild(chk);
+        }
+      });
+    }
+
+    function handleSkillCheckboxClick(skillId, index, isChecked) {
+      for (let i = 0; i < 8; i++) {
+        const chk = document.getElementById(`sk-${skillId}-${i}`);
+        if (!chk) continue;
+        if (isChecked && i <= index) {
+          chk.checked = true;
+        } else if (!isChecked && i >= index) {
+          chk.checked = false;
+        }
+      }
+      updateSkillsAndPoints();
+      saveActivePlayerToStorage(true);
+    }
+
+    function updateSkillsAndPoints() {
+      let totalSpent = 0;
+
+      for (let s = 1; s <= 30; s++) {
+        let highestChecked = -1;
+        for (let i = 0; i < 8; i++) {
+          const chk = document.getElementById(`sk-${s}-${i}`);
+          if (chk && chk.checked) {
+            totalSpent += SKILL_COSTS[i];
+            highestChecked = i;
+          }
+        }
+
+        const tag = document.getElementById(`sk-bonus-${s}`);
+        if (tag) {
+          if (highestChecked >= 0) {
+            tag.innerText = SKILL_BONUSES[highestChecked];
+            tag.classList.add('has-bonus');
+          } else {
+            tag.innerText = '—';
+            tag.classList.remove('has-bonus');
+          }
+        }
+      }
+
+      document.getElementById('pts-gastados').innerText = totalSpent;
+    }
+
+    function addTechniqueRow(name = '', isCheckedType = false, lvl1 = false, lvl2 = false, lvl3 = false) {
+      const tbody = document.getElementById('techniques-body');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><textarea class="tech-row-name" rows="1" placeholder="Poder/Técnica..." oninput="autoResizeTextarea(this); saveActivePlayerToStorage(true);">${escapeHtml(name)}</textarea></td>
+        <td style="text-align:center;"><input type="checkbox" class="tech-row-type" ${isCheckedType ? 'checked' : ''} style="accent-color:#551c66; width:14px; height:14px; cursor:pointer; margin-top:4px;"></td>
+        <td>
+          <div class="lvl-checkboxes">
+            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''}>
+            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''}>
+            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''}>
+          </div>
+        </td>
+        <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); saveActivePlayerToStorage(true);" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
+      `;
+      tbody.appendChild(tr);
+      tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
+    }
+
+    function setupClassifications() {
+      const groups = document.querySelectorAll('.classification-diamonds');
+      groups.forEach(group => {
+        const cat = group.getAttribute('data-class');
+        group.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const chk = document.createElement('input');
+          chk.type = 'checkbox';
+          chk.id = `class-${cat}-${i}`;
+          group.appendChild(chk);
+        }
+      });
+    }
+
+    let activeEssence = 0;
+    function setupEssenceSeals() {
+      const wrap = document.getElementById('essence-circles-wrap');
+      wrap.innerHTML = '';
+      for (let i = 1; i <= 15; i++) {
+        const seal = document.createElement('div');
+        seal.className = 'essence-seal';
+        seal.id = 'seal-' + i;
+        seal.innerText = i;
+        seal.onclick = function() { toggleEssence(i); };
+        wrap.appendChild(seal);
+      }
+    }
+
+    function toggleEssence(lvl) {
+      if (activeEssence === lvl) activeEssence = lvl - 1;
+      else activeEssence = lvl;
+
+      for (let i = 1; i <= 15; i++) {
+        const el = document.getElementById('seal-' + i);
+        if (i <= activeEssence) el.classList.add('active');
+        else el.classList.remove('active');
+      }
+      saveActivePlayerToStorage(true);
+    }
+
+    function addInventoryRow(name = '', qty = '', weight = '', desc = '') {
+      const tbody = document.getElementById('inventory-body');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); saveActivePlayerToStorage(true);">${escapeHtml(name)}</textarea></td>
+        <td><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); saveActivePlayerToStorage(true);"></td>
+        <td><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(weight)}" min="0" oninput="calcTotalWeight(); saveActivePlayerToStorage(true);"></td>
+        <td><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); saveActivePlayerToStorage(true);">${escapeHtml(desc)}</textarea></td>
+        <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); saveActivePlayerToStorage(true);" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
+      `;
+      tbody.appendChild(tr);
+      tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
+      calcTotalWeight();
+    }
+
+    function calcTotalWeight() {
+      const weights = document.querySelectorAll('.inv-weight');
+      const quantities = document.querySelectorAll('.inv-qty');
+      let total = 0;
+      weights.forEach((wInput, idx) => {
+        const w = parseFloat(wInput.value) || 0;
+        const q = parseFloat(quantities[idx]?.value) || 1;
+        total += (w * q);
+      });
+      document.getElementById('total-weight').innerText = total.toFixed(1);
+    }
+
+    // CAPTURA Y CARGA DE DATOS DE FORMULARIO
+    function gatherFormData() {
+      const data = {
+        inputs: {},
+        checkboxes: {},
+        archLevels: { ...archLevelState },
+        techniques: [],
+        inventory: [],
+        essence: activeEssence,
+        lastRoll: allPlayersData[activeRole]?.lastRoll || '-'
+      };
+
+      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"]').forEach(el => {
+        if (el.id) data.inputs[el.id] = el.value;
+      });
+
+      document.querySelectorAll('#player-sheet-wrap input[type="checkbox"]').forEach(el => {
+        if (el.id) data.checkboxes[el.id] = el.checked;
+      });
+
+      document.querySelectorAll('#techniques-body tr').forEach(row => {
+        data.techniques.push({
+          name: row.querySelector('.tech-row-name')?.value || '',
+          type: row.querySelector('.tech-row-type')?.checked || false,
+          lvl1: row.querySelector('.tech-row-lvl1')?.checked || false,
+          lvl2: row.querySelector('.tech-row-lvl2')?.checked || false,
+          lvl3: row.querySelector('.tech-row-lvl3')?.checked || false
+        });
+      });
+
+      document.querySelectorAll('#inventory-body tr').forEach(row => {
+        data.inventory.push({
+          name: row.querySelector('.inv-name')?.value || '',
+          qty: row.querySelector('.inv-qty')?.value || '',
+          weight: row.querySelector('.inv-weight')?.value || '',
+          desc: row.querySelector('.inv-desc')?.value || ''
+        });
+      });
+
+      return data;
+    }
+
+    function applyDataToForm(data) {
+      if (!data) return;
+
+      document.querySelectorAll('#player-sheet-wrap input[type="text"], #player-sheet-wrap input[type="number"]').forEach(el => {
+        if (el.id) el.value = data.inputs?.[el.id] ?? '';
+      });
+
+      document.querySelectorAll('#player-sheet-wrap input[type="checkbox"]').forEach(el => {
+        if (el.id) el.checked = data.checkboxes?.[el.id] ?? false;
+      });
+
+      ARCHETYPES.forEach(arch => {
+        archLevelState[arch] = data.archLevels?.[arch] || 0;
+        renderArchDiamonds(arch);
+      });
+
+      const techBody = document.getElementById('techniques-body');
+      techBody.innerHTML = '';
+      if (data.techniques && data.techniques.length > 0) {
+        data.techniques.forEach(t => addTechniqueRow(t.name, t.type, t.lvl1, t.lvl2, t.lvl3));
+      } else {
+        addTechniqueRow();
+        addTechniqueRow();
+      }
+
+      const invBody = document.getElementById('inventory-body');
+      invBody.innerHTML = '';
+      if (data.inventory && data.inventory.length > 0) {
+        data.inventory.forEach(i => addInventoryRow(i.name, i.qty, i.weight, i.desc));
+      } else {
+        addInventoryRow();
+        addInventoryRow();
+      }
+
+      activeEssence = data.essence || 0;
+      for (let i = 1; i <= 15; i++) {
+        const el = document.getElementById('seal-' + i);
+        if (el) {
+          if (i <= activeEssence) el.classList.add('active');
+          else el.classList.remove('active');
+        }
+      }
+
+      document.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
+      updateDamageTable();
+      updateSkillsAndPoints();
+      calcTotalWeight();
+    }
+
+    // ALMACENAMIENTO
+    function saveActivePlayerToStorage(silent = false) {
+      if (activeRole !== 'gm') {
+        allPlayersData[activeRole] = gatherFormData();
+        renderRoleBar();
+      }
+      saveAllToStorage(silent);
+    }
+
+    function saveAllToStorage(silent = false) {
+      try {
+        const payload = {
+          players: playerList,
+          data: allPlayersData,
+          activeRole: activeRole
+        };
+        localStorage.setItem('requiem_smithnas_state_v2', JSON.stringify(payload));
+        if (!silent) showToast('💾 Ficha guardada con éxito.');
+      } catch (e) {
+        if (!silent) showToast('⚠️ Memoria restringida. Usa "Exportar".');
+      }
+    }
+
+    function loadAllFromStorage() {
+      try {
+        const raw = localStorage.getItem('requiem_smithnas_state_v2');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed.players) && parsed.players.length > 0) {
+            playerList = parsed.players;
+          }
+          if (parsed.data && typeof parsed.data === 'object') {
+            allPlayersData = parsed.data;
+          }
+          if (parsed.activeRole) {
+            activeRole = parsed.activeRole;
+          }
+        }
+      } catch (e) {}
+    }
+
+    function exportJSON() {
+      const dataToExport = activeRole === 'gm' ? { players: playerList, data: allPlayersData } : (allPlayersData[activeRole] || gatherFormData());
+      const charName = (activeRole !== 'gm' ? allPlayersData[activeRole]?.inputs?.['char-name']?.trim() : 'Partida_Completa') || 'Personaje';
+      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${charName}_Smithnas.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📤 Ficha exportada con éxito.');
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.players && parsed.data) {
+            playerList = parsed.players;
+            allPlayersData = parsed.data;
+            saveAllToStorage(true);
+            switchRole('gm');
+            showToast('📥 Partida completa importada.');
+          } else {
+            allPlayersData[activeRole] = parsed;
+            applyDataToForm(parsed);
+            saveActivePlayerToStorage(true);
+            showToast('📥 Ficha de personaje importada.');
+          }
+        } catch (err) {
+          showToast('❌ Error al procesar el archivo JSON.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setupArchetypeDiamonds();
+      setupSkillBoxes();
+      setupClassifications();
+      setupEssenceSeals();
+
+      loadAllFromStorage();
+      renderRoleBar();
+
+      if (activeRole === 'gm') {
+        switchRole('gm');
+      } else {
+        applyDataToForm(allPlayersData[activeRole] || createBlankCharacterData(''));
+      }
+
+      // Guardado automático sin saltos ni advertencias
+      document.getElementById('player-sheet-wrap').addEventListener('input', () => saveActivePlayerToStorage(true));
+      document.getElementById('player-sheet-wrap').addEventListener('change', () => saveActivePlayerToStorage(true));
+    });
+  </script>
+</body>
+</html>
