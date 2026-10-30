@@ -661,7 +661,6 @@
       color: #731e0b;
     }
 
-    /* DATOS DEL PERSONAJE: ALINEACIÓN PERFECTA DE ETIQUETAS */
     .header-info-line {
       display: flex;
       align-items: baseline;
@@ -671,8 +670,8 @@
     .header-info-line label {
       font-family: var(--f-title);
       font-weight: 700;
-      font-size: 13px;
-      min-width: 130px; /* Ancho suficiente para que ninguna etiqueta empuje el input */
+      font-size: 12.5px;
+      min-width: 125px;
       color: #2e1505;
       flex-shrink: 0;
     }
@@ -680,11 +679,11 @@
       flex: 1;
       background: transparent;
       border: none;
-      border-bottom: 1.5px solid #6b4421;
+      border-bottom: 1px solid #6b4421;
       font-family: var(--f-body);
       font-size: 15.5px;
       color: #120a04;
-      padding: 2px 4px 3px 4px;
+      padding: 2px 4px 4px 4px;
       outline: none;
       min-width: 0;
     }
@@ -725,12 +724,12 @@
       justify-content: space-between;
       gap: 3px;
       font-size: 12.5px;
-      font-weight: bold;
       background: rgba(255,255,255,0.65);
       padding: 3px 5px;
-      border: 1px solid rgba(60,30,10,0.3);
+      border: 1px solid rgba(60,30,10,0.25);
       border-radius: 3px;
       min-width: 0;
+      font-weight: 800;
     }
     .status-effect-item label {
       flex: 1;
@@ -741,7 +740,7 @@
       display: flex;
       align-items: center;
       gap: 3px;
-      font-weight: bold;
+      font-weight: 800;
     }
     .status-effect-item input[type="checkbox"] {
       width: 15px;
@@ -763,7 +762,7 @@
       font-weight: 800 !important;
       padding: 1px 2px !important;
       text-align: center;
-      border: 1.5px solid var(--border-dark) !important;
+      border: 1px solid var(--border-dark) !important;
       background: #fff !important;
       border-radius: 2px;
     }
@@ -774,7 +773,7 @@
       font-weight: 800 !important;
       padding: 1px !important;
       text-align: center;
-      border: 1.5px dashed var(--border-gold) !important;
+      border: 1px dashed var(--border-gold) !important;
       background: #fffdf8 !important;
       border-radius: 2px;
     }
@@ -787,7 +786,6 @@
       padding: 3px 6px;
       border: 1px solid var(--border-gold);
       border-radius: 3px;
-      font-weight: bold;
     }
     .status-custom-name {
       flex: 1;
@@ -801,11 +799,72 @@
       outline: none;
     }
 
-    /* TABLA D6 GUÍA */
-    .d6-table-wrap {
+    /* BARRAS DE VIDA (RESENCIA) Y SMATH */
+    .stat-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       width: 100%;
-      margin-top: 10px;
     }
+    .stat-bar-track {
+      flex: 1;
+      height: 10px;
+      background: rgba(0,0,0,0.15);
+      border: 1px solid var(--border-dark);
+      border-radius: 5px;
+      overflow: hidden;
+      min-width: 50px;
+    }
+    .stat-bar-fill-hp {
+      height: 100%;
+      background: linear-gradient(90deg, #15803d, #22c55e);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .stat-bar-fill-smath {
+      height: 100%;
+      background: linear-gradient(90deg, #d97706, #fbbf24);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* BADGE DE CONCENTRADO */
+    .badge-concentrado-panel {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #0f172a;
+      border: 1.5px solid #38bdf8;
+      box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
+      color: #e0f2fe;
+      font-family: var(--f-title);
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* FILAS APILADAS DINÁMICAS (ATAQUES Y TÉCNICAS) */
+    .gm-stacked-container {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 4px 0;
+      border-top: 1px dashed rgba(0,0,0,0.12);
+    }
+    .gm-stacked-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 12.5px;
+      gap: 6px;
+      line-height: 1.25;
+    }
+
+    /* TABLA D6 GUÍA */
+    .d6-table-wrap { width: 100%; margin-top: 10px; }
     .d6-table {
       width: 100%;
       border-collapse: collapse;
@@ -1183,20 +1242,6 @@
       font-family: var(--f-body);
     }
 
-    @media (min-width: 651px) {
-      .essence-seal {
-        width: 31px;
-        height: 31px;
-        font-size: 14px;
-      }
-      .essence-tier-circles {
-        gap: 5px;
-      }
-      .essence-tier-card {
-        padding: 8px 4px;
-      }
-    }
-
     /* PUNTOS DE HABILIDAD EN ARQUETIPOS */
     .skills-points-header-box {
       display: flex;
@@ -1337,22 +1382,7 @@
       border-color: #360b02;
     }
 
-    /* PUNTOS DE TÉCNICA (PT) */
-    .tech-points-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(0,0,0,0.05);
-      border: 1.5px solid var(--border-gold);
-      border-radius: 3px;
-      padding: 5px 8px;
-      margin-bottom: 8px;
-      font-family: var(--f-title);
-      font-size: 12px;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
+    /* TÉCNICAS CON SMATH Y GASTO */
     .techniques-table-wrap { width: 100%; }
     .techniques-table {
       width: 100%;
@@ -1408,18 +1438,17 @@
       cursor: pointer;
       border-radius: 2px;
       font-weight: bold;
-      transition: all 0.15s ease;
     }
     .btn-use-tech:hover {
       background: #731e0b;
       color: #fff;
     }
-    .btn-use-tech.disabled {
+    .btn-use-tech:disabled {
       background: #777 !important;
       border-color: #555 !important;
       color: #ccc !important;
       cursor: not-allowed !important;
-      opacity: 0.6;
+      opacity: 0.65;
     }
 
     /* PASIVAS DINÁMICAS */
@@ -1462,40 +1491,32 @@
       padding: 0 4px;
     }
 
-    /* TÉCNICAS DESPIERTAS (RESALTADO VISUAL SEGÚN MODO) */
-    .awakened-box-wrap {
-      border: 2px solid var(--border-dark);
-      transition: all 0.25s ease;
-    }
-    .awakened-box-wrap.active-awakened-mode {
-      border-color: #7e22ce !important;
-      outline: 2px solid #ffd700 !important;
-      box-shadow: 0 0 14px rgba(126, 34, 206, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.2) !important;
-      background: rgba(255, 250, 240, 0.95) !important;
-    }
-    .awakened-box-wrap.active-awakened-mode .box-frame-title {
-      color: #581c87 !important;
-      border-bottom-color: #7e22ce !important;
-    }
-
+    /* TÉCNICAS DESPIERTAS (CON EFECTO DE RESALTADO) */
     .despiertas-wrapper {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 8px;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+    .box-frame.awakened-active {
+      border-color: #ffd700 !important;
+      box-shadow: 0 0 14px rgba(255, 215, 0, 0.4), inset 0 0 12px rgba(126, 34, 206, 0.15) !important;
+      background: rgba(253, 244, 215, 0.95) !important;
     }
     .awakened-node {
-      background: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.5);
       border: 1.5px solid var(--border-dark);
       padding: 6px 8px;
+      margin-bottom: 4px;
+      border-radius: 3px;
     }
     .awakened-node-title {
       font-family: var(--f-title);
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: bold;
       color: #4f250b;
-      margin-bottom: 2px;
     }
-    .awakened-node-input {
+    .awakened-node input[type="text"] {
       width: 100%;
       background: transparent;
       border: none;
@@ -1504,14 +1525,6 @@
       font-size: 15px;
       padding: 2px;
       outline: none;
-      margin-bottom: 4px;
-    }
-    .awakened-cost-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-family: var(--f-title);
     }
 
     /* MOCHILA */
@@ -1603,10 +1616,7 @@
     .desktop-th { display: inline; }
 
     /* GM DASHBOARD */
-    #gm-dashboard-wrap {
-      display: none;
-      margin-bottom: 14px;
-    }
+    #gm-dashboard-wrap { display: none; margin-bottom: 14px; }
     .gm-cards-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -1633,7 +1643,6 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .gm-stats-columns {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1648,17 +1657,6 @@
       font-size: 13px;
       padding: 2px 0;
     }
-
-    .gm-last-attack-full-row {
-      grid-column: 1 / -1;
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-      padding: 4px 0 2px 0;
-      border-top: 1px dashed rgba(0,0,0,0.1);
-      font-size: 13px;
-    }
-
     .gm-direct-heal-damage {
       display: flex;
       align-items: center;
@@ -1678,7 +1676,6 @@
       text-align: center;
       border: 1px solid var(--border-dark);
     }
-
     .gm-state-manager-toggle {
       background: #46250f;
       color: #faebd0;
@@ -1690,7 +1687,6 @@
       border-radius: 2px;
       margin-left: auto;
     }
-    
     .gm-state-manager-box {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -1721,7 +1717,6 @@
       background: #fff;
       border-radius: 2px;
     }
-
     .gm-st-stun { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
     .gm-st-sellado { background: #e0e7ff; border-color: #818cf8; color: #3730a3; }
     .gm-st-petrificado { background: #f1f5f9; border-color: #94a3b8; color: #334155; }
@@ -1730,7 +1725,6 @@
     .gm-st-sangrado { background: #ffe4e6; border-color: #f43f5e; color: #9f1239; }
     .gm-st-curacion { background: #dcfce7; border-color: #4ade80; color: #166534; }
     .gm-st-infectado { background: #ccfbf1; border-color: #2dd4bf; color: #115e59; }
-
     .gm-apply-state-btn {
       grid-column: 1 / -1;
       background: #1e4a28;
@@ -1745,11 +1739,6 @@
       margin-top: 3px;
       text-align: center;
     }
-    .gm-apply-state-btn:hover {
-      background: #286b38;
-      color: #fff;
-    }
-
     .gm-actions-container {
       display: flex;
       flex-direction: column;
@@ -1773,14 +1762,12 @@
       border-radius: 3px;
       font-size: 11px;
       font-weight: bold;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
     }
     .gm-action-badge.mot {
       background: #b45309;
       border-color: #fef08a;
       color: #fff;
     }
-
     .gm-badge-status {
       display: inline-flex;
       align-items: center;
@@ -1800,44 +1787,6 @@
     .gm-badge-curacion { background: #14532d; border: 1px solid #86efac; }
     .gm-badge-infectado { background: #047857; border: 1px solid #6ee7b7; }
     .gm-badge-custom { background: #374151; border: 1px solid #9ca3af; }
-
-    .gm-wish-container {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      padding: 4px 0;
-      border-bottom: 1px dotted rgba(0,0,0,0.15);
-    }
-    .gm-wish-item {
-      background: #faf5ff;
-      border: 1px solid #d8b4fe;
-      border-left: 3px solid #7e22ce;
-      border-radius: 3px;
-      padding: 3px 6px;
-      font-size: 12px;
-      color: #4a044e;
-      line-height: 1.25;
-      word-break: break-word;
-    }
-
-    .gm-passives-wrap {
-      margin-top: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .gm-passive-item {
-      display: inline-block;
-      width: fit-content;
-      max-width: 100%;
-      padding: 2.5px 6px;
-      background: rgba(0,0,0,0.06);
-      border-left: 3px solid #8c5826;
-      border-radius: 0 3px 3px 0;
-      font-size: 11.5px;
-      line-height: 1.25;
-      word-break: break-word;
-    }
 
     .history-list {
       max-height: 300px;
@@ -1860,13 +1809,11 @@
 
     /* REGLAS RESPONSIVE PARA ESCRITORIO */
     @media (min-width: 900px) {
-      body { font-size: 16.5px; }
-      .grid-2col {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 16px;
-      }
-      .box-frame { padding: 12px 14px; }
-      .header-info-line label { min-width: 135px; }
+      body { font-size: 18px; }
+      .grid-2col { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+      .box-frame { padding: 14px 16px; }
+      .header-info-line label { min-width: 130px; font-size: 14px; }
+      .header-info-line input { font-size: 16px; }
     }
 
     /* REGLAS RESPONSIVE PARA CELULAR */
@@ -1875,41 +1822,10 @@
       .sheet-container { padding: 6px 4px; border-width: 3px; }
       .grid-2col { grid-template-columns: 1fr; gap: 8px; }
       .archetypes-grid { grid-template-columns: 1fr; gap: 8px; }
-      .box-frame { padding: 6px 4px; margin-bottom: 8px; }
-      .archetype-box { padding: 6px 4px; }
-      .arch-header { justify-content: space-between; gap: 4px; padding-bottom: 4px; }
-      .arch-title-text { font-size: 13.5px; }
-
       .role-bar-tabs { display: none !important; }
       .mobile-role-selector-wrap { display: block !important; }
-
-      .arch-diamonds-wrap { 
-        gap: 8px !important; 
-        padding: 2px 3px; 
-      }
-      .arch-diamond { width: 11px; height: 11px; }
-
-      .skill-row { gap: 3px; padding: 3px 0; }
-      .skill-name { font-size: 13px; min-width: 50px; }
-      .skill-boxes { gap: 2.5px; }
-      .skill-boxes input[type="checkbox"] { width: 17.5px; height: 17.5px; }
-      .skill-bonus-tag { width: 30px; font-size: 11px; padding: 1px 0; margin-left: 3px; }
-
       .desktop-th { display: none; }
       .mobile-th { display: inline-block; line-height: 1.1; }
-      .grade-bonus-table th, .grade-bonus-table td { font-size: 11px; padding: 4px 1px; }
-      .inventory-table th, .inventory-table td { font-size: 12px; padding: 3px 1px; }
-      .inventory-table textarea { font-size: 12px; line-height: 1.2; padding: 1px 1px; }
-
-      .essence-seal { width: 26px; height: 26px; font-size: 12px; }
-      .essence-tier-card { padding: 4px 2px; }
-      .essence-tier-label { font-size: 9px; }
-
-      .shared-roll-bar { grid-template-columns: 1fr; }
-      .skills-points-header-box { flex-direction: column; align-items: stretch; }
-      .skills-points-numbers { justify-content: space-between; }
-      .btn-add-item { padding: 2px 6px; font-size: 10.5px; }
-
       .gm-cards-grid { grid-template-columns: 1fr; gap: 10px; }
       .gm-stats-columns { grid-template-columns: 1fr; gap: 2px; }
       .gm-state-manager-box { grid-template-columns: repeat(2, 1fr); }
@@ -1957,7 +1873,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE HISTORIAL DE MENSAJES -->
+  <!-- MODAL HISTORIAL DE MENSAJES -->
   <div id="history-modal-backdrop">
     <div class="hub-modal-box" style="max-width:500px;">
       <div class="modal-title" style="color:#731e0b;">🎯 HISTORIAL DE LA MESA</div>
@@ -1966,7 +1882,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE HISTORIAL DE TIRADAS -->
+  <!-- MODAL HISTORIAL DE TIRADAS -->
   <div id="dice-history-backdrop">
     <div class="hub-modal-box" style="max-width:500px;">
       <div class="modal-title" style="color:#731e0b;">📜 HISTORIAL DE TIRADAS</div>
@@ -1997,7 +1913,6 @@
         </div>
       </div>
 
-      <!-- MENSAJE FIJADO (PIN) -->
       <div id="pinned-msg-wrap" class="pinned-msg-box" style="display:none;">
         <div><span class="pinned-msg-label">📌 FIJADO:</span> <span id="pinned-msg-text"></span></div>
         <button type="button" id="btn-unpin-msg" onclick="unpinMessage()" style="display:none; background:none; border:none; color:#fca5a5; cursor:pointer; font-size:12px; font-weight:bold;">✖</button>
@@ -2007,7 +1922,6 @@
         <div class="objective-row"><span class="obj-text" style="color:#aaa; font-style:italic;">Sin mensajes activos por el momento.</span></div>
       </div>
 
-      <!-- COMPOSITOR COMPACTO -->
       <div class="table-msg-composer">
         <select id="table-msg-sender" class="table-msg-select"></select>
         <input type="text" id="table-msg-input" class="table-msg-input" placeholder="Escribe un mensaje..." onkeydown="if(event.key==='Enter') broadcastTableMessage(false)">
@@ -2016,7 +1930,7 @@
       </div>
     </div>
 
-    <!-- BARRA DE ROLES CON MASTER FIJO Y SELECTOR MÓVIL -->
+    <!-- BARRA DE ROLES -->
     <div class="role-bar-wrap">
       <div class="gm-fixed-container">
         <button type="button" id="gm-role-btn" class="role-btn" onclick="switchRole('gm')">👑 Master</button>
@@ -2052,7 +1966,7 @@
         </h1>
       </div>
 
-      <!-- BANNER DE ALTERACIÓN DEL MUNDO (DESEO) -->
+      <!-- DESEOS DE REALIDAD -->
       <div class="world-alteration-banner" id="world-wish-banner">
         <div class="world-alteration-title">
           <span class="collapsible-header" onclick="toggleWorldWishCollapse()">
@@ -2083,7 +1997,7 @@
       </div>
 
       <div class="grid-2col">
-        <!-- DATOS DEL PERSONAJE PLEGABLE -->
+        <!-- DATOS DEL PERSONAJE -->
         <div class="box-frame">
           <div class="box-frame-title">
             <span class="collapsible-header" onclick="toggleCharDataCollapse()">Datos del Personaje <span id="char-data-toggle-icon">▼</span></span>
@@ -2123,7 +2037,6 @@
           </div>
         </div>
         
-        <!-- BARRA COMPARTIDA DE INICIATIVA Y D20 IMPACTO/CRÍTICO -->
         <div class="shared-roll-bar">
           <div class="roll-subpanel">
             <span style="font-weight:bold; color:#4f250b;">⚡ INICIATIVA:</span>
@@ -2140,10 +2053,8 @@
           </div>
         </div>
 
-        <!-- LISTADO DE ARMAS EN EL MEDIO -->
         <div class="weapons-list-container" id="weapons-container"></div>
 
-        <!-- TABLA D6 AL FONDO -->
         <div class="d6-table-wrap">
           <table class="d6-table">
             <thead>
@@ -2169,7 +2080,7 @@
         </div>
       </div>
 
-      <!-- COMBATE AUTOMATIZADO + ESTADOS -->
+      <!-- COMBATE Y ESTADOS -->
       <div class="grid-2col">
         <div class="box-frame">
           <div class="box-frame-title">Estadísticas de Combate</div>
@@ -2223,7 +2134,7 @@
             </div>
             <div class="combat-stat-controls">
               <span class="calc-tag">Act:</span>
-              <input type="number" id="stat-smath-curr" placeholder="Act" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+              <input type="number" id="stat-smath-curr" placeholder="Act" oninput="syncToFirebaseDebounced();">
               <button type="button" onclick="restoreFullSmath()" class="btn-stat-max" title="Restablecer al total máximo">⚡ Max</button>
               <span class="calc-tag">/ Base:</span>
               <input type="number" id="stat-smath-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
@@ -2232,10 +2143,12 @@
             </div>
           </div>
 
+          <!-- CONCENTRACIÓN CON BOTÓN DE ESTADO -->
           <div class="combat-stat-card">
             <div class="combat-stat-header" style="margin-bottom:0;">
               <span>⚔️ CONCENTRACIÓN</span>
               <div class="combat-stat-controls">
+                <button type="button" id="btn-toggle-conc" onclick="toggleConcentradoAction()" class="btn-stat-max" style="background:#1e3a8a; border-color:#3b82f6; color:#eff6ff;" title="Marcar concentración en este turno">🧘 Concentrarse</button>
                 <input type="number" id="stat-conc" placeholder="0" style="width:50px;" oninput="syncToFirebaseDebounced();">
               </div>
             </div>
@@ -2325,7 +2238,6 @@
             <div class="essence-embedded-wrap">
               <div class="essence-embedded-title">✨ ESENCIA (GRADOS 1 AL 15)</div>
               
-              <!-- SELECTOR DE ACTIVACIÓN DE MODOS -->
               <div class="essence-activation-bar">
                 <div class="essence-activation-header">
                   <span class="essence-activation-title">⚡ ACTIVACIÓN DE MODOS DE ESENCIA</span>
@@ -2349,7 +2261,7 @@
                 </div>
               </div>
 
-              <!-- FILA 1: 3 GRUPOS -->
+              <!-- FILA 1 -->
               <div class="essence-row-3">
                 <div class="essence-tier-card">
                   <div class="essence-tier-circles">
@@ -2377,7 +2289,7 @@
                 </div>
               </div>
 
-              <!-- FILA 2: 2 GRUPOS -->
+              <!-- FILA 2 -->
               <div class="essence-row-2">
                 <div class="essence-tier-card">
                   <div class="essence-tier-circles">
@@ -2409,7 +2321,6 @@
               <div class="aspect-row"><span>🧰 ASISTENCIA (Pasivo)</span><div class="aspect-diamonds" data-aspect="asistencia"></div></div>
               <div class="aspect-row"><span>🌌 SINGULAR (Pasivo)</span><div class="aspect-diamonds" data-aspect="singular"></div></div>
 
-              <!-- RESUMEN EN VIVO -->
               <div class="essence-mode-summary-box">
                 <b style="color:#731e0b;">📊 Balance de Esencia & Aspectos:</b><br>
                 • <b>Pasivos (Constantes):</b> <span id="summary-aspect-passives">Defensa HP +0% | Puntos Téc: 0 | Conc +0</span><br>
@@ -2515,16 +2426,13 @@
         </div>
       </div>
 
-      <!-- TÉCNICAS CON POZO DE PUNTOS (PT) -->
+      <!-- TÉCNICAS CON POZO DE PUNTOS -->
       <div class="box-frame">
         <div class="box-frame-title">Técnicas & Poderes</div>
-        
-        <div class="tech-points-bar">
-          <span>✨ <b>PUNTOS DE TÉCNICA (PT):</b></span>
-          <span>Totales: <b id="pts-tech-total" style="color:#731e0b; font-size:14px;">0</b></span>
-          <span>Gastados: <b id="pts-tech-spent" style="color:#b91c1c; font-size:14px;">0</b></span>
-          <span>Restantes: <b id="pts-tech-remaining" style="color:#166534; font-size:15px;">0</b></span>
-          <span style="font-size:11px; color:#555;">(2 Técnicas iniciales N1 gratis)</span>
+
+        <div style="font-family:var(--f-title); font-size:12px; margin-bottom:6px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; background:rgba(0,0,0,0.05); padding:4px 8px; border-radius:3px; border:1px solid var(--border-gold);">
+          <span>✨ <b>Puntos de Técnica:</b> Totales: <b id="tech-pts-total" style="color:#731e0b;">0</b> | Gastados: <b id="tech-pts-spent" style="color:var(--txt-red);">0</b> | Restantes: <b id="tech-pts-rem" style="color:#166534;">0</b></span>
+          <span>(Base: 2 gratis en Nivel 1)</span>
         </div>
 
         <div class="techniques-table-wrap">
@@ -2553,51 +2461,42 @@
         </div>
       </div>
 
-      <!-- TÉCNICAS DESPIERTAS -->
-      <div class="box-frame awakened-box-wrap" id="awakened-main-box">
+      <!-- TÉCNICAS DESPIERTAS CON BOTÓN DE USO -->
+      <div class="box-frame" id="box-awakened-techs">
         <div class="box-frame-title">Técnicas Despiertas</div>
         <div class="despiertas-wrapper">
-          
           <div class="awakened-node">
             <div class="awakened-node-title">TÉCNICA PRINCIPAL:</div>
-            <input type="text" id="tech-princ-name" class="awakened-node-input" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
-            <div class="awakened-cost-row">
-              <span>COSTE SMATH:</span>
-              <input type="number" id="tech-princ-cost" value="3" min="0" style="width:40px; padding:2px; text-align:center; font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-              <button type="button" class="btn-use-tech" id="btn-use-awakened-princ" onclick="useAwakenedTech('tech-princ-name', 'tech-princ-cost')">⚡ Usar</button>
+            <input type="text" id="tech-princ-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
+            <div style="font-size:12px; margin-top:4px; display:flex; align-items:center; gap:6px;">
+              COSTE SMATH: <input type="number" id="tech-princ-cost" value="2" min="0" style="width:45px; text-align:center; font-weight:bold; border:1px solid var(--border-dark);" oninput="syncToFirebaseDebounced(1200)">
+              <button type="button" class="btn-use-tech" onclick="useAwakenedTech('tech-princ-name','tech-princ-cost')">⚡ Usar</button>
             </div>
           </div>
-
           <div class="awakened-node">
             <div class="awakened-node-title">TÉCNICA SECUNDARIA I:</div>
-            <input type="text" id="tech-sec1-name" class="awakened-node-input" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
-            <div class="awakened-cost-row">
-              <span>COSTE SMATH:</span>
-              <input type="number" id="tech-sec1-cost" value="2" min="0" style="width:40px; padding:2px; text-align:center; font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-              <button type="button" class="btn-use-tech" id="btn-use-awakened-sec1" onclick="useAwakenedTech('tech-sec1-name', 'tech-sec1-cost')">⚡ Usar</button>
+            <input type="text" id="tech-sec1-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
+            <div style="font-size:12px; margin-top:4px; display:flex; align-items:center; gap:6px;">
+              COSTE SMATH: <input type="number" id="tech-sec1-cost" value="2" min="0" style="width:45px; text-align:center; font-weight:bold; border:1px solid var(--border-dark);" oninput="syncToFirebaseDebounced(1200)">
+              <button type="button" class="btn-use-tech" onclick="useAwakenedTech('tech-sec1-name','tech-sec1-cost')">⚡ Usar</button>
             </div>
           </div>
-
           <div class="awakened-node">
             <div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div>
-            <input type="text" id="tech-sec2-name" class="awakened-node-input" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
-            <div class="awakened-cost-row">
-              <span>COSTE SMATH:</span>
-              <input type="number" id="tech-sec2-cost" value="2" min="0" style="width:40px; padding:2px; text-align:center; font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-              <button type="button" class="btn-use-tech" id="btn-use-awakened-sec2" onclick="useAwakenedTech('tech-sec2-name', 'tech-sec2-cost')">⚡ Usar</button>
+            <input type="text" id="tech-sec2-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
+            <div style="font-size:12px; margin-top:4px; display:flex; align-items:center; gap:6px;">
+              COSTE SMATH: <input type="number" id="tech-sec2-cost" value="2" min="0" style="width:45px; text-align:center; font-weight:bold; border:1px solid var(--border-dark);" oninput="syncToFirebaseDebounced(1200)">
+              <button type="button" class="btn-use-tech" onclick="useAwakenedTech('tech-sec2-name','tech-sec2-cost')">⚡ Usar</button>
             </div>
           </div>
-
           <div class="awakened-node">
             <div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div>
-            <input type="text" id="tech-sec3-name" class="awakened-node-input" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
-            <div class="awakened-cost-row">
-              <span>COSTE SMATH:</span>
-              <input type="number" id="tech-sec3-cost" value="2" min="0" style="width:40px; padding:2px; text-align:center; font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-              <button type="button" class="btn-use-tech" id="btn-use-awakened-sec3" onclick="useAwakenedTech('tech-sec3-name', 'tech-sec3-cost')">⚡ Usar</button>
+            <input type="text" id="tech-sec3-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
+            <div style="font-size:12px; margin-top:4px; display:flex; align-items:center; gap:6px;">
+              COSTE SMATH: <input type="number" id="tech-sec3-cost" value="2" min="0" style="width:45px; text-align:center; font-weight:bold; border:1px solid var(--border-dark);" oninput="syncToFirebaseDebounced(1200)">
+              <button type="button" class="btn-use-tech" onclick="useAwakenedTech('tech-sec3-name','tech-sec3-cost')">⚡ Usar</button>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -2729,8 +2628,8 @@
           'status-stun-turns': '', 'status-sellado-turns': '', 'status-petrificado-turns': '',
           'status-mareado-turns': '', 'status-veneno-turns': '', 'status-sangrado-turns': '',
           'status-curacion-turns': '', 'status-infectado-turns': '', 'status-custom-turns': '',
-          'tech-princ-name': '', 'tech-princ-cost': 3, 'tech-sec1-name': '', 'tech-sec1-cost': 2,
-          'tech-sec2-name': '', 'tech-sec2-cost': 2, 'tech-sec3-name': '', 'tech-sec3-cost': 2
+          'tech-princ-name': '', 'tech-princ-cost': '2', 'tech-sec1-name': '', 'tech-sec1-cost': '2',
+          'tech-sec2-name': '', 'tech-sec2-cost': '2', 'tech-sec3-name': '', 'tech-sec3-cost': '2'
         },
         checkboxes: {
           'world-wish-1': false, 'world-wish-2': false,
@@ -2741,7 +2640,7 @@
         essenceMode: 'none',
         aspects: { ofensiva: 0, defensiva: 0, tactica: 0, asistencia: 0, singular: 0 },
         weapons: [
-          { id: 'w_' + Date.now(), name: 'Puños', baseDmg: 0, lastRoll: '-', lastDmg: '-' }
+          { id: 'w_' + Date.now(), name: 'Espada Vampira', baseDmg: 20, lastRoll: '-', lastDmg: '-' }
         ],
         archLevels: { impulsor: 0, controlador: 0, perpetuador: 0, proyector: 0, evocador: 0, conmutador: 0 },
         techniques: [
@@ -2757,7 +2656,9 @@
         lastRoll: '-',
         lastInit: '-',
         lastD20Crit: '-',
-        lastTech: '-',
+        turnAttacks: [],
+        turnTechniques: [],
+        isConcentrado: false,
         confirmedWish: null
       };
     }
@@ -2783,7 +2684,6 @@
       ofensiva: 0, defensiva: 0, tactica: 0, asistencia: 0, singular: 0
     };
     let currentEssenceMode = 'none';
-    let activeEssence = 0;
 
     let toastTimer = null;
     function showToast(text) {
@@ -2893,7 +2793,6 @@
         showToast('⚠️ Escribe el cambio que deseas imponer en el mundo.');
         return;
       }
-
       const pdata = allPlayersData[activeRole];
       if (!pdata) return;
 
@@ -2933,6 +2832,31 @@
       }
     }
 
+    function toggleConcentradoAction() {
+      const pdata = allPlayersData[activeRole];
+      if (!pdata) return;
+
+      pdata.isConcentrado = !pdata.isConcentrado;
+      updateConcentradoButtonUI();
+      syncToFirebaseDebounced();
+      showToast(pdata.isConcentrado ? '🧘 Modo Concentrado activado para este turno.' : '🧘 Concentración desactivada.');
+    }
+
+    function updateConcentradoButtonUI() {
+      const btn = document.getElementById('btn-toggle-conc');
+      if (!btn) return;
+      const isConc = allPlayersData[activeRole]?.isConcentrado || false;
+      if (isConc) {
+        btn.style.background = '#0284c7';
+        btn.style.borderColor = '#38bdf8';
+        btn.innerText = '🧘 Concentrado ✓';
+      } else {
+        btn.style.background = '#1e3a8a';
+        btn.style.borderColor = '#3b82f6';
+        btn.innerText = '🧘 Concentrarse';
+      }
+    }
+
     function restoreFullHp() {
       const maxTot = document.getElementById('stat-hp-max-total')?.innerText || '0';
       const currInput = document.getElementById('stat-hp-curr');
@@ -2945,7 +2869,6 @@
       const maxTot = document.getElementById('stat-smath-max-total')?.innerText || '0';
       const currInput = document.getElementById('stat-smath-curr');
       if (currInput) currInput.value = maxTot;
-      recalcAllAutoStats();
       syncToFirebaseDebounced();
       showToast('⚡ Smath restablecido al máximo.');
     }
@@ -2975,7 +2898,7 @@
       showToast('🧹 Estados, valores y turnos eliminados.');
     }
 
-    function gmDirectHpChange(pid, isHeal) {
+function gmDirectHpChange(pid, isHeal) {
       const input = document.getElementById(`gm-hp-amt-${pid}`);
       const val = parseInt(input?.value) || 0;
       if (val <= 0) return;
@@ -3165,7 +3088,9 @@
         pdata.lastRoll = '-';
         pdata.lastD20Crit = '-';
         pdata.lastInit = '-';
-        pdata.lastTech = '-';
+        pdata.turnAttacks = [];
+        pdata.turnTechniques = [];
+        pdata.isConcentrado = false;
 
         pInputs['stat-hp-curr'] = currHp;
         pInputs['stat-smath-curr'] = currSmath;
@@ -3174,10 +3099,11 @@
       const initTag = document.getElementById('stat-init-total');
       if (initTag) initTag.innerText = '-';
 
+      updateConcentradoButtonUI();
       saveActivePlayerToCloud(true);
       if (activeRole === 'gm') renderGMDashboard();
       else if (allPlayersData[activeRole]) applyDataToForm(allPlayersData[activeRole]);
-      showToast('⏳ Turno avanzado: Estados resueltos, turnos restados y técnicas/dados limpiados.');
+      showToast('⏳ Turno avanzado: Estados resueltos, turnos restados y acciones reseteadas.');
     }
 
     function updateSenderSelect() {
@@ -3341,7 +3267,6 @@
       });
     }
 
-    // ARMAS DINÁMICAS
     function addWeaponRow(id = null, name = 'Arma', baseDmg = 15, lastRoll = '-', lastDmg = '-') {
       const container = document.getElementById('weapons-container');
       const wId = id || ('w_' + Date.now());
@@ -3430,6 +3355,10 @@
       });
 
       if (activeRole !== 'gm' && allPlayersData[activeRole]) {
+        if (!Array.isArray(allPlayersData[activeRole].turnAttacks)) {
+          allPlayersData[activeRole].turnAttacks = [];
+        }
+        allPlayersData[activeRole].turnAttacks.push(`${wName}: d ${roll} (${finalDmg} daño)`);
         allPlayersData[activeRole].lastRoll = `${wName}: d ${roll} (${finalDmg} daño)`;
         saveActivePlayerToCloud(true);
       }
@@ -3509,39 +3438,10 @@
       }
     }
 
-    function toggleEssence(lvl) {
-      if (activeEssence === lvl) activeEssence = lvl - 1;
-      else activeEssence = lvl;
-
-      for (let i = 1; i <= 15; i++) {
-        const el = document.getElementById('seal-' + i);
-        if (el) {
-          if (i <= activeEssence) el.classList.add('active');
-          else el.classList.remove('active');
-        }
-      }
-
-      // Desactivar modos si bajamos de grado requerido
-      if (activeEssence < 4 && currentEssenceMode === 'despierta') {
-        currentEssenceMode = 'none';
-        const dEl = document.getElementById('essence-mode-despierta');
-        if (dEl) dEl.checked = false;
-      }
-      if (activeEssence < 7 && currentEssenceMode === 'manifestada') {
-        currentEssenceMode = 'none';
-        const mEl = document.getElementById('essence-mode-manifestada');
-        if (mEl) mEl.checked = false;
-      }
-
-      recalcAllAutoStats();
-      syncToFirebaseDebounced();
-    }
-
     function toggleEssenceActivation(mode) {
       const modes = ['despierta', 'manifestada', 'trascendida', 'ascendida'];
       const clickedEl = document.getElementById(`essence-mode-${mode}`);
 
-      // Validar si el nivel de esencia desbloquea el modo
       if (clickedEl && clickedEl.checked) {
         if (mode === 'despierta' && activeEssence < 4) {
           showToast('⚠️ Requiere al menos Grado 4 (Despierta).');
@@ -3576,7 +3476,6 @@
         });
       }
 
-      // Descuento de Smath inicial (1 para Despierta, 2 para Manifestada)
       if (newMode === 'despierta' && currentEssenceMode !== 'despierta') {
         const smathInput = document.getElementById('stat-smath-curr');
         let curSmath = parseFloat(smathInput?.value) || 0;
@@ -3650,34 +3549,28 @@
       const asiLvl = aspectState.asistencia || 0;
       const sinLvl = aspectState.singular || 0;
 
-      // Multiplicadores según grado alcanzado en sellos (1 al 15)
       let asiMultiplier = 0;
       let sinMultiplier = 0;
 
       if (activeEssence >= 7) {
-        // Grados 7 al 9 (y superiores): Manifiesta
         asiMultiplier = 3;
         sinMultiplier = 3;
       } else if (activeEssence >= 4) {
-        // Grados 4 al 6: Despierta
         asiMultiplier = 2;
         sinMultiplier = 2;
       } else {
-        // Grados 1 al 3: Latente
         asiMultiplier = 0;
         sinMultiplier = 0;
       }
 
-      // PUNTOS DE TÉCNICA (PT) TOTALES
-      const asiBonusPT = asiLvl * asiMultiplier;
-      const totalPT = (activeEssence * 2) + asiBonusPT;
+      const totalTechPts = (activeEssence * 2) + (asiLvl * asiMultiplier);
       const aspectConcBonus = sinLvl * sinMultiplier;
 
       const sumPass = document.getElementById('summary-aspect-passives');
       const sumDesp = document.getElementById('summary-bonus-despierta');
       const sumMani = document.getElementById('summary-bonus-manifestada');
       if (sumPass) {
-        sumPass.innerText = `Defensa HP +${defLvl * 20}% | Puntos Téc: +${asiBonusPT} PT | Conc +${aspectConcBonus}`;
+        sumPass.innerText = `Defensa HP +${defLvl * 20}% | Puntos Téc: ${totalTechPts} | Conc +${aspectConcBonus}`;
       }
       if (sumDesp) {
         sumDesp.innerText = `Daño +${ofeLvl * 5}% | +${defLvl * 1} PD | +${tacLvl * 1} Crítico`;
@@ -3745,101 +3638,106 @@
       document.getElementById('pts-obtenidos-total').innerText = totalPhObt;
 
       updateSkillsAndPoints(totalPhObt);
-      updateTechniquePoints(totalPT);
+      updateTechPoints(totalTechPts);
 
-      // Resaltado visual de Técnicas Despiertas según modo
-      const awakenedBox = document.getElementById('awakened-main-box');
+      const awakenedBox = document.getElementById('box-awakened-techs');
       if (awakenedBox) {
         if (currentEssenceMode === 'despierta' || currentEssenceMode === 'manifestada') {
-          awakenedBox.classList.add('active-awakened-mode');
+          awakenedBox.classList.add('awakened-active');
         } else {
-          awakenedBox.classList.remove('active-awakened-mode');
+          awakenedBox.classList.remove('awakened-active');
         }
       }
 
-      // Bloqueo visual de botones de técnicas si falta Smath
-      updateTechniqueButtonsState();
-    }
-
-    function updateTechniqueButtonsState() {
-      const smathCurr = parseFloat(document.getElementById('stat-smath-curr')?.value) || 0;
-
-      // Técnicas comunes
+      const curSmathVal = parseFloat(document.getElementById('stat-smath-curr')?.value) || 0;
       document.querySelectorAll('#techniques-body tr').forEach(row => {
-        const costInput = row.querySelector('.tech-cost-input');
+        const cost = parseInt(row.querySelector('.tech-cost-input')?.value) || 0;
         const btn = row.querySelector('.btn-use-tech');
-        const cost = parseFloat(costInput?.value) || 0;
-        if (btn) {
-          if (smathCurr < cost) btn.classList.add('disabled');
-          else btn.classList.remove('disabled');
-        }
-      });
-
-      // Técnicas despiertas
-      const awakenedMap = [
-        { costId: 'tech-princ-cost', btnId: 'btn-use-awakened-princ' },
-        { costId: 'tech-sec1-cost', btnId: 'btn-use-awakened-sec1' },
-        { costId: 'tech-sec2-cost', btnId: 'btn-use-awakened-sec2' },
-        { costId: 'tech-sec3-cost', btnId: 'btn-use-awakened-sec3' }
-      ];
-
-      awakenedMap.forEach(item => {
-        const cVal = parseFloat(document.getElementById(item.costId)?.value) || 0;
-        const btn = document.getElementById(item.btnId);
-        if (btn) {
-          if (smathCurr < cVal) btn.classList.add('disabled');
-          else btn.classList.remove('disabled');
-        }
+        if (btn) btn.disabled = (curSmathVal < cost);
       });
     }
 
-    function updateTechniquePoints(totalPT) {
+    function updateTechPoints(totalPts = null) {
+      if (totalPts === null) {
+        const asiLvl = aspectState.asistencia || 0;
+        let asiMultiplier = activeEssence >= 7 ? 3 : (activeEssence >= 4 ? 2 : 0);
+        totalPts = (activeEssence * 2) + (asiLvl * asiMultiplier);
+      }
+
       let spent = 0;
       const rows = document.querySelectorAll('#techniques-body tr');
-      rows.forEach((row, index) => {
-        const isBaseFree = (index < 2);
+      rows.forEach((row, idx) => {
         const l1 = row.querySelector('.tech-row-lvl1')?.checked || false;
         const l2 = row.querySelector('.tech-row-lvl2')?.checked || false;
         const l3 = row.querySelector('.tech-row-lvl3')?.checked || false;
 
-        if (isBaseFree) {
-          // N1 es gratis (0 PT)
+        if (idx < 2) {
           if (l2) spent += 1;
           if (l3) spent += 1;
         } else {
-          // A partir de la fila 3: N1 cuesta 2 PT
           if (l1) spent += 2;
           if (l2) spent += 1;
           if (l3) spent += 1;
         }
       });
 
-      const rem = totalPT - spent;
-      document.getElementById('pts-tech-total').innerText = totalPT;
-      document.getElementById('pts-tech-spent').innerText = spent;
-      const remEl = document.getElementById('pts-tech-remaining');
+      const rem = totalPts - spent;
+      document.getElementById('tech-pts-total').innerText = totalPts;
+      document.getElementById('tech-pts-spent').innerText = spent;
+      const remEl = document.getElementById('tech-pts-rem');
       if (remEl) {
         remEl.innerText = rem;
         remEl.style.color = rem < 0 ? '#b91c1c' : '#166534';
       }
     }
 
-    function handleTechLvlCascade(chk, lvl) {
-      const row = chk.closest('tr');
-      const l1 = row.querySelector('.tech-row-lvl1');
-      const l2 = row.querySelector('.tech-row-lvl2');
-      const l3 = row.querySelector('.tech-row-lvl3');
+    function getActiveActionsList(chk = {}) {
+      const acts = [];
+      if (chk['act-atacar']) acts.push('⚔️ Atacar');
+      if (chk['act-conc-1'] && chk['act-conc-2']) acts.push('🧘 Concentrarse x2');
+      else if (chk['act-conc-1'] || chk['act-conc-2']) acts.push('🧘 Concentrarse x1');
+      if (chk['act-def']) acts.push('🛡️ Defenderse');
+      if (chk['act-desp-1'] && chk['act-desp-2']) acts.push('🏃 Desplazarse x2');
+      else if (chk['act-desp-1'] || chk['act-desp-2']) acts.push('🏃 Desplazarse x1');
+      if (chk['act-mot-1']) acts.push('🔥 Motivación (3 Sm)');
+      if (chk['act-mot-2']) acts.push('🔥 Motivación (5 Sm)');
+      return acts;
+    }
 
-      if (chk.checked) {
-        if (lvl === 3) { if (l1) l1.checked = true; if (l2) l2.checked = true; }
-        else if (lvl === 2) { if (l1) l1.checked = true; }
-      } else {
-        if (lvl === 1) { if (l2) l2.checked = false; if (l3) l3.checked = false; }
-        else if (lvl === 2) { if (l3) l3.checked = false; }
+    function clearTurnActions() {
+      const actionIds = ['act-atacar', 'act-conc-1', 'act-conc-2', 'act-def', 'act-desp-1', 'act-desp-2', 'act-mot-1', 'act-mot-2'];
+      actionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.checked = false;
+      });
+
+      if (allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastRoll = '-';
+        allPlayersData[activeRole].lastD20Crit = '-';
+        allPlayersData[activeRole].lastInit = '-';
+        allPlayersData[activeRole].turnAttacks = [];
+        allPlayersData[activeRole].turnTechniques = [];
+        allPlayersData[activeRole].isConcentrado = false;
       }
 
-      recalcAllAutoStats();
+      const initTag = document.getElementById('stat-init-total');
+      if (initTag) initTag.innerText = '-';
+
+      updateConcentradoButtonUI();
       syncToFirebaseDebounced();
+      showToast('🧹 Acciones, concentración e historial de turno limpiados.');
+    }
+
+    function addPassiveRow(text = '') {
+      const container = document.getElementById('passives-list-container');
+      const item = document.createElement('div');
+      item.className = 'passive-entry-item';
+      item.innerHTML = `
+        <textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(text)}</textarea>
+        <button type="button" class="btn-del-passive" onclick="this.closest('.passive-entry-item').remove(); syncToFirebaseDebounced();" title="Eliminar pasiva">✖</button>
+      `;
+      container.appendChild(item);
+      item.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
     }
 
     function useTechnique(btn) {
@@ -3859,8 +3757,10 @@
       currSmath -= cost;
       if (smathInput) smathInput.value = currSmath;
 
-      if (allPlayersData[activeRole]) {
-        allPlayersData[activeRole].lastTech = techName;
+      const pdata = allPlayersData[activeRole];
+      if (pdata) {
+        if (!Array.isArray(pdata.turnTechniques)) pdata.turnTechniques = [];
+        pdata.turnTechniques.push(techName);
       }
 
       recalcAllAutoStats();
@@ -3869,73 +3769,58 @@
     }
 
     function useAwakenedTech(nameId, costId) {
-      const name = document.getElementById(nameId)?.value.trim() || 'Técnica Despierta';
-      const cost = parseInt(document.getElementById(costId)?.value) || 0;
+      const nameInput = document.getElementById(nameId);
+      const costInput = document.getElementById(costId);
+      const techName = nameInput?.value.trim() || 'Técnica Despierta';
+      const cost = parseInt(costInput?.value) || 0;
 
       const smathInput = document.getElementById('stat-smath-curr');
       let currSmath = parseInt(smathInput?.value) || 0;
 
       if (currSmath < cost) {
-        showToast(`⚠️ No tienes suficiente Smath para usar "${name}" (requiere ${cost}).`);
+        showToast(`⚠️ No tienes suficiente Smath para "${techName}" (requiere ${cost}).`);
         return;
       }
 
       currSmath -= cost;
       if (smathInput) smathInput.value = currSmath;
 
-      if (allPlayersData[activeRole]) {
-        allPlayersData[activeRole].lastTech = name;
+      const pdata = allPlayersData[activeRole];
+      if (pdata) {
+        if (!Array.isArray(pdata.turnTechniques)) pdata.turnTechniques = [];
+        pdata.turnTechniques.push(techName);
       }
 
       recalcAllAutoStats();
       syncToFirebaseDebounced();
-      showToast(`⚡ Usaste "${name}" (-${cost} Smath)`);
+      showToast(`⚡ Usaste "${techName}" (-${cost} Smath)`);
     }
 
-    function clearTurnActions() {
-      const actionIds = ['act-atacar', 'act-conc-1', 'act-conc-2', 'act-def', 'act-desp-1', 'act-desp-2', 'act-mot-1', 'act-mot-2'];
-      actionIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.checked = false;
-      });
+    function handleTechLevelClick(row, lvlClicked, isChecked) {
+      const chk1 = row.querySelector('.tech-row-lvl1');
+      const chk2 = row.querySelector('.tech-row-lvl2');
+      const chk3 = row.querySelector('.tech-row-lvl3');
 
-      if (allPlayersData[activeRole]) {
-        allPlayersData[activeRole].lastRoll = '-';
-        allPlayersData[activeRole].lastD20Crit = '-';
-        allPlayersData[activeRole].lastInit = '-';
-        allPlayersData[activeRole].lastTech = '-';
+      if (lvlClicked === 1) {
+        if (!isChecked) {
+          if (chk2) chk2.checked = false;
+          if (chk3) chk3.checked = false;
+        }
+      } else if (lvlClicked === 2) {
+        if (isChecked) {
+          if (chk1) chk1.checked = true;
+        } else {
+          if (chk3) chk3.checked = false;
+        }
+      } else if (lvlClicked === 3) {
+        if (isChecked) {
+          if (chk1) chk1.checked = true;
+          if (chk2) chk2.checked = true;
+        }
       }
 
-      const initTag = document.getElementById('stat-init-total');
-      if (initTag) initTag.innerText = '-';
-
+      updateTechPoints();
       syncToFirebaseDebounced();
-      showToast('🧹 Acciones, dados y técnica activa del turno limpiados.');
-    }
-
-    function getActiveActionsList(chk = {}) {
-      const acts = [];
-      if (chk['act-atacar']) acts.push('⚔️ Atacar');
-      if (chk['act-conc-1'] && chk['act-conc-2']) acts.push('🧘 Concentrarse x2');
-      else if (chk['act-conc-1'] || chk['act-conc-2']) acts.push('🧘 Concentrarse x1');
-      if (chk['act-def']) acts.push('🛡️ Defenderse');
-      if (chk['act-desp-1'] && chk['act-desp-2']) acts.push('🏃 Desplazarse x2');
-      else if (chk['act-desp-1'] || chk['act-desp-2']) acts.push('🏃 Desplazarse x1');
-      if (chk['act-mot-1']) acts.push('🔥 Motivación (3 Sm)');
-      if (chk['act-mot-2']) acts.push('🔥 Motivación (5 Sm)');
-      return acts;
-    }
-
-    function addPassiveRow(text = '') {
-      const container = document.getElementById('passives-list-container');
-      const item = document.createElement('div');
-      item.className = 'passive-entry-item';
-      item.innerHTML = `
-        <textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(text)}</textarea>
-        <button type="button" class="btn-del-passive" onclick="this.closest('.passive-entry-item').remove(); syncToFirebaseDebounced();" title="Eliminar pasiva">✖</button>
-      `;
-      container.appendChild(item);
-      item.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
     }
 
     db.ref('.info/connected').on('value', snap => {
@@ -4041,7 +3926,10 @@
     }
 
     function saveActivePlayerToCloud(silent = false) {
-      if (!isCloudInitialized) return;
+      if (!isCloudInitialized) {
+        console.warn("Guardado bloqueado: esperando datos iniciales de Firebase.");
+        return;
+      }
 
       lastLocalSaveTime = Date.now();
 
@@ -4170,12 +4058,11 @@
 
         const icon = pInputs['char-icon'] || '⚔️';
         const charName = pInputs['char-name'] || `Jugador ${idx + 1}`;
-        const hpCurr = pInputs['stat-hp-curr'] || '0';
-        const roll = pdata.lastRoll || '-';
+        const hpCurr = parseFloat(pInputs['stat-hp-curr']) || 0;
+        const smCurr = parseFloat(pInputs['stat-smath-curr']) || 0;
         const crit = pdata.lastD20Crit || '-';
         const init = pdata.lastInit || '-';
-        const tech = pdata.lastTech || '-';
-        
+
         const essenceLvl = pdata.essence || 0;
         const essenceTier = getEssenceTierName(essenceLvl);
         const essenceDisplay = essenceLvl > 0 ? `${essenceLvl} (${essenceTier})` : '-';
@@ -4191,25 +4078,51 @@
           bPc += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].pc;
           bPd += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].pd;
         });
+
         const baseHp = (parseFloat(pInputs['stat-hp-max-base']) || 0) + bHp;
         const defLvl = pdata.aspects?.defensiva || 0;
         let hpMaxTot = baseHp + Math.round(baseHp * (0.20 * defLvl));
         if (pdata.essenceMode === 'despierta') hpMaxTot += Math.round(hpMaxTot * 0.50);
         else if (pdata.essenceMode === 'manifestada') hpMaxTot += Math.round(hpMaxTot * 1.00);
+        hpMaxTot = Math.max(1, hpMaxTot);
 
-        const smCurr = pInputs['stat-smath-curr'] || '0';
-        const smMaxTot = (parseFloat(pInputs['stat-smath-max-base']) || 0) + bSmath;
+        const smMaxTot = Math.max(1, (parseFloat(pInputs['stat-smath-max-base']) || 0) + bSmath);
         const pcTot = (parseFloat(pInputs['stat-pc-base']) || 0) + bPc;
         const pdTot = (parseFloat(pInputs['stat-pd-base']) || 0) + bPd;
 
+        const hpPct = Math.min(100, Math.max(0, (hpCurr / hpMaxTot) * 100));
+        const smPct = Math.min(100, Math.max(0, (smCurr / smMaxTot) * 100));
+
         const activeActs = getActiveActionsList(pChecks);
-        let actionsBadgesHtml = '<span style="color:#777; font-size:12px; font-style:italic;">Sin acciones</span>';
+        let actionsBadgesHtml = '';
+        if (pdata.isConcentrado) {
+          actionsBadgesHtml += `<span class="badge-concentrado-panel">🧘 CONCENTRADO</span> `;
+        }
         if (activeActs.length > 0) {
-          actionsBadgesHtml = activeActs.map(act => {
+          actionsBadgesHtml += activeActs.map(act => {
             const isMot = act.includes('Motivación');
             return `<span class="gm-action-badge ${isMot ? 'mot' : ''}">${escapeHtml(act)}</span>`;
           }).join('');
         }
+        if (!actionsBadgesHtml) {
+          actionsBadgesHtml = '<span style="color:#777; font-size:12px; font-style:italic;">Sin acciones</span>';
+        }
+
+        const attacks = Array.isArray(pdata.turnAttacks) && pdata.turnAttacks.length > 0
+          ? pdata.turnAttacks
+          : (pdata.lastRoll && pdata.lastRoll !== '-' ? [pdata.lastRoll] : []);
+
+        let attacksRowsHtml = attacks.length > 0
+          ? attacks.map(atk => `<div class="gm-stacked-row"><span style="font-weight:bold; color:#731e0b;">🎲 Ataque:</span> <span style="color:var(--txt-red); font-weight:bold;">${escapeHtml(atk)}</span></div>`).join('')
+          : `<div class="gm-stacked-row"><span style="font-weight:bold;">🎲 Ataque:</span> <span style="color:#777; font-style:italic;">Sin ataque</span></div>`;
+
+        const techniques = Array.isArray(pdata.turnTechniques) ? pdata.turnTechniques : [];
+        let techRowsHtml = techniques.map(tName => `
+          <div class="gm-stacked-row">
+            <span style="font-weight:bold; color:#d97706;">⚡ Técnica:</span>
+            <b style="color:#78350f;">${escapeHtml(tName)}</b>
+          </div>
+        `).join('');
 
         const statusBadges = [];
         if (pChecks['status-stun']) statusBadges.push(`<span class="gm-badge-status gm-badge-stun">⚡ Stun (${pInputs['status-stun-turns']||0}T)</span>`);
@@ -4224,39 +4137,7 @@
           const cVal = pInputs['status-custom-val'] ? ` (${pInputs['status-custom-val']})` : '';
           statusBadges.push(`<span class="gm-badge-status gm-badge-custom">🏷️ ${escapeHtml(pInputs['status-custom-name'])}${escapeHtml(cVal)} [${pInputs['status-custom-turns']||0}T]</span>`);
         }
-
         let statusBadgesHtml = statusBadges.length > 0 ? statusBadges.join('') : '<span style="color:#777; font-size:12px; font-style:italic;">Normal</span>';
-
-        let confirmedWishHtml = '';
-        if (pdata.confirmedWish && pdata.confirmedWish.text) {
-          confirmedWishHtml = `
-            <div class="gm-wish-container">
-              <span style="font-weight:bold; font-size:11.5px; color:#581c87;">🌌 Deseo Impuesto Activo:</span>
-              <div class="gm-wish-item">"${escapeHtml(pdata.confirmedWish.text)}" <small>(${pdata.confirmedWish.time})</small></div>
-            </div>
-          `;
-        }
-
-        let passivesHtml = '';
-        const playerPassives = pdata.passives || [];
-        if (playerPassives.length > 0) {
-          const passivesItems = playerPassives.map(pas => `
-            <div class="gm-passive-item">
-              <span style="font-weight:bold; color:#731e0b;">📜</span> ${escapeHtml(pas)}
-            </div>
-          `).join('');
-
-          passivesHtml = `
-            <div class="gm-passives-wrap">
-              <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Pasivas:</span>
-              ${passivesItems}
-            </div>
-          `;
-        }
-
-        const attackDisplay = (roll && roll !== '-') ? `<span style="color:var(--txt-red); font-weight:bold;">${roll}</span>` : `<span style="color:#777; font-style:italic;">Sin ataque</span>`;
-        const critDisplay = (crit && crit !== '-') ? `<b style="color:#854d0e;">${crit}</b>` : `<span style="color:#777; font-style:italic;">-</span>`;
-        const techDisplay = (tech && tech !== '-') ? `<b style="color:#731e0b;">${escapeHtml(tech)}</b>` : `<span style="color:#777; font-style:italic;">-</span>`;
 
         const isBoxOpen = (openGmStateBoxId === pid);
         const prefix = `gm-st-${pid}-`;
@@ -4269,23 +4150,30 @@
             <button type="button" onclick="switchRole('${pid}')" style="background:#4a2b13; border:1px solid #bf8a3b; color:#fff; font-size:11px; padding:2px 6px; cursor:pointer; font-family:var(--f-title); border-radius:2px;">Abrir Ficha</button>
           </div>
           <div class="gm-stats-columns">
-            <div class="gm-stat-line"><span>❤️ Resencia:</span> <b>${hpCurr} / ${hpMaxTot}</b></div>
+            <div class="gm-stat-line" style="grid-column: 1 / -1;">
+              <span style="white-space:nowrap; min-width:85px;">❤️ Resencia:</span>
+              <div class="stat-bar-wrap">
+                <div class="stat-bar-track"><div class="stat-bar-fill-hp" style="width:${hpPct}%;"></div></div>
+                <b style="white-space:nowrap;">${hpCurr} / ${hpMaxTot}</b>
+              </div>
+            </div>
+            <div class="gm-stat-line" style="grid-column: 1 / -1;">
+              <span style="white-space:nowrap; min-width:85px;">⚡ Smath:</span>
+              <div class="stat-bar-wrap">
+                <div class="stat-bar-track"><div class="stat-bar-fill-smath" style="width:${smPct}%;"></div></div>
+                <b style="white-space:nowrap;">${smCurr} / ${smMaxTot}</b>
+              </div>
+            </div>
             <div class="gm-stat-line"><span>🗡️ PC / 🛡️ PD:</span> <b>${pcTot} / ${pdTot}</b></div>
-            <div class="gm-stat-line"><span>⚡ Smath:</span> <b>${smCurr} / ${smMaxTot}</b></div>
             <div class="gm-stat-line"><span>✨ Esencia:</span> <b style="color:#731e0b;">${essenceDisplay}</b></div>
             <div class="gm-stat-line"><span>⚡ Iniciativa:</span> <b style="color:#b45309;">${init}</b></div>
-            <div class="gm-stat-line"><span>🎯 Crítico D20:</span> ${critDisplay}</div>
+            <div class="gm-stat-line"><span>🎯 Crítico D20:</span> <b style="color:#854d0e;">${crit}</b></div>
             <div class="gm-stat-line"><span>🌌 Deseos:</span> <b>${totalWishesUsed}/2 Usados</b></div>
             <div class="gm-stat-line"><span>🔥 Modo:</span> <b style="color:#731e0b;">${pdata.essenceMode === 'none' ? 'Inactivo' : pdata.essenceMode.toUpperCase()}</b></div>
             
-            <div class="gm-last-attack-full-row">
-              <span style="font-weight:bold;">🎲 Ataque:</span>
-              ${attackDisplay}
-            </div>
-
-            <div class="gm-stat-line" style="grid-column: 1 / -1; border-top: 1px dashed rgba(0,0,0,0.1); padding-top: 3px;">
-              <span style="font-weight:bold;">⚡ Técnica:</span>
-              ${techDisplay}
+            <div class="gm-stacked-container">
+              ${attacksRowsHtml}
+              ${techRowsHtml}
             </div>
           </div>
           
@@ -4298,47 +4186,14 @@
           </div>
 
           <div class="gm-state-manager-box" id="gm-state-box-${pid}" style="display:${isBoxOpen ? 'grid' : 'none'};" onclick="event.stopPropagation();">
-            <div class="gm-state-inline-item gm-st-stun">
-              <label><input type="checkbox" id="${prefix}stun" ${pChecks['status-stun'] ? 'checked' : ''}> Stun</label>
-              <input type="number" id="${prefix}stun-t" value="${pInputs['status-stun-turns']||''}" placeholder="T" title="Turnos">
-            </div>
-            <div class="gm-state-inline-item gm-st-sellado">
-              <label><input type="checkbox" id="${prefix}sellado" ${pChecks['status-sellado'] ? 'checked' : ''}> Sell</label>
-              <input type="number" id="${prefix}sellado-t" value="${pInputs['status-sellado-turns']||''}" placeholder="T" title="Turnos">
-            </div>
-            <div class="gm-state-inline-item gm-st-petrificado">
-              <label><input type="checkbox" id="${prefix}petrificado" ${pChecks['status-petrificado'] ? 'checked' : ''}> Petr</label>
-              <input type="number" id="${prefix}petrificado-t" value="${pInputs['status-petrificado-turns']||''}" placeholder="T" title="Turnos">
-            </div>
-            <div class="gm-state-inline-item gm-st-mareado">
-              <label><input type="checkbox" id="${prefix}mareado" ${pChecks['status-mareado'] ? 'checked' : ''}> Mar</label>
-              <input type="number" id="${prefix}mareado-t" value="${pInputs['status-mareado-turns']||''}" placeholder="T" title="Turnos">
-            </div>
-            
-            <div class="gm-state-inline-item gm-st-veneno">
-              <label><input type="checkbox" id="${prefix}veneno" ${pChecks['status-veneno'] ? 'checked' : ''}> Ven:</label>
-              <input type="number" id="${prefix}veneno-val" value="${pInputs['status-veneno-val'] || ''}" placeholder="D" title="Daño">
-              <input type="number" id="${prefix}veneno-t" value="${pInputs['status-veneno-turns']||''}" placeholder="T" title="Turnos">
-            </div>
-
-            <div class="gm-state-inline-item gm-st-sangrado">
-              <label><input type="checkbox" id="${prefix}sangrado" ${pChecks['status-sangrado'] ? 'checked' : ''}> Sang:</label>
-              <input type="number" id="${prefix}sangrado-val" value="${pInputs['status-sangrado-val'] || ''}" placeholder="D" title="Daño">
-              <input type="number" id="${prefix}sangrado-t" value="${pInputs['status-sangrado-turns']||''}" placeholder="T" title="Turnos">
-            </div>
-
-            <div class="gm-state-inline-item gm-st-curacion">
-              <label><input type="checkbox" id="${prefix}curacion" ${pChecks['status-curacion'] ? 'checked' : ''}> Cur:</label>
-              <input type="number" id="${prefix}curacion-val" value="${pInputs['status-curacion-val'] || ''}" placeholder="R" title="Regen">
-              <input type="number" id="${prefix}curacion-t" value="${pInputs['status-curacion-turns']||''}" placeholder="T" title="Turnos">
-            </div>
-
-            <div class="gm-state-inline-item gm-st-infectado">
-              <label><input type="checkbox" id="${prefix}infectado" ${pChecks['status-infectado'] ? 'checked' : ''}> Inf:</label>
-              <input type="number" id="${prefix}infectado-val" value="${pInputs['status-infectado-val'] || ''}" placeholder="%" title="Porcentaje">
-              <input type="number" id="${prefix}infectado-t" value="${pInputs['status-infectado-turns']||''}" placeholder="T" title="Turnos">
-            </div>
-
+            <div class="gm-state-inline-item gm-st-stun"><label><input type="checkbox" id="${prefix}stun" ${pChecks['status-stun'] ? 'checked' : ''}> Stun</label><input type="number" id="${prefix}stun-t" value="${pInputs['status-stun-turns']||''}" placeholder="T"></div>
+            <div class="gm-state-inline-item gm-st-sellado"><label><input type="checkbox" id="${prefix}sellado" ${pChecks['status-sellado'] ? 'checked' : ''}> Sell</label><input type="number" id="${prefix}sellado-t" value="${pInputs['status-sellado-turns']||''}" placeholder="T"></div>
+            <div class="gm-state-inline-item gm-st-petrificado"><label><input type="checkbox" id="${prefix}petrificado" ${pChecks['status-petrificado'] ? 'checked' : ''}> Petr</label><input type="number" id="${prefix}petrificado-t" value="${pInputs['status-petrificado-turns']||''}" placeholder="T"></div>
+            <div class="gm-state-inline-item gm-st-mareado"><label><input type="checkbox" id="${prefix}mareado" ${pChecks['status-mareado'] ? 'checked' : ''}> Mar</label><input type="number" id="${prefix}mareado-t" value="${pInputs['status-mareado-turns']||''}" placeholder="T"></div>
+            <div class="gm-state-inline-item gm-st-veneno"><label><input type="checkbox" id="${prefix}veneno" ${pChecks['status-veneno'] ? 'checked' : ''}> Ven:</label><input type="number" id="${prefix}veneno-val" value="${pInputs['status-veneno-val'] || ''}" placeholder="D"><input type="number" id="${prefix}veneno-t" value="${pInputs['status-veneno-turns']||''}" placeholder="T"></div>
+            <div class="gm-state-inline-item gm-st-sangrado"><label><input type="checkbox" id="${prefix}sangrado" ${pChecks['status-sangrado'] ? 'checked' : ''}> Sang:</label><input type="number" id="${prefix}sangrado-val" value="${pInputs['status-sangrado-val'] || ''}" placeholder="D"><input type="number" id="${prefix}sangrado-t" value="${pInputs['status-sangrado-turns']||''}" placeholder="T"></div>
+            <div class="gm-state-inline-item gm-st-curacion"><label><input type="checkbox" id="${prefix}curacion" ${pChecks['status-curacion'] ? 'checked' : ''}> Cur:</label><input type="number" id="${prefix}curacion-val" value="${pInputs['status-curacion-val'] || ''}" placeholder="R"><input type="number" id="${prefix}curacion-t" value="${pInputs['status-curacion-turns']||''}" placeholder="T"></div>
+            <div class="gm-state-inline-item gm-st-infectado"><label><input type="checkbox" id="${prefix}infectado" ${pChecks['status-infectado'] ? 'checked' : ''}> Inf:</label><input type="number" id="${prefix}infectado-val" value="${pInputs['status-infectado-val'] || ''}" placeholder="%"><input type="number" id="${prefix}infectado-t" value="${pInputs['status-infectado-turns']||''}" placeholder="T"></div>
             <button type="button" class="gm-apply-state-btn" onclick="gmApplyStateChanges('${pid}')">✓ OK (Confirmar Estados)</button>
           </div>
 
@@ -4351,9 +4206,6 @@
             <span style="font-weight:bold; font-size:12px; color:var(--border-dark);">Acciones de Turno:</span>
             <div class="gm-actions-badges">${actionsBadgesHtml}</div>
           </div>
-
-          ${confirmedWishHtml}
-          ${passivesHtml}
         `;
         cardsGrid.appendChild(card);
       });
@@ -4458,8 +4310,11 @@
     }
 
     function handleAspectClick(asp, index, isChecked) {
-      if (isChecked) aspectState[asp] = index;
-      else aspectState[asp] = index - 1;
+      if (isChecked) {
+        aspectState[asp] = index;
+      } else {
+        aspectState[asp] = index - 1;
+      }
       renderAspectDiamonds(asp);
       recalcAllAutoStats();
       syncToFirebaseDebounced();
@@ -4550,9 +4405,9 @@
         </td>
         <td>
           <div class="lvl-checkboxes">
-            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''} onchange="handleTechLvlCascade(this, 1)">
-            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''} onchange="handleTechLvlCascade(this, 2)">
-            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''} onchange="handleTechLvlCascade(this, 3)">
+            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''} onclick="handleTechLevelClick(this.closest('tr'), 1, this.checked)">
+            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''} onclick="handleTechLevelClick(this.closest('tr'), 2, this.checked)">
+            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''} onclick="handleTechLevelClick(this.closest('tr'), 3, this.checked)">
           </div>
         </td>
         <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); recalcAllAutoStats(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
@@ -4560,6 +4415,34 @@
       tbody.appendChild(tr);
       tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
       recalcAllAutoStats();
+    }
+
+    let activeEssence = 0;
+    function toggleEssence(lvl) {
+      if (activeEssence === lvl) activeEssence = lvl - 1;
+      else activeEssence = lvl;
+
+      for (let i = 1; i <= 15; i++) {
+        const el = document.getElementById('seal-' + i);
+        if (el) {
+          if (i <= activeEssence) el.classList.add('active');
+          else el.classList.remove('active');
+        }
+      }
+
+      if (activeEssence < 4 && currentEssenceMode === 'despierta') {
+        currentEssenceMode = 'none';
+        const dEl = document.getElementById('essence-mode-despierta');
+        if (dEl) dEl.checked = false;
+      }
+      if (activeEssence < 7 && currentEssenceMode === 'manifestada') {
+        currentEssenceMode = 'none';
+        const mEl = document.getElementById('essence-mode-manifestada');
+        if (mEl) mEl.checked = false;
+      }
+
+      recalcAllAutoStats();
+      syncToFirebaseDebounced();
     }
 
     function addInventoryRow(name = '', qty = '', weight = '', desc = '') {
@@ -4604,7 +4487,9 @@
         lastRoll: allPlayersData[activeRole]?.lastRoll || '-',
         lastInit: allPlayersData[activeRole]?.lastInit || '-',
         lastD20Crit: allPlayersData[activeRole]?.lastD20Crit || '-',
-        lastTech: allPlayersData[activeRole]?.lastTech || '-',
+        turnAttacks: Array.isArray(allPlayersData[activeRole]?.turnAttacks) ? allPlayersData[activeRole].turnAttacks : [],
+        turnTechniques: Array.isArray(allPlayersData[activeRole]?.turnTechniques) ? allPlayersData[activeRole].turnTechniques : [],
+        isConcentrado: allPlayersData[activeRole]?.isConcentrado || false,
         confirmedWish: allPlayersData[activeRole]?.confirmedWish || null
       };
 
@@ -4742,6 +4627,8 @@
 
       const critTag = document.getElementById('d20-crit-result-val');
       if (critTag) critTag.innerText = (data.lastD20Crit && data.lastD20Crit !== '-') ? data.lastD20Crit : '-';
+
+      updateConcentradoButtonUI();
 
       document.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
       recalcAllAutoStats();
