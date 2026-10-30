@@ -3473,6 +3473,30 @@
       const modes = ['despierta', 'manifestada', 'trascendida', 'ascendida'];
       const clickedEl = document.getElementById(`essence-mode-${mode}`);
 
+      // Validar si el nivel de esencia desbloquea el modo
+      if (clickedEl && clickedEl.checked) {
+        if (mode === 'despierta' && activeEssence < 4) {
+          showToast('⚠️ Requiere al menos Grado 4 (Despierta).');
+          clickedEl.checked = false;
+          return;
+        }
+        if (mode === 'manifestada' && activeEssence < 7) {
+          showToast('⚠️ Requiere al menos Grado 7 (Manifiesta).');
+          clickedEl.checked = false;
+          return;
+        }
+        if (mode === 'trascendida' && activeEssence < 10) {
+          showToast('⚠️ Requiere al menos Grado 10 (Trascendida).');
+          clickedEl.checked = false;
+          return;
+        }
+        if (mode === 'ascendida' && activeEssence < 13) {
+          showToast('⚠️ Requiere al menos Grado 13 (Ascendida).');
+          clickedEl.checked = false;
+          return;
+        }
+      }
+
       let newMode = 'none';
       if (clickedEl && clickedEl.checked) {
         newMode = mode;
@@ -3484,7 +3508,18 @@
         });
       }
 
-      if (newMode === 'manifestada' && currentEssenceMode !== 'manifestada') {
+      // Descuento de Smath inicial (1 para Despierta, 2 para Manifestada)
+      if (newMode === 'despierta' && currentEssenceMode !== 'despierta') {
+        const smathInput = document.getElementById('stat-smath-curr');
+        let curSmath = parseFloat(smathInput?.value) || 0;
+        if (curSmath < 1) {
+          showToast('⚠️ Requiere al menos 1 Smath para activar Despierta.');
+          if (clickedEl) clickedEl.checked = false;
+          return;
+        }
+        curSmath -= 1;
+        if (smathInput) smathInput.value = curSmath;
+      } else if (newMode === 'manifestada' && currentEssenceMode !== 'manifestada') {
         const smathInput = document.getElementById('stat-smath-curr');
         let curSmath = parseFloat(smathInput?.value) || 0;
         if (curSmath < 2) {
@@ -3547,11 +3582,33 @@
       const asiLvl = aspectState.asistencia || 0;
       const sinLvl = aspectState.singular || 0;
 
+      // Escala dinámica según rango alcanzado en círculos (1-15)
+      let asiMultiplier = 0;
+      let sinMultiplier = 0;
+
+      if (activeEssence >= 7) {
+        // Grados 7 al 9 (y superiores): Manifiesta
+        asiMultiplier = 3;
+        sinMultiplier = 3;
+      } else if (activeEssence >= 4) {
+        // Grados 4 al 6: Despierta
+        asiMultiplier = 2;
+        sinMultiplier = 2;
+      } else {
+        // Grados 1 al 3: Latente
+        asiMultiplier = 0;
+        sinMultiplier = 0;
+      }
+
+      const extraSlots = asiLvl * asiMultiplier;
+      const maxTechSlots = 4 + extraSlots;
+      const aspectConcBonus = sinLvl * sinMultiplier;
+
       const sumPass = document.getElementById('summary-aspect-passives');
       const sumDesp = document.getElementById('summary-bonus-despierta');
       const sumMani = document.getElementById('summary-bonus-manifestada');
       if (sumPass) {
-        sumPass.innerText = `Defensa HP +${defLvl * 20}% | Ranuras Téc: ${4 + (asiLvl * 2)} | Conc +${sinLvl * 2}`;
+        sumPass.innerText = `Defensa HP +${defLvl * 20}% | Ranuras Téc: ${maxTechSlots} | Conc +${aspectConcBonus}`;
       }
       if (sumDesp) {
         sumDesp.innerText = `Daño +${ofeLvl * 5}% | +${defLvl * 1} PD | +${tacLvl * 1} Crítico`;
@@ -3602,9 +3659,8 @@
       document.getElementById('stat-smath-bono').innerText = `+${bSmath}`;
       document.getElementById('stat-smath-max-total').innerText = baseSmathMaxVal + bSmath;
 
-      let aspectConcBonus = sinLvl * 2;
       const concEl = document.getElementById('stat-conc');
-      if (concEl && aspectConcBonus > 0 && !concEl.value) {
+      if (concEl) {
         concEl.value = aspectConcBonus;
       }
 
@@ -3621,7 +3677,6 @@
 
       updateSkillsAndPoints(totalPhObt);
 
-      let maxTechSlots = 4 + (asiLvl * 2);
       const curTechCount = document.querySelectorAll('#techniques-body tr').length;
       document.getElementById('tech-slots-used').innerText = curTechCount;
       document.getElementById('tech-slots-max').innerText = maxTechSlots;
@@ -4339,6 +4394,20 @@
           else el.classList.remove('active');
         }
       }
+
+      // Desactivar modos si bajamos de grado requerido
+      if (activeEssence < 4 && currentEssenceMode === 'despierta') {
+        currentEssenceMode = 'none';
+        const dEl = document.getElementById('essence-mode-despierta');
+        if (dEl) dEl.checked = false;
+      }
+      if (activeEssence < 7 && currentEssenceMode === 'manifestada') {
+        currentEssenceMode = 'none';
+        const mEl = document.getElementById('essence-mode-manifestada');
+        if (mEl) mEl.checked = false;
+      }
+
+      recalcAllAutoStats();
       syncToFirebaseDebounced();
     }
 
@@ -4592,7 +4661,7 @@
       });
       document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced(400));
     });
-    <script>
+
   // ============================================================
   // ESENCIA / MODOS / RECALCULO
   // ============================================================
