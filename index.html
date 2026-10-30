@@ -385,7 +385,8 @@
     }
 
     /* MODALES */
-      .modal-backdrop, #hub-modal-backdrop, #history-modal-backdrop, #modal-backdrop, #dice-history-backdrop, #avatar-modal-backdrop, #modal-turn-report, #modal-combat-history {      position: fixed;
+    .modal-backdrop, #hub-modal-backdrop, #history-modal-backdrop, #modal-backdrop, #dice-history-backdrop, #avatar-modal-backdrop, #modal-turn-report, #modal-combat-history {
+      position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0,0,0,0.75);
       display: none;
@@ -2729,7 +2730,7 @@
       </div>
     </div>
 
-  <div id="toast-msg"></div>
+    <div id="toast-msg"></div>
 
   <div class="sheet-container">
 
@@ -2749,20 +2750,6 @@
           <button type="button" class="btn-round-reset" onclick="gmResetRound()" title="Reiniciar ronda a 1">↺</button>
         </div>
       </div>
-
-      <div style="display:flex; align-items:center; gap:8px;">
-        <div class="identity-selector-pill">
-          <label for="client-identity-select">👤 Soy:</label>
-          <select id="client-identity-select" onchange="onIdentityChanged(this.value)">
-            <option value="gm">👑 Master</option>
-          </select>
-        </div>
-        <div class="status-badge">
-          <span class="status-dot" id="live-dot"></span>
-          <span id="live-status-text">Conectando...</span>
-        </div>
-      </div>
-    </div>
 
       <div style="display:flex; align-items:center; gap:8px;">
         <div class="identity-selector-pill">
