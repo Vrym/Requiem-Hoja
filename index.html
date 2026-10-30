@@ -1,11 +1,29 @@
-<!-- ==========================================
-     PARTE 1: ESTRUCTURA HTML COMPLETA
-     RÉQUIEM SMITHNAS - HOJA Y CONSOLA DE COMBATE
-     ========================================== -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réquiem de los Smithnas — Hoja y Consola de Combate</title>
+
+  <!-- LIBRERÍAS OFICIALES DE FIREBASE (OBLIGATORIAS) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <!-- FUENTES Y TIPOGRAFÍAS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=MedievalSharp&display=swap" rel="stylesheet">
+
+  <!-- AQUÍ SE ENLAZA O SE INSERTA EL CSS DE LA PARTE 2 -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
 <div class="sheet-container">
   
-  <!-- 1. BARRA SUPERIOR DE SESIÓN, TURNOS E IDENTIDAD -->
+  <!-- ==========================================
+       1. BARRA SUPERIOR DE SESIÓN, TURNOS E IDENTIDAD
+       ========================================== -->
   <header class="top-session-bar">
     <div class="session-status-wrap">
       <span class="live-indicator">🔥 RÉQUIEM SMITHNAS — SERVIDOR DE MESA</span>
@@ -34,7 +52,9 @@
     </div>
   </header>
 
-  <!-- 2. NAVEGACIÓN PRINCIPAL ENTRE PESTAÑAS -->
+  <!-- ==========================================
+       2. NAVEGACIÓN PRINCIPAL ENTRE PESTAÑAS
+       ========================================== -->
   <nav class="main-nav-tabs">
     <!-- Pestañas Desktop -->
     <div class="role-bar-tabs">
@@ -53,7 +73,9 @@
     </div>
   </nav>
 
-  <!-- 3. HUB DE MENSAJES DE MESA (PLEGABLE) -->
+  <!-- ==========================================
+       3. HUB DE MENSAJES DE MESA (PLEGABLE)
+       ========================================== -->
   <section class="objective-banner">
     <div class="objective-header">
       <span class="objective-header-title collapsible-header" onclick="toggleObjectiveCollapse()">
@@ -74,7 +96,7 @@
         <button type="button" id="btn-unpin-msg" onclick="unpinMessage()" title="Desfijar mensaje">✖</button>
       </div>
 
-      <!-- Últimos Mensajes (Salto de línea automático) -->
+      <!-- Lista de Últimos Mensajes (Salto de línea automático) -->
       <div id="latest-objectives-container" class="latest-objectives-list">
         <div class="objective-row">
           <span class="obj-text placeholder-text">Sin mensajes recientes en la mesa.</span>
@@ -136,7 +158,7 @@
       </div>
     </section>
 
-    <!-- ESTADÍSTICAS DE COMBATE (REDISEÑADAS CON BARRAS Y DELTAS) -->
+    <!-- ESTADÍSTICAS DE COMBATE (REDISEÑADAS CON BARRAS, FORMULA IZQ Y TOTAL DER) -->
     <section class="panel-box combat-stats-panel">
       <h2 class="panel-title-static">ESTADÍSTICAS DE COMBATE</h2>
 
@@ -148,11 +170,11 @@
             <span class="stat-card-title">🗡️ PUNTOS DE COMBATE (PC)</span>
             <div class="stat-card-formula">
               BASE: <input type="number" id="pc-base" class="mini-input editable-input" value="0" onchange="recalculateStats()">
-              <span class="stat-bonus-text">+ BONO: <span id="pc-bonus">+16</span></span>
+              <span class="stat-bonus-text">+ BONO: <span id="pc-bonus">+0</span></span>
             </div>
           </div>
           <div class="stat-card-right">
-            <span class="stat-total-display" id="pc-total-display">16</span>
+            <span class="stat-total-display" id="pc-total-display">0</span>
           </div>
         </div>
 
@@ -162,11 +184,11 @@
             <span class="stat-card-title">🛡️ PUNTOS DE DEFENSA (PD)</span>
             <div class="stat-card-formula">
               BASE: <input type="number" id="pd-base" class="mini-input editable-input" value="0" onchange="recalculateStats()">
-              <span class="stat-bonus-text">+ BONO: <span id="pd-bonus">+32</span></span>
+              <span class="stat-bonus-text">+ BONO: <span id="pd-bonus">+0</span></span>
             </div>
           </div>
           <div class="stat-card-right">
-            <span class="stat-total-display" id="pd-total-display">32</span>
+            <span class="stat-total-display" id="pd-total-display">0</span>
           </div>
         </div>
 
@@ -184,7 +206,7 @@
               <button type="button" class="btn-resource-max" onclick="setResourceToMax('hp')">💖 MAX</button>
               <span class="separator-slash">/</span>
               BASE: <input type="number" id="hp-base" class="mini-input editable-input" value="0" onchange="recalculateStats()">
-              <span class="stat-bonus-text">+ <span id="hp-bonus">216</span></span>
+              <span class="stat-bonus-text">+ <span id="hp-bonus">0</span></span>
             </div>
 
             <!-- Barra de Progreso de Resencia -->
@@ -196,7 +218,7 @@
           <div class="stat-card-right">
             <div class="resource-max-block">
               <span class="resource-max-label">Max:</span>
-              <span class="resource-max-number" id="hp-max-display">216</span>
+              <span class="resource-max-number" id="hp-max-display">0</span>
             </div>
           </div>
         </div>
@@ -214,7 +236,7 @@
               <button type="button" class="btn-resource-max" onclick="setResourceToMax('smath')">⚡ MAX</button>
               <span class="separator-slash">/</span>
               BASE: <input type="number" id="smath-base" class="mini-input editable-input" value="0" onchange="recalculateStats()">
-              <span class="stat-bonus-text">+ <span id="smath-bonus">40</span></span>
+              <span class="stat-bonus-text">+ <span id="smath-bonus">0</span></span>
             </div>
 
             <!-- Barra de Progreso de Smath -->
@@ -226,7 +248,7 @@
           <div class="stat-card-right">
             <div class="resource-max-block">
               <span class="resource-max-label">Max:</span>
-              <span class="resource-max-number" id="smath-max-display">40</span>
+              <span class="resource-max-number" id="smath-max-display">0</span>
             </div>
           </div>
         </div>
@@ -275,7 +297,7 @@
           </div>
           <div class="roll-subpanel-action">
             <button type="button" class="btn-die-d20" onclick="rollInitiative()">🎲 D20</button>
-            <div class="roll-result-text" id="init-result-display">8 (D20: 8)</div>
+            <div class="roll-result-text" id="init-result-display">—</div>
           </div>
         </div>
 
@@ -288,94 +310,16 @@
           </div>
           <div class="roll-subpanel-action">
             <button type="button" class="btn-die-d20 btn-die-target" onclick="rollImpactCrit()">🎯 D20</button>
-            <div class="roll-result-text" id="impact-result-display">7 (D20: 7)</div>
+            <div class="roll-result-text" id="impact-result-display">—</div>
           </div>
         </div>
       </div>
 
       <!-- Contenedor Dinámico de Armas -->
-      <div id="weapons-container" class="weapons-cards-list">
-        
-        <!-- Tarjeta de Arma (Ejemplo activo) -->
-        <div class="weapon-card" data-weapon-id="w1">
-          <div class="weapon-card-top">
-            <input type="text" class="weapon-name-input editable-input" value="Espada Vampira" placeholder="Nombre del arma...">
-            <button type="button" class="btn-delete-card" onclick="deleteWeaponCard('w1')" title="Eliminar arma">✖</button>
-          </div>
-
-          <!-- Selector de Objetivo y Ajuste de Daño Base -->
-          <div class="weapon-target-and-stats">
-            <div class="target-picker-row">
-              <label>🎯 Objetivo:</label>
-              <select class="weapon-target-select">
-                <option value="none">-- Seleccionar Objetivo --</option>
-                <optgroup label="Grupos y Área">
-                  <option value="area_all">💥 Todos los enemigos (Área)</option>
-                  <option value="multi_target">🎯 Múltiples objetivos</option>
-                  <option value="all_table">👥 Toda la mesa (Aliados y Enemigos)</option>
-                </optgroup>
-                <optgroup label="Enemigos Activos" class="optgroup-active-enemies">
-                  <option value="e1">Lobo de Galcia 1 (PD: 14)</option>
-                  <option value="e2">Lobo de Galcia 2 (PD: 14)</option>
-                </optgroup>
-              </select>
-            </div>
-
-            <div class="weapon-calc-row">
-              <div class="calc-item">BASE: <input type="number" class="mini-input weapon-base-val editable-input" value="20" onchange="updateWeaponTotal('w1')"></div>
-              <div class="calc-item">BONO: <span class="weapon-bonus-val">+0</span></div>
-              <div class="calc-item total-item">TOTAL: <strong class="weapon-total-val">20</strong></div>
-            </div>
-          </div>
-
-          <!-- Disparador de Tirada D6 -->
-          <div class="weapon-roll-action-bar">
-            <button type="button" class="btn-roll-d6" onclick="rollWeaponD6('w1')">🎲 Tirar D6</button>
-            <div class="weapon-roll-result-box" id="w1-d6-result">D6: — | Daño: —</div>
-          </div>
-
-          <!-- Tabla de Daño Multiplicador D6 -->
-          <div class="weapon-damage-table-wrap">
-            <table class="damage-matrix-table">
-              <thead>
-                <tr>
-                  <th>TIRADA</th>
-                  <th>1</th>
-                  <th>2</th>
-                  <th>3</th>
-                  <th>4</th>
-                  <th>5</th>
-                  <th>6</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="row-multipliers">
-                  <td>MULT.</td>
-                  <td>-30%</td>
-                  <td>-15%</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>+15%</td>
-                  <td>+30%</td>
-                </tr>
-                <tr class="row-results">
-                  <td>REF.</td>
-                  <td class="w-ref-1">14</td>
-                  <td class="w-ref-2">17</td>
-                  <td class="w-ref-3">20</td>
-                  <td class="w-ref-4">20</td>
-                  <td class="w-ref-5">23</td>
-                  <td class="w-ref-6">26</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
+      <div id="weapons-container" class="weapons-cards-list"></div>
     </section>
 
-    <!-- ARQUETIPOS Y PUNTOS DE HABILIDAD (3 NIVELES Y ROMBOS SEPARADOS) -->
+    <!-- PUNTOS DE HABILIDAD Y ARQUETIPOS (3 NIVELES Y TODAS LAS 25 HABILIDADES) -->
     <section class="panel-box archetypes-section">
       
       <!-- Cabecera de Puntos de Habilidad (3 Niveles Organizados) -->
@@ -394,10 +338,10 @@
         </div>
       </div>
 
-      <!-- Grilla de Arquetipos (5 Columnas/Cajas) -->
+      <!-- Grilla de Arquetipos (5 Bloques con sus 5 habilidades completas) -->
       <div class="archetypes-grid">
 
-        <!-- Arquetipo 1: Impulsor -->
+        <!-- 1. ARQUETIPO: IMPULSOR -->
         <div class="arch-card arch-impulsor">
           <div class="arch-header">
             <span class="arch-title-text">🔥 IMPULSOR</span>
@@ -413,11 +357,85 @@
             </div>
           </div>
           <div class="skills-list" id="skills-list-impulsor">
-            <!-- Filas de habilidades inyectadas dinámicamente o por plantilla -->
+            <!-- Habilidad 1 -->
+            <div class="skill-row" data-arch="impulsor" data-skill="motricidad">
+              <span class="skill-name">Motricidad</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'motricidad', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'motricidad', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'motricidad', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'motricidad', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'motricidad', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'motricidad', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'motricidad', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'motricidad', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-impulsor-motricidad">+0</span>
+            </div>
+            <!-- Habilidad 2 -->
+            <div class="skill-row" data-arch="impulsor" data-skill="reflejos">
+              <span class="skill-name">Reflejos</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'reflejos', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'reflejos', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'reflejos', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'reflejos', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'reflejos', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'reflejos', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'reflejos', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'reflejos', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-impulsor-reflejos">+0</span>
+            </div>
+            <!-- Habilidad 3 -->
+            <div class="skill-row" data-arch="impulsor" data-skill="fuerza_bruta">
+              <span class="skill-name">Fuerza Bruta</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'fuerza_bruta', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'fuerza_bruta', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'fuerza_bruta', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'fuerza_bruta', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'fuerza_bruta', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'fuerza_bruta', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'fuerza_bruta', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'fuerza_bruta', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-impulsor-fuerza_bruta">+0</span>
+            </div>
+            <!-- Habilidad 4 -->
+            <div class="skill-row" data-arch="impulsor" data-skill="atletismo">
+              <span class="skill-name">Atletismo</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'atletismo', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'atletismo', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'atletismo', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'atletismo', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'atletismo', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'atletismo', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'atletismo', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'atletismo', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-impulsor-atletismo">+0</span>
+            </div>
+            <!-- Habilidad 5 -->
+            <div class="skill-row" data-arch="impulsor" data-skill="combate">
+              <span class="skill-name">Combate CaC</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'combate', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'combate', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'combate', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'combate', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'combate', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'combate', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'combate', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('impulsor', 'combate', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-impulsor-combate">+0</span>
+            </div>
           </div>
         </div>
 
-        <!-- Arquetipo 2: Controlador -->
+        <!-- 2. ARQUETIPO: CONTROLADOR -->
         <div class="arch-card arch-controlador">
           <div class="arch-header">
             <span class="arch-title-text">👁️ CONTROLADOR</span>
@@ -432,10 +450,86 @@
               <span class="arch-diamond" onclick="toggleArchetypeDiamond('controlador', 7)"></span>
             </div>
           </div>
-          <div class="skills-list" id="skills-list-controlador"></div>
+          <div class="skills-list" id="skills-list-controlador">
+            <!-- Habilidad 1 -->
+            <div class="skill-row" data-arch="controlador" data-skill="logica">
+              <span class="skill-name">Lógica</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'logica', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'logica', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'logica', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'logica', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'logica', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'logica', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'logica', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'logica', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-controlador-logica">+0</span>
+            </div>
+            <!-- Habilidad 2 -->
+            <div class="skill-row" data-arch="controlador" data-skill="deteccion">
+              <span class="skill-name">Detección</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'deteccion', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'deteccion', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'deteccion', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'deteccion', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'deteccion', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'deteccion', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'deteccion', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'deteccion', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-controlador-deteccion">+0</span>
+            </div>
+            <!-- Habilidad 3 -->
+            <div class="skill-row" data-arch="controlador" data-skill="tactica">
+              <span class="skill-name">Táctica</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'tactica', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'tactica', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'tactica', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'tactica', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'tactica', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'tactica', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'tactica', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'tactica', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-controlador-tactica">+0</span>
+            </div>
+            <!-- Habilidad 4 -->
+            <div class="skill-row" data-arch="controlador" data-skill="analisis">
+              <span class="skill-name">Análisis</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'analisis', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'analisis', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'analisis', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'analisis', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'analisis', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'analisis', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'analisis', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'analisis', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-controlador-analisis">+0</span>
+            </div>
+            <!-- Habilidad 5 -->
+            <div class="skill-row" data-arch="controlador" data-skill="voluntad">
+              <span class="skill-name">Voluntad</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'voluntad', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'voluntad', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'voluntad', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'voluntad', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'voluntad', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'voluntad', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'voluntad', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('controlador', 'voluntad', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-controlador-voluntad">+0</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Arquetipo 3: Perpetuador -->
+        <!-- 3. ARQUETIPO: PERPETUADOR -->
         <div class="arch-card arch-perpetuador">
           <div class="arch-header">
             <span class="arch-title-text">⛰️ PERPETUADOR</span>
@@ -450,10 +544,86 @@
               <span class="arch-diamond" onclick="toggleArchetypeDiamond('perpetuador', 7)"></span>
             </div>
           </div>
-          <div class="skills-list" id="skills-list-perpetuador"></div>
+          <div class="skills-list" id="skills-list-perpetuador">
+            <!-- Habilidad 1 -->
+            <div class="skill-row" data-arch="perpetuador" data-skill="aguante">
+              <span class="skill-name">Aguante</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'aguante', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'aguante', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'aguante', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'aguante', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'aguante', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'aguante', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'aguante', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'aguante', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-perpetuador-aguante">+0</span>
+            </div>
+            <!-- Habilidad 2 -->
+            <div class="skill-row" data-arch="perpetuador" data-skill="vigor">
+              <span class="skill-name">Vigor</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'vigor', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'vigor', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'vigor', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'vigor', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'vigor', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'vigor', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'vigor', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'vigor', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-perpetuador-vigor">+0</span>
+            </div>
+            <!-- Habilidad 3 -->
+            <div class="skill-row" data-arch="perpetuador" data-skill="medicina">
+              <span class="skill-name">Medicina</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'medicina', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'medicina', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'medicina', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'medicina', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'medicina', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'medicina', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'medicina', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'medicina', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-perpetuador-medicina">+0</span>
+            </div>
+            <!-- Habilidad 4 -->
+            <div class="skill-row" data-arch="perpetuador" data-skill="tenacidad">
+              <span class="skill-name">Tenacidad</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'tenacidad', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'tenacidad', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'tenacidad', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'tenacidad', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'tenacidad', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'tenacidad', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'tenacidad', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'tenacidad', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-perpetuador-tenacidad">+0</span>
+            </div>
+            <!-- Habilidad 5 -->
+            <div class="skill-row" data-arch="perpetuador" data-skill="temple">
+              <span class="skill-name">Temple</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'temple', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'temple', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'temple', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'temple', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'temple', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'temple', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'temple', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('perpetuador', 'temple', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-perpetuador-temple">+0</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Arquetipo 4: Proyector -->
+        <!-- 4. ARQUETIPO: PROYECTOR -->
         <div class="arch-card arch-proyector">
           <div class="arch-header">
             <span class="arch-title-text">❇️ PROYECTOR</span>
@@ -468,10 +638,86 @@
               <span class="arch-diamond" onclick="toggleArchetypeDiamond('proyector', 7)"></span>
             </div>
           </div>
-          <div class="skills-list" id="skills-list-proyector"></div>
+          <div class="skills-list" id="skills-list-proyector">
+            <!-- Habilidad 1 -->
+            <div class="skill-row" data-arch="proyector" data-skill="canalizacion">
+              <span class="skill-name">Canalización</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'canalizacion', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'canalizacion', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'canalizacion', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'canalizacion', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'canalizacion', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'canalizacion', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'canalizacion', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'canalizacion', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-proyector-canalizacion">+0</span>
+            </div>
+            <!-- Habilidad 2 -->
+            <div class="skill-row" data-arch="proyector" data-skill="precision">
+              <span class="skill-name">Precisión</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'precision', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'precision', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'precision', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'precision', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'precision', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'precision', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'precision', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'precision', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-proyector-precision">+0</span>
+            </div>
+            <!-- Habilidad 3 -->
+            <div class="skill-row" data-arch="proyector" data-skill="esencia">
+              <span class="skill-name">Proyección</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'esencia', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'esencia', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'esencia', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'esencia', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'esencia', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'esencia', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'esencia', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'esencia', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-proyector-esencia">+0</span>
+            </div>
+            <!-- Habilidad 4 -->
+            <div class="skill-row" data-arch="proyector" data-skill="alcance">
+              <span class="skill-name">Alcance</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'alcance', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'alcance', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'alcance', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'alcance', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'alcance', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'alcance', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'alcance', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'alcance', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-proyector-alcance">+0</span>
+            </div>
+            <!-- Habilidad 5 -->
+            <div class="skill-row" data-arch="proyector" data-skill="sobrecarga">
+              <span class="skill-name">Sobrecarga</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'sobrecarga', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'sobrecarga', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'sobrecarga', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'sobrecarga', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'sobrecarga', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'sobrecarga', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'sobrecarga', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('proyector', 'sobrecarga', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-proyector-sobrecarga">+0</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Arquetipo 5: Conmutador -->
+        <!-- 5. ARQUETIPO: CONMUTADOR -->
         <div class="arch-card arch-conmutador">
           <div class="arch-header">
             <span class="arch-title-text">🌙 CONMUTADOR</span>
@@ -486,10 +732,95 @@
               <span class="arch-diamond" onclick="toggleArchetypeDiamond('conmutador', 7)"></span>
             </div>
           </div>
-          <div class="skills-list" id="skills-list-conmutador"></div>
+          <div class="skills-list" id="skills-list-conmutador">
+            <!-- Habilidad 1 -->
+            <div class="skill-row" data-arch="conmutador" data-skill="sigilo">
+              <span class="skill-name">Sigilo</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'sigilo', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'sigilo', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'sigilo', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'sigilo', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'sigilo', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'sigilo', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'sigilo', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'sigilo', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-conmutador-sigilo">+0</span>
+            </div>
+            <!-- Habilidad 2 -->
+            <div class="skill-row" data-arch="conmutador" data-skill="desplazamiento">
+              <span class="skill-name">Desplazamiento</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'desplazamiento', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'desplazamiento', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'desplazamiento', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'desplazamiento', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'desplazamiento', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'desplazamiento', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'desplazamiento', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'desplazamiento', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-conmutador-desplazamiento">+0</span>
+            </div>
+            <!-- Habilidad 3 -->
+            <div class="skill-row" data-arch="conmutador" data-skill="alteracion">
+              <span class="skill-name">Alteración</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'alteracion', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'alteracion', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'alteracion', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'alteracion', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'alteracion', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'alteracion', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'alteracion', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'alteracion', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-conmutador-alteracion">+0</span>
+            </div>
+            <!-- Habilidad 4 -->
+            <div class="skill-row" data-arch="conmutador" data-skill="reaccion">
+              <span class="skill-name">Reacción</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'reaccion', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'reaccion', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'reaccion', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'reaccion', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'reaccion', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'reaccion', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'reaccion', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'reaccion', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-conmutador-reaccion">+0</span>
+            </div>
+            <!-- Habilidad 5 -->
+            <div class="skill-row" data-arch="conmutador" data-skill="engano">
+              <span class="skill-name">Engaño</span>
+              <div class="skill-boxes">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'engano', 0)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'engano', 1)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'engano', 2)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'engano', 3)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'engano', 4)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'engano', 5)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'engano', 6)">
+                <input type="checkbox" onchange="onSkillCheckboxChange('conmutador', 'engano', 7)">
+              </div>
+              <span class="skill-bonus-tag" id="bonus-conmutador-engano">+0</span>
+            </div>
+          </div>
         </div>
 
       </div>
+    </section>
+
+    <!-- TÉCNICAS Y HABILIDADES ACTIVAS -->
+    <section class="panel-box techniques-section">
+      <div class="panel-header-with-actions">
+        <h2 class="panel-title-inline">⚡ TÉCNICAS Y PODERES ACTIVOS</h2>
+        <button type="button" class="btn-action-small btn-primary" onclick="addNewTechniqueCard()">+ Agregar Técnica</button>
+      </div>
+      <div id="techniques-container" class="techniques-list"></div>
     </section>
 
     <!-- INVENTARIO & MOCHILA -->
@@ -510,9 +841,7 @@
               <th style="width:30px;"></th>
             </tr>
           </thead>
-          <tbody id="inventory-items-tbody">
-            <!-- Filas inyectadas dinámicamente -->
-          </tbody>
+          <tbody id="inventory-items-tbody"></tbody>
         </table>
       </div>
     </section>
@@ -567,9 +896,7 @@
         </div>
 
         <!-- Lista de Tarjetas de Enemigo Sincronizadas -->
-        <div id="enemies-cards-container" class="enemies-cards-list">
-          <!-- Inyectado dinámicamente con botón ✖ y botón 📋 Duplicar -->
-        </div>
+        <div id="enemies-cards-container" class="enemies-cards-list"></div>
       </div>
 
       <!-- COLUMNA 2: TARJETAS DE JUGADORES (Derecha en Escritorio) -->
@@ -578,9 +905,7 @@
           <h3>🛡️ MESA DE JUGADORES</h3>
         </div>
 
-        <div id="gm-players-container" class="gm-cards-grid">
-          <!-- Inyectado dinámicamente desde los datos de los 4 personajes -->
-        </div>
+        <div id="gm-players-container" class="gm-cards-grid"></div>
       </div>
 
     </div>
@@ -694,9 +1019,7 @@
       </div>
     </div>
 
-    <div class="top-popup-body" id="turn-report-content">
-      <!-- Se inyectan las listas de daño de veneno, sangrado, curas y smath -->
-    </div>
+    <div class="top-popup-body" id="turn-report-content"></div>
 
     <div class="top-popup-footer">
       <button type="button" class="btn-accept-popup" onclick="closeTurnReportModal()">✓ Entendido / Cerrar</button>
@@ -711,9 +1034,7 @@
       <h3>📜 HISTORIAL DE ACCIONES Y DAÑOS</h3>
       <button type="button" class="btn-close-modal" onclick="closeCombatHistoryModal()">✖</button>
     </div>
-    <div class="center-modal-body" id="combat-history-content-list">
-      <!-- Registro cronológico de golpes recibidos, venenos, smath y ataques -->
-    </div>
+    <div class="center-modal-body" id="combat-history-content-list"></div>
     <div class="center-modal-footer">
       <button type="button" class="btn-action-small" onclick="clearCombatHistory()">Limpiar Historial</button>
       <button type="button" class="btn-action-small" onclick="closeCombatHistoryModal()">Cerrar</button>
@@ -728,9 +1049,7 @@
       <h3>🎲 HISTORIAL DE TIRADAS DE DADOS</h3>
       <button type="button" class="btn-close-modal" onclick="closeDiceHistoryModal()">✖</button>
     </div>
-    <div class="center-modal-body" id="dice-history-content-list">
-      <!-- Registro de dados -->
-    </div>
+    <div class="center-modal-body" id="dice-history-content-list"></div>
     <div class="center-modal-footer">
       <button type="button" class="btn-action-small" onclick="closeDiceHistoryModal()">Cerrar</button>
     </div>
@@ -744,9 +1063,7 @@
       <h3>💬 CHAT COMPLETO DE LA MESA</h3>
       <button type="button" class="btn-close-modal" onclick="closeTableChatModal()">✖</button>
     </div>
-    <div class="center-modal-body chat-scroll-body" id="table-chat-full-list">
-      <!-- Mensajes históricos -->
-    </div>
+    <div class="center-modal-body chat-scroll-body" id="table-chat-full-list"></div>
     <div class="center-modal-footer">
       <button type="button" class="btn-action-small" onclick="closeTableChatModal()">Cerrar</button>
     </div>
@@ -755,12 +1072,9 @@
 
 <!-- CONTENEDOR DE ALERTAS TOAST FLOTANTES -->
 <div id="toast-notifications-container" class="toast-stack-container"></div>
-/* ==========================================
-   PARTE 2: ESTILOS CSS COMPLETOS
-   RÉQUIEM SMITHNAS - HOJA Y CONSOLA DE COMBATE
-   ========================================== */
 
-/* 1. RESET Y BASE ESTÉTICA (PERGAMINO Y FANTASÍA OSCURA) */
+  <style>
+     1. RESET Y VARIABLES GENERALES */
 :root {
   --bg-parchment: #f7f1e1;
   --bg-card: #fdfaf3;
@@ -888,7 +1202,7 @@ body {
   outline: none;
 }
 
-/* 3. NAVEGACIÓN PRINCIPAL (PESTAÑAS) */
+/* 3. NAVEGACIÓN PRINCIPAL ENTRE PESTAÑAS */
 .main-nav-tabs {
   margin-bottom: 12px;
 }
@@ -968,6 +1282,11 @@ body {
   user-select: none;
 }
 
+.objective-actions {
+  display: flex;
+  gap: 4px;
+}
+
 .objective-btn {
   background: #4a2810;
   color: #fff;
@@ -990,10 +1309,27 @@ body {
   font-size: 12.5px;
 }
 
+.pinned-content {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex: 1;
+}
+
 .pinned-msg-label {
   color: #fde047;
   font-weight: bold;
-  margin-right: 4px;
+  white-space: nowrap;
+}
+
+#btn-unpin-msg {
+  background: none;
+  border: none;
+  color: #fca5a5;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 6px;
 }
 
 .latest-objectives-list {
@@ -1182,7 +1518,7 @@ body {
   font-weight: bold;
 }
 
-/* 6. ESTADÍSTICAS DE COMBATE (TARJETAS CON BARRAS Y DELTAS) */
+/* 6. ESTADÍSTICAS DE COMBATE (FÓRMULA IZQ / TOTAL DER / BARRAS) */
 .combat-stats-grid {
   display: flex;
   flex-direction: column;
@@ -1238,7 +1574,7 @@ body {
   color: var(--color-crimson);
 }
 
-/* TARJETAS DE RECURSOS: HP Y SMATH */
+/* TARJETAS DE RECURSOS: RESENCIA Y SMATH */
 .resource-card {
   background: #fdfaf3;
   border-left: 4px solid var(--color-crimson);
@@ -1424,7 +1760,7 @@ body {
   border-color: #fde047;
 }
 
-/* BARRA COMPARTIDA DE DADOS D20 (AJUSTE Y SEPARACIÓN) */
+/* BARRA COMPARTIDA DE DADOS D20 */
 .shared-roll-bar {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1718,7 +2054,7 @@ body {
   background: #78350f;
 }
 
-/* COLORES ESPECÍFICOS DE ARQUETIPO */
+/* COLORES POR ARQUETIPO */
 .arch-impulsor { border-color: #b91c1c; }
 .arch-impulsor .arch-title-text { color: #b91c1c; }
 .arch-impulsor .arch-diamond { border-color: #b91c1c; }
@@ -1790,7 +2126,30 @@ body {
   font-weight: bold;
 }
 
-/* 9. INVENTARIO */
+/* 9. TÉCNICAS E INVENTARIO */
+.techniques-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.technique-card {
+  background: #fff;
+  border: 1px solid var(--border-gold-light);
+  border-radius: 4px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.technique-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
 .inventory-table-wrap {
   overflow-x: auto;
 }
@@ -2397,7 +2756,7 @@ body {
     height: 10px;
   }
 
-  /* FILAS DE HABILIDADES COMPACTAS SIN PUNTOS SUSPENSIVOS */
+  /* FILAS DE HABILIDADES COMPACTAS */
   .skill-row {
     gap: 2px;
     padding: 2px 0;
@@ -2447,13 +2806,12 @@ body {
     grid-template-columns: 1fr !important;
   }
 }
-     /* ========================================================
-   PARTE 3: LÓGICA JAVASCRIPT Y SINCRONIZACIÓN FIREBASE
+/* ========================================================
+   PARTE 3/3: LÓGICA JAVASCRIPT Y SINCRONIZACIÓN FIREBASE
    RÉQUIEM SMITHNAS - HOJA Y CONSOLA DE COMBATE
    ======================================================== */
 
-// 1. CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE
-// (Asegurate de incluir los scripts SDK de Firebase App y Database en tu HTML si no están precargados)
+// 1. CONFIGURACIÓN DE FIREBASE (Reemplaza con tus credenciales)
 const firebaseConfig = {
   apiKey: "TU_API_KEY",
   authDomain: "tu-proyecto.firebaseapp.com",
@@ -2469,9 +2827,10 @@ if (!firebase.apps.length) {
 }
 const db = firebase.database();
 
-// 2. ESTADO GLOBAL DE LA APLICACIÓN
+// 2. ESTADO GLOBAL DE LA SESIÓN Y PERSONAJE
 let activeIdentity = localStorage.getItem("requiem_identity") || "p1";
 let currentCharId = "p1";
+
 let currentSessionData = {
   round: 1,
   enemies: [],
@@ -2496,11 +2855,9 @@ let currentCharData = {
   smath_delta: 0,
   concentration: 15,
   isConcentrating: false,
-  skill_base: 0,
-  skill_spent: 0,
-  weapons: {
-    w1: { id: "w1", name: "Espada Vampira", base: 20, target: "none" }
-  },
+  skill_points_base: 0,
+  weapons: {},
+  techniques: {},
   inventory: [],
   diamonds: {
     impulsor: [false,false,false,false,false,false,false,false],
@@ -2512,23 +2869,18 @@ let currentCharData = {
   skills: {}
 };
 
-// 3. ARRANQUE Y CONTROLADORES DE EVENTOS
+// 3. INICIALIZACIÓN
 document.addEventListener("DOMContentLoaded", () => {
-  // Sincronizar selectores de identidad iniciales
   const identitySelect = document.getElementById("active-identity-select");
   if (identitySelect) identitySelect.value = activeIdentity;
 
   const charPicker = document.getElementById("character-picker-select");
   if (charPicker) charPicker.value = currentCharId;
 
-  // Escuchar sincronización de la sesión global (Enemigos, Rondas, Mensajes)
   initSessionSync();
-
-  // Cargar personaje seleccionado
   loadSelectedCharacter(currentCharId);
-
-  // Inicializar sub-pestañas de enemigos en versión móvil
-  switchSummarySubTab('players');
+  switchSummarySubTab("players");
+  applyPermissions();
 });
 
 // ========================================================
@@ -2538,15 +2890,13 @@ function onIdentityChanged(newIdentity) {
   activeIdentity = newIdentity;
   localStorage.setItem("requiem_identity", newIdentity);
   showToast(`Identidad cambiada a: ${getIdentityLabel(newIdentity)}`);
-  
-  // Actualizar visibilidad de la consola del Master y bloqueo de inputs
   applyPermissions();
 }
 
 function getIdentityLabel(id) {
   if (id === "GM") return "👑 Master";
   if (id === "p1") return "⚔️ Jored Leto";
-  return `🛡️ Personaje ${id}`;
+  return `🛡️ Personaje ${id.toUpperCase()}`;
 }
 
 function applyPermissions() {
@@ -2554,10 +2904,19 @@ function applyPermissions() {
   const isOwner = activeIdentity === currentCharId;
   const canEdit = isMaster || isOwner;
 
-  // Bloquear o desbloquear campos de la hoja
   const editableInputs = document.querySelectorAll(".editable-input");
   editableInputs.forEach(input => {
     input.disabled = !canEdit;
+  });
+
+  const skillBoxes = document.querySelectorAll(".skill-boxes input[type='checkbox']");
+  skillBoxes.forEach(box => {
+    box.disabled = !canEdit;
+  });
+
+  const diamonds = document.querySelectorAll(".arch-diamond");
+  diamonds.forEach(dia => {
+    dia.style.pointerEvents = canEdit ? "auto" : "none";
   });
 
   const lockBadge = document.getElementById("sheet-lock-badge");
@@ -2565,16 +2924,19 @@ function applyPermissions() {
     lockBadge.style.display = canEdit ? "none" : "inline-block";
   }
 
-  // Deshabilitar controles de daño en enemigos si no es Master
-  const gmOnlyElements = document.querySelectorAll(".gm-turn-controller-bar, .horde-spawner-box, .enemy-dmg-controls, #btn-reset-round");
-  gmOnlyElements.forEach(el => {
-    el.style.opacity = isMaster ? "1" : "0.5";
-    el.style.pointerEvents = isMaster ? "auto" : "none";
+  const gmControls = document.querySelectorAll(".gm-turn-controller-bar, .horde-spawner-box, .enemy-dmg-controls, #btn-reset-round, .master-only-tab");
+  gmControls.forEach(el => {
+    if (el.classList.contains("master-only-tab")) {
+      el.style.display = isMaster ? "block" : "none";
+    } else {
+      el.style.opacity = isMaster ? "1" : "0.4";
+      el.style.pointerEvents = isMaster ? "auto" : "none";
+    }
   });
 }
 
 // ========================================================
-// 5. NAVEGACIÓN Y COLAPSABLES
+// 5. NAVEGACIÓN ENTRE PESTAÑAS Y COLAPSABLES
 // ========================================================
 function switchMainTab(tabId) {
   document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
@@ -2630,7 +2992,7 @@ function toggleCharDataCollapse() {
 }
 
 // ========================================================
-// 6. SINCRONIZACIÓN FIREBASE: SESIÓN GLOBAL Y ENEMIGOS
+// 6. SINCRONIZACIÓN FIREBASE: SESIÓN GLOBAL Y TURNOS
 // ========================================================
 function initSessionSync() {
   const sessionRef = db.ref("smithnas_session");
@@ -2646,29 +3008,21 @@ function initSessionSync() {
       gmNotes: val.gmNotes || ""
     };
 
-    // Actualizar Contador Global
     const roundDisplay = document.getElementById("global-round-display");
     const nextRoundNum = document.getElementById("gm-next-round-num");
     if (roundDisplay) roundDisplay.innerText = currentSessionData.round;
     if (nextRoundNum) nextRoundNum.innerText = currentSessionData.round + 1;
 
-    // Actualizar Mensajes de Mesa
     renderObjectiveMessages(val.messages || {}, currentSessionData.pinnedMessage);
-
-    // Renderizar Tarjetas de Enemigos
     renderEnemiesCards(currentSessionData.enemies);
-
-    // Actualizar Selectores de Enemigo en Armas
     updateWeaponsTargetDropdowns(currentSessionData.enemies);
 
-    // Actualizar Notas del GM
     const notesEl = document.getElementById("gm-secret-notes");
     if (notesEl && document.activeElement !== notesEl) {
       notesEl.value = currentSessionData.gmNotes;
     }
   });
 
-  // Renderizar tarjetas de jugadores en Resumen
   db.ref("characters").on("value", snapshot => {
     renderGmPlayersCards(snapshot.val() || {});
   });
@@ -2683,7 +3037,6 @@ function advanceGlobalTurn() {
   const nextRound = currentSessionData.round + 1;
   const resolutionLog = [];
 
-  // 1. Procesar Personajes (Concentración y Deltas)
   db.ref("characters").once("value", snapshot => {
     const chars = snapshot.val() || {};
     const updates = {};
@@ -2691,13 +3044,12 @@ function advanceGlobalTurn() {
     Object.keys(chars).forEach(charKey => {
       const c = chars[charKey];
       let smathGain = 0;
-      let hpChange = 0;
 
-      // Recuperación por Concentración
       if (c.isConcentrating) {
         const concVal = Number(c.concentration) || 0;
         const currentSm = Number(c.smath_current) || 0;
-        const maxSm = Number(c.smath_base || 0) + Number(c.smath_bonus || 40);
+        const smathBonus = calculateResourceBonus(c.skills, "smath");
+        const maxSm = Number(c.smath_base || 0) + smathBonus;
         const newSm = Math.min(maxSm, currentSm + concVal);
         smathGain = newSm - currentSm;
 
@@ -2708,17 +3060,15 @@ function advanceGlobalTurn() {
         updates[`characters/${charKey}/smath_delta`] = 0;
       }
 
-      // Registro para el reporte
       resolutionLog.push({
         name: c.name || charKey,
         type: "player",
         hpDelta: c.hp_delta || 0,
         smathGain: smathGain,
-        agonic: (c.hp_current || 0) <= 0
+        agonic: (Number(c.hp_current) || 0) <= 0
       });
     });
 
-    // 2. Procesar Enemigos
     const updatedEnemies = (currentSessionData.enemies || []).map(enemy => {
       resolutionLog.push({
         name: enemy.name,
@@ -2730,7 +3080,6 @@ function advanceGlobalTurn() {
       return enemy;
     });
 
-    // 3. Empujar cambios de Ronda y Reporte a Firebase
     updates["smithnas_session/round"] = nextRound;
     updates["smithnas_session/turnReportPrev"] = currentSessionData.turnReportCurrent || [];
     updates["smithnas_session/turnReportCurrent"] = resolutionLog;
@@ -2738,7 +3087,6 @@ function advanceGlobalTurn() {
 
     db.ref().update(updates, error => {
       if (!error) {
-        // Disparar Vibración táctil si el dispositivo lo soporta
         if ("vibrate" in navigator) {
           navigator.vibrate([120, 80, 120]);
         }
@@ -2758,7 +3106,7 @@ function resetRoundCounter() {
 }
 
 // ========================================================
-// 7. GESTIÓN EXPRESS DE ENEMIGOS (PANEL MASTER)
+// 7. GESTIÓN DE ENEMIGOS EXPRESS (PANEL MASTER)
 // ========================================================
 function renderEnemiesCards(enemies) {
   const container = document.getElementById("enemies-cards-container");
@@ -2783,8 +3131,8 @@ function renderEnemiesCards(enemies) {
       <div class="enemy-card-top">
         <span class="enemy-name-title">${isDead ? "💀 " : ""}${enemy.name} (PD: ${enemy.pd})</span>
         <div class="enemy-card-actions-quick">
-          <button type="button" class="btn-mini-tool" onclick="duplicateEnemy(${index})" title="Duplicar enemigo">📋 Copiar</button>
-          <button type="button" class="btn-mini-tool" onclick="deleteEnemy(${index})" style="color:#b91c1c; font-weight:bold;" title="Eliminar enemigo">✖</button>
+          <button type="button" class="btn-mini-tool" onclick="duplicateEnemy(${index})" title="Duplicar">📋 Copiar</button>
+          <button type="button" class="btn-mini-tool" onclick="deleteEnemy(${index})" style="color:#b91c1c; font-weight:bold;" title="Eliminar">✖</button>
         </div>
       </div>
 
@@ -2806,8 +3154,9 @@ function renderEnemiesCards(enemies) {
 }
 
 function spawnQuickEnemy() {
+  const count = currentSessionData.enemies.length + 1;
   const newEnemy = {
-    name: `Enemigo ${currentSessionData.enemies.length + 1}`,
+    name: `Enemigo ${count}`,
     hp_max: 30,
     hp_current: 30,
     pd: 12,
@@ -2845,8 +3194,8 @@ function spawnEnemyHorde() {
 function duplicateEnemy(index) {
   const target = currentSessionData.enemies[index];
   if (!target) return;
-  const countSame = currentSessionData.enemies.filter(e => e.name.startsWith(target.name.replace(/\s\d+$/, ""))).length + 1;
   const baseName = target.name.replace(/\s\d+$/, "");
+  const countSame = currentSessionData.enemies.filter(e => e.name.startsWith(baseName)).length + 1;
 
   const copy = {
     ...target,
@@ -2886,8 +3235,50 @@ function applyEnemyHeal(index) {
   logCombatAction(`💚 Curación aplicada a ${list[index].name}: +${amount} HP.`);
 }
 
+function renderGmPlayersCards(characters) {
+  const container = document.getElementById("gm-players-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  Object.keys(characters).forEach(key => {
+    const p = characters[key];
+    const isAgonic = (Number(p.hp_current) || 0) <= 0;
+    const hpBonus = calculateResourceBonus(p.skills, "hp");
+    const hpMax = (Number(p.hp_base) || 0) + hpBonus;
+    const smathBonus = calculateResourceBonus(p.skills, "smath");
+    const smathMax = (Number(p.smath_base) || 0) + smathBonus;
+
+    const hpPct = hpMax > 0 ? Math.max(0, Math.min(100, (p.hp_current / hpMax) * 100)) : 0;
+    const smathPct = smathMax > 0 ? Math.max(0, Math.min(100, (p.smath_current / smathMax) * 100)) : 0;
+
+    const card = document.createElement("div");
+    card.className = `gm-player-card ${isAgonic ? "agonic" : ""}`;
+    card.innerHTML = `
+      <div class="gm-player-header">
+        <span>${isAgonic ? "💀 " : "🛡️ "}<strong>${p.name || key}</strong> (${p.archetype || 'Aventurero'})</span>
+        <span>PC: <strong>${(Number(p.pc_base)||0) + calculateResourceBonus(p.skills, "pc")}</strong> | PD: <strong>${(Number(p.pd_base)||0) + calculateResourceBonus(p.skills, "pd")}</strong></span>
+      </div>
+
+      <div class="enemy-hp-row" style="margin-top:4px;">
+        <span style="font-size:11px;">HP: ${p.hp_current} / ${hpMax}</span>
+        <div class="enemy-bar-track">
+          <div class="enemy-bar-fill fill-hp" style="width: ${hpPct}%;"></div>
+        </div>
+      </div>
+
+      <div class="enemy-hp-row">
+        <span style="font-size:11px;">Sm: ${p.smath_current} / ${smathMax}</span>
+        <div class="enemy-bar-track">
+          <div class="enemy-bar-fill fill-smath" style="width: ${smathPct}%;"></div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
 // ========================================================
-// 8. SINCRONIZACIÓN Y CÁLCULOS DE LA FICHA DEL PERSONAJE
+// 8. FICHA DE PERSONAJE Y CÁLCULOS
 // ========================================================
 function loadSelectedCharacter(charId) {
   currentCharId = charId;
@@ -2899,13 +3290,11 @@ function loadSelectedCharacter(charId) {
 }
 
 function renderCharacterSheet(c) {
-  // Datos Generales
   setValue("char-name", c.name);
   setValue("char-archetype", c.archetype);
   setValue("char-level", c.level);
   setValue("char-wish", c.wish);
 
-  // Estadísticas de Combate
   setValue("pc-base", c.pc_base || 0);
   setValue("pd-base", c.pd_base || 0);
   setValue("hp-base", c.hp_base || 0);
@@ -2913,18 +3302,17 @@ function renderCharacterSheet(c) {
   setValue("smath-base", c.smath_base || 0);
   setValue("smath-current", c.smath_current || 0);
   setValue("concentration-val", c.concentration || 15);
+  setValue("skill-points-base", c.skill_points_base || 0);
 
-  // Concentración
   const btnConc = document.getElementById("btn-concentrate");
   if (btnConc) {
     btnConc.classList.toggle("active", !!c.isConcentrating);
     btnConc.innerText = c.isConcentrating ? "🧘 CONCENTRADO" : "🧘 CONCENTRARSE";
   }
 
-  // Actualizar Cálculos y Barras
+  renderSkillsState(c.skills || {});
   recalculateStats();
 
-  // Deltas Visuales
   const hpDeltaEl = document.getElementById("hp-delta-badge");
   if (hpDeltaEl) {
     const delta = c.hp_delta || 0;
@@ -2939,56 +3327,84 @@ function renderCharacterSheet(c) {
     smathDeltaEl.style.display = delta !== 0 ? "inline-block" : "none";
   }
 
-  // Renderizar Inventario
+  renderWeaponsCards(c.weapons || {});
+  renderTechniques(c.techniques || {});
   renderInventoryTable(c.inventory || []);
-
-  // Renderizar Rombos
   renderArchetypeDiamonds(c.diamonds || {});
 }
 
+function calculateResourceBonus(skillsData, resource) {
+  let count = 0;
+  skillsData = skillsData || {};
+
+  Object.keys(skillsData).forEach(arch => {
+    Object.keys(skillsData[arch] || {}).forEach(skill => {
+      const boxes = skillsData[arch][skill] || [];
+      const checkedCount = boxes.filter(Boolean).length;
+
+      if (resource === "pc" && (skill === "combate" || skill === "fuerza_bruta" || skill === "precision")) {
+        count += checkedCount * 2;
+      } else if (resource === "pd" && (skill === "aguante" || skill === "temple" || skill === "reflejos")) {
+        count += checkedCount * 4;
+      } else if (resource === "hp" && (skill === "vigor" || skill === "tenacidad" || skill === "aguante")) {
+        count += checkedCount * 25;
+      } else if (resource === "smath" && (skill === "canalizacion" || skill === "esencia" || skill === "sobrecarga")) {
+        count += checkedCount * 5;
+      }
+    });
+  });
+
+  return count;
+}
+
 function recalculateStats() {
+  const skills = currentCharData.skills || {};
+
+  // PC
   const pcBase = parseInt(document.getElementById("pc-base").value, 10) || 0;
-  const pcBonus = 16;
+  const pcBonus = calculateResourceBonus(skills, "pc");
   const pcTotal = pcBase + pcBonus;
   document.getElementById("pc-bonus").innerText = `+${pcBonus}`;
   document.getElementById("pc-total-display").innerText = pcTotal;
 
+  // PD
   const pdBase = parseInt(document.getElementById("pd-base").value, 10) || 0;
-  const pdBonus = 32;
+  const pdBonus = calculateResourceBonus(skills, "pd");
   const pdTotal = pdBase + pdBonus;
   document.getElementById("pd-bonus").innerText = `+${pdBonus}`;
   document.getElementById("pd-total-display").innerText = pdTotal;
 
   // HP
   const hpBase = parseInt(document.getElementById("hp-base").value, 10) || 0;
-  const hpBonus = 216;
+  const hpBonus = calculateResourceBonus(skills, "hp");
   const hpMax = hpBase + hpBonus;
   const hpCurrent = parseInt(document.getElementById("hp-current").value, 10) || 0;
   document.getElementById("hp-bonus").innerText = hpBonus;
   document.getElementById("hp-max-display").innerText = hpMax;
 
   const hpBarFill = document.getElementById("hp-bar-fill");
-  const hpPct = Math.max(0, Math.min(100, (hpCurrent / hpMax) * 100));
+  const hpPct = hpMax > 0 ? Math.max(0, Math.min(100, (hpCurrent / hpMax) * 100)) : 0;
   if (hpBarFill) hpBarFill.style.width = `${hpPct}%`;
 
-  // Estado Agónico
   const hpCardWrap = document.getElementById("card-hp-wrap");
   const agonicTag = document.getElementById("hp-agonic-tag");
   const isAgonic = hpCurrent <= 0;
   if (hpCardWrap) hpCardWrap.classList.toggle("card-agonic-state", isAgonic);
   if (agonicTag) agonicTag.style.display = isAgonic ? "inline-block" : "none";
 
-  // Smath
+  // SMATH
   const smBase = parseInt(document.getElementById("smath-base").value, 10) || 0;
-  const smBonus = 40;
+  const smBonus = calculateResourceBonus(skills, "smath");
   const smMax = smBase + smBonus;
   const smCurrent = parseInt(document.getElementById("smath-current").value, 10) || 0;
   document.getElementById("smath-bonus").innerText = smBonus;
   document.getElementById("smath-max-display").innerText = smMax;
 
   const smBarFill = document.getElementById("smath-bar-fill");
-  const smPct = Math.max(0, Math.min(100, (smCurrent / smMax) * 100));
+  const smPct = smMax > 0 ? Math.max(0, Math.min(100, (smCurrent / smMax) * 100)) : 0;
   if (smBarFill) smBarFill.style.width = `${smPct}%`;
+
+  recalculateSkillPoints();
 }
 
 function updateHpCurrent(val) {
@@ -3003,10 +3419,10 @@ function updateSmathCurrent(val) {
 
 function setResourceToMax(type) {
   if (type === "hp") {
-    const max = parseInt(document.getElementById("hp-max-display").innerText, 10) || 216;
+    const max = parseInt(document.getElementById("hp-max-display").innerText, 10) || 0;
     db.ref(`characters/${currentCharId}/hp_current`).set(max);
   } else if (type === "smath") {
-    const max = parseInt(document.getElementById("smath-max-display").innerText, 10) || 40;
+    const max = parseInt(document.getElementById("smath-max-display").innerText, 10) || 0;
     db.ref(`characters/${currentCharId}/smath_current`).set(max);
   }
 }
@@ -3014,7 +3430,7 @@ function setResourceToMax(type) {
 function toggleConcentrationState() {
   const newState = !currentCharData.isConcentrating;
   db.ref(`characters/${currentCharId}/isConcentrating`).set(newState);
-  showToast(newState ? "🧘 Estado Concentrado: Recuperarás Smath al iniciar turno." : "Concentración desactivada.");
+  showToast(newState ? "🧘 Estado Concentrado: Recuperarás Smath en el próximo turno." : "Concentración desactivada.");
 }
 
 function syncField(field, value) {
@@ -3029,66 +3445,68 @@ function setValue(id, val) {
 }
 
 // ========================================================
-// 9. ARMAS, DADOS D20/D6 Y SELECTOR DE OBJETIVO
+// 9. HABILIDADES (25 HABILIDADES) Y PUNTOS
 // ========================================================
-function rollInitiative() {
-  const bonus = parseInt(document.getElementById("init-bonus-input").value, 10) || 0;
-  const d20 = Math.floor(Math.random() * 20) + 1;
-  const total = d20 + bonus;
-  document.getElementById("init-result-display").innerText = `${total} (D20: ${d20})`;
-  logDiceRoll(`⚡ Iniciativa: ${total} (D20: ${d20} + Bono: ${bonus})`);
+function onSkillCheckboxChange(arch, skill, boxIndex) {
+  if (activeIdentity !== "GM" && activeIdentity !== currentCharId) return;
+
+  const currentSkills = currentCharData.skills || {};
+  if (!currentSkills[arch]) currentSkills[arch] = {};
+  if (!currentSkills[arch][skill]) currentSkills[arch][skill] = [false,false,false,false,false,false,false,false];
+
+  const row = document.querySelector(`.skill-row[data-arch="${arch}"][data-skill="${skill}"]`);
+  if (!row) return;
+
+  const checkboxes = row.querySelectorAll("input[type='checkbox']");
+  const newArr = Array.from(checkboxes).map(cb => cb.checked);
+
+  db.ref(`characters/${currentCharId}/skills/${arch}/${skill}`).set(newArr);
 }
 
-function rollImpactCrit() {
-  const d20 = Math.floor(Math.random() * 20) + 1;
-  const tactBonus = 0;
-  const total = d20 + tactBonus;
-  document.getElementById("impact-result-display").innerText = `${total} (D20: ${d20})`;
-  logDiceRoll(`🎯 D20 Impacto/Crítico: ${total} (Dado: ${d20})`);
-}
+function renderSkillsState(skillsData) {
+  let totalSpent = 0;
 
-function rollWeaponD6(weaponId) {
-  const card = document.querySelector(`.weapon-card[data-weapon-id="${weaponId}"]`);
-  if (!card) return;
+  document.querySelectorAll(".skill-row").forEach(row => {
+    const arch = row.getAttribute("data-arch");
+    const skill = row.getAttribute("data-skill");
+    const boxes = skillsData?.[arch]?.[skill] || [false,false,false,false,false,false,false,false];
 
-  const targetSelect = card.querySelector(".weapon-target-select");
-  const targetLabel = targetSelect ? targetSelect.options[targetSelect.selectedIndex].text : "Sin objetivo";
-  const baseVal = parseInt(card.querySelector(".weapon-total-val").innerText, 10) || 20;
-
-  const d6 = Math.floor(Math.random() * 6) + 1;
-  const multipliers = { 1: -0.30, 2: -0.15, 3: 0, 4: 0, 5: 0.15, 6: 0.30 };
-  const finalDamage = Math.round(baseVal * (1 + multipliers[d6]));
-
-  const resultBox = document.getElementById(`${weaponId}-d6-result`);
-  if (resultBox) {
-    resultBox.innerText = `D6: ${d6} | Daño: ${finalDamage}`;
-  }
-
-  const logText = `🎲 Ataque con Arma contra [${targetLabel}]: ${finalDamage} daño (D6: ${d6}).`;
-  logDiceRoll(logText);
-  logCombatAction(logText);
-}
-
-function updateWeaponsTargetDropdowns(enemies) {
-  const optgroups = document.querySelectorAll(".optgroup-active-enemies");
-  optgroups.forEach(group => {
-    group.innerHTML = "";
-    if (enemies.length === 0) {
-      group.innerHTML = `<option disabled>Sin enemigos activos</option>`;
-      return;
-    }
-    enemies.forEach(e => {
-      const opt = document.createElement("option");
-      opt.value = e.name;
-      opt.text = `${e.name} (PD: ${e.pd})`;
-      group.appendChild(opt);
+    const cbs = row.querySelectorAll("input[type='checkbox']");
+    let checkedCount = 0;
+    cbs.forEach((cb, i) => {
+      cb.checked = !!boxes[i];
+      if (boxes[i]) checkedCount++;
     });
+
+    totalSpent += checkedCount;
+    const tag = document.getElementById(`bonus-${arch}-${skill}`);
+    if (tag) tag.innerText = `+${checkedCount}`;
   });
+
+  currentCharData.skill_spent = totalSpent;
 }
 
-// ========================================================
-// 10. ARQUETIPOS Y PUNTOS DE HABILIDAD
-// ========================================================
+function recalculateSkillPoints() {
+  const base = parseInt(document.getElementById("skill-points-base").value, 10) || 0;
+  const levelBonus = (parseInt(document.getElementById("char-level")?.value, 10) || 1) * 2;
+  const total = base + levelBonus;
+  const spent = currentCharData.skill_spent || 0;
+  const remaining = total - spent;
+
+  const bonusEl = document.getElementById("skill-points-bonus");
+  const totalEl = document.getElementById("skill-points-total");
+  const spentEl = document.getElementById("skill-points-spent");
+  const remEl = document.getElementById("skill-points-remaining");
+
+  if (bonusEl) bonusEl.innerText = `+${levelBonus}`;
+  if (totalEl) totalEl.innerText = total;
+  if (spentEl) spentEl.innerText = spent;
+  if (remEl) {
+    remEl.innerText = remaining;
+    remEl.style.color = remaining < 0 ? "#dc2626" : "inherit";
+  }
+}
+
 function toggleArchetypeDiamond(archetype, index) {
   if (activeIdentity !== "GM" && activeIdentity !== currentCharId) return;
 
@@ -3110,28 +3528,235 @@ function renderArchetypeDiamonds(diamondsData) {
   });
 }
 
-function recalculateSkillPoints() {
-  const base = parseInt(document.getElementById("skill-points-base").value, 10) || 0;
-  const bonus = 0;
-  const total = base + bonus;
-  const spent = 0;
-  const remaining = total - spent;
+// ========================================================
+// 10. ARMAS, DADOS D20/D6 Y DAÑO MULTIPLICADOR
+// ========================================================
+function rollInitiative() {
+  const bonus = parseInt(document.getElementById("init-bonus-input").value, 10) || 0;
+  const d20 = Math.floor(Math.random() * 20) + 1;
+  const total = d20 + bonus;
+  document.getElementById("init-result-display").innerText = `${total} (D20: ${d20})`;
+  logDiceRoll(`⚡ Iniciativa: ${total} (D20: ${d20} + Bono: ${bonus})`);
+}
 
-  document.getElementById("skill-points-bonus").innerText = `+${bonus}`;
-  document.getElementById("skill-points-total").innerText = total;
-  document.getElementById("skill-points-spent").innerText = spent;
-  document.getElementById("skill-points-remaining").innerText = remaining;
+function rollImpactCrit() {
+  const d20 = Math.floor(Math.random() * 20) + 1;
+  const tactBonus = 0;
+  const total = d20 + tactBonus;
+  document.getElementById("impact-result-display").innerText = `${total} (D20: ${d20})`;
+  logDiceRoll(`🎯 D20 Impacto/Crítico: ${total} (Dado: ${d20})`);
+}
+
+function renderWeaponsCards(weapons) {
+  const container = document.getElementById("weapons-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const keys = Object.keys(weapons);
+  if (keys.length === 0) {
+    container.innerHTML = `<p style="text-align:center; color:#888; font-style:italic;">No hay armas registradas. Agrega una arriba.</p>`;
+    return;
+  }
+
+  keys.forEach(wId => {
+    const w = weapons[wId];
+    const baseVal = Number(w.base) || 10;
+    const pcBonus = Math.floor((Number(currentCharData.pc_base) || 0) / 2);
+    const totalVal = baseVal + pcBonus;
+
+    const card = document.createElement("div");
+    card.className = "weapon-card";
+    card.setAttribute("data-weapon-id", wId);
+    card.innerHTML = `
+      <div class="weapon-card-top">
+        <input type="text" class="weapon-name-input editable-input" value="${w.name || 'Arma'}" onchange="updateWeaponField('${wId}', 'name', this.value)">
+        <button type="button" class="btn-delete-card" onclick="deleteWeaponCard('${wId}')" title="Eliminar arma">✖</button>
+      </div>
+
+      <div class="weapon-target-and-stats">
+        <div class="target-picker-row">
+          <label>🎯 Objetivo:</label>
+          <select class="weapon-target-select" onchange="updateWeaponField('${wId}', 'target', this.value)">
+            <option value="none">-- Seleccionar Objetivo --</option>
+            <optgroup label="Grupos y Área">
+              <option value="area_all" ${w.target === 'area_all' ? 'selected' : ''}>💥 Todos los enemigos (Área)</option>
+              <option value="multi_target" ${w.target === 'multi_target' ? 'selected' : ''}>🎯 Múltiples objetivos</option>
+              <option value="all_table" ${w.target === 'all_table' ? 'selected' : ''}>👥 Toda la mesa (Aliados y Enemigos)</option>
+            </optgroup>
+            <optgroup label="Enemigos Activos" class="optgroup-active-enemies"></optgroup>
+          </select>
+        </div>
+
+        <div class="weapon-calc-row">
+          <div class="calc-item">BASE: <input type="number" class="mini-input weapon-base-val editable-input" value="${baseVal}" onchange="updateWeaponField('${wId}', 'base', this.value)"></div>
+          <div class="calc-item">BONO: <span class="weapon-bonus-val">+${pcBonus}</span></div>
+          <div class="calc-item total-item">TOTAL: <strong class="weapon-total-val">${totalVal}</strong></div>
+        </div>
+      </div>
+
+      <div class="weapon-roll-action-bar">
+        <button type="button" class="btn-roll-d6" onclick="rollWeaponD6('${wId}')">🎲 Tirar D6</button>
+        <div class="weapon-roll-result-box" id="${wId}-d6-result">D6: — | Daño: —</div>
+      </div>
+
+      <div class="weapon-damage-table-wrap">
+        <table class="damage-matrix-table">
+          <thead>
+            <tr><th>TIRADA</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+          </thead>
+          <tbody>
+            <tr class="row-multipliers"><td>MULT.</td><td>-30%</td><td>-15%</td><td>0</td><td>0</td><td>+15%</td><td>+30%</td></tr>
+            <tr class="row-results">
+              <td>REF.</td>
+              <td>${Math.round(totalVal * 0.70)}</td>
+              <td>${Math.round(totalVal * 0.85)}</td>
+              <td>${totalVal}</td>
+              <td>${totalVal}</td>
+              <td>${Math.round(totalVal * 1.15)}</td>
+              <td>${Math.round(totalVal * 1.30)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  updateWeaponsTargetDropdowns(currentSessionData.enemies);
+}
+
+function addNewWeaponCard() {
+  const newId = "w_" + Date.now();
+  const newWeapon = {
+    name: "Nueva Arma",
+    base: 15,
+    target: "none"
+  };
+  db.ref(`characters/${currentCharId}/weapons/${newId}`).set(newWeapon);
+}
+
+function deleteWeaponCard(wId) {
+  if (confirm("¿Eliminar esta tarjeta de arma?")) {
+    db.ref(`characters/${currentCharId}/weapons/${wId}`).remove();
+  }
+}
+
+function updateWeaponField(wId, field, val) {
+  db.ref(`characters/${currentCharId}/weapons/${wId}/${field}`).set(val);
+}
+
+function rollWeaponD6(weaponId) {
+  const card = document.querySelector(`.weapon-card[data-weapon-id="${weaponId}"]`);
+  if (!card) return;
+
+  const targetSelect = card.querySelector(".weapon-target-select");
+  const targetLabel = targetSelect ? targetSelect.options[targetSelect.selectedIndex].text : "Sin objetivo";
+  const totalVal = parseInt(card.querySelector(".weapon-total-val").innerText, 10) || 10;
+
+  const d6 = Math.floor(Math.random() * 6) + 1;
+  const multipliers = { 1: -0.30, 2: -0.15, 3: 0, 4: 0, 5: 0.15, 6: 0.30 };
+  const finalDamage = Math.round(totalVal * (1 + multipliers[d6]));
+
+  const resultBox = document.getElementById(`${weaponId}-d6-result`);
+  if (resultBox) {
+    resultBox.innerText = `D6: ${d6} | Daño: ${finalDamage}`;
+  }
+
+  const logText = `🎲 Ataque contra [${targetLabel}]: ${finalDamage} daño (D6: ${d6}).`;
+  logDiceRoll(logText);
+  logCombatAction(logText);
+}
+
+function updateWeaponsTargetDropdowns(enemies) {
+  const optgroups = document.querySelectorAll(".optgroup-active-enemies");
+  optgroups.forEach(group => {
+    const parentSelect = group.closest("select");
+    const selectedVal = parentSelect ? parentSelect.value : "";
+    group.innerHTML = "";
+
+    if (!enemies || enemies.length === 0) {
+      group.innerHTML = `<option disabled>Sin enemigos en escena</option>`;
+      return;
+    }
+
+    enemies.forEach((e, idx) => {
+      const opt = document.createElement("option");
+      opt.value = `enemy_${idx}`;
+      opt.text = `${e.name} (PD: ${e.pd})`;
+      if (selectedVal === `enemy_${idx}`) opt.selected = true;
+      group.appendChild(opt);
+    });
+  });
 }
 
 // ========================================================
-// 11. INVENTARIO Y DISPENSADOR DE BOTÍN DEL MASTER
+// 11. TÉCNICAS Y PODERES ACTIVOS
+// ========================================================
+function renderTechniques(techniques) {
+  const container = document.getElementById("techniques-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const keys = Object.keys(techniques);
+  if (keys.length === 0) {
+    container.innerHTML = `<p style="text-align:center; color:#888; font-style:italic;">No hay técnicas activas. Agrega una para consumir Smath en combate.</p>`;
+    return;
+  }
+
+  keys.forEach(tId => {
+    const t = techniques[tId];
+    const card = document.createElement("div");
+    card.className = "technique-card";
+    card.innerHTML = `
+      <div class="technique-card-top">
+        <input type="text" class="editable-input" style="font-weight:bold; flex:1;" value="${t.name || 'Técnica'}" onchange="updateTechniqueField('${tId}', 'name', this.value)">
+        <span style="font-size:12px; color:#b45309; font-weight:bold;">Coste: <input type="number" class="mini-input editable-input" value="${t.cost || 5}" onchange="updateTechniqueField('${tId}', 'cost', this.value)"> Sm</span>
+        <button type="button" class="btn-action-small btn-primary" onclick="executeTechnique('${tId}', ${t.cost || 5})">⚡ Ejecutar</button>
+        <button type="button" class="btn-delete-card" onclick="deleteTechnique('${tId}')">✖</button>
+      </div>
+      <input type="text" class="editable-input" placeholder="Efecto de la técnica..." value="${t.desc || ''}" onchange="updateTechniqueField('${tId}', 'desc', this.value)">
+    `;
+    container.appendChild(card);
+  });
+}
+
+function addNewTechniqueCard() {
+  const newId = "t_" + Date.now();
+  db.ref(`characters/${currentCharId}/techniques/${newId}`).set({
+    name: "Nueva Técnica",
+    cost: 5,
+    desc: "Descripción del efecto..."
+  });
+}
+
+function deleteTechnique(tId) {
+  db.ref(`characters/${currentCharId}/techniques/${tId}`).remove();
+}
+
+function updateTechniqueField(tId, field, val) {
+  db.ref(`characters/${currentCharId}/techniques/${tId}/${field}`).set(val);
+}
+
+function executeTechnique(tId, cost) {
+  const currentSm = Number(currentCharData.smath_current) || 0;
+  if (currentSm < cost) {
+    showToast("⚠️ Smath insuficiente para ejecutar esta técnica.");
+    return;
+  }
+  const newSm = currentSm - cost;
+  db.ref(`characters/${currentCharId}/smath_current`).set(newSm);
+  logCombatAction(`⚡ Técnica ejecutada: -${cost} Smath gastados.`);
+}
+
+// ========================================================
+// 12. INVENTARIO & DISPENSADOR DE BOTÍN (MASTER)
 // ========================================================
 function renderInventoryTable(items) {
   const tbody = document.getElementById("inventory-items-tbody");
   if (!tbody) return;
   tbody.innerHTML = "";
 
-  if (items.length === 0) {
+  if (!items || items.length === 0) {
     tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#999; font-style:italic;">Mochila vacía.</td></tr>`;
     return;
   }
@@ -3150,7 +3775,7 @@ function renderInventoryTable(items) {
 }
 
 function addNewItemRow() {
-  const name = prompt("Nombre del objeto:");
+  const name = prompt("Nombre del nuevo objeto:");
   if (!name) return;
   const currentList = currentCharData.inventory || [];
   currentList.push({ name: name, type: "Mundano", weight: 0.5, effect: "Sin efectos especiales." });
@@ -3187,20 +3812,20 @@ function deliverLootItem() {
         updates[`characters/${key}/inventory`] = inv;
       });
       db.ref().update(updates);
-      showToast(`🎁 Objeto entregado a todos los jugadores.`);
+      showToast(`🎁 [${name}] entregado a todos los jugadores.`);
     });
   } else {
     db.ref(`characters/${targetPlayer}/inventory`).once("value", snapshot => {
       const inv = snapshot.val() || [];
       inv.push(newItem);
       db.ref(`characters/${targetPlayer}/inventory`).set(inv);
-      showToast(`🎁 Objeto entregado con éxito.`);
+      showToast(`🎁 [${name}] entregado con éxito.`);
     });
   }
 }
 
 // ========================================================
-// 12. TALLER DE CRIATURAS Y NOTAS SECRETAS DEL MASTER
+// 13. TALLER DE BESTIAS Y NOTAS SECRETAS
 // ========================================================
 function saveToBestiary() {
   const name = document.getElementById("workshop-enemy-name").value.trim();
@@ -3232,7 +3857,7 @@ function saveGmSecretNotes(text) {
 }
 
 // ========================================================
-// 13. MENSAJES DE MESA (HUB COLAPSABLE Y CHAT)
+// 14. MENSAJES DE MESA (HUB Y CHAT)
 // ========================================================
 function renderObjectiveMessages(messages, pinned) {
   const pinnedWrap = document.getElementById("pinned-msg-wrap");
@@ -3248,22 +3873,32 @@ function renderObjectiveMessages(messages, pinned) {
   }
 
   const listContainer = document.getElementById("latest-objectives-container");
+  const fullChatContainer = document.getElementById("table-chat-full-list");
   if (!listContainer) return;
 
-  const msgsArr = Object.values(messages || {}).slice(-3);
+  const msgsArr = Object.values(messages || {});
+  const recentMsgs = msgsArr.slice(-3);
   listContainer.innerHTML = "";
 
-  if (msgsArr.length === 0) {
+  if (recentMsgs.length === 0) {
     listContainer.innerHTML = `<div class="objective-row"><span class="obj-text placeholder-text">Sin mensajes recientes.</span></div>`;
-    return;
+  } else {
+    recentMsgs.forEach(m => {
+      const row = document.createElement("div");
+      row.className = "objective-row";
+      row.innerHTML = `<strong>${m.sender}:</strong> <span class="obj-text">${m.text}</span>`;
+      listContainer.appendChild(row);
+    });
   }
 
-  msgsArr.forEach(m => {
-    const row = document.createElement("div");
-    row.className = "objective-row";
-    row.innerHTML = `<strong>${m.sender}:</strong> <span class="obj-text">${m.text}</span>`;
-    listContainer.appendChild(row);
-  });
+  if (fullChatContainer) {
+    fullChatContainer.innerHTML = msgsArr.map(m => `
+      <div style="padding:4px 0; border-bottom:1px dotted #ccc;">
+        <span style="color:#888; font-size:11px;">[${new Date(m.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}]</span>
+        <strong>${m.sender}:</strong> ${m.text}
+      </div>
+    `).join("");
+  }
 }
 
 function broadcastTableMessage(isPin) {
@@ -3290,7 +3925,7 @@ function unpinMessage() {
 }
 
 // ========================================================
-// 14. MODALES FLOTANTES Y REPORTES DE COMBATE
+// 15. MODALES FLOTANTES, LOGS Y TOASTS
 // ========================================================
 function openTurnReportModal() {
   const modal = document.getElementById("modal-turn-report");
@@ -3324,7 +3959,7 @@ function switchReportTab(tab) {
       ${item.type === "player" ? "🛡️" : "👹"} <strong>${item.name}</strong>: 
       ${item.hpDelta ? `Vida: ${item.hpDelta > 0 ? "+" + item.hpDelta : item.hpDelta} HP | ` : ""}
       ${item.smathGain ? `Smath: +${item.smathGain} (Concentración) | ` : ""}
-      ${item.agonic || item.dead ? `<strong style="color:#b91c1c;">💀 Caído</strong>` : "En combate"}
+      ${item.agonic || item.dead ? `<strong style="color:#b91c1c;">💀 Caído</strong>` : "En pie"}
     </div>
   `).join("");
 }
@@ -3386,7 +4021,6 @@ function closeTableChatModal() {
   if (modal) modal.style.display = "none";
 }
 
-// 15. SISTEMA DE TOAST NOTIFICATIONS
 function showToast(message) {
   const container = document.getElementById("toast-notifications-container");
   if (!container) return;
