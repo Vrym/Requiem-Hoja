@@ -385,8 +385,7 @@
     }
 
     /* MODALES */
-    #hub-modal-backdrop, #history-modal-backdrop, #modal-backdrop, #dice-history-backdrop, #avatar-modal-backdrop, #modal-turn-report, #modal-combat-history {
-      position: fixed;
+      .modal-backdrop, #hub-modal-backdrop, #history-modal-backdrop, #modal-backdrop, #dice-history-backdrop, #avatar-modal-backdrop, #modal-turn-report, #modal-combat-history {      position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0,0,0,0.75);
       display: none;
@@ -2415,6 +2414,180 @@
         flex-shrink: 0;
       }
     }
+    /* ==================================================================== */
+/* MEJORAS TÁCTICAS, AUDIO, CUBOS, OBJETIVOS Y SUSURROS                 */
+/* ==================================================================== */
+
+/* BOTÓN DE SONIDO Y PULSO EN VIVO */
+.btn-sound-toggle {
+  background: #2a1408;
+  border: 1px solid var(--border-gold);
+  color: #fde047;
+  padding: 2px 7px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: var(--f-title);
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn-sound-toggle:hover { background: #46250f; color: #fff; }
+
+/* SELECCIÓN DE OBJETIVOS (MARCO CARMESÍ ACTIVO) */
+.enemy-card.target-selected, .gm-player-card.target-selected {
+  border-color: #b91c1c !important;
+  box-shadow: 0 0 10px #dc2626, inset 0 0 8px rgba(185, 28, 28, 0.3) !important;
+  background: #fff5f5 !important;
+}
+
+/* CAÍDOS Y MUERTOS */
+.enemy-card.card-dead, .gm-player-card.card-dead {
+  opacity: 0.45 !important;
+  filter: grayscale(1) !important;
+}
+
+/* MENSAJES DE MESA EMBELLECIDOS (CARDS TÁCTICAS) */
+.chat-entry-card {
+  background: #1e1914;
+  border: 1px solid #382c21;
+  border-left: 3px solid var(--border-gold);
+  border-radius: 4px;
+  padding: 6px 9px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+.chat-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+}
+.chat-entry-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+.badge-entry-attack { background: #4a1515; color: #fca5a5; border: 1px solid #7f1d1d; }
+.badge-entry-tech { background: #2e1065; color: #d8b4fe; border: 1px solid #6b21a8; }
+.badge-entry-summon { background: #14532d; color: #86efac; border: 1px solid #16a34a; }
+.badge-entry-round { background: #78350f; color: #fde68a; border: 1px solid #b45309; }
+.badge-entry-chat { background: #1f2937; color: #e5e7eb; border: 1px solid #374151; }
+
+.chat-time-tag {
+  font-size: 10px;
+  color: #dfcaa2;
+  font-family: monospace;
+}
+.chat-entry-body {
+  color: #faebd0;
+  font-family: var(--f-body);
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+/* CHIPS INTERACTIVOS A OBJETIVOS */
+.chat-target-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(197, 160, 89, 0.18);
+  border: 1px solid var(--border-gold);
+  color: #fde047;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 700;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.chat-target-link:hover {
+  background: var(--border-gold);
+  color: #1c0f06;
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.6);
+}
+
+/* ANIMACIÓN DE PULSO AL CLICKEAR EN EL CHAT */
+@keyframes targetCardPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0px var(--border-gold); }
+  50% { transform: scale(1.025); box-shadow: 0 0 20px #d97706, inset 0 0 10px rgba(217,119,6,0.5); }
+  100% { transform: scale(1); box-shadow: 0 0 0px var(--border-gold); }
+}
+.card-highlight-pulse {
+  animation: targetCardPulse 0.85s ease-in-out 2 !important;
+  border-color: #d97706 !important;
+}
+
+/* CUBOS DE ACCIÓN TÁCTICOS */
+.action-cubes-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.action-cube {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  border: 1px solid #000;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.action-cube-ready {
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+.action-cube-spent {
+  background: #4b5563;
+  opacity: 0.35;
+  box-shadow: none;
+}
+
+/* TARJETA ANIDADA DE INVOCACIÓN (↳ 🐾) */
+.player-card-summon {
+  background: #f4ece1;
+  border-left: 4px solid var(--border-gold);
+  margin-left: 16px;
+  margin-top: -4px;
+  margin-bottom: 8px;
+  border-radius: 0 0 4px 4px;
+  padding: 8px 10px;
+  box-shadow: 1px 2px 6px rgba(0,0,0,0.15);
+}
+
+/* ALERTA MÍSTICA (ECO MENTAL) */
+.modal-box-mystic {
+  max-width: 380px;
+  text-align: center;
+  padding: 20px;
+  border: 2px solid #8b5cf6;
+  background: radial-gradient(circle, #241636 0%, #110d18 100%);
+  color: #e9d5ff;
+  border-radius: 5px;
+}
+.mystic-icon-pulse {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  animation: pulseMystic 2.5s infinite;
+}
+@keyframes pulseMystic {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); filter: drop-shadow(0 0 10px #c084fc); }
+}
+.btn-action-mystic {
+  background: #6b21a8;
+  color: #fff;
+  border: 1px solid #a855f7;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 12px;
+}
   </style>
 </head>
 <body>
@@ -2504,6 +2677,57 @@
       </div>
     </div>
   </div>
+<!-- 1. MODAL: ADVERTENCIA DE FUEGO AMIGO -->
+    <div id="modal-friendly-fire-alert" class="modal-backdrop" style="display:none; z-index:100002;">
+      <div class="modal-box" style="border-color:#b91c1c; background:#2a1408; color:#fff;">
+        <div class="modal-title" style="color:#f87171;">⚠️ ¡ADVERTENCIA DE FUEGO AMIGO!</div>
+        <p style="font-size:13px; margin-bottom:8px;">Has seleccionado aliados como blanco:</p>
+        <ul id="friendly-fire-targets-list" style="list-style:none; padding:6px; background:#1c0f06; border:1px solid #b91c1c; border-radius:3px; color:#fca5a5; font-weight:bold; margin-bottom:10px;"></ul>
+        <div style="display:flex; justify-content:center; gap:8px;">
+          <button type="button" id="btn-ff-cancel" class="btn-modal-danger">❌ Cancelar y Desmarcar</button>
+          <button type="button" id="btn-ff-continue" class="btn-modal-cancel" style="background:#b45309; border-color:#fde047;">⚔️ Atacar Igualmente</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. MODAL: BUZÓN DE SUSURROS -->
+    <div id="modal-whispers-mailbox" class="modal-backdrop" style="display:none; z-index:100001;">
+      <div class="hub-modal-box" style="max-width:540px; text-align:left;">
+        <div class="modal-title" style="color:#731e0b; display:flex; justify-content:space-between; align-items:center;">
+          <span>🔒 BUZÓN DE SUSURROS SECRETOS</span>
+          <button type="button" class="btn-del-weapon" onclick="closeModal('modal-whispers-mailbox')">✖</button>
+        </div>
+        <div style="margin-bottom:8px; display:flex; gap:6px; align-items:center;">
+          <label style="font-family:var(--f-title); font-size:12px;">Hablar con:</label>
+          <select id="whisper-chat-with" class="table-msg-select" style="width:auto; flex:1;" onchange="renderFilteredWhispers()"></select>
+        </div>
+        <div id="whispers-messages-log" style="height:150px; background:#1c0f06; border:1px solid var(--border-dark); padding:8px; overflow-y:auto; display:flex; flex-direction:column; gap:6px; border-radius:3px; margin-bottom:8px;"></div>
+        <textarea id="whisper-input-text" class="table-msg-input" style="width:100%; height:45px; resize:none;" placeholder="Escribe un secreto..."></textarea>
+        <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:6px;">
+          <button type="button" class="table-msg-btn" onclick="sendActiveWhisper()">🔒 Enviar Susurro</button>
+          <button type="button" class="btn-modal-cancel" onclick="closeModal('modal-whispers-mailbox')">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. MODAL: ALERTA MÍSTICA (ECO MENTAL) -->
+    <div id="modal-mystic-whisper-alert" class="modal-backdrop" style="display:none; z-index:100005;">
+      <div class="modal-box-mystic">
+        <div class="mystic-icon-pulse">🌀</div>
+        <h3 style="font-family:var(--f-title); letter-spacing:2px; color:#d8b4fe;">ECO MENTAL</h3>
+        <p style="font-style:italic; font-size:13px; margin:10px 0;">«Un murmullo espectral roza tu oído... Has recibido un mensaje secreto de <strong id="mystic-sender-name">Alguien</strong>.»</p>
+        <button type="button" id="btn-open-mystic-message" class="btn-action-mystic">👁️ ESCUCHAR MENSAJE</button>
+      </div>
+    </div>
+
+    <!-- 4. MODAL: INFORMACIÓN DE TÉCNICA (ℹ️) -->
+    <div id="modal-technique-info" class="modal-backdrop" style="display:none; z-index:100003;">
+      <div class="hub-modal-box" style="max-width:480px; text-align:left;">
+        <div class="modal-title" id="info-modal-name" style="color:#731e0b; border-bottom:1px solid var(--border-gold); padding-bottom:4px;">DETALLE DE TÉCNICA</div>
+        <div id="info-modal-body" style="font-size:13px; line-height:1.4; margin:10px 0;"></div>
+        <button type="button" class="btn-modal-cancel" style="width:100%;" onclick="closeModal('modal-technique-info')">Entendido</button>
+      </div>
+    </div>
 
   <div id="toast-msg"></div>
 
@@ -2513,12 +2737,32 @@
     <div class="status-bar">
       <div class="status-left-wrap">
         <span>🔥 Réquiem Smithnas</span>
+        
+        <!-- BOTÓN DE SONIDO -->
+        <button type="button" id="btn-toggle-sound" class="btn-sound-toggle" onclick="toggleAudioMute()" title="Alternar Sonido">
+          <span id="sound-icon">🔔</span> <span id="sound-label">Sonido</span>
+        </button>
+
         <div class="round-counter-pill">
           <span>⏳ Ronda:</span>
           <strong id="global-round-display">1</strong>
           <button type="button" class="btn-round-reset" onclick="gmResetRound()" title="Reiniciar ronda a 1">↺</button>
         </div>
       </div>
+
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div class="identity-selector-pill">
+          <label for="client-identity-select">👤 Soy:</label>
+          <select id="client-identity-select" onchange="onIdentityChanged(this.value)">
+            <option value="gm">👑 Master</option>
+          </select>
+        </div>
+        <div class="status-badge">
+          <span class="status-dot" id="live-dot"></span>
+          <span id="live-status-text">Conectando...</span>
+        </div>
+      </div>
+    </div>
 
       <div style="display:flex; align-items:center; gap:8px;">
         <div class="identity-selector-pill">
@@ -2541,7 +2785,10 @@
           🎯 MENSAJES DE MESA <span id="objective-toggle-icon">▼</span>
         </span>
         <div style="display:flex; gap:4px;">
-          <button type="button" class="objective-btn" onclick="openHistoryModal()">💬 Chat</button>
+          <button type="button" class="objective-btn" onclick="openHistoryModal()">💬 Chat</button> 
+         <button type="button" id="btn-open-whispers" class="objective-btn" onclick="openWhisperMailboxWith('gm')">
+            🔒 Susurros <span id="whisper-counter-badge" class="badge-counter" style="background:#b91c1c; color:#fff; border-radius:10px; padding:0 5px; font-size:10px; display:none;">0</span>
+          </button> 
         </div>
       </div>
 
@@ -2597,6 +2844,17 @@
         <button type="button" class="btn-subtab" id="btn-subtab-enemies" onclick="switchSummarySubTab('enemies')">👹 Enemigos (<span id="enemies-count-badge">0</span>)</button>
       </div>
 
+      <!-- BARRA TÁCTICA DE FILTROS E INICIATIVA -->
+      <div class="combat-tactical-tools-bar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:12px; flex-wrap:wrap; gap:6px;">
+        <label style="display:inline-flex; align-items:center; gap:4px; cursor:pointer; font-family:var(--f-title); font-weight:bold;">
+          <input type="checkbox" id="chk-hide-dead" onchange="toggleHideDeadCombatants(this.checked)">
+          <span>👁️ Ocultar caídos</span>
+        </label>
+        <div style="display:flex; gap:6px;">
+          <button type="button" class="btn-mini-tool" onclick="rollMassEnemiesInitiative()">🎲 Inic. Masiva</button>
+          <button type="button" class="btn-mini-tool" onclick="sortCombatantsByInitiative()">⚡ Ordenar Turnos</button>
+        </div>
+      </div>
       <div class="gm-two-columns-layout">
         <!-- COLUMNA 1: ENEMIGOS EXPRESS (Izquierda en escritorio) -->
         <div class="summary-col-enemies" id="summary-enemies-pane">
@@ -6129,6 +6387,330 @@
         }));
       } catch(e) {}
     }
+    // --- 1. MOTOR DE AUDIO NATIVO SINTETIZADO (WEB AUDIO API) ---
+    class AudioEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      play(type) {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const t = this.ctx.currentTime;
+        try {
+          if (type === 'impact') {
+            const osc = this.ctx.createOscillator(), g = this.ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(140, t);
+            osc.frequency.exponentialRampToValueAtTime(35, t + 0.18);
+            g.gain.setValueAtTime(0.45, t);
+            g.gain.exponentialRampToValueAtTime(0.01, t + 0.18);
+            osc.connect(g); g.connect(this.ctx.destination);
+            osc.start(t); osc.stop(t + 0.18);
+          } else if (type === 'miss') {
+            const osc = this.ctx.createOscillator(), g = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(80, t);
+            osc.frequency.linearRampToValueAtTime(45, t + 0.12);
+            g.gain.setValueAtTime(0.35, t);
+            g.gain.exponentialRampToValueAtTime(0.01, t + 0.12);
+            osc.connect(g); g.connect(this.ctx.destination);
+            osc.start(t); osc.stop(t + 0.12);
+          } else if (type === 'whisper') {
+            const osc = this.ctx.createOscillator(), g = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(528, t);
+            g.gain.setValueAtTime(0.3, t);
+            g.gain.exponentialRampToValueAtTime(0.001, t + 1.4);
+            osc.connect(g); g.connect(this.ctx.destination);
+            osc.start(t); osc.stop(t + 1.4);
+          } else if (type === 'dice') {
+            for (let i = 0; i < 3; i++) {
+              const osc = this.ctx.createOscillator(), g = this.ctx.createGain(), off = t + i * 0.045;
+              osc.type = 'square';
+              osc.frequency.setValueAtTime(180 + Math.random() * 80, off);
+              g.gain.setValueAtTime(0.12, off);
+              g.gain.exponentialRampToValueAtTime(0.005, off + 0.035);
+              osc.connect(g); g.connect(this.ctx.destination);
+              osc.start(off); osc.stop(off + 0.035);
+            }
+          }
+        } catch(err) {
+          console.warn("Audio error:", err);
+        }
+      }
+    }
+
+    const audio = new AudioEngine();
+    function playAudioTone(type) { audio.play(type); }
+
+    function toggleAudioMute() {
+      audio.enabled = !audio.enabled;
+      const icon = document.getElementById('sound-icon');
+      const label = document.getElementById('sound-label');
+      if (icon) icon.innerText = audio.enabled ? '🔔' : '🔕';
+      if (label) label.innerText = audio.enabled ? 'Sonido' : 'Silencio';
+      localStorage.setItem('requiem_sound_enabled', JSON.stringify(audio.enabled));
+      showToast(audio.enabled ? '🔔 Sonido activado' : '🔕 Modo silencioso activado');
+    }
+
+    // --- 2. GESTIÓN MULTI-MODALES INTEGRADA ---
+    function closeModal(id = 'modal-backdrop') {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+      if (id === 'modal-backdrop') modalActionType = '';
+    }
+
+    // --- 3. SELECCIÓN DE OBJETIVOS Y FILTRO DE CAÍDOS ---
+    let selectedCombatTargets = new Set();
+    let hideDeadCombatants = false;
+
+    function toggleTargetSelection(targetId) {
+      if (selectedCombatTargets.has(targetId)) {
+        selectedCombatTargets.delete(targetId);
+      } else {
+        selectedCombatTargets.add(targetId);
+      }
+      updateTargetCardVisuals();
+    }
+
+    function updateTargetCardVisuals() {
+      document.querySelectorAll('.enemy-card, .gm-player-card').forEach(card => {
+        const id = card.getAttribute('data-id');
+        if (selectedCombatTargets.has(id)) {
+          card.classList.add('target-selected');
+        } else {
+          card.classList.remove('target-selected');
+        }
+      });
+    }
+
+    function toggleHideDeadCombatants(isChecked) {
+      hideDeadCombatants = isChecked;
+      renderEnemiesCards();
+      renderGMDashboard();
+      showToast(hideDeadCombatants ? '👁️ Caídos ocultados del Resumen' : '👁️ Mostrando a todos');
+    }
+
+    function focusCombatantCard(combatantId) {
+      let card = document.querySelector(`.enemy-card[data-id="${combatantId}"], .gm-player-card[data-id="${combatantId}"]`);
+      if (!card && hideDeadCombatants) {
+        hideDeadCombatants = false;
+        const chk = document.getElementById('chk-hide-dead');
+        if (chk) chk.checked = false;
+        renderEnemiesCards();
+        renderGMDashboard();
+        card = document.querySelector(`.enemy-card[data-id="${combatantId}"], .gm-player-card[data-id="${combatantId}"]`);
+      }
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.remove('card-highlight-pulse');
+        void card.offsetWidth;
+        card.classList.add('card-highlight-pulse');
+        playAudioTone('dice');
+        setTimeout(() => card.classList.remove('card-highlight-pulse'), 2000);
+      }
+    }
+
+    // --- 4. SOBREESCRITURA: RESUMEN INTERACTIVO CON CLIC DE OBJETIVO ---
+    renderEnemiesCards = function() {
+      const container = document.getElementById('enemies-cards-container');
+      const badge = document.getElementById('enemies-count-badge');
+      if (!container) return;
+
+      container.innerHTML = '';
+      if (badge) badge.innerText = enemiesList.length;
+
+      if (!enemiesList || enemiesList.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:12px; color:#888; font-style:italic;">No hay enemigos activos en escena.</div>';
+        return;
+      }
+
+      enemiesList.forEach((e, idx) => {
+        const isDead = (e.hp_current <= 0);
+        if (hideDeadCombatants && isDead) return;
+
+        const hpPct = Math.max(0, Math.min(100, (e.hp_current / e.hp_max) * 100));
+        const targetId = `enemy_${idx}`;
+        const isSelected = selectedCombatTargets.has(targetId);
+
+        const card = document.createElement('div');
+        card.className = `enemy-card ${isDead ? 'dead card-dead' : ''} ${isSelected ? 'target-selected' : ''}`;
+        card.setAttribute('data-id', targetId);
+        card.style.cursor = 'pointer';
+
+        card.onclick = (evt) => {
+          if (evt.target.closest('button') || evt.target.closest('input')) return;
+          toggleTargetSelection(targetId);
+        };
+
+        card.innerHTML = `
+          <div class="enemy-card-top">
+            <span class="enemy-name-title">${isDead ? '💀 ' : '👹 '}${escapeHtml(e.name)} (PD: ${e.pd})</span>
+            <div class="enemy-card-actions-quick">
+              <span style="font-size:11px; font-weight:bold; color:var(--border-gold); padding:1px 4px;">⚡ Inic: ${e.initiative !== undefined && e.initiative !== null ? e.initiative : '-'}</span>
+              <button type="button" class="btn-mini-tool" onclick="duplicateEnemy(${idx})" title="Duplicar">📋 Copiar</button>
+              <button type="button" class="btn-mini-tool" onclick="deleteEnemy(${idx})" style="color:#b91c1c; font-weight:bold;" title="Eliminar">✖</button>
+            </div>
+          </div>
+          <div class="enemy-hp-row">
+            <span>HP: <strong>${e.hp_current}</strong> / ${e.hp_max}</span>
+            <div class="enemy-bar-track">
+              <div class="enemy-bar-fill" style="width:${hpPct}%;"></div>
+            </div>
+          </div>
+          <div class="enemy-dmg-controls">
+            <input type="number" id="enemy-amt-${idx}" class="status-val-input" value="5" min="1" style="width:45px !important;">
+            <button type="button" class="btn-dmg-apply" onclick="applyEnemyDamage(${idx})">💥 Dañar</button>
+            <button type="button" class="btn-heal-apply" onclick="applyEnemyHeal(${idx})">💚 Curar</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    };
+
+    // --- 5. INICIATIVA MASIVA Y ORDENAMIENTO DESCENDENTE ---
+    function rollMassEnemiesInitiative() {
+      playAudioTone('dice');
+      let updatedCount = 0;
+      enemiesList.forEach(e => {
+        if (e.hp_current > 0) {
+          const d20 = Math.floor(Math.random() * 20) + 1;
+          e.initiative = d20;
+          updatedCount++;
+        }
+      });
+      renderEnemiesCards();
+      saveActivePlayerToCloud(true);
+      showToast(`🎲 Iniciativa tirada para ${updatedCount} enemigos.`);
+    }
+
+    function sortCombatantsByInitiative() {
+      playAudioTone('dice');
+      enemiesList.sort((a, b) => {
+        const initA = a.initiative !== undefined && a.initiative !== null ? a.initiative : -99;
+        const initB = b.initiative !== undefined && b.initiative !== null ? b.initiative : -99;
+        return initB - initA;
+      });
+      renderEnemiesCards();
+      saveActivePlayerToCloud(true);
+      showToast('⚡ Enemigos ordenados por iniciativa.');
+    }
+
+    // --- 6. BUZÓN DE SUSURROS Y ALERTA MÍSTICA (ECO MENTAL) ---
+    let whisperMessagesList = [];
+
+    function openWhisperMailboxWith(targetId = 'gm') {
+      const modal = document.getElementById('modal-whispers-mailbox');
+      const sel = document.getElementById('whisper-chat-with');
+      if (sel) {
+        sel.innerHTML = '<option value="gm">👑 Master</option>';
+        playerList.forEach((pid, idx) => {
+          const name = allPlayersData[pid]?.inputs?.['char-name']?.trim() || `Jugador ${idx + 1}`;
+          sel.innerHTML += `<option value="${pid}">👤 ${name}</option>`;
+        });
+        if (targetId) sel.value = targetId;
+      }
+      renderFilteredWhispers();
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function renderFilteredWhispers() {
+      const container = document.getElementById('whispers-messages-log');
+      const targetId = document.getElementById('whisper-chat-with')?.value;
+      if (!container) return;
+      container.innerHTML = '';
+      const myId = activeClientIdentity;
+
+      const filtered = whisperMessagesList.filter(m => 
+        (m.fromId === myId && m.toId === targetId) || 
+        (m.fromId === targetId && m.toId === myId)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="color:#aaa; font-style:italic; font-size:12px; padding:6px; text-align:center;">Sin susurros previos con este personaje.</div>';
+        return;
+      }
+
+      filtered.forEach(m => {
+        const isMine = m.fromId === myId;
+        container.innerHTML += `
+          <div style="text-align:${isMine ? 'right' : 'left'}; margin-bottom:4px;">
+            <span style="font-size:10px; color:#d97706;">[${m.time}] ${m.fromName}</span><br>
+            <div style="display:inline-block; padding:4px 8px; border-radius:4px; font-size:12px; background:${isMine ? '#46250f' : '#221e2e'}; border:1px solid ${isMine ? 'var(--border-gold)' : '#7e22ce'}; color:#fff; text-align:left; max-width:85%;">
+              ${escapeHtml(m.text)}
+            </div>
+          </div>
+        `;
+      });
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function sendActiveWhisper() {
+      const input = document.getElementById('whisper-input-text');
+      const targetSelect = document.getElementById('whisper-chat-with');
+      const text = (input?.value || '').trim();
+      if (!text) return;
+      const targetId = targetSelect.value;
+      const targetName = targetSelect.options[targetSelect.selectedIndex].text;
+      const myName = getIdentityLabel(activeClientIdentity);
+
+      const whisperObj = {
+        id: 'w_' + Date.now(),
+        fromId: activeClientIdentity,
+        fromName: myName,
+        toId: targetId,
+        toName: targetName,
+        text: text,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+
+      whisperMessagesList.push(whisperObj);
+      input.value = '';
+      renderFilteredWhispers();
+      saveActivePlayerToCloud(true);
+      showToast(`🔒 Susurro enviado a ${targetName}`);
+    }
+
+    function triggerMysticAlert(senderName, senderId) {
+      playAudioTone('whisper');
+      if ('vibrate' in navigator) navigator.vibrate([120, 60, 120]);
+      const modal = document.getElementById('modal-mystic-whisper-alert');
+      const senderEl = document.getElementById('mystic-sender-name');
+      const btn = document.getElementById('btn-open-mystic-message');
+      if (senderEl) senderEl.innerText = senderName;
+      if (btn) {
+        btn.onclick = () => {
+          modal.style.display = 'none';
+          openWhisperMailboxWith(senderId);
+        };
+      }
+      if (modal) modal.style.display = 'flex';
+    }
+
+    // --- 7. AUTO-CARGA DE PREFERENCIA DE AUDIO AL INICIAR ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedSound = localStorage.getItem('requiem_sound_enabled');
+      if (savedSound !== null) {
+        audio.enabled = JSON.parse(savedSound);
+        const sIcon = document.getElementById('sound-icon');
+        const sLabel = document.getElementById('sound-label');
+        if (sIcon && sLabel) {
+          sIcon.innerText = audio.enabled ? '🔔' : '🔕';
+          sLabel.innerText = audio.enabled ? 'Sonido' : 'Silencio';
+        }
+      }
+    });
 
     // ARRANQUE DEL SISTEMA
     window.addEventListener('DOMContentLoaded', () => {
@@ -6155,5 +6737,5 @@
       document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced(400));
     });
   </script>
-</body>
-</html>
+  </body>
+  </html>
