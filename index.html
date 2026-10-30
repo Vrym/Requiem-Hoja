@@ -1875,6 +1875,47 @@
         grid-template-columns: repeat(2, 1fr);
       }
     }
+    @media (min-width: 900px) {
+  body {
+    font-size: 18px;
+  }
+
+  .grid-2col {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .box-frame {
+    padding: 14px 16px;
+  }
+
+  .status-effect-item,
+  .status-effect-item label,
+  .status-val-input,
+  .status-turn-input,
+  .header-info-line input,
+  .header-info-line label {
+    font-size: 15px;
+  }
+
+  .status-effect-item {
+    font-weight: 700;
+  }
+
+  .status-effect-item label,
+  .status-effect-item .status-turn-input,
+  .status-effect-item .status-val-input {
+    font-weight: 800;
+  }
+}
+
+.status-effect-item label,
+.status-effect-item .status-turn-input,
+.status-effect-item .status-val-input,
+.status-effect-item strong,
+.status-effect-item b {
+  font-weight: 800;
+}
   </style>
 </head>
 <body>
@@ -4551,6 +4592,158 @@
       });
       document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced(400));
     });
+    <script>
+  // ============================================================
+  // ESENCIA / MODOS / RECALCULO
+  // ============================================================
+
+  const getEssenceBand = (lvl) => {
+    if (lvl >= 1 && lvl <= 3) return "latent";
+    if (lvl >= 4 && lvl <= 6) return "awake";
+    if (lvl >= 7 && lvl <= 9) return "manifested";
+    return "latent";
+  };
+
+  function syncEssenceSelectionUI(level) {
+    const rings = document.querySelectorAll(".essence-ring, .essence-seal, .essence-node, [data-essence-lvl]");
+    rings.forEach(el => {
+      const val = Number(el.dataset.essenceLvl || el.dataset.level || 0);
+      el.classList.toggle("active", val === Number(level));
+    });
+  }
+
+  function toggleEssence(level) {
+    const lvl = Number(level);
+    if (!Number.isInteger(lvl)) return;
+
+    activeEssence = lvl;
+    syncEssenceSelectionUI(lvl);
+
+    const band = getEssenceBand(lvl);
+
+    // bloqueo por rango
+    const awakeCheckbox = document.getElementById("mode-awake");
+    const manifestedCheckbox = document.getElementById("mode-manifested");
+
+    if (awakeCheckbox) awakeCheckbox.disabled = band === "latent";
+    if (manifestedCheckbox) manifestedCheckbox.disabled = band !== "manifested";
+
+    if (band === "latent") {
+      if (awakeCheckbox) awakeCheckbox.checked = false;
+      if (manifestedCheckbox) manifestedCheckbox.checked = false;
+    }
+
+    recalcAllAutoStats();
+  }
+
+  function recalcAllAutoStats() {
+    const lvl = Number(activeEssence || 1);
+    const band = getEssenceBand(lvl);
+
+    const asiLvl = Number(document.getElementById("stat-asistencia-lvl")?.value || 0);
+    const sinLvl = Number(document.getElementById("stat-singular-lvl")?.value || 0);
+    const defLvl = Number(document.getElementById("stat-defensiva-lvl")?.value || 0);
+    const offLvl = Number(document.getElementById("stat-ofensiva-lvl")?.value || 0);
+    const tacLvl = Number(document.getElementById("stat-tactica-lvl")?.value || 0);
+
+    let asistenciaBonus = 0;
+    let singularBonus = 0;
+    let resenciaBaseMult = 1;
+    let awakeModeBonus = "";
+    let manifestedModeBonus = "";
+
+    if (band === "latent") {
+      asistenciaBonus = 0;
+      singularBonus = 0;
+      resenciaBaseMult = 1;
+    }
+
+    if (band === "awake") {
+      asistenciaBonus = asiLvl * 2; // +2 por nivel
+      singularBonus = sinLvl * 2;    // +2 por nivel
+      resenciaBaseMult = 1 + (defLvl * 0.2); // +20% por nivel
+      awakeModeBonus =
+        "+50% Resencia, +5% daño por nivel de Ofensiva, +1 PD por nivel de Defensiva, +1 crítico D20 por nivel de Táctica";
+    }
+
+    if (band === "manifested") {
+      asistenciaBonus = asiLvl * 3; // +3 por nivel
+      singularBonus = sinLvl * 3;   // +3 por nivel
+      resenciaBaseMult = 1 + (defLvl * 0.2); // +20% por nivel
+      manifestedModeBonus =
+        "+100% Resencia, +10% daño por nivel de Ofensiva, +2 PD por nivel de Defensiva, +2 crítico D20 por nivel de Táctica";
+    }
+
+    // ejemplo de actualizacion visua
+    const asistenciaEl = document.getElementById("stat-asistencia-total");
+    const singularEl = document.getElementById("stat-singular-total");
+    const resenciaEl = document.getElementById("stat-resencia-total");
+    const modeInfoEl = document.getElementById("essence-mode-bonus");
+
+    if (asistenciaEl) asistenciaEl.textContent = String(4 + asistenciaBonus);
+    if (singularEl) singularEl.textContent = String(singularBonus);
+    if (resenciaEl) resenciaEl.textContent = String((Number(resenciaEl.dataset.base || 0) * resenciaBaseMult).toFixed(0));
+    if (modeInfoEl) {
+      modeInfoEl.textContent = band === "latent"
+        ? "Latente: modos bloqueados"
+        : band === "awake"
+        ? awakeModeBonus
+        : manifestedModeBonus;
+    }
+  }
+
+  function activateAwakeMode() {
+    const band = getEssenceBand(Number(activeEssence || 1));
+    const smathCurr = document.getElementById("stat-smath-curr");
+    if (band !== "awake") return;
+
+    if (smathCurr) {
+      const current = Number(smathCurr.value || 0);
+      smathCurr.value = Math.max(0, current - 1);
+    }
+
+    recalcAllAutoStats();
+  }
+
+  function activateManifestedMode() {
+    const band = getEssenceBand(Number(activeEssence || 1));
+    const smathCurr = document.getElementById("stat-smath-curr");
+    if (band !== "manifested") return;
+
+    if (smathCurr) {
+      const current = Number(smathCurr.value || 0);
+      smathCurr.value = Math.max(0, current - 2);
+    }
+
+    recalcAllAutoStats();
+  }
+
+  // si ya tienes eventos de checkbox de Despierta/Manifestada
+  document.addEventListener("change", (event) => {
+    const target = event.target;
+    if (!target) return;
+
+    if (target.id === "mode-awake" && target.checked) {
+      activateAwakeMode();
+    }
+
+    if (target.id === "mode-manifested" && target.checked) {
+      activateManifestedMode();
+    }
+  });
+
+  // si tus sellos son círculos o botones, esto dispara el recalculo:
+  document.querySelectorAll(".essence-ring, .essence-seal, .essence-node, [data-essence-lvl]").forEach(el => {
+    el.addEventListener("click", () => {
+      const lvl = Number(el.dataset.essenceLvl || el.dataset.level || 0);
+      if (lvl) toggleEssence(lvl);
+    });
+  });
+
+  // inicializacion
+  if (!window.activeEssence) window.activeEssence = 1;
+  recalcAllAutoStats();
+</script>
   </script>
 </body>
 </html>
