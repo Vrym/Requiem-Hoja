@@ -661,6 +661,7 @@
       color: #731e0b;
     }
 
+    /* DATOS DEL PERSONAJE: ALINEACIÓN PERFECTA DE ETIQUETAS */
     .header-info-line {
       display: flex;
       align-items: baseline;
@@ -670,19 +671,20 @@
     .header-info-line label {
       font-family: var(--f-title);
       font-weight: 700;
-      font-size: 12.5px;
-      min-width: 95px;
+      font-size: 13px;
+      min-width: 130px; /* Ancho suficiente para que ninguna etiqueta empuje el input */
       color: #2e1505;
+      flex-shrink: 0;
     }
     .header-info-line input {
       flex: 1;
       background: transparent;
       border: none;
-      border-bottom: 1px solid #6b4421;
+      border-bottom: 1.5px solid #6b4421;
       font-family: var(--f-body);
       font-size: 15.5px;
       color: #120a04;
-      padding: 2px 4px;
+      padding: 2px 4px 3px 4px;
       outline: none;
       min-width: 0;
     }
@@ -710,7 +712,7 @@
       flex-shrink: 0;
     }
 
-    /* ESTADOS Y EFECTOS ALTERADOS */
+    /* ESTADOS Y EFECTOS ALTERADOS (EN NEGRITA) */
     .status-effects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -722,10 +724,11 @@
       align-items: center;
       justify-content: space-between;
       gap: 3px;
-      font-size: 12px;
-      background: rgba(255,255,255,0.6);
+      font-size: 12.5px;
+      font-weight: bold;
+      background: rgba(255,255,255,0.65);
       padding: 3px 5px;
-      border: 1px solid rgba(60,30,10,0.2);
+      border: 1px solid rgba(60,30,10,0.3);
       border-radius: 3px;
       min-width: 0;
     }
@@ -738,6 +741,7 @@
       display: flex;
       align-items: center;
       gap: 3px;
+      font-weight: bold;
     }
     .status-effect-item input[type="checkbox"] {
       width: 15px;
@@ -756,10 +760,10 @@
       width: 38px !important;
       font-size: 12.5px !important;
       font-family: var(--f-body) !important;
-      font-weight: bold;
+      font-weight: 800 !important;
       padding: 1px 2px !important;
       text-align: center;
-      border: 1px solid var(--border-dark) !important;
+      border: 1.5px solid var(--border-dark) !important;
       background: #fff !important;
       border-radius: 2px;
     }
@@ -767,10 +771,10 @@
       width: 28px !important;
       font-size: 11px !important;
       font-family: var(--f-body) !important;
-      font-weight: bold;
+      font-weight: 800 !important;
       padding: 1px !important;
       text-align: center;
-      border: 1px dashed var(--border-gold) !important;
+      border: 1.5px dashed var(--border-gold) !important;
       background: #fffdf8 !important;
       border-radius: 2px;
     }
@@ -783,6 +787,7 @@
       padding: 3px 6px;
       border: 1px solid var(--border-gold);
       border-radius: 3px;
+      font-weight: bold;
     }
     .status-custom-name {
       flex: 1;
@@ -791,6 +796,7 @@
       border-bottom: 1px dotted var(--border-dark);
       font-family: var(--f-body);
       font-size: 14px;
+      font-weight: bold;
       padding: 1px 4px;
       outline: none;
     }
@@ -1031,7 +1037,7 @@
       letter-spacing: 1px;
     }
 
-    /* ACTIVACIÓN DE MODOS: LATENTE ARRIBA A LA DERECHA */
+    /* ACTIVACIÓN DE MODOS */
     .essence-activation-bar {
       background: rgba(0,0,0,0.06);
       border: 1.5px solid var(--border-dark);
@@ -1331,7 +1337,22 @@
       border-color: #360b02;
     }
 
-    /* TÉCNICAS CON SMATH Y GASTO AUTOMÁTICO */
+    /* PUNTOS DE TÉCNICA (PT) */
+    .tech-points-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.05);
+      border: 1.5px solid var(--border-gold);
+      border-radius: 3px;
+      padding: 5px 8px;
+      margin-bottom: 8px;
+      font-family: var(--f-title);
+      font-size: 12px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
     .techniques-table-wrap { width: 100%; }
     .techniques-table {
       width: 100%;
@@ -1387,10 +1408,18 @@
       cursor: pointer;
       border-radius: 2px;
       font-weight: bold;
+      transition: all 0.15s ease;
     }
     .btn-use-tech:hover {
       background: #731e0b;
       color: #fff;
+    }
+    .btn-use-tech.disabled {
+      background: #777 !important;
+      border-color: #555 !important;
+      color: #ccc !important;
+      cursor: not-allowed !important;
+      opacity: 0.6;
     }
 
     /* PASIVAS DINÁMICAS */
@@ -1433,24 +1462,40 @@
       padding: 0 4px;
     }
 
+    /* TÉCNICAS DESPIERTAS (RESALTADO VISUAL SEGÚN MODO) */
+    .awakened-box-wrap {
+      border: 2px solid var(--border-dark);
+      transition: all 0.25s ease;
+    }
+    .awakened-box-wrap.active-awakened-mode {
+      border-color: #7e22ce !important;
+      outline: 2px solid #ffd700 !important;
+      box-shadow: 0 0 14px rgba(126, 34, 206, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.2) !important;
+      background: rgba(255, 250, 240, 0.95) !important;
+    }
+    .awakened-box-wrap.active-awakened-mode .box-frame-title {
+      color: #581c87 !important;
+      border-bottom-color: #7e22ce !important;
+    }
+
     .despiertas-wrapper {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: 8px;
     }
     .awakened-node {
       background: rgba(255,255,255,0.45);
       border: 1.5px solid var(--border-dark);
       padding: 6px 8px;
-      margin-bottom: 8px;
     }
     .awakened-node-title {
       font-family: var(--f-title);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: bold;
       color: #4f250b;
+      margin-bottom: 2px;
     }
-    .awakened-node input {
+    .awakened-node-input {
       width: 100%;
       background: transparent;
       border: none;
@@ -1458,6 +1503,15 @@
       font-family: var(--f-body);
       font-size: 15px;
       padding: 2px;
+      outline: none;
+      margin-bottom: 4px;
+    }
+    .awakened-cost-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-family: var(--f-title);
     }
 
     /* MOCHILA */
@@ -1637,7 +1691,6 @@
       margin-left: auto;
     }
     
-    /* GESTOR DE ESTADOS EN 4/4 CON COLOR TEMÁTICO */
     .gm-state-manager-box {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -1805,13 +1858,23 @@
       font-size: 13.5px;
     }
 
+    /* REGLAS RESPONSIVE PARA ESCRITORIO */
+    @media (min-width: 900px) {
+      body { font-size: 16.5px; }
+      .grid-2col {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 16px;
+      }
+      .box-frame { padding: 12px 14px; }
+      .header-info-line label { min-width: 135px; }
+    }
+
     /* REGLAS RESPONSIVE PARA CELULAR */
     @media (max-width: 650px) {
       body { padding: 4px 2px; }
       .sheet-container { padding: 6px 4px; border-width: 3px; }
       .grid-2col { grid-template-columns: 1fr; gap: 8px; }
       .archetypes-grid { grid-template-columns: 1fr; gap: 8px; }
-      .despiertas-wrapper { grid-template-columns: 1fr; }
       .box-frame { padding: 6px 4px; margin-bottom: 8px; }
       .archetype-box { padding: 6px 4px; }
       .arch-header { justify-content: space-between; gap: 4px; padding-bottom: 4px; }
@@ -1842,80 +1905,15 @@
       .essence-tier-card { padding: 4px 2px; }
       .essence-tier-label { font-size: 9px; }
 
-      .shared-roll-bar {
-        grid-template-columns: 1fr;
-      }
+      .shared-roll-bar { grid-template-columns: 1fr; }
+      .skills-points-header-box { flex-direction: column; align-items: stretch; }
+      .skills-points-numbers { justify-content: space-between; }
+      .btn-add-item { padding: 2px 6px; font-size: 10.5px; }
 
-      .skills-points-header-box {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .skills-points-numbers {
-        justify-content: space-between;
-      }
-
-      .btn-add-item {
-        padding: 2px 6px;
-        font-size: 10.5px;
-      }
-      .tech-slots-tag-mobile {
-        font-size: 11px !important;
-        white-space: nowrap;
-      }
-
-      .gm-cards-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-      .gm-stats-columns {
-        grid-template-columns: 1fr;
-        gap: 2px;
-      }
-      .gm-state-manager-box {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .gm-cards-grid { grid-template-columns: 1fr; gap: 10px; }
+      .gm-stats-columns { grid-template-columns: 1fr; gap: 2px; }
+      .gm-state-manager-box { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (min-width: 900px) {
-  body {
-    font-size: 18px;
-  }
-
-  .grid-2col {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 16px;
-  }
-
-  .box-frame {
-    padding: 14px 16px;
-  }
-
-  .status-effect-item,
-  .status-effect-item label,
-  .status-val-input,
-  .status-turn-input,
-  .header-info-line input,
-  .header-info-line label {
-    font-size: 15px;
-  }
-
-  .status-effect-item {
-    font-weight: 700;
-  }
-
-  .status-effect-item label,
-  .status-effect-item .status-turn-input,
-  .status-effect-item .status-val-input {
-    font-weight: 800;
-  }
-}
-
-.status-effect-item label,
-.status-effect-item .status-turn-input,
-.status-effect-item .status-val-input,
-.status-effect-item strong,
-.status-effect-item b {
-  font-weight: 800;
-}
   </style>
 </head>
 <body>
@@ -2171,7 +2169,7 @@
         </div>
       </div>
 
-      <!-- COMBATE AUTOMATIZADO + ESTADOS NEGATIVOS -->
+      <!-- COMBATE AUTOMATIZADO + ESTADOS -->
       <div class="grid-2col">
         <div class="box-frame">
           <div class="box-frame-title">Estadísticas de Combate</div>
@@ -2225,7 +2223,7 @@
             </div>
             <div class="combat-stat-controls">
               <span class="calc-tag">Act:</span>
-              <input type="number" id="stat-smath-curr" placeholder="Act" oninput="syncToFirebaseDebounced();">
+              <input type="number" id="stat-smath-curr" placeholder="Act" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
               <button type="button" onclick="restoreFullSmath()" class="btn-stat-max" title="Restablecer al total máximo">⚡ Max</button>
               <span class="calc-tag">/ Base:</span>
               <input type="number" id="stat-smath-max-base" value="0" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
@@ -2319,7 +2317,7 @@
           </div>
         </div>
 
-        <!-- ESENCIA Y ASPECTOS (ARRIBA) -->
+        <!-- ESENCIA Y ASPECTOS -->
         <div class="box-frame" style="display:flex; flex-direction:column; justify-content:space-between;">
           <div>
             <div class="box-frame-title">Esencia y Aspectos</div>
@@ -2327,7 +2325,7 @@
             <div class="essence-embedded-wrap">
               <div class="essence-embedded-title">✨ ESENCIA (GRADOS 1 AL 15)</div>
               
-              <!-- SELECTOR DE ACTIVACIÓN DE MODOS: LATENTE ARRIBA A LA DERECHA -->
+              <!-- SELECTOR DE ACTIVACIÓN DE MODOS -->
               <div class="essence-activation-bar">
                 <div class="essence-activation-header">
                   <span class="essence-activation-title">⚡ ACTIVACIÓN DE MODOS DE ESENCIA</span>
@@ -2414,7 +2412,7 @@
               <!-- RESUMEN EN VIVO -->
               <div class="essence-mode-summary-box">
                 <b style="color:#731e0b;">📊 Balance de Esencia & Aspectos:</b><br>
-                • <b>Pasivos (Constantes):</b> <span id="summary-aspect-passives">Defensa HP +0% | Ranuras Téc: 4 | Conc +0</span><br>
+                • <b>Pasivos (Constantes):</b> <span id="summary-aspect-passives">Defensa HP +0% | Puntos Téc: 0 | Conc +0</span><br>
                 • <b>Despierta (+50% HP):</b> <span id="summary-bonus-despierta">Daño +0% | +0 PD | +0 Crítico</span><br>
                 • <b>Manifestada (+100% HP):</b> <span id="summary-bonus-manifestada">Daño +0% | +0 PD | +0 Crítico</span>
               </div>
@@ -2423,7 +2421,7 @@
         </div>
       </div>
 
-      <!-- ARQUETIPOS Y HABILIDADES (CON PUNTOS EN CABECERA) -->
+      <!-- ARQUETIPOS Y HABILIDADES -->
       <div class="box-frame">
         <div class="skills-points-header-box">
           <div class="skills-points-title">
@@ -2517,9 +2515,18 @@
         </div>
       </div>
 
-      <!-- TÉCNICAS CON SMATH Y GASTO AUTOMÁTICO -->
+      <!-- TÉCNICAS CON POZO DE PUNTOS (PT) -->
       <div class="box-frame">
         <div class="box-frame-title">Técnicas & Poderes</div>
+        
+        <div class="tech-points-bar">
+          <span>✨ <b>PUNTOS DE TÉCNICA (PT):</b></span>
+          <span>Totales: <b id="pts-tech-total" style="color:#731e0b; font-size:14px;">0</b></span>
+          <span>Gastados: <b id="pts-tech-spent" style="color:#b91c1c; font-size:14px;">0</b></span>
+          <span>Restantes: <b id="pts-tech-remaining" style="color:#166534; font-size:15px;">0</b></span>
+          <span style="font-size:11px; color:#555;">(2 Técnicas iniciales N1 gratis)</span>
+        </div>
+
         <div class="techniques-table-wrap">
           <table class="techniques-table">
             <thead>
@@ -2535,9 +2542,6 @@
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
           <button type="button" class="btn-add-item" onclick="addTechniqueRow()">+ Agregar Poder / Técnica</button>
-          <span class="tech-slots-tag-mobile" style="font-size:12px; font-family:var(--f-title); color:#583c14;">
-            Ranuras: <b id="tech-slots-used">0</b> / <b id="tech-slots-max">4</b>
-          </span>
         </div>
 
         <div class="passives-section-wrap">
@@ -2550,13 +2554,50 @@
       </div>
 
       <!-- TÉCNICAS DESPIERTAS -->
-      <div class="box-frame">
+      <div class="box-frame awakened-box-wrap" id="awakened-main-box">
         <div class="box-frame-title">Técnicas Despiertas</div>
         <div class="despiertas-wrapper">
-          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA PRINCIPAL:</div><input type="text" id="tech-princ-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)"><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-princ-cost" style="width:75px;" oninput="syncToFirebaseDebounced(1200)"></div></div>
-          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA I:</div><input type="text" id="tech-sec1-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)"><div style="font-size:12px; margin-top:2px;">COSTE: <input type="text" id="tech-sec1-cost" style="width:75px;" oninput="syncToFirebaseDebounced(1200)"></div></div>
-          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div><input type="text" id="tech-sec2-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)"></div>
-          <div class="awakened-node"><div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div><input type="text" id="tech-sec3-name" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)"></div>
+          
+          <div class="awakened-node">
+            <div class="awakened-node-title">TÉCNICA PRINCIPAL:</div>
+            <input type="text" id="tech-princ-name" class="awakened-node-input" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
+            <div class="awakened-cost-row">
+              <span>COSTE SMATH:</span>
+              <input type="number" id="tech-princ-cost" value="3" min="0" style="width:40px; padding:2px; text-align:center; font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+              <button type="button" class="btn-use-tech" id="btn-use-awakened-princ" onclick="useAwakenedTech('tech-princ-name', 'tech-princ-cost')">⚡ Usar</button>
+            </div>
+          </div>
+
+          <div class="awakened-node">
+            <div class="awakened-node-title">TÉCNICA SECUNDARIA I:</div>
+            <input type="text" id="tech-sec1-name" class="awakened-node-input" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
+            <div class="awakened-cost-row">
+              <span>COSTE SMATH:</span>
+              <input type="number" id="tech-sec1-cost" value="2" min="0" style="width:40px; padding:2px; text-align:center; font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+              <button type="button" class="btn-use-tech" id="btn-use-awakened-sec1" onclick="useAwakenedTech('tech-sec1-name', 'tech-sec1-cost')">⚡ Usar</button>
+            </div>
+          </div>
+
+          <div class="awakened-node">
+            <div class="awakened-node-title">TÉCNICA SECUNDARIA II:</div>
+            <input type="text" id="tech-sec2-name" class="awakened-node-input" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
+            <div class="awakened-cost-row">
+              <span>COSTE SMATH:</span>
+              <input type="number" id="tech-sec2-cost" value="2" min="0" style="width:40px; padding:2px; text-align:center; font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+              <button type="button" class="btn-use-tech" id="btn-use-awakened-sec2" onclick="useAwakenedTech('tech-sec2-name', 'tech-sec2-cost')">⚡ Usar</button>
+            </div>
+          </div>
+
+          <div class="awakened-node">
+            <div class="awakened-node-title">TÉCNICA SECUNDARIA III:</div>
+            <input type="text" id="tech-sec3-name" class="awakened-node-input" placeholder="Nombre..." oninput="syncToFirebaseDebounced(1200)">
+            <div class="awakened-cost-row">
+              <span>COSTE SMATH:</span>
+              <input type="number" id="tech-sec3-cost" value="2" min="0" style="width:40px; padding:2px; text-align:center; font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+              <button type="button" class="btn-use-tech" id="btn-use-awakened-sec3" onclick="useAwakenedTech('tech-sec3-name', 'tech-sec3-cost')">⚡ Usar</button>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -2688,8 +2729,8 @@
           'status-stun-turns': '', 'status-sellado-turns': '', 'status-petrificado-turns': '',
           'status-mareado-turns': '', 'status-veneno-turns': '', 'status-sangrado-turns': '',
           'status-curacion-turns': '', 'status-infectado-turns': '', 'status-custom-turns': '',
-          'tech-princ-name': '', 'tech-princ-cost': '', 'tech-sec1-name': '', 'tech-sec1-cost': '',
-          'tech-sec2-name': '', 'tech-sec2-cost': '', 'tech-sec3-name': '', 'tech-sec3-cost': ''
+          'tech-princ-name': '', 'tech-princ-cost': 3, 'tech-sec1-name': '', 'tech-sec1-cost': 2,
+          'tech-sec2-name': '', 'tech-sec2-cost': 2, 'tech-sec3-name': '', 'tech-sec3-cost': 2
         },
         checkboxes: {
           'world-wish-1': false, 'world-wish-2': false,
@@ -2704,8 +2745,8 @@
         ],
         archLevels: { impulsor: 0, controlador: 0, perpetuador: 0, proyector: 0, evocador: 0, conmutador: 0 },
         techniques: [
-          { name: '', cost: 2, lvl1: false, lvl2: false, lvl3: false },
-          { name: '', cost: 3, lvl1: false, lvl2: false, lvl3: false }
+          { name: '', cost: 2, lvl1: true, lvl2: false, lvl3: false },
+          { name: '', cost: 3, lvl1: true, lvl2: false, lvl3: false }
         ],
         passives: [],
         inventory: [
@@ -2716,6 +2757,7 @@
         lastRoll: '-',
         lastInit: '-',
         lastD20Crit: '-',
+        lastTech: '-',
         confirmedWish: null
       };
     }
@@ -2741,6 +2783,7 @@
       ofensiva: 0, defensiva: 0, tactica: 0, asistencia: 0, singular: 0
     };
     let currentEssenceMode = 'none';
+    let activeEssence = 0;
 
     let toastTimer = null;
     function showToast(text) {
@@ -2835,15 +2878,10 @@
       const badge = document.getElementById('wish-badge-count');
 
       const usedCount = (w1 ? 1 : 0) + (w2 ? 1 : 0);
-      if (badge) {
-        badge.innerText = `${usedCount}/2 Usados`;
-      }
+      if (badge) badge.innerText = `${usedCount}/2 Usados`;
 
-      if (w1 && w2) {
-        banner.classList.add('wishes-exhausted');
-      } else {
-        banner.classList.remove('wishes-exhausted');
-      }
+      if (w1 && w2) banner.classList.add('wishes-exhausted');
+      else banner.classList.remove('wishes-exhausted');
 
       syncToFirebaseDebounced();
     }
@@ -2907,6 +2945,7 @@
       const maxTot = document.getElementById('stat-smath-max-total')?.innerText || '0';
       const currInput = document.getElementById('stat-smath-curr');
       if (currInput) currInput.value = maxTot;
+      recalcAllAutoStats();
       syncToFirebaseDebounced();
       showToast('⚡ Smath restablecido al máximo.');
     }
@@ -3126,6 +3165,7 @@
         pdata.lastRoll = '-';
         pdata.lastD20Crit = '-';
         pdata.lastInit = '-';
+        pdata.lastTech = '-';
 
         pInputs['stat-hp-curr'] = currHp;
         pInputs['stat-smath-curr'] = currSmath;
@@ -3137,7 +3177,7 @@
       saveActivePlayerToCloud(true);
       if (activeRole === 'gm') renderGMDashboard();
       else if (allPlayersData[activeRole]) applyDataToForm(allPlayersData[activeRole]);
-      showToast('⏳ Turno avanzado: Estados resueltos, turnos restados y dados reseteados.');
+      showToast('⏳ Turno avanzado: Estados resueltos, turnos restados y técnicas/dados limpiados.');
     }
 
     function updateSenderSelect() {
@@ -3469,6 +3509,34 @@
       }
     }
 
+    function toggleEssence(lvl) {
+      if (activeEssence === lvl) activeEssence = lvl - 1;
+      else activeEssence = lvl;
+
+      for (let i = 1; i <= 15; i++) {
+        const el = document.getElementById('seal-' + i);
+        if (el) {
+          if (i <= activeEssence) el.classList.add('active');
+          else el.classList.remove('active');
+        }
+      }
+
+      // Desactivar modos si bajamos de grado requerido
+      if (activeEssence < 4 && currentEssenceMode === 'despierta') {
+        currentEssenceMode = 'none';
+        const dEl = document.getElementById('essence-mode-despierta');
+        if (dEl) dEl.checked = false;
+      }
+      if (activeEssence < 7 && currentEssenceMode === 'manifestada') {
+        currentEssenceMode = 'none';
+        const mEl = document.getElementById('essence-mode-manifestada');
+        if (mEl) mEl.checked = false;
+      }
+
+      recalcAllAutoStats();
+      syncToFirebaseDebounced();
+    }
+
     function toggleEssenceActivation(mode) {
       const modes = ['despierta', 'manifestada', 'trascendida', 'ascendida'];
       const clickedEl = document.getElementById(`essence-mode-${mode}`);
@@ -3582,7 +3650,7 @@
       const asiLvl = aspectState.asistencia || 0;
       const sinLvl = aspectState.singular || 0;
 
-      // Escala de multiplicadores según grado alcanzado en sellos (1-15)
+      // Multiplicadores según grado alcanzado en sellos (1 al 15)
       let asiMultiplier = 0;
       let sinMultiplier = 0;
 
@@ -3600,15 +3668,16 @@
         sinMultiplier = 0;
       }
 
-      const extraSlots = asiLvl * asiMultiplier;
-      const maxTechSlots = 4 + extraSlots;
+      // PUNTOS DE TÉCNICA (PT) TOTALES
+      const asiBonusPT = asiLvl * asiMultiplier;
+      const totalPT = (activeEssence * 2) + asiBonusPT;
       const aspectConcBonus = sinLvl * sinMultiplier;
 
       const sumPass = document.getElementById('summary-aspect-passives');
       const sumDesp = document.getElementById('summary-bonus-despierta');
       const sumMani = document.getElementById('summary-bonus-manifestada');
       if (sumPass) {
-        sumPass.innerText = `Defensa HP +${defLvl * 20}% | Ranuras Téc: ${maxTechSlots} | Conc +${aspectConcBonus}`;
+        sumPass.innerText = `Defensa HP +${defLvl * 20}% | Puntos Téc: +${asiBonusPT} PT | Conc +${aspectConcBonus}`;
       }
       if (sumDesp) {
         sumDesp.innerText = `Daño +${ofeLvl * 5}% | +${defLvl * 1} PD | +${tacLvl * 1} Crítico`;
@@ -3660,7 +3729,7 @@
       document.getElementById('stat-smath-max-total').innerText = baseSmathMaxVal + bSmath;
 
       const concEl = document.getElementById('stat-conc');
-      if (concEl) {
+      if (concEl && aspectConcBonus > 0 && !concEl.value) {
         concEl.value = aspectConcBonus;
       }
 
@@ -3676,55 +3745,101 @@
       document.getElementById('pts-obtenidos-total').innerText = totalPhObt;
 
       updateSkillsAndPoints(totalPhObt);
+      updateTechniquePoints(totalPT);
 
-      const curTechCount = document.querySelectorAll('#techniques-body tr').length;
-      document.getElementById('tech-slots-used').innerText = curTechCount;
-      document.getElementById('tech-slots-max').innerText = maxTechSlots;
-    }
-
-    function getActiveActionsList(chk = {}) {
-      const acts = [];
-      if (chk['act-atacar']) acts.push('⚔️ Atacar');
-      if (chk['act-conc-1'] && chk['act-conc-2']) acts.push('🧘 Concentrarse x2');
-      else if (chk['act-conc-1'] || chk['act-conc-2']) acts.push('🧘 Concentrarse x1');
-      if (chk['act-def']) acts.push('🛡️ Defenderse');
-      if (chk['act-desp-1'] && chk['act-desp-2']) acts.push('🏃 Desplazarse x2');
-      else if (chk['act-desp-1'] || chk['act-desp-2']) acts.push('🏃 Desplazarse x1');
-      if (chk['act-mot-1']) acts.push('🔥 Motivación (3 Sm)');
-      if (chk['act-mot-2']) acts.push('🔥 Motivación (5 Sm)');
-      return acts;
-    }
-
-    function clearTurnActions() {
-      const actionIds = ['act-atacar', 'act-conc-1', 'act-conc-2', 'act-def', 'act-desp-1', 'act-desp-2', 'act-mot-1', 'act-mot-2'];
-      actionIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.checked = false;
-      });
-
-      if (allPlayersData[activeRole]) {
-        allPlayersData[activeRole].lastRoll = '-';
-        allPlayersData[activeRole].lastD20Crit = '-';
-        allPlayersData[activeRole].lastInit = '-';
+      // Resaltado visual de Técnicas Despiertas según modo
+      const awakenedBox = document.getElementById('awakened-main-box');
+      if (awakenedBox) {
+        if (currentEssenceMode === 'despierta' || currentEssenceMode === 'manifestada') {
+          awakenedBox.classList.add('active-awakened-mode');
+        } else {
+          awakenedBox.classList.remove('active-awakened-mode');
+        }
       }
 
-      const initTag = document.getElementById('stat-init-total');
-      if (initTag) initTag.innerText = '-';
-
-      syncToFirebaseDebounced();
-      showToast('🧹 Acciones, dados e iniciativa del turno limpiados.');
+      // Bloqueo visual de botones de técnicas si falta Smath
+      updateTechniqueButtonsState();
     }
 
-    function addPassiveRow(text = '') {
-      const container = document.getElementById('passives-list-container');
-      const item = document.createElement('div');
-      item.className = 'passive-entry-item';
-      item.innerHTML = `
-        <textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(text)}</textarea>
-        <button type="button" class="btn-del-passive" onclick="this.closest('.passive-entry-item').remove(); syncToFirebaseDebounced();" title="Eliminar pasiva">✖</button>
-      `;
-      container.appendChild(item);
-      item.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
+    function updateTechniqueButtonsState() {
+      const smathCurr = parseFloat(document.getElementById('stat-smath-curr')?.value) || 0;
+
+      // Técnicas comunes
+      document.querySelectorAll('#techniques-body tr').forEach(row => {
+        const costInput = row.querySelector('.tech-cost-input');
+        const btn = row.querySelector('.btn-use-tech');
+        const cost = parseFloat(costInput?.value) || 0;
+        if (btn) {
+          if (smathCurr < cost) btn.classList.add('disabled');
+          else btn.classList.remove('disabled');
+        }
+      });
+
+      // Técnicas despiertas
+      const awakenedMap = [
+        { costId: 'tech-princ-cost', btnId: 'btn-use-awakened-princ' },
+        { costId: 'tech-sec1-cost', btnId: 'btn-use-awakened-sec1' },
+        { costId: 'tech-sec2-cost', btnId: 'btn-use-awakened-sec2' },
+        { costId: 'tech-sec3-cost', btnId: 'btn-use-awakened-sec3' }
+      ];
+
+      awakenedMap.forEach(item => {
+        const cVal = parseFloat(document.getElementById(item.costId)?.value) || 0;
+        const btn = document.getElementById(item.btnId);
+        if (btn) {
+          if (smathCurr < cVal) btn.classList.add('disabled');
+          else btn.classList.remove('disabled');
+        }
+      });
+    }
+
+    function updateTechniquePoints(totalPT) {
+      let spent = 0;
+      const rows = document.querySelectorAll('#techniques-body tr');
+      rows.forEach((row, index) => {
+        const isBaseFree = (index < 2);
+        const l1 = row.querySelector('.tech-row-lvl1')?.checked || false;
+        const l2 = row.querySelector('.tech-row-lvl2')?.checked || false;
+        const l3 = row.querySelector('.tech-row-lvl3')?.checked || false;
+
+        if (isBaseFree) {
+          // N1 es gratis (0 PT)
+          if (l2) spent += 1;
+          if (l3) spent += 1;
+        } else {
+          // A partir de la fila 3: N1 cuesta 2 PT
+          if (l1) spent += 2;
+          if (l2) spent += 1;
+          if (l3) spent += 1;
+        }
+      });
+
+      const rem = totalPT - spent;
+      document.getElementById('pts-tech-total').innerText = totalPT;
+      document.getElementById('pts-tech-spent').innerText = spent;
+      const remEl = document.getElementById('pts-tech-remaining');
+      if (remEl) {
+        remEl.innerText = rem;
+        remEl.style.color = rem < 0 ? '#b91c1c' : '#166534';
+      }
+    }
+
+    function handleTechLvlCascade(chk, lvl) {
+      const row = chk.closest('tr');
+      const l1 = row.querySelector('.tech-row-lvl1');
+      const l2 = row.querySelector('.tech-row-lvl2');
+      const l3 = row.querySelector('.tech-row-lvl3');
+
+      if (chk.checked) {
+        if (lvl === 3) { if (l1) l1.checked = true; if (l2) l2.checked = true; }
+        else if (lvl === 2) { if (l1) l1.checked = true; }
+      } else {
+        if (lvl === 1) { if (l2) l2.checked = false; if (l3) l3.checked = false; }
+        else if (lvl === 2) { if (l3) l3.checked = false; }
+      }
+
+      recalcAllAutoStats();
+      syncToFirebaseDebounced();
     }
 
     function useTechnique(btn) {
@@ -3744,8 +3859,83 @@
       currSmath -= cost;
       if (smathInput) smathInput.value = currSmath;
 
+      if (allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastTech = techName;
+      }
+
+      recalcAllAutoStats();
       syncToFirebaseDebounced();
       showToast(`⚡ Usaste "${techName}" (-${cost} Smath)`);
+    }
+
+    function useAwakenedTech(nameId, costId) {
+      const name = document.getElementById(nameId)?.value.trim() || 'Técnica Despierta';
+      const cost = parseInt(document.getElementById(costId)?.value) || 0;
+
+      const smathInput = document.getElementById('stat-smath-curr');
+      let currSmath = parseInt(smathInput?.value) || 0;
+
+      if (currSmath < cost) {
+        showToast(`⚠️ No tienes suficiente Smath para usar "${name}" (requiere ${cost}).`);
+        return;
+      }
+
+      currSmath -= cost;
+      if (smathInput) smathInput.value = currSmath;
+
+      if (allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastTech = name;
+      }
+
+      recalcAllAutoStats();
+      syncToFirebaseDebounced();
+      showToast(`⚡ Usaste "${name}" (-${cost} Smath)`);
+    }
+
+    function clearTurnActions() {
+      const actionIds = ['act-atacar', 'act-conc-1', 'act-conc-2', 'act-def', 'act-desp-1', 'act-desp-2', 'act-mot-1', 'act-mot-2'];
+      actionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.checked = false;
+      });
+
+      if (allPlayersData[activeRole]) {
+        allPlayersData[activeRole].lastRoll = '-';
+        allPlayersData[activeRole].lastD20Crit = '-';
+        allPlayersData[activeRole].lastInit = '-';
+        allPlayersData[activeRole].lastTech = '-';
+      }
+
+      const initTag = document.getElementById('stat-init-total');
+      if (initTag) initTag.innerText = '-';
+
+      syncToFirebaseDebounced();
+      showToast('🧹 Acciones, dados y técnica activa del turno limpiados.');
+    }
+
+    function getActiveActionsList(chk = {}) {
+      const acts = [];
+      if (chk['act-atacar']) acts.push('⚔️ Atacar');
+      if (chk['act-conc-1'] && chk['act-conc-2']) acts.push('🧘 Concentrarse x2');
+      else if (chk['act-conc-1'] || chk['act-conc-2']) acts.push('🧘 Concentrarse x1');
+      if (chk['act-def']) acts.push('🛡️ Defenderse');
+      if (chk['act-desp-1'] && chk['act-desp-2']) acts.push('🏃 Desplazarse x2');
+      else if (chk['act-desp-1'] || chk['act-desp-2']) acts.push('🏃 Desplazarse x1');
+      if (chk['act-mot-1']) acts.push('🔥 Motivación (3 Sm)');
+      if (chk['act-mot-2']) acts.push('🔥 Motivación (5 Sm)');
+      return acts;
+    }
+
+    function addPassiveRow(text = '') {
+      const container = document.getElementById('passives-list-container');
+      const item = document.createElement('div');
+      item.className = 'passive-entry-item';
+      item.innerHTML = `
+        <textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(text)}</textarea>
+        <button type="button" class="btn-del-passive" onclick="this.closest('.passive-entry-item').remove(); syncToFirebaseDebounced();" title="Eliminar pasiva">✖</button>
+      `;
+      container.appendChild(item);
+      item.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
     }
 
     db.ref('.info/connected').on('value', snap => {
@@ -3758,7 +3948,6 @@
       }
     });
 
-    // SISTEMA DE RECUPERACIÓN DE DATOS LOCALES PREVIOS SI LA NUBE ESTÁ VACÍA
     function recoverFromLocalStorage() {
       const keysToSearch = [
         'requiem_smithnas_state_persistent',
@@ -3793,7 +3982,6 @@
       return false;
     }
 
-    // LISTENER FIREBASE SEGURO CONTRA PÉRDIDA DE FOCO Y CONTRA SOBREESCRITURAS
     gameRef.on('value', snapshot => {
       const cloudData = snapshot.val();
 
@@ -3853,10 +4041,7 @@
     }
 
     function saveActivePlayerToCloud(silent = false) {
-      if (!isCloudInitialized) {
-        console.warn("Guardado bloqueado: esperando datos iniciales de Firebase.");
-        return;
-      }
+      if (!isCloudInitialized) return;
 
       lastLocalSaveTime = Date.now();
 
@@ -3989,6 +4174,7 @@
         const roll = pdata.lastRoll || '-';
         const crit = pdata.lastD20Crit || '-';
         const init = pdata.lastInit || '-';
+        const tech = pdata.lastTech || '-';
         
         const essenceLvl = pdata.essence || 0;
         const essenceTier = getEssenceTierName(essenceLvl);
@@ -4070,6 +4256,7 @@
 
         const attackDisplay = (roll && roll !== '-') ? `<span style="color:var(--txt-red); font-weight:bold;">${roll}</span>` : `<span style="color:#777; font-style:italic;">Sin ataque</span>`;
         const critDisplay = (crit && crit !== '-') ? `<b style="color:#854d0e;">${crit}</b>` : `<span style="color:#777; font-style:italic;">-</span>`;
+        const techDisplay = (tech && tech !== '-') ? `<b style="color:#731e0b;">${escapeHtml(tech)}</b>` : `<span style="color:#777; font-style:italic;">-</span>`;
 
         const isBoxOpen = (openGmStateBoxId === pid);
         const prefix = `gm-st-${pid}-`;
@@ -4092,8 +4279,13 @@
             <div class="gm-stat-line"><span>🔥 Modo:</span> <b style="color:#731e0b;">${pdata.essenceMode === 'none' ? 'Inactivo' : pdata.essenceMode.toUpperCase()}</b></div>
             
             <div class="gm-last-attack-full-row">
-              <span style="font-weight:bold;">🎲Ataque:</span>
+              <span style="font-weight:bold;">🎲 Ataque:</span>
               ${attackDisplay}
+            </div>
+
+            <div class="gm-stat-line" style="grid-column: 1 / -1; border-top: 1px dashed rgba(0,0,0,0.1); padding-top: 3px;">
+              <span style="font-weight:bold;">⚡ Técnica:</span>
+              ${techDisplay}
             </div>
           </div>
           
@@ -4161,7 +4353,6 @@
           </div>
 
           ${confirmedWishHtml}
-
           ${passivesHtml}
         `;
         cardsGrid.appendChild(card);
@@ -4267,11 +4458,8 @@
     }
 
     function handleAspectClick(asp, index, isChecked) {
-      if (isChecked) {
-        aspectState[asp] = index;
-      } else {
-        aspectState[asp] = index - 1;
-      }
+      if (isChecked) aspectState[asp] = index;
+      else aspectState[asp] = index - 1;
       renderAspectDiamonds(asp);
       recalcAllAutoStats();
       syncToFirebaseDebounced();
@@ -4284,6 +4472,7 @@
         if (chk) chk.checked = (i <= curLvl);
       }
     }
+
     function setupSkillBoxes() {
       const containers = document.querySelectorAll('.skill-boxes');
       containers.forEach(container => {
@@ -4348,31 +4537,22 @@
       }
     }
 
-    // TÉCNICAS CON SMATH Y GASTO AUTOMÁTICO
-    function addTechniqueRow(name = '', cost = 2, lvl1 = false, lvl2 = false, lvl3 = false) {
-      const maxSlots = parseInt(document.getElementById('tech-slots-max')?.innerText) || 4;
-      const currentCount = document.querySelectorAll('#techniques-body tr').length;
-
-      if (currentCount >= maxSlots && !isRemoteUpdate) {
-        showToast(`⚠️ Límite de técnicas alcanzado (${maxSlots}). Aumenta Asistencia.`);
-        return;
-      }
-
+    function addTechniqueRow(name = '', cost = 2, lvl1 = true, lvl2 = false, lvl3 = false) {
       const tbody = document.getElementById('techniques-body');
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td><textarea class="tech-row-name" rows="1" placeholder="Poder/Técnica..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(name)}</textarea></td>
         <td style="text-align:center;">
           <div style="display:inline-flex; align-items:center; gap:3px;">
-            <input type="number" class="tech-cost-input" value="${cost}" min="0" style="width:36px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="syncToFirebaseDebounced();">
+            <input type="number" class="tech-cost-input" value="${cost}" min="0" style="width:36px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
             <button type="button" class="btn-use-tech" onclick="useTechnique(this)" title="Gastar Smath">⚡ Usar</button>
           </div>
         </td>
         <td>
           <div class="lvl-checkboxes">
-            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''}>
-            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''}>
-            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''}>
+            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''} onchange="handleTechLvlCascade(this, 1)">
+            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''} onchange="handleTechLvlCascade(this, 2)">
+            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''} onchange="handleTechLvlCascade(this, 3)">
           </div>
         </td>
         <td style="text-align:center;"><button type="button" onclick="this.closest('tr').remove(); recalcAllAutoStats(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:red;font-weight:bold;font-size:14px;padding:4px 0;">✖</button></td>
@@ -4380,35 +4560,6 @@
       tbody.appendChild(tr);
       tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
       recalcAllAutoStats();
-    }
-
-   let activeEssence = 0;
-    function toggleEssence(lvl) {
-      if (activeEssence === lvl) activeEssence = lvl - 1;
-      else activeEssence = lvl;
-
-      for (let i = 1; i <= 15; i++) {
-        const el = document.getElementById('seal-' + i);
-        if (el) {
-          if (i <= activeEssence) el.classList.add('active');
-          else el.classList.remove('active');
-        }
-      }
-
-      // Apagar modos si bajamos de grado requerido
-      if (activeEssence < 4 && currentEssenceMode === 'despierta') {
-        currentEssenceMode = 'none';
-        const dEl = document.getElementById('essence-mode-despierta');
-        if (dEl) dEl.checked = false;
-      }
-      if (activeEssence < 7 && currentEssenceMode === 'manifestada') {
-        currentEssenceMode = 'none';
-        const mEl = document.getElementById('essence-mode-manifestada');
-        if (mEl) mEl.checked = false;
-      }
-
-      recalcAllAutoStats();
-      syncToFirebaseDebounced();
     }
 
     function addInventoryRow(name = '', qty = '', weight = '', desc = '') {
@@ -4453,6 +4604,7 @@
         lastRoll: allPlayersData[activeRole]?.lastRoll || '-',
         lastInit: allPlayersData[activeRole]?.lastInit || '-',
         lastD20Crit: allPlayersData[activeRole]?.lastD20Crit || '-',
+        lastTech: allPlayersData[activeRole]?.lastTech || '-',
         confirmedWish: allPlayersData[activeRole]?.confirmedWish || null
       };
 
@@ -4523,7 +4675,6 @@
         }
       });
 
-      // Modos de Esencia
       currentEssenceMode = data.essenceMode || 'none';
       const modes = ['despierta', 'manifestada', 'trascendida', 'ascendida'];
       modes.forEach(m => {
@@ -4531,7 +4682,6 @@
         if (el) el.checked = (currentEssenceMode === m);
       });
 
-      // Deseos
       handleWishCheckboxChange();
       renderConfirmedWishDisplay();
 
@@ -4556,9 +4706,10 @@
       const techBody = document.getElementById('techniques-body');
       techBody.innerHTML = '';
       if (data.techniques && data.techniques.length > 0) {
-        data.techniques.forEach(t => addTechniqueRow(t.name, t.cost ?? 2, t.lvl1, t.lvl2, t.lvl3));
+        data.techniques.forEach(t => addTechniqueRow(t.name, t.cost ?? 2, t.lvl1 ?? true, t.lvl2 ?? false, t.lvl3 ?? false));
       } else {
-        addTechniqueRow(); addTechniqueRow();
+        addTechniqueRow('', 2, true, false, false);
+        addTechniqueRow('', 3, true, false, false);
       }
 
       const passivesContainer = document.getElementById('passives-list-container');
@@ -4661,8 +4812,6 @@
       });
       document.getElementById('player-sheet-wrap').addEventListener('change', () => syncToFirebaseDebounced(400));
     });
-
- 
-</script>
+  </script>
 </body>
 </html>
