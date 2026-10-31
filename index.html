@@ -1575,6 +1575,9 @@
     .inventory-table { width:100%; border-collapse:collapse; table-layout:fixed; }
     .inventory-table textarea { width:100%; min-height:25px; box-sizing:border-box; resize:none; overflow:hidden; overflow-wrap:anywhere; white-space:pre-wrap; }
     .inventory-table input, .inventory-table select { max-width:100%; min-width:0; box-sizing:border-box; }
+    .inv-item-meta { display:flex;align-items:center;justify-content:space-between;gap:4px;margin-top:3px; }
+    .inv-type-tag { display:inline-block;padding:1px 5px;border-radius:8px;background:#e4d2ac;color:#62451d;font:bold 9px var(--f-title); }
+    .btn-use-inventory { border:1px solid #21643e;border-radius:3px;background:#1f6037;color:#f5f7dd;font:bold 9px var(--f-title);padding:2px 7px;cursor:pointer; }
     .skill-row { display:grid !important; grid-template-columns:minmax(82px,1fr) auto 36px 28px 38px; align-items:center; gap:5px !important; }
     .skill-row .skill-boxes { gap:3px !important; }
     .skill-row .skill-boxes input[type="checkbox"] { width:15px; height:15px; }
@@ -1587,6 +1590,7 @@
     .combat-state-strip { display:flex; gap:3px; height:5px; overflow:hidden; border-radius:3px; margin-bottom:4px; }
     .combat-state-strip span { flex:1; min-width:8px; }
     .state-chip { display:inline-flex; padding:2px 5px; border-radius:10px; background:#3b1a10; color:#fff2ca; border:1px solid #a76a21; font-size:10px; font-weight:bold; }
+    .state-remove-btn { border:0;background:transparent;color:#ffe4a1;font:bold 13px var(--f-title);padding:0 2px;cursor:pointer;line-height:1; }
     .badge-entry-crit { display:inline-block; background:#5a0b1f; color:#fff0a6; border:1px solid #ffcc45; padding:1px 6px; border-radius:9px; font-weight:bold; letter-spacing:.4px; }
     .action-cooldown { opacity:.55 !important; filter:grayscale(.45); cursor:not-allowed !important; }
     .npc-edit-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
@@ -1626,6 +1630,7 @@
       .btn-role-settings { margin-left:0; flex:0 0 auto; }
       .tech-effect-options { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .npc-edit-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .loot-item-meta-grid, .loot-item-effect-grid { grid-template-columns:minmax(0,1fr) !important; }
       .aspect-info-row { grid-template-columns:1fr; gap:2px; }
       .skill-row { grid-template-columns:minmax(50px,1fr) auto 30px 25px 34px; gap:3px !important; }
       .skill-row .skill-boxes { gap:2px !important; }
@@ -1920,6 +1925,7 @@
       <input type="hidden" id="builder-tech-index">
       <input type="hidden" id="builder-tech-kind" value="technique">
       <input type="hidden" id="builder-summon-index" value="-1">
+      <input type="hidden" id="builder-enemy-index" value="-1">
       <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:8px; margin:10px 0;">
         <div>
           <label style="font-family:var(--f-title); font-size:12px; font-weight:bold;">Nombre del Poder:</label>
@@ -2042,10 +2048,11 @@
         <label>PC / ataque<input id="edit-enemy-pc" type="number" class="table-msg-input"></label>
         <label>PD / defensa<input id="edit-enemy-pd" type="number" class="table-msg-input"></label>
         <label>Iniciativa<input id="edit-enemy-init" type="number" class="table-msg-input"></label>
+        <label>Bono iniciativa<input id="edit-enemy-init-bonus" type="number" class="table-msg-input"></label>
         <label>Concentración<input id="edit-enemy-conc" type="number" class="table-msg-input" min="0"></label>
         <label>Daño / arma<input id="edit-enemy-damage" class="table-msg-input"></label>
         <label>Técnica / coste<input id="edit-enemy-tech" class="table-msg-input"></label>
-        <label>Estado<select id="edit-enemy-state" class="table-msg-select"><option value="">Sin estado</option><option value="stun">Aturdido</option><option value="sellado">Sellado</option><option value="veneno">Veneno</option><option value="sangrado">Sangrado</option><option value="mareado">Mareado</option><option value="infectado">Infectado</option></select></label>
+        <label>Estado<select id="edit-enemy-state" class="table-msg-select"><option value="">Sin estado</option><option value="stun">Aturdido</option><option value="sellado">Sellado</option><option value="veneno">Veneno</option><option value="sangrado">Sangrado</option><option value="mareado">Mareado</option><option value="infectado">Infectado</option></select><span style="display:flex;align-items:center;gap:4px;font:10px var(--f-title);"><input id="edit-enemy-state-active" type="checkbox"> Activo</span></label>
         <label>Valor del estado<input id="edit-enemy-state-value" type="number" class="table-msg-input" min="0"></label>
         <label>Turnos restantes<input id="edit-enemy-state-turns" type="number" class="table-msg-input" min="0"></label>
         <label style="grid-column:span 2;">Detalle / notas<textarea id="edit-enemy-note" class="table-msg-input" rows="2"></textarea></label>
@@ -2245,19 +2252,24 @@
                 <input type="number" id="workshop-enemy-pd" class="table-msg-input" style="width:100%; text-align:center;" value="14">
               </div>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
+            <div class="loot-item-meta-grid" style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin-bottom:6px;">
               <div>
                 <label style="font-family:var(--f-title); font-size:11px; font-weight:bold;">Arma / Daño Base:</label>
                 <input type="text" id="workshop-enemy-dmg" class="table-msg-input" style="width:100%;" placeholder="Garras (16)">
               </div>
               <div>
-                <label style="font-family:var(--f-title); font-size:11px; font-weight:bold;">Técnica / Habilidad:</label>
+                <label style="font-family:var(--f-title); font-size:11px; font-weight:bold;">Técnica rápida (compatible):</label>
                 <input type="text" id="workshop-enemy-tech" class="table-msg-input" style="width:100%;" placeholder="Aullido (Coste: 3)">
               </div>
             </div>
-            <div style="margin-bottom:6px; max-width:180px;">
-              <label style="font-family:var(--f-title); font-size:10.5px; font-weight:bold;">Concentración / Regeneración:</label>
-              <input type="number" id="workshop-enemy-conc" class="table-msg-input" style="width:100%; text-align:center;" min="0" value="2">
+            <div style="display:flex;align-items:end;justify-content:space-between;gap:6px;flex-wrap:wrap;margin-bottom:5px;">
+              <span style="font: bold 11px var(--f-title);color:#563512;">⚡ Técnicas configuradas</span>
+              <button type="button" class="btn-mini-tool" onclick="openWorkshopTechniqueBuilder(-1)">+ Armar técnica</button>
+            </div>
+            <div id="workshop-enemy-tech-list" style="display:flex;flex-direction:column;gap:4px;margin-bottom:7px;"></div>
+            <div class="loot-item-effect-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+              <label style="font: bold 10.5px var(--f-title);">Concentración / Regeneración<input type="number" id="workshop-enemy-conc" class="table-msg-input" min="0" value="2"></label>
+              <label style="font: bold 10.5px var(--f-title);">Bono de iniciativa<input type="number" id="workshop-enemy-init" class="table-msg-input" value="0"></label>
             </div>
             <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:6px;">
               <button type="button" class="btn-stat-max" onclick="saveToBestiary()">💾 Guardar en Bestiario</button>
@@ -2276,22 +2288,37 @@
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
               <div>
                 <label style="font-family:var(--f-title); font-size:11px; font-weight:bold;">Tipo:</label>
-                <select id="loot-item-type" class="table-msg-select" style="width:100%;">
-                  <option value="Consumible">Consumible</option>
-                  <option value="Arma">Arma</option>
-                  <option value="Armadura">Armadura</option>
-                  <option value="Reliquia">Reliquia</option>
-                  <option value="Mundano">Mundano</option>
+                <select id="loot-item-type" class="table-msg-select" style="width:100%;" onchange="updateLootEffectOptions()">
+                  <option value="potion">🧪 Poción</option>
+                  <option value="weapon">⚔️ Arma</option>
+                  <option value="armor">🛡️ Armadura</option>
+                  <option value="relic">💎 Reliquia</option>
+                  <option value="mundane">📦 Mundano</option>
                 </select>
               </div>
               <div>
                 <label style="font-family:var(--f-title); font-size:11px; font-weight:bold;">Peso (kg):</label>
                 <input type="number" id="loot-item-weight" class="table-msg-input" style="width:100%; text-align:center;" value="0.5" step="0.1">
               </div>
+              <div>
+                <label style="font-family:var(--f-title); font-size:11px; font-weight:bold;">Rareza:</label>
+                <select id="loot-item-rarity" class="table-msg-select" style="width:100%;">
+                  <option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Misión</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+              <label style="font-family:var(--f-title);font-size:11px;font-weight:bold;">Uso / efecto
+                <select id="loot-item-effect-option" class="table-msg-select" style="width:100%;" onchange="updateLootEffectUI()"></select>
+              </label>
+              <label id="loot-level-wrap" style="font-family:var(--f-title);font-size:11px;font-weight:bold;">Nivel de poción
+                <select id="loot-item-effect-level" class="table-msg-select" style="width:100%;"><option value="1">N1 · 25%</option><option value="2">N2 · 50%</option><option value="3">N3 · 100%</option></select>
+              </label>
             </div>
             <div style="margin-bottom:6px;">
-              <label style="font-family:var(--f-title); font-size:11px; font-weight:bold;">Descripción / Efecto:</label>
-              <input type="text" id="loot-item-effect" class="table-msg-input" style="width:100%;" placeholder="Ej: Restaura 30 HP inmediatamente.">
+              <label style="font-family:var(--f-title);font-size:11px;font-weight:bold;">Detalle adicional
+                <input type="text" id="loot-item-effect" class="table-msg-input" style="width:100%;" placeholder="Reglas / descripción del objeto">
+              </label>
             </div>
             <div style="display:flex; align-items:center; gap:6px; margin-top:6px; flex-wrap:wrap;">
               <select id="loot-target-player" class="table-msg-select" style="flex:1; min-width:130px;"></select>
@@ -2973,6 +3000,7 @@
     let turnReportPrev = [];
     let gmSecretNotes = "";
     let workshopTemplates = [];
+    let workshopDraftTechniques = [];
     let whispersList = [];
     let lastWhisperNotifiedId = null;
 
@@ -3157,6 +3185,7 @@
         isConcentrado: false,
         hpDelta: 0,
         smathDelta: 0,
+        itemCombatBuff: null,
         confirmedWish: null
       };
     }
@@ -3169,6 +3198,11 @@
       p4: createBlankCharacterData('')
     };
     let objectivesList = [];
+    let deletedObjectiveIds = new Set();
+    try {
+      const savedDeletedObjectives = JSON.parse(localStorage.getItem('requiem_deleted_objectives') || '[]');
+      if (Array.isArray(savedDeletedObjectives)) deletedObjectiveIds = new Set(savedDeletedObjectives.map(String));
+    } catch (_) {}
     let pinnedMessage = null;
 
     let activeRole = 'p1';
@@ -4142,7 +4176,7 @@
           let aspectPd = 0;
           if (defender.essenceMode === 'despierta') aspectPd = defLvl * 1;
           else if (defender.essenceMode === 'manifestada') aspectPd = defLvl * 2;
-          const defPd = (parseFloat(defender.inputs?.['stat-pd-base']) || 0) + bPd + aspectPd;
+           const defPd = (parseFloat(defender.inputs?.['stat-pd-base']) || 0) + bPd + aspectPd + (parseInt(defender.itemCombatBuff?.pd) || 0);
           const defName = defender.inputs?.['char-name'] || pDefId;
 
           if (totalPrecision >= defPd) {
@@ -4392,6 +4426,11 @@
         pdata.lastInit = '-';
         pdata.turnAttacks = [];
         pdata.turnTechniques = [];
+        if (pdata.itemCombatBuff) {
+          const remainingTurns = (parseInt(pdata.itemCombatBuff.turns) || 1) - 1;
+          if (remainingTurns <= 0) { delete pdata.itemCombatBuff; roundStateEvents.push(`✨ ${escapeHtml(pInputs['char-name'] || pid)} pierde el efecto de su poción de combate.`); }
+          else pdata.itemCombatBuff.turns = remainingTurns;
+        }
 
         pInputs['stat-hp-curr'] = currHp;
         pInputs['stat-smath-curr'] = currSmath;
@@ -4581,22 +4620,28 @@
       populateTechniqueBuilder(t, tIdx, 'technique');
     }
 
-    function populateTechniqueBuilder(t = {}, index = -1, kind = 'technique', summonIndex = -1) {
+    function populateTechniqueBuilder(t = {}, index = -1, kind = 'technique', summonIndex = -1, enemyIndex = -1) {
       document.getElementById('builder-tech-index').value = index;
       document.getElementById('builder-tech-kind').value = kind;
       document.getElementById('builder-summon-index').value = summonIndex;
+      document.getElementById('builder-enemy-index').value = enemyIndex;
+      const allowSummon = kind === 'technique' || kind === 'awakened';
       document.getElementById('builder-tech-name').value = t.name || '';
       document.getElementById('builder-tech-cost').value = t.cost ?? 2;
       document.getElementById('builder-tech-category').value = t.category || 'attack';
+      const categorySelect = document.getElementById('builder-tech-category');
+      const summonCategory = categorySelect?.querySelector('option[value="summon"]');
+      if (summonCategory) summonCategory.disabled = !allowSummon;
+      if (!allowSummon && categorySelect?.value === 'summon') categorySelect.value = 'attack';
       document.getElementById('builder-tech-desc').value = t.desc || '';
       const effects = Array.isArray(t.effects) ? t.effects : [];
       document.querySelectorAll('.builder-tech-effect').forEach(chk => { chk.checked = effects.includes(chk.value); });
       document.getElementById('builder-tech-effect-value').value = t.effectValue ?? 0;
       document.getElementById('builder-tech-effect-turns').value = t.effectTurns ?? 2;
       document.getElementById('builder-tech-effect-text').value = t.effectText || '';
-      const isSum = kind !== 'summon' && (t.isSummon ?? t.category === 'summon');
+      const isSum = allowSummon && (t.isSummon ?? t.category === 'summon');
       const summonToggle = document.getElementById('builder-tech-is-summon');
-      if (summonToggle) { summonToggle.checked = isSum; summonToggle.disabled = kind === 'summon'; }
+      if (summonToggle) { summonToggle.checked = isSum; summonToggle.disabled = !allowSummon; }
       toggleSummonFields(isSum);
       document.getElementById('builder-summon-name').value = t.summonData?.name || '';
       document.getElementById('builder-summon-hp').value = t.summonData?.hp || 25;
@@ -4776,10 +4821,14 @@
       const tIdx = parseInt(document.getElementById('builder-tech-index').value);
       const kind = document.getElementById('builder-tech-kind').value || 'technique';
       const summonIndex = parseInt(document.getElementById('builder-summon-index').value);
+      const enemyIndex = parseInt(document.getElementById('builder-enemy-index').value);
       const pdata = allPlayersData[activeRole];
-      if (!pdata || isNaN(tIdx)) return;
+      if (isNaN(tIdx)) return;
       let list;
-      if (kind === 'awakened') { pdata.awakenedTechniques = pdata.awakenedTechniques || []; list = pdata.awakenedTechniques; }
+      if (kind === 'enemy-workshop') { workshopDraftTechniques = workshopDraftTechniques || []; list = workshopDraftTechniques; }
+      else if (kind === 'enemy') { const npc = enemiesList[enemyIndex]; if (!npc) return; npc.techniques = npc.techniques || []; list = npc.techniques; }
+      else if (!pdata) return;
+      else if (kind === 'awakened') { pdata.awakenedTechniques = pdata.awakenedTechniques || []; list = pdata.awakenedTechniques; }
       else if (kind === 'summon') { const sum = pdata.summons?.[summonIndex]; if (!sum) return; sum.techniques = sum.techniques || []; list = sum.techniques; }
       else { pdata.techniques = pdata.techniques || []; list = pdata.techniques; }
       const t = list[tIdx] || {};
@@ -4791,7 +4840,7 @@
       t.effectValue = parseInt(document.getElementById('builder-tech-effect-value').value) || 0;
       t.effectTurns = Math.max(1, parseInt(document.getElementById('builder-tech-effect-turns').value) || 2);
       t.effectText = document.getElementById('builder-tech-effect-text').value.trim();
-      t.isSummon = kind !== 'summon' && (document.getElementById('builder-tech-is-summon').checked || t.category === 'summon');
+      t.isSummon = (kind === 'technique' || kind === 'awakened') && (document.getElementById('builder-tech-is-summon').checked || t.category === 'summon');
       if (tIdx < 0 || tIdx >= list.length) list.push(t); else list[tIdx] = t;
       const isSum = t.isSummon;
       if (isSum) {
@@ -4816,9 +4865,10 @@
       } else if (kind !== 'summon') delete t.summonData;
 
       closeModal('modal-technique-builder');
-      applyDataToForm(pdata);
-      saveActivePlayerToCloud(true);
-      showToast(kind === 'awakened' ? '✨ Técnica despierta guardada.' : kind === 'summon' ? '🐾 Habilidad de la mascota guardada.' : '⚡ Técnica configurada y guardada.');
+      if (kind === 'enemy-workshop') { renderWorkshopEnemyTechniques(); saveActivePlayerToCloud(true); }
+      else if (kind === 'enemy') { renderEnemiesCards(); saveActivePlayerToCloud(true); }
+      else { applyDataToForm(pdata); saveActivePlayerToCloud(true); }
+      showToast(kind === 'awakened' ? '✨ Técnica despierta guardada.' : kind === 'summon' ? '🐾 Habilidad de la mascota guardada.' : kind.startsWith('enemy') ? '👹 Técnica de PNJ guardada.' : '⚡ Técnica configurada y guardada.');
     }
 
     function openTechniqueInfo(tIdx) {
@@ -5029,7 +5079,7 @@
     }
 
     function proceedCombatResolution(actorId, isEnemy, actVal) {
-      if (actVal.startsWith('wpn_')) {
+  if (actVal.startsWith('wpn_')) {
         const wId = actVal.replace('wpn_', '');
         resolveWeaponAttack(actorId, isEnemy, wId);
       } else if (actVal.startsWith('tech_')) {
@@ -5056,7 +5106,7 @@
           pcBono += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].pc;
           bDmg += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].dmg;
         });
-        pcBono += parseFloat(pdata.inputs?.['stat-pc-base']) || 0;
+        pcBono += (parseFloat(pdata.inputs?.['stat-pc-base']) || 0) + (parseInt(pdata.itemCombatBuff?.pc) || 0);
 
         const ofeLvl = pdata.aspects?.ofensiva || 0;
         if (pdata.essenceMode === 'despierta') aspectDmgPct = ofeLvl * 0.05;
@@ -5137,7 +5187,7 @@
             const defLvl = defender.aspects?.defensiva || 0;
             if (defender.essenceMode === 'despierta') aspectPdBonus = defLvl * 1;
             else if (defender.essenceMode === 'manifestada') aspectPdBonus = defLvl * 2;
-            defPd = (parseFloat(defender.inputs?.['stat-pd-base']) || 0) + bPd + aspectPdBonus;
+            defPd = (parseFloat(defender.inputs?.['stat-pd-base']) || 0) + bPd + aspectPdBonus + (parseInt(defender.itemCombatBuff?.pd) || 0);
             defName = defender.inputs?.['char-name'] || pDefId;
 
             if (attackPrecision >= defPd) {
@@ -5339,6 +5389,7 @@
         isConcentrado: allPlayersData[activeRole]?.isConcentrado || false,
         hpDelta: allPlayersData[activeRole]?.hpDelta || 0,
         smathDelta: allPlayersData[activeRole]?.smathDelta || 0,
+        itemCombatBuff: allPlayersData[activeRole]?.itemCombatBuff || null,
         confirmedWish: allPlayersData[activeRole]?.confirmedWish || null,
         skills: {},
         lastMotivationAt: allPlayersData[activeRole]?.lastMotivationAt || 0
@@ -5368,7 +5419,11 @@
           qty: row.querySelector('.inv-qty')?.value || '',
           weight: row.querySelector('.inv-weight')?.value || '',
           desc: row.querySelector('.inv-desc')?.value || '',
-          rarity: row.querySelector('.inv-rarity')?.value || 'comun'
+          rarity: row.querySelector('.inv-rarity')?.value || 'comun',
+          type: row.dataset.itemType || 'mundane',
+          effectCode: row.dataset.effectCode || '',
+          effectLevel: parseInt(row.dataset.effectLevel) || 0,
+          effectText: row.dataset.effectText || ''
         });
       });
 
@@ -5526,7 +5581,7 @@
       const invBody = document.getElementById('inventory-body');
       invBody.innerHTML = '';
       if (data.inventory && data.inventory.length > 0) {
-        data.inventory.forEach(i => addInventoryRow(i.name, i.qty, i.weight, i.desc, i.rarity));
+        data.inventory.forEach(i => addInventoryRow(i.name, i.qty, i.weight, i.desc, i.rarity, i.type, i.effectCode, i.effectLevel, i.effectText));
       } else {
         addInventoryRow(); addInventoryRow();
       }
@@ -5647,6 +5702,7 @@
         updateLootTargetSelect();
         const notesEl = document.getElementById('gm-secret-notes');
         if (notesEl) notesEl.value = gmSecretNotes || '';
+        renderWorkshopEnemyTechniques();
       } else {
         if (gmWrap) gmWrap.style.display = 'none';
         if (consoleWrap) consoleWrap.style.display = 'none';
@@ -5820,10 +5876,10 @@
         smCurr = Math.min(smCurr,smMaxTot);
         if (parseFloat(pInputs['stat-hp-curr']) > hpMaxTot) pInputs['stat-hp-curr'] = hpCurr;
         if (parseFloat(pInputs['stat-smath-curr']) > smMaxTot) pInputs['stat-smath-curr'] = smCurr;
-        const pcTot = (parseFloat(pInputs['stat-pc-base']) || 0) + bPc;
+        const pcTot = (parseFloat(pInputs['stat-pc-base']) || 0) + bPc + (parseInt(pdata.itemCombatBuff?.pc) || 0);
         const defPdBonus = pdata.essenceMode === 'despierta' ? (pdata.aspects?.defensiva || 0) :
           pdata.essenceMode === 'manifestada' ? (pdata.aspects?.defensiva || 0) * 2 : 0;
-        const pdTot = (parseFloat(pInputs['stat-pd-base']) || 0) + bPd + defPdBonus;
+        const pdTot = (parseFloat(pInputs['stat-pd-base']) || 0) + bPd + defPdBonus + (parseInt(pdata.itemCombatBuff?.pd) || 0);
 
         const hpPct = Math.min(100, Math.max(0, Math.round((hpCurr / hpMaxTot) * 100)));
         const smPct = Math.min(100, Math.max(0, Math.round((smCurr / smMaxTot) * 100)));
@@ -5971,12 +6027,13 @@
         const enemySmathCurr = parseFloat(e.smath_current ?? e.smath_max) || 0;
         const enemySmathPct = enemySmathMax > 0 ? Math.max(0, Math.min(100, Math.round((enemySmathCurr / enemySmathMax) * 100))) : 0;
         const enemyTechCost = parseTechCost(e.tech);
+        const npcTechHtml = (e.techniques || []).map((tech,tIdx)=>`<span class="state-chip">⚡ ${escapeHtml(tech.name || 'Técnica')} (${parseInt(tech.cost)||0} Sm)${isMasterClient ? ` <button type="button" class="btn-mini-tool" onclick="openEnemyTechniqueBuilder(${idx},${tIdx})">⚙️</button><button type="button" class="btn-mini-tool" onclick="deleteEnemyTechnique(${idx},${tIdx})">✖</button>` : ''}</span>`).join('');
         const isAlly = (e.faction === 'ally');
         const isSelected = selectedTargetIds.has(`e_${idx}`);
         const isGm = (isMasterClient);
         const enemyStates = e.states || {};
         const stateLabels = {veneno:'☠️ Veneno',sangrado:'🩸 Sangrado',stun:'💫 Aturdido',sellado:'🔒 Sellado',mareado:'🌀 Mareado',infectado:'☣️ Infectado'};
-        const enemyStateHtml = Object.entries(enemyStates).map(([key,state]) => `<span class="state-chip">${escapeHtml(stateLabels[key] || key)}${['veneno','sangrado'].includes(key) ? ` · ${parseInt(state.val)||0}/t` : ''} · ${parseInt(state.turns)||0}T</span>`).join('');
+        const enemyStateHtml = Object.entries(enemyStates).filter(([key])=>!!stateLabels[key]).map(([key,state]) => `<span class="state-chip">${escapeHtml(stateLabels[key])}${['veneno','sangrado'].includes(key) ? ` · ${parseInt(state.val)||0}/t` : ''} · ${parseInt(state.turns)||0}T${isGm ? ` <button type="button" class="state-remove-btn" onclick="removeEnemyState(${idx},'${key}')" title="Quitar estado">×</button>` : ''}</span>`).join('');
         const enemyBorder = getCombatantStatusBorderClasses({
           'status-veneno': !!enemyStates.veneno,
           'status-sangrado': !!enemyStates.sangrado,
@@ -6004,6 +6061,7 @@
               <span style="font-size:11px; font-family:var(--f-title); color:#b45309; font-weight:bold;">⚡ Inic: ${e.lastInit || '-'}</span>
               <button type="button" class="btn-mini-tool" style="display:${isGm ? 'inline-block' : 'none'};" onclick="rollEnemyInitiative(${idx})" title="Tirar iniciativa de este PNJ">🎲</button>
               <button type="button" class="btn-mini-tool" style="display:${isGm ? 'inline-block' : 'none'};" onclick="openEnemyStateEditor(${idx})" title="Agregar o modificar estado">＋ Estado</button>
+              <button type="button" class="btn-mini-tool" style="display:${isGm ? 'inline-block' : 'none'};" onclick="openEnemyTechniqueBuilder(${idx},-1)" title="Armar técnica de este PNJ">⚡ Técnica</button>
               <button type="button" class="btn-mini-tool" style="display:${isGm ? 'inline-block' : 'none'};" onclick="openEnemyEdit(${idx})" title="Editar enemigo o aliado">⚙️</button>
               <button type="button" class="btn-mini-tool" style="display:${isGm ? 'inline-block' : 'none'};" onclick="duplicateEnemy(${idx})" title="Duplicar PNJ">📋</button>
               <button type="button" class="btn-mini-tool" style="display:${isGm ? 'inline-block' : 'none'};" onclick="toggleNpcFaction(${idx})" title="Alternar Aliado/Enemigo">${isAlly ? '🛡️ Aliado' : '👹 Enemigo'}</button>
@@ -6025,12 +6083,14 @@
               </div>
             </div>` : ''}
             <div class="enemy-state-summary">${enemyStateHtml}${e.isConcentrated ? '<span class="state-chip">🧘 Concentrado</span>' : ''}${e.lastEffect ? `<span class="state-chip">✨ ${escapeHtml(e.lastEffect)}</span>` : ''}</div>
+            ${npcTechHtml ? `<div class="enemy-state-summary" aria-label="Técnicas del PNJ">${npcTechHtml}</div>` : ''}
             <!-- CONTROLES GM -->
             <div style="display:${isGm ? 'flex' : 'none'}; justify-content:space-between; align-items:center; gap:4px; margin-top:4px;">
               <div style="display:flex; gap:4px; align-items:center;">
                 <select id="action-sel-e_${idx}" class="resumen-action-select">
                   <option value="wpn_main">⚔️ Atacar (${escapeHtml(String(e.base_dmg || 15))})</option>
-                  ${e.tech ? `<option value="tech_main">⚡ ${escapeHtml(parseTechName(e.tech))} (${enemyTechCost} Sm)</option>` : ''}
+                  ${(e.techniques || []).map((tech,tIdx)=>`<option value="tech_${tIdx}">⚡ ${escapeHtml(tech.name || 'Técnica')} (${parseInt(tech.cost)||0} Sm)</option>`).join('')}
+                  ${(!e.techniques?.length && e.tech) ? `<option value="tech_main">⚡ ${escapeHtml(parseTechName(e.tech))} (${enemyTechCost} Sm)</option>` : ''}
                 </select>
                 <button type="button" class="btn-stat-max btn-execute-action-target" style="background:#731e0b; color:#ffe8b5;" onclick="executeResumenAction('e_${idx}', true)">⚡ Atacar</button>
               </div>
@@ -6142,6 +6202,7 @@
       document.getElementById('edit-enemy-pc').value = e.pc ?? 10;
       document.getElementById('edit-enemy-pd').value = e.pd ?? 12;
       document.getElementById('edit-enemy-init').value = e.lastInit === '-' ? '' : (parseInt(e.lastInit) || 0);
+      document.getElementById('edit-enemy-init-bonus').value = e.init_bonus ?? 0;
       document.getElementById('edit-enemy-conc').value = e.conc ?? 2;
       document.getElementById('edit-enemy-damage').value = e.base_dmg ?? 10;
       document.getElementById('edit-enemy-tech').value = e.tech ?? '';
@@ -6152,6 +6213,7 @@
       document.getElementById('edit-enemy-state').value = stateKey;
       document.getElementById('edit-enemy-state-value').value = state?.val ?? '';
       document.getElementById('edit-enemy-state-turns').value = state?.turns ?? '';
+      document.getElementById('edit-enemy-state-active').checked = !!stateKey;
       openModal('modal-enemy-edit');
     }
 
@@ -6164,7 +6226,17 @@
       if (state) state.value = '';
       if (value) value.value = '';
       if (turns) turns.value = '';
+      const active = document.getElementById('edit-enemy-state-active'); if (active) active.checked = true;
       state?.focus();
+    }
+
+    function removeEnemyState(idx,key) {
+      if (!isMasterClient || !enemiesList[idx]?.states) return;
+      if (!claimActionCooldown(`remove-enemy-state-${idx}-${key}`,4000)) return;
+      delete enemiesList[idx].states[key];
+      if (Object.keys(enemiesList[idx].states).length === 0) delete enemiesList[idx].states;
+      delete enemiesList[idx].lastEffect;
+      renderEnemiesCards(); saveActivePlayerToCloud(true); showToast('🧹 Estado del PNJ eliminado.');
     }
 
     function saveEnemyEdit() {
@@ -6180,15 +6252,18 @@
       e.pc = parseInt(document.getElementById('edit-enemy-pc').value)||0;
       e.pd = parseInt(document.getElementById('edit-enemy-pd').value)||0;
       e.lastInit = document.getElementById('edit-enemy-init').value === '' ? '-' : (parseInt(document.getElementById('edit-enemy-init').value)||0);
+      e.init_bonus = parseInt(document.getElementById('edit-enemy-init-bonus').value)||0;
       e.conc = Math.max(0,parseInt(document.getElementById('edit-enemy-conc').value)||0);
       e.base_dmg = document.getElementById('edit-enemy-damage').value.trim() || '0';
       e.tech = document.getElementById('edit-enemy-tech').value.trim();
       e.isConcentrated = document.getElementById('edit-enemy-concentrated').checked;
       e.note = document.getElementById('edit-enemy-note').value.trim();
       const state = document.getElementById('edit-enemy-state').value;
+      const stateActive = document.getElementById('edit-enemy-state-active').checked;
       const stateValue = Math.max(0,parseInt(document.getElementById('edit-enemy-state-value').value)||0);
       const stateTurns = Math.max(0,parseInt(document.getElementById('edit-enemy-state-turns').value)||0);
-      if (state && stateTurns > 0) { e.states = e.states || {}; e.states[state] = {val:stateValue,turns:stateTurns}; }
+      if (state && stateActive && stateTurns > 0) { e.states = e.states || {}; e.states[state] = {val:stateValue,turns:stateTurns}; }
+      else if (state && e.states) { delete e.states[state]; if (!Object.keys(e.states).length) delete e.states; }
       closeModal('modal-enemy-edit'); renderEnemiesCards(); saveActivePlayerToCloud(true); showToast('💾 PNJ actualizado.');
     }
 
@@ -6276,10 +6351,12 @@
         smath_max: parseInt(document.getElementById('workshop-enemy-smath')?.value) || 10,
         smath_current: parseInt(document.getElementById('workshop-enemy-smath')?.value) || 10,
         conc: parseInt(document.getElementById('workshop-enemy-conc')?.value) || 2,
+        init_bonus: parseInt(document.getElementById('workshop-enemy-init')?.value) || 0,
         pd: parseInt(document.getElementById('workshop-enemy-pd').value) || 14,
         pc: parseInt(document.getElementById('workshop-enemy-pc').value) || 10,
         base_dmg: document.getElementById('workshop-enemy-dmg').value.trim() || '12',
-        tech: document.getElementById('workshop-enemy-tech').value.trim() || ''
+        tech: document.getElementById('workshop-enemy-tech').value.trim() || '',
+        techniques: (workshopDraftTechniques || []).map(t=>({...t}))
       };
 
       if (!Array.isArray(workshopTemplates)) workshopTemplates = [];
@@ -6305,22 +6382,56 @@
       });
     }
 
+    function renderWorkshopEnemyTechniques() {
+      const list = document.getElementById('workshop-enemy-tech-list'); if (!list) return;
+      list.innerHTML = '';
+      (workshopDraftTechniques || []).forEach((tech,index) => {
+        const row = document.createElement('div');
+        row.className = 'npc-technique-row';
+        row.innerHTML = `<span><b>⚡ ${escapeHtml(tech.name || 'Técnica')}</b> · ${parseInt(tech.cost)||0} Smath${tech.effects?.length ? ` · ${escapeHtml(tech.effects.join(', '))}` : ''}</span><span><button type="button" class="btn-mini-tool" onclick="openWorkshopTechniqueBuilder(${index})">⚙️</button><button type="button" class="btn-mini-tool" onclick="deleteWorkshopEnemyTechnique(${index})">✖</button></span>`;
+        list.appendChild(row);
+      });
+      if (!workshopDraftTechniques?.length) list.innerHTML = '<small style="color:#795b32;font-style:italic;">Sin técnicas armadas; también puedes usar la técnica rápida.</small>';
+    }
+
+    function openWorkshopTechniqueBuilder(index = -1) {
+      if (!isMasterClient) return;
+      populateTechniqueBuilder(workshopDraftTechniques?.[index] || {},index,'enemy-workshop');
+    }
+    function openEnemyTechniqueBuilder(enemyIndex,techIndex = -1) {
+      if (!isMasterClient) return;
+      const npc = enemiesList[enemyIndex]; if (!npc) return;
+      populateTechniqueBuilder(npc.techniques?.[techIndex] || {},techIndex,'enemy',-1,enemyIndex);
+    }
+    function deleteWorkshopEnemyTechnique(index) {
+      if (!isMasterClient) return;
+      workshopDraftTechniques.splice(index,1); renderWorkshopEnemyTechniques(); saveActivePlayerToCloud(true);
+    }
+    function deleteEnemyTechnique(enemyIndex,techIndex) {
+      if (!isMasterClient) return;
+      enemiesList[enemyIndex]?.techniques?.splice(techIndex,1);
+      renderEnemiesCards(); saveActivePlayerToCloud(true);
+    }
+
     function loadWorkshopTemplate(index) {
       if (!isMasterClient) return;
       const tpl = workshopTemplates[index];
       if (!tpl) return;
+      workshopDraftTechniques = Array.isArray(tpl.techniques) ? tpl.techniques.map(t=>({...t})) : [];
       const values = {
         'workshop-enemy-name': tpl.name,
         'workshop-enemy-faction': tpl.faction || 'enemy',
         'workshop-enemy-hp': tpl.hp_max,
         'workshop-enemy-smath': tpl.smath_max ?? tpl.smath_current ?? 10,
         'workshop-enemy-conc': tpl.conc ?? 2,
+        'workshop-enemy-init': tpl.init_bonus ?? 0,
         'workshop-enemy-pc': tpl.pc,
         'workshop-enemy-pd': tpl.pd,
         'workshop-enemy-dmg': tpl.base_dmg,
         'workshop-enemy-tech': tpl.tech
       };
       Object.entries(values).forEach(([id, value]) => { const el = document.getElementById(id); if (el && value !== undefined) el.value = value; });
+      renderWorkshopEnemyTechniques();
       showToast(`📋 Plantilla [${tpl.name}] cargada.`);
     }
 
@@ -6334,6 +6445,7 @@
       const hp = parseInt(document.getElementById('workshop-enemy-hp')?.value) || 30;
       const smath = parseInt(document.getElementById('workshop-enemy-smath')?.value) || 10;
       const conc = parseInt(document.getElementById('workshop-enemy-conc')?.value) || 2;
+      const initBonus = parseInt(document.getElementById('workshop-enemy-init')?.value) || 0;
       const pd = parseInt(document.getElementById('workshop-enemy-pd')?.value) || 14;
       const pc = parseInt(document.getElementById('workshop-enemy-pc')?.value) || 10;
       const dmg = document.getElementById('workshop-enemy-dmg')?.value.trim() || '12';
@@ -6347,11 +6459,12 @@
         smath_max: smath,
         smath_current: smath,
         conc: conc,
-        init_bonus: 0,
+        init_bonus: initBonus,
         pd: pd,
         pc: pc,
         base_dmg: dmg,
         tech: tech,
+        techniques: (workshopDraftTechniques || []).map(t=>({...t})),
         lastInit: '-'
       });
 
@@ -6373,20 +6486,74 @@
       });
     }
 
+    function updateLootEffectOptions() {
+      const type = document.getElementById('loot-item-type')?.value || 'potion';
+      const select = document.getElementById('loot-item-effect-option'); if (!select) return;
+      const options = {
+        potion:[['hp','Resencia: curar HP',1],['smath','Recuperar Smath',1],['essence','Recuperar Esencia',1],['revive','Reanimar (HP + Smath)',1],['cleanse','Curar todos los estados',0],['combat','Poción de combate (PC + PD)',1]],
+        weapon:[['weapon_damage','Aumentar daño del arma',1],['weapon_status','Aplicar estado al atacar',0],['custom','Efecto de arma personalizado',0]],
+        armor:[['armor_pd','Aumentar PD',1],['armor_resistance','Resistencia especial',0],['custom','Efecto de armadura personalizado',0]],
+        relic:[['relic_pc','Aumentar PC',1],['relic_pd','Aumentar PD',1],['relic_smath','Aumentar Smath máximo',1],['relic_essence','Aumentar Esencia',1],['custom','Efecto de reliquia personalizado',0]],
+        mundane:[['custom','Descripción / uso manual',0]]
+      };
+      select.innerHTML = (options[type] || options.mundane).map(([value,label,levels])=>`<option value="${value}" data-levels="${levels ? 'true' : 'false'}">${label}</option>`).join('');
+      updateLootEffectUI();
+    }
+
+    function updateLootEffectUI() {
+      const option = document.getElementById('loot-item-effect-option')?.selectedOptions?.[0];
+      const levelWrap = document.getElementById('loot-level-wrap');
+      const levelSelect = document.getElementById('loot-item-effect-level');
+      const detail = document.getElementById('loot-item-effect');
+      const isLevelled = option?.dataset.levels === 'true';
+      if (levelWrap) levelWrap.style.display = isLevelled ? 'block' : 'none';
+      if (detail) detail.placeholder = option?.value === 'custom' ? 'Describe el efecto exacto...' : 'Detalle adicional opcional';
+      if (levelSelect) levelSelect.value = '1';
+    }
+
+    function describeLootEffect(type, effect, level, custom = '') {
+      const percent = ({1:25,2:50,3:100})[level] || 0;
+      const combatBonus = ({1:1,2:3,3:5})[level] || 0;
+      const detail = custom.trim();
+      const descriptions = {
+        hp:`Restaura ${percent}% de la Resencia (HP) máxima`,
+        smath:`Restaura ${percent}% del Smath máximo`,
+        essence:`Recupera Esencia: ${percent}% de 15 grados`,
+        revive:`Reanima con ${percent}% de HP máximo y ${percent}% de Smath máximo`,
+        cleanse:'Elimina todos los estados alterados',
+        combat:`Poción de combate: +${combatBonus} PC y +${combatBonus} PD durante 1 ronda`,
+        weapon_damage:`Potenciación de daño, nivel ${level}`,
+        weapon_status:'Aplica el estado configurado por el Master al atacar',
+        armor_pd:`Armadura: +${combatBonus} PD`,
+        armor_resistance:'Resistencia especial (ver detalle)',
+        relic_pc:`Reliquia: +${combatBonus} PC`,
+        relic_pd:`Reliquia: +${combatBonus} PD`,
+        relic_smath:`Reliquia: +${percent}% de Smath máximo`,
+        relic_essence:`Reliquia: recupera ${percent}% de Esencia`,
+        custom:'Efecto personalizado'
+      };
+      return `${descriptions[effect] || 'Objeto'}${detail ? ` · ${detail}` : ''}`;
+    }
+
     function deliverLootItem() {
       if (!isMasterClient) {
         showToast('⚠️ Solo el Master puede entregar objetos.');
         return;
       }
       const name = document.getElementById('loot-item-name')?.value.trim();
-      const type = document.getElementById('loot-item-type')?.value || 'Consumible';
+      const type = document.getElementById('loot-item-type')?.value || 'potion';
       const weight = document.getElementById('loot-item-weight')?.value || '0.5';
-      const effect = document.getElementById('loot-item-effect')?.value.trim() || '';
+      const rarity = document.getElementById('loot-item-rarity')?.value || 'comun';
+      const effectCode = document.getElementById('loot-item-effect-option')?.value || 'custom';
+      const effectLevel = parseInt(document.getElementById('loot-item-effect-level')?.value) || 1;
+      const effectText = document.getElementById('loot-item-effect')?.value.trim() || '';
       const target = document.getElementById('loot-target-player')?.value || 'all';
 
       if (!name) { showToast('⚠️ Escribe el nombre del objeto.'); return; }
 
-      const itemObj = { name, qty: '1', weight, desc: `${type}: ${effect}` };
+      const typeLabels = {potion:'Poción',weapon:'Arma',armor:'Armadura',relic:'Reliquia',mundane:'Mundano'};
+      const effectDescription = describeLootEffect(type,effectCode,effectLevel,effectText);
+      const itemObj = { name, qty: '1', weight, desc: `${typeLabels[type] || 'Objeto'}: ${effectDescription}`, rarity, type, effectCode, effectLevel, effectText };
 
       if (target === 'all') {
         playerList.forEach(pid => {
@@ -6420,6 +6587,7 @@
         playerList,
         characters: allPlayersData,
         objectives: objectivesList,
+        deletedObjectives: Array.from(deletedObjectiveIds),
         pinnedMessage,
         diceHistory: diceRollsHistory,
         round: globalRound,
@@ -6451,7 +6619,10 @@
           if (parsed.characters) {
             if (Array.isArray(parsed.playerList)) playerList = parsed.playerList;
             allPlayersData = parsed.characters;
-            if (parsed.objectives) objectivesList = parsed.objectives;
+            if (Array.isArray(parsed.deletedObjectives)) deletedObjectiveIds = new Set(parsed.deletedObjectives.map(String));
+            else deletedObjectiveIds = new Set();
+            try { localStorage.setItem('requiem_deleted_objectives',JSON.stringify(Array.from(deletedObjectiveIds))); } catch (_) {}
+            if (Array.isArray(parsed.objectives)) setObjectivesFromCloud(parsed.objectives,Array.from(deletedObjectiveIds));
             if (parsed.pinnedMessage !== undefined) pinnedMessage = parsed.pinnedMessage;
             if (parsed.diceHistory) diceRollsHistory = parsed.diceHistory;
             if (parsed.round) globalRound = parsed.round;
@@ -6500,7 +6671,8 @@
           if (Array.isArray(cloudData.playerList)) playerList = cloudData.playerList;
           allPlayersData = cloudData.characters;
           if (preserveLocalSheet && pendingActiveData) allPlayersData[activeRole] = pendingActiveData;
-          if (Array.isArray(cloudData.objectives)) objectivesList = cloudData.objectives;
+          if (Array.isArray(cloudData.objectives)) setObjectivesFromCloud(cloudData.objectives,cloudData.deletedObjectives);
+          else mergeDeletedObjectiveIds(cloudData.deletedObjectives);
           if (Array.isArray(cloudData.diceHistory)) diceRollsHistory = cloudData.diceHistory;
           if (cloudData.pinnedMessage !== undefined) pinnedMessage = cloudData.pinnedMessage;
           if (cloudData.round) globalRound = cloudData.round;
@@ -6540,7 +6712,8 @@
         allPlayersData = cloudData.characters;
         if (preserveLocalSheet && pendingActiveData) allPlayersData[activeRole] = pendingActiveData;
       }
-      if (Array.isArray(cloudData.objectives)) objectivesList = cloudData.objectives;
+      if (Array.isArray(cloudData.objectives)) setObjectivesFromCloud(cloudData.objectives,cloudData.deletedObjectives);
+      else mergeDeletedObjectiveIds(cloudData.deletedObjectives);
       if (Array.isArray(cloudData.diceHistory)) diceRollsHistory = cloudData.diceHistory;
       if (cloudData.pinnedMessage !== undefined) pinnedMessage = cloudData.pinnedMessage;
       if (cloudData.round) {
@@ -6596,6 +6769,7 @@
         playerList: playerList,
         characters: allPlayersData,
         objectives: objectivesList,
+        deletedObjectives: Array.from(deletedObjectiveIds),
         pinnedMessage: pinnedMessage,
         diceHistory: diceRollsHistory.slice(0, 30),
         round: globalRound || 1,
@@ -6837,11 +7011,17 @@ function addPassiveRow(text = '') {
   item.innerHTML = `<textarea class="passive-row-text" rows="1" placeholder="Nombre y efecto de la pasiva..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(text)}</textarea><button type="button" class="btn-del-passive" onclick="this.closest('.passive-entry-item').remove(); syncToFirebaseDebounced();" title="Eliminar pasiva">✖</button>`;
   container.appendChild(item); item.querySelectorAll('textarea').forEach(autoResizeTextarea);
 }
-function addInventoryRow(name = '', qty = '', weight = '', desc = '', rarity = 'comun') {
+function addInventoryRow(name = '', qty = '', weight = '', desc = '', rarity = 'comun', type = 'mundane', effectCode = '', effectLevel = 0, effectText = '') {
   const tbody = document.getElementById('inventory-body'); if (!tbody) return;
   const tr = document.createElement('tr');
+  tr.dataset.itemType = type || 'mundane';
+  tr.dataset.effectCode = effectCode || '';
+  tr.dataset.effectLevel = effectLevel || 0;
+  tr.dataset.effectText = effectText || '';
   const rarityOptions = [['basura','Basura'],['comun','Común'],['infrecuente','Infrecuente'],['raro','Raro'],['mitico','Mítico'],['mision','Misión']];
-  tr.innerHTML = `<td data-label="Objeto"><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(name)}</textarea></td><td data-label="Cant."><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Peso"><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(weight)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Descripción"><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(desc)}</textarea></td><td data-label="Rareza"><select class="inv-rarity" onchange="updateInventoryRarityStyle(this); syncToFirebaseDebounced();" aria-label="Rareza del objeto">${rarityOptions.map(([v,label]) => `<option value="${v}" ${rarity === v ? 'selected' : ''}>${label}</option>`).join('')}</select></td><td data-label="Eliminar" style="text-align:center"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:#9d1717;font-weight:bold">✖</button></td>`;
+  const typeLabels = {potion:'🧪 Poción',weapon:'⚔️ Arma',armor:'🛡️ Armadura',relic:'💎 Reliquia',mundane:'📦 Mundano'};
+  const useButton = type === 'potion' && effectCode ? `<button type="button" class="btn-use-inventory" onclick="useInventoryItem(this.closest('tr'))">Usar</button>` : '';
+  tr.innerHTML = `<td data-label="Objeto"><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(name)}</textarea><div class="inv-item-meta"><span class="inv-type-tag">${typeLabels[type] || typeLabels.mundane}</span>${useButton}</div></td><td data-label="Cant."><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Peso"><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(weight)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Descripción"><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(desc)}</textarea></td><td data-label="Rareza"><select class="inv-rarity" onchange="updateInventoryRarityStyle(this); syncToFirebaseDebounced();" aria-label="Rareza del objeto">${rarityOptions.map(([v,label]) => `<option value="${v}" ${rarity === v ? 'selected' : ''}>${label}</option>`).join('')}</select></td><td data-label="Eliminar" style="text-align:center"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:#9d1717;font-weight:bold">✖</button></td>`;
   tbody.appendChild(tr); tr.querySelectorAll('textarea').forEach(autoResizeTextarea); updateInventoryRarityStyle(tr.querySelector('.inv-rarity')); calcTotalWeight();
 }
 function updateInventoryRarityStyle(select) {
@@ -6850,6 +7030,73 @@ function updateInventoryRarityStyle(select) {
   const [border,background,textColor] = styles[select.value] || styles.comun;
   select.style.border = `1.5px solid ${border}`; select.style.background = background; select.style.fontWeight = 'bold';
   const nameInput = select.closest('tr')?.querySelector('.inv-name'); if (nameInput) nameInput.style.color = textColor;
+}
+function useInventoryItem(row) {
+  if (!row || !isMasterClient && activeClientIdentity !== activeRole) { showToast('🔒 Solo puedes usar objetos de tu ficha.'); return; }
+  if (activeRole === 'gm' || activeRole === 'console') return;
+  const rowIndex = Array.from(document.querySelectorAll('#inventory-body tr')).indexOf(row);
+  commitDomToActivePlayer();
+  const pdata = allPlayersData[activeRole], item = pdata?.inventory?.[rowIndex];
+  if (!pdata || !item) return;
+  if (!claimActionCooldown(`use-item-${activeRole}-${rowIndex}`,4000)) return;
+  if (item.type !== 'potion') { showToast('ℹ️ Este objeto no tiene un uso automático configurado.'); return; }
+  const level = parseInt(item.effectLevel) || 1;
+  const percent = ({1:.25,2:.5,3:1})[level] || .25;
+  const maxHp = parseFloat(document.getElementById('stat-hp-max-total')?.innerText) || 0;
+  const maxSmath = parseFloat(document.getElementById('stat-smath-max-total')?.innerText) || 0;
+  const currentHp = parseFloat(pdata.inputs?.['stat-hp-curr']) || 0;
+  const currentSmath = parseFloat(pdata.inputs?.['stat-smath-curr']) || 0;
+  let message = '';
+  switch (item.effectCode) {
+    case 'hp': {
+      const gain=Math.max(1,Math.ceil(maxHp*percent));
+      pdata.inputs['stat-hp-curr']=Math.min(maxHp,currentHp+gain);
+      message=`recupera ${pdata.inputs['stat-hp-curr']-currentHp} HP`;
+      break;
+    }
+    case 'smath': {
+      const gain=Math.max(1,Math.ceil(maxSmath*percent));
+      pdata.inputs['stat-smath-curr']=Math.min(maxSmath,currentSmath+gain);
+      message=`recupera ${pdata.inputs['stat-smath-curr']-currentSmath} Smath`;
+      break;
+    }
+    case 'essence': {
+      const gain=Math.max(1,Math.ceil(15*percent));
+      pdata.essence=Math.min(15,(parseInt(pdata.essence)||activeEssence)+gain);
+      activeEssence=pdata.essence;
+      message=`recupera ${gain} grados de Esencia`;
+      break;
+    }
+    case 'revive': {
+      if (currentHp>0) { showToast('⚠️ La poción de reanimación solo se usa sobre un personaje caído.'); return; }
+      pdata.inputs['stat-hp-curr']=Math.max(1,Math.ceil(maxHp*percent));
+      pdata.inputs['stat-smath-curr']=Math.ceil(maxSmath*percent);
+      message=`reanima con ${pdata.inputs['stat-hp-curr']} HP y ${pdata.inputs['stat-smath-curr']} Smath`;
+      break;
+    }
+    case 'cleanse': {
+      Object.keys(pdata.checkboxes||{}).filter(key=>key.startsWith('status-')).forEach(key=>pdata.checkboxes[key]=false);
+      Object.keys(pdata.inputs||{}).filter(key=>key.startsWith('status-')).forEach(key=>pdata.inputs[key]='');
+      message='elimina todos los estados alterados';
+      break;
+    }
+    case 'combat': {
+      const bonus=({1:1,2:3,3:5})[level]||1;
+      pdata.itemCombatBuff={pc:bonus,pd:bonus,turns:1};
+      message=`otorga +${bonus} PC y +${bonus} PD hasta el próximo turno`;
+      break;
+    }
+    default:
+      showToast('ℹ️ El efecto de esta poción es descriptivo; resuélvelo manualmente.'); return;
+  }
+  const qtyInput=row.querySelector('.inv-qty');
+  const quantity=Math.max(1,parseInt(qtyInput?.value)||1)-1;
+  if (quantity<=0) pdata.inventory.splice(rowIndex,1);
+  else pdata.inventory[rowIndex].qty=String(quantity);
+  applyDataToForm(pdata);
+  saveActivePlayerToCloud(true);
+  broadcastSystemCombatEntry('tech',`🧪 <b>${escapeHtml(pdata.inputs?.['char-name']||'Personaje')}</b> usó <b>${escapeHtml(item.name||'poción')}</b> y ${escapeHtml(message)}.`);
+  showToast(`🧪 ${message}.`);
 }
 function calcTotalWeight() {
   let total = 0;
@@ -6918,7 +7165,7 @@ function claimActionCooldown(key, duration = 4000) {
   return true;
 }
 function installActionCooldowns() {
-  const actionPattern = /(executeResumenAction|executeSummonAttack|executeSummonTechnique|deleteSummonTechnique|applyEnemyDamage|applyEnemyHeal|gmDirectHpPrompt|rollInitiative|rollD20AttackCrit|rollWeaponD6Direct|rollMassEnemiesInitiative|sortCombatantsByInitiative|useTechniqueDirect|useAwakenedTechnique|useAwakenedTech|toggleConcentradoAction|restoreFullHp|restoreFullSmath|clearNegativeStates|clearTurnActions|gmResetRound|spawnQuickEnemy|spawnEnemyHorde|duplicateEnemy|deleteEnemy|saveToBestiary|sendCustomEnemyToCombat|deliverLootItem|toggleNpcFaction|saveWeaponBuilderChanges|saveTechniqueBuilderChanges|deleteWeaponRow|deleteTechniqueRow|addWeaponRow|addTechniqueRow|addAwakenedTechnique|deleteAwakenedTechnique|addPassiveRow|addInventoryRow|addNewPlayer|saveEnemyEdit|rollEnemyInitiative|toggleEnemyConcentrated|toggleSummonCubeAction|dismissSummon|duplicateSummon|broadcastTableMessage|sendActiveWhisper|confirmWishAction|clearConfirmedWish|deleteObjective|clearTableHistory|remove\s*\()/;
+  const actionPattern = /(executeResumenAction|executeSummonAttack|executeSummonTechnique|deleteSummonTechnique|applyEnemyDamage|applyEnemyHeal|gmDirectHpPrompt|rollInitiative|rollD20AttackCrit|rollWeaponD6Direct|rollMassEnemiesInitiative|sortCombatantsByInitiative|useTechniqueDirect|useAwakenedTechnique|useAwakenedTech|useInventoryItem|toggleConcentradoAction|restoreFullHp|restoreFullSmath|clearNegativeStates|clearTurnActions|gmResetRound|spawnQuickEnemy|spawnEnemyHorde|duplicateEnemy|deleteEnemy|saveToBestiary|sendCustomEnemyToCombat|deliverLootItem|toggleNpcFaction|saveWeaponBuilderChanges|saveTechniqueBuilderChanges|deleteWeaponRow|deleteTechniqueRow|addWeaponRow|addTechniqueRow|addAwakenedTechnique|deleteAwakenedTechnique|addPassiveRow|addInventoryRow|addNewPlayer|saveEnemyEdit|rollEnemyInitiative|toggleEnemyConcentrated|toggleSummonCubeAction|dismissSummon|duplicateSummon|broadcastTableMessage|sendActiveWhisper|confirmWishAction|clearConfirmedWish|deleteObjective|clearTableHistory|remove\s*\()/;
   document.addEventListener('click', event => {
     const button = event.target.closest('button');
     if (!button) return;
@@ -6939,13 +7186,30 @@ function renderDiceHistory() {
 }
 function deleteObjective(id) {
   if (!isMasterClient) return;
+  if (id) {
+    deletedObjectiveIds.add(String(id));
+    try { localStorage.setItem('requiem_deleted_objectives',JSON.stringify(Array.from(deletedObjectiveIds))); } catch (_) {}
+  }
   objectivesList = (objectivesList || []).filter(item => String(item.id) !== String(id));
   renderObjectivesHistory(); updateObjectiveBanner(); saveActivePlayerToCloud(true);
+}
+function mergeDeletedObjectiveIds(ids = []) {
+  if (Array.isArray(ids)) ids.forEach(id => { if (id !== null && id !== undefined) deletedObjectiveIds.add(String(id)); });
+  try { localStorage.setItem('requiem_deleted_objectives',JSON.stringify(Array.from(deletedObjectiveIds))); } catch (_) {}
+}
+function setObjectivesFromCloud(items, deletedIds = []) {
+  mergeDeletedObjectiveIds(deletedIds);
+  if (!Array.isArray(items)) return;
+  const originalLength = items.length;
+  objectivesList = items.filter(item => !item?.id || !deletedObjectiveIds.has(String(item.id)));
+  if (objectivesList.length !== originalLength && isCloudInitialized) syncToFirebaseDebounced(800);
 }
 function clearTableHistory() {
   if (!isMasterClient) { showToast('🔒 Solo el Master puede limpiar el historial.'); return; }
   if (!claimActionCooldown('clear-table-history',4000)) return;
   if (!confirm('¿Borrar todos los mensajes del historial de mesa? Esta acción no se puede deshacer.')) return;
+  (objectivesList || []).forEach(item => { if (item?.id) deletedObjectiveIds.add(String(item.id)); });
+  try { localStorage.setItem('requiem_deleted_objectives',JSON.stringify(Array.from(deletedObjectiveIds))); } catch (_) {}
   objectivesList = [];
   renderObjectivesHistory(); updateObjectiveBanner(); saveActivePlayerToCloud(true);
   showToast('🧹 Historial de mesa limpiado.');
@@ -6988,7 +7252,9 @@ function resolveTechniqueAttack(actorId, isEnemy, tIdx, techOverride = null, sum
   if (isEnemy) {
     const idx = parseInt(String(actorId).replace('e_', '')); actor = enemiesList[idx];
     if (!actor) return;
-    name = actor.name || 'PNJ'; tech = { name: parseTechName(actor.tech), cost: parseTechCost(actor.tech), category: 'attack' };
+    name = actor.name || 'PNJ';
+    tech = techOverride || actor.techniques?.[tIdx] || (actor.tech ? { name:parseTechName(actor.tech),cost:parseTechCost(actor.tech),category:'attack',effects:[] } : null);
+    if (!tech || !String(tech.name || '').trim()) { showToast('⚠️ Este PNJ no tiene una técnica configurada.'); return; }
     currentSmath = parseFloat(actor.smath_current ?? actor.smath_max) || 0; cost = tech.cost;
     if (selectedTargetIds.size === 0) { showToast('⚠️ Selecciona al menos un objetivo.'); return; }
     if (currentSmath < cost) { showToast(`⚠️ ${name} no tiene suficiente Smath para ${tech.name}.`); return; }
@@ -7003,7 +7269,7 @@ function resolveTechniqueAttack(actorId, isEnemy, tIdx, techOverride = null, sum
     currentSmath = parseFloat(actor.inputs?.['stat-smath-curr']) || 0;
     if (currentSmath < cost) { showToast(`⚠️ No tienes suficiente Smath (requiere ${cost}).`); return; }
     let bPc = 0; ARCHETYPES.forEach(a => { bPc += (actor.archLevels?.[a] || 0) * GRADE_BONUSES[a].pc; baseDamage += (actor.archLevels?.[a] || 0) * GRADE_BONUSES[a].dmg; });
-    pc = (parseFloat(actor.inputs?.['stat-pc-base']) || 0) + bPc;
+    pc = (parseFloat(actor.inputs?.['stat-pc-base']) || 0) + bPc + (parseInt(actor.itemCombatBuff?.pc) || 0);
     if (summonSource) { pc = parseInt(summonSource.atkBonus) || pc; baseDamage = parseInt(summonSource.atkDmg) || baseDamage; }
     essenceMode = actor.essenceMode || 'none'; offense = actor.aspects?.ofensiva || 0;
     actor.inputs['stat-smath-curr'] = currentSmath - cost;
@@ -7050,7 +7316,7 @@ function resolveTechniqueAttack(actorId, isEnemy, tIdx, techOverride = null, sum
       const pid = target.slice(2), def = allPlayersData[pid]; if (!def) return;
       let bp = 0; ARCHETYPES.forEach(a => bp += (def.archLevels?.[a] || 0) * GRADE_BONUSES[a].pd);
       const dl = def.aspects?.defensiva || 0, asp = def.essenceMode === 'despierta' ? dl : def.essenceMode === 'manifestada' ? dl * 2 : 0;
-      const pd = (parseFloat(def.inputs?.['stat-pd-base']) || 0) + bp + asp, pn = def.inputs?.['char-name'] || pid;
+      const pd = (parseFloat(def.inputs?.['stat-pd-base']) || 0) + bp + asp + (parseInt(def.itemCombatBuff?.pd) || 0), pn = def.inputs?.['char-name'] || pid;
       let hp = parseFloat(def.inputs?.['stat-hp-curr']) || 0;
       if (isSupport) {
         let bHp = 0; ARCHETYPES.forEach(a => bHp += (def.archLevels?.[a] || 0) * GRADE_BONUSES[a].hp);
@@ -7212,6 +7478,8 @@ function executeModalAction() {
       updateSenderSelect();
       updateLootTargetSelect();
       renderBestiaryTemplates();
+      renderWorkshopEnemyTechniques();
+      updateLootEffectOptions();
       const initialRole = isMasterClient ? 'gm' : (playerList.includes(activeClientIdentity) ? activeClientIdentity : (playerList[0] || 'p1'));
       switchRole(initialRole);
 
