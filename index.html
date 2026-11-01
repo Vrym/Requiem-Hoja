@@ -1584,6 +1584,8 @@
     .skill-roll-btn { width:28px; height:25px; padding:0; border:1px solid #29113e; border-radius:4px; background:#29113e; color:#fff1a8; font:bold 11px var(--f-title); cursor:pointer; box-shadow:0 1px 3px #5a3a10; }
     .skill-roll-btn:hover { background:#5a287b; }
     .skill-roll-result { display:inline-block; min-width:34px; text-align:center; padding:2px 4px; border-radius:3px; background:#21102d; color:#ffe979; font:bold 11px var(--f-title); }
+    .crit-rule-card { display:flex;align-items:center;justify-content:space-between;gap:5px;flex-wrap:wrap;background:linear-gradient(100deg,#fff4d6,#ead5a3);padding:5px 7px;border:1px solid #c39336;border-radius:4px;font: bold 10px var(--f-title);color:#64220e; }
+    .crit-rule-card small { flex-basis:100%;font:10px var(--f-body);color:#76552a; }
     .skill-sort-select { width:88px; flex:0 0 88px; min-width:0; padding:3px 4px; border:1px solid #8c6530; border-radius:3px; background:#fff4d8; color:#5a3511; font:bold 10px var(--f-title); }
     .gm-skill-roll { flex-wrap:wrap; min-width:0; }
     .smath-low { background:linear-gradient(90deg,#6b4c0c 0%,#a87916 55%,#e0ad39 100%) !important; }
@@ -1913,6 +1915,30 @@
       <div id="reference-info-title" class="modal-title combat-hub-title">ℹ️ Información</div>
       <div id="reference-info-body" style="max-height:65vh;overflow:auto;background:#fff9eb;border:1px solid #a27b43;border-radius:4px;padding:9px;font-size:12px;line-height:1.45;"></div>
       <button type="button" class="btn-modal-cancel" onclick="closeModal('modal-reference-info')" style="width:100%;margin-top:8px;">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: AGREGAR OBJETO A LA FICHA -->
+  <div id="modal-sheet-item-builder" class="modal-backdrop" style="z-index:100004;">
+    <div class="hub-modal-box modal-box-large" style="max-width:600px;text-align:left;">
+      <div class="modal-title combat-hub-title">🎁 Agregar objeto a la mochila</div>
+      <label style="display:block;font:bold 11px var(--f-title);margin:8px 0;">Nombre del objeto
+        <input type="text" id="sheet-item-name" class="table-msg-input" style="width:100%;">
+      </label>
+      <div class="loot-item-meta-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;">
+        <label style="font:bold 11px var(--f-title);">Tipo<select id="sheet-item-type" class="table-msg-select" onchange="updateSheetItemEffectOptions()"><option value="potion">🧪 Poción</option><option value="weapon">⚔️ Arma</option><option value="armor">🛡️ Armadura</option><option value="relic">💎 Reliquia</option><option value="mundane">📦 Mundano</option></select></label>
+        <label style="font:bold 11px var(--f-title);">Peso (kg)<input type="number" id="sheet-item-weight" class="table-msg-input" min="0" step="0.1" value="0.5"></label>
+        <label style="font:bold 11px var(--f-title);">Rareza<select id="sheet-item-rarity" class="table-msg-select"><option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Misión</option></select></label>
+      </div>
+      <div class="loot-item-effect-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px;">
+        <label style="font:bold 11px var(--f-title);">Uso / efecto<select id="sheet-item-effect-option" class="table-msg-select" onchange="updateSheetItemEffectUI()"></select></label>
+        <label id="sheet-item-level-wrap" style="font:bold 11px var(--f-title);">Nivel<select id="sheet-item-effect-level" class="table-msg-select"><option value="1">N1 · 25%</option><option value="2">N2 · 50%</option><option value="3">N3 · 100%</option></select></label>
+      </div>
+      <label style="display:block;font:bold 11px var(--f-title);margin-top:7px;">Detalle adicional<input type="text" id="sheet-item-effect-text" class="table-msg-input" style="width:100%;" placeholder="Reglas o descripción"></label>
+      <div style="display:flex;justify-content:flex-end;gap:7px;margin-top:10px;">
+        <button type="button" class="btn-modal-danger" style="background:#1e4a28;" onclick="saveSheetItemFromModal()">Guardar objeto</button>
+        <button type="button" class="btn-modal-cancel" onclick="closeModal('modal-sheet-item-builder')">Cancelar</button>
+      </div>
     </div>
   </div>
 
@@ -2429,11 +2455,9 @@
               <b id="stat-init-total" style="color:var(--txt-red); font-size:15px;">-</b>
             </div>
 
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:4px; background:rgba(255,255,255,0.4); padding:4px 6px; border:1px solid rgba(60,30,10,0.2); border-radius:2px; font-family:var(--f-title); font-size:11.5px;">
-              <span style="font-weight:bold; color:#4f250b;">🎯 D20 IMPACTO / CRÍT:</span>
-              <span>Táct: <b id="tactical-crit-bonus-tag" style="color:#731e0b;">+0</b></span>
-              <button type="button" class="btn-roll-weapon" style="padding:2px 7px; font-size:11px; background:#854d0e; border:1.5px solid #ca8a04; color:#ffe8b5; font-family:var(--f-title); cursor:pointer;" onclick="rollD20AttackCrit()">🎯 D20</button>
-              <b id="d20-crit-result-val" style="color:var(--txt-red); font-size:15px;">-</b>
+            <div class="crit-rule-card">
+              <span>⭐ CRÍTICO:</span><b>D20 + Táctico (<span id="tactical-crit-bonus-tag">+0</span>) ≥ 20</b>
+              <small>Se comprueba en el mismo D20 del ataque, después del D6.</small>
             </div>
           </div>
 
@@ -2918,7 +2942,7 @@
           </table>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
-          <button type="button" class="btn-add-item" onclick="addInventoryRow()">+ Agregar Objeto</button>
+          <button type="button" class="btn-add-item" onclick="openSheetItemBuilder()">+ Agregar Objeto</button>
           <div style="font-family:var(--f-title); font-weight:bold; font-size:14px;">
             PESO TOTAL: <span id="total-weight" style="color:var(--txt-red);">0</span> Kg
           </div>
@@ -2983,6 +3007,7 @@
 
     let isRollInCooldown = false;
     let isGmTurnCooldown = false;
+    let resourceDeltaClearTimer = null;
     let diceRollsHistory = [];
     let openGmStateBoxId = null;
 
@@ -3171,10 +3196,7 @@
         summons: [],
         passives: [],
         skills: {},
-        inventory: [
-          { name: '', qty: '', weight: '', desc: '', rarity: 'comun' },
-          { name: '', qty: '', weight: '', desc: '', rarity: 'comun' }
-        ],
+        inventory: [],
         essence: 0,
         lastRoll: '-',
         lastInit: '-',
@@ -3548,6 +3570,18 @@
       }
     }
 
+    function scheduleResourceDeltaClear(pid) {
+      clearTimeout(resourceDeltaClearTimer);
+      resourceDeltaClearTimer = setTimeout(() => {
+        const target = allPlayersData[pid];
+        if (!target) return;
+        target.hpDelta = 0; target.smathDelta = 0;
+        if (activeRole === pid) updateResourceBarsUI();
+        if (activeRole === 'gm') renderGMDashboard();
+        saveActivePlayerToCloud(true);
+      },4000);
+    }
+
     function updateResourceBarsUI() {
       const hpCurr = parseFloat(document.getElementById('stat-hp-curr')?.value) || 0;
       const hpMax = parseFloat(document.getElementById('stat-hp-max-total')?.innerText) || 1;
@@ -3582,6 +3616,9 @@
       if (agonicTag) agonicTag.style.display = isAgonic ? 'inline-block' : 'none';
 
       const pdata = allPlayersData[activeRole];
+      if (pdata && hpCurr >= hpMax && (pdata.hpDelta || 0) < 0) pdata.hpDelta = 0;
+      if (pdata && ((pdata.hpDelta || 0) !== 0 || (pdata.smathDelta || 0) !== 0)) scheduleResourceDeltaClear(activeRole);
+      else if (resourceDeltaClearTimer) { clearTimeout(resourceDeltaClearTimer); resourceDeltaClearTimer = null; }
       const hpDeltaEl = document.getElementById('hp-delta-badge');
       if (hpDeltaEl && pdata) {
         const delta = pdata.hpDelta || 0;
@@ -3601,6 +3638,7 @@
       const maxTot = document.getElementById('stat-hp-max-total')?.innerText || '0';
       const currInput = document.getElementById('stat-hp-curr');
       if (currInput) currInput.value = maxTot;
+      if (allPlayersData[activeRole]) allPlayersData[activeRole].hpDelta = 0;
       updateResourceBarsUI();
       syncToFirebaseDebounced();
       showToast('💖 Resencia restablecida al máximo.');
@@ -3610,6 +3648,7 @@
       const maxTot = document.getElementById('stat-smath-max-total')?.innerText || '0';
       const currInput = document.getElementById('stat-smath-curr');
       if (currInput) currInput.value = maxTot;
+      if (allPlayersData[activeRole]) allPlayersData[activeRole].smathDelta = 0;
       updateResourceBarsUI();
       syncToFirebaseDebounced();
       showToast('⚡ Smath restablecido al máximo.');
@@ -5093,6 +5132,8 @@
     function resolveWeaponAttack(actorId, isEnemy, wId) {
       let attackerName = 'Atacante';
       let pcBono = 0;
+      let critBonus = 0;
+      let attackerData = null;
       let weapon = null;
       let bDmg = 0;
       let aspectDmgPct = 0;
@@ -5101,6 +5142,7 @@
         const playerId = String(actorId).replace(/^p_/, '');
         const pdata = allPlayersData[playerId];
         if (!pdata) return;
+        attackerData = pdata;
         attackerName = pdata.inputs?.['char-name'] || 'Héroe';
         ARCHETYPES.forEach(arch => {
           pcBono += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].pc;
@@ -5111,6 +5153,9 @@
         const ofeLvl = pdata.aspects?.ofensiva || 0;
         if (pdata.essenceMode === 'despierta') aspectDmgPct = ofeLvl * 0.05;
         else if (pdata.essenceMode === 'manifestada') aspectDmgPct = ofeLvl * 0.10;
+        const tactica = pdata.aspects?.tactica || 0;
+        if (pdata.essenceMode === 'despierta') critBonus = tactica;
+        else if (pdata.essenceMode === 'manifestada') critBonus = tactica * 2;
 
         weapon = (pdata.weapons || []).find(w => w.id === wId) || pdata.weapons?.[0];
       } else {
@@ -5139,12 +5184,14 @@
       // Tirada D20 de Precisión e Impacto
       const d20Roll = Math.floor(Math.random() * 20) + 1;
       const attackPrecision = d20Roll + pcBono;
-      const isCrit = (d20Roll === 20);
+      const critTotal = d20Roll + critBonus;
+      const isCrit = (critTotal >= 20);
 
       let finalDamage = damageBeforeCrit;
       if (isCrit) {
         finalDamage = Math.round(damageBeforeCrit * (weapon.critMult || 2));
       }
+      if (attackerData) attackerData.lastD20Crit = `${critTotal}/20 (D20 ${d20Roll} + Táct ${critBonus})${isCrit ? ' ⭐ CRÍTICO' : ''}`;
 
       playSound(isCrit ? 'sword_hit' : 'dice');
 
@@ -5210,7 +5257,7 @@
       });
 
       const critTag = isCrit ? ' <span class="badge-entry-crit">⭐ GOLPE CRÍTICO</span>' : '';
-      const entryText = `<b>${escapeHtml(attackerName)}</b> atacó con <b>${escapeHtml(weapon.name)}</b>${critTag} (D20: ${d20Roll} + ${pcBono} = ${attackPrecision}):<br>${targetsLog.join('<br>')}`;
+      const entryText = `<b>${escapeHtml(attackerName)}</b> atacó con <b>${escapeHtml(weapon.name)}</b>${critTag}<br>🎲 D6: ${rollD6} · D20: ${d20Roll} + PC ${pcBono} = ${attackPrecision} · Crítico: ${critTotal}/20 (D20 ${d20Roll} + Táct ${critBonus})${isCrit ? ' ⭐' : ''}:<br>${targetsLog.join('<br>')}`;
       broadcastSystemCombatEntry('attack', entryText);
 
       weapon.lastRoll = `d ${rollD6}`;
@@ -5309,45 +5356,6 @@
 
       if (activeRole !== 'gm' && allPlayersData[activeRole]) {
         allPlayersData[activeRole].lastInit = `${total} (d20: ${d20})`;
-        saveActivePlayerToCloud(true);
-      }
-    }
-
-    function rollD20AttackCrit() {
-      if (isRollInCooldown) {
-        showToast('⏳ Espera al enfriamiento de tirada.');
-        return;
-      }
-      isRollInCooldown = true;
-      setTimeout(() => isRollInCooldown = false, 4000);
-
-      const tacLvl = aspectState.tactica || 0;
-      let critBonus = 0;
-      if (currentEssenceMode === 'despierta') critBonus = tacLvl * 1;
-      else if (currentEssenceMode === 'manifestada') critBonus = tacLvl * 2;
-
-      const d20 = Math.floor(Math.random() * 20) + 1;
-      const total = d20 + critBonus;
-
-      const resultEl = document.getElementById('d20-crit-result-val');
-      if (resultEl) { resultEl.innerText = `${total} (d${d20})${d20 === 20 ? ' ⭐ CRÍTICO' : ''}`; resultEl.classList.toggle('critical-result', d20 === 20); }
-
-      const pInputs = allPlayersData[activeRole]?.inputs || {};
-      const sender = pInputs['char-name'] || 'Personaje';
-      const detail = `Impacto / Crítico (D20): Dado ${d20} + ${critBonus} (Táctica) = ${total}${d20 === 20 ? ' — GOLPE CRÍTICO' : ''}`;
-
-      diceRollsHistory.unshift({
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        sender: sender,
-        detail: detail
-      });
-
-      playSound('dice');
-      logCombatAction(`🎯 <b>${sender}</b> tiró Impacto/Crítico: <b>${total}</b> (D20: ${d20} + Táct: ${critBonus})${d20 === 20 ? ' <span class="badge-entry-crit">⭐ GOLPE CRÍTICO</span>' : ''}.`);
-      broadcastSystemCombatEntry('roll', `🎯 <b>${escapeHtml(sender)}</b> obtuvo ${d20 === 20 ? '<span class="badge-entry-crit">⭐ GOLPE CRÍTICO</span>' : 'una tirada de impacto'}: D20 ${d20} + ${critBonus} = <b>${total}</b>.`);
-
-      if (activeRole !== 'gm' && allPlayersData[activeRole]) {
-        allPlayersData[activeRole].lastD20Crit = `${total} (d20: ${d20})`;
         saveActivePlayerToCloud(true);
       }
     }
@@ -5580,11 +5588,10 @@
       // Render Inventario
       const invBody = document.getElementById('inventory-body');
       invBody.innerHTML = '';
-      if (data.inventory && data.inventory.length > 0) {
-        data.inventory.forEach(i => addInventoryRow(i.name, i.qty, i.weight, i.desc, i.rarity, i.type, i.effectCode, i.effectLevel, i.effectText));
-      } else {
-        addInventoryRow(); addInventoryRow();
-      }
+      const savedInventory = (Array.isArray(data.inventory) ? data.inventory : []).filter(i =>
+        String(i.name || '').trim() || String(i.qty || '').trim() || String(i.weight || '').trim() || String(i.desc || '').trim() || i.effectCode
+      );
+      savedInventory.forEach(i => addInventoryRow(i.name, i.qty, i.weight, i.desc, i.rarity, i.type, i.effectCode, i.effectLevel, i.effectText));
 
       activeEssence = data.essence || 0;
       for (let i = 1; i <= 15; i++) {
@@ -5607,8 +5614,6 @@
       const initTag = document.getElementById('stat-init-total');
       if (initTag) initTag.innerText = data.lastInit || '-';
 
-      const critTag = document.getElementById('d20-crit-result-val');
-      if (critTag) critTag.innerText = (data.lastD20Crit && data.lastD20Crit !== '-') ? data.lastD20Crit : '-';
 
       updateConcentradoButtonUI();
       document.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
@@ -6505,10 +6510,68 @@
       const levelWrap = document.getElementById('loot-level-wrap');
       const levelSelect = document.getElementById('loot-item-effect-level');
       const detail = document.getElementById('loot-item-effect');
+      const type = document.getElementById('loot-item-type')?.value || 'potion';
       const isLevelled = option?.dataset.levels === 'true';
       if (levelWrap) levelWrap.style.display = isLevelled ? 'block' : 'none';
+      if (levelWrap?.firstChild) levelWrap.firstChild.nodeValue = type === 'potion' ? 'Nivel de poción\n                ' : 'Nivel del objeto\n                ';
+      setLootLevelLabels(levelSelect,option?.value);
       if (detail) detail.placeholder = option?.value === 'custom' ? 'Describe el efecto exacto...' : 'Detalle adicional opcional';
-      if (levelSelect) levelSelect.value = '1';
+    }
+    function setLootLevelLabels(select,effect) {
+      if (!select) return;
+      const combat = effect === 'combat';
+      const labels = combat ? ['N1 · +1 PC / +1 PD','N2 · +3 PC / +3 PD','N3 · +5 PC / +5 PD'] : ['N1 · 25%','N2 · 50%','N3 · 100%'];
+      [...select.options].forEach((option,index) => { if (labels[index]) option.textContent = labels[index]; });
+      if (!select.value) select.value = '1';
+    }
+
+    function updateSheetItemEffectOptions() {
+      const type = document.getElementById('sheet-item-type')?.value || 'potion';
+      const select = document.getElementById('sheet-item-effect-option'); if (!select) return;
+      const options = {
+        potion:[['hp','Resencia: curar HP',true],['smath','Recuperar Smath',true],['essence','Recuperar Esencia',true],['revive','Reanimar (HP + Smath)',true],['cleanse','Curar todos los estados',false],['combat','Poción de combate (PC + PD)',true]],
+        weapon:[['weapon_damage','Aumentar daño del arma',true],['weapon_status','Aplicar estado al atacar',false],['custom','Efecto de arma personalizado',false]],
+        armor:[['armor_pd','Aumentar PD',true],['armor_resistance','Resistencia especial',false],['custom','Efecto de armadura personalizado',false]],
+        relic:[['relic_pc','Aumentar PC',true],['relic_pd','Aumentar PD',true],['relic_smath','Aumentar Smath máximo',true],['relic_essence','Aumentar Esencia',true],['custom','Efecto de reliquia personalizado',false]],
+        mundane:[['custom','Descripción / uso manual',false]]
+      };
+      select.innerHTML=(options[type]||options.mundane).map(([value,label,levels])=>`<option value="${value}" data-levels="${levels?'true':'false'}">${label}</option>`).join('');
+      updateSheetItemEffectUI();
+    }
+    function updateSheetItemEffectUI() {
+      const option=document.getElementById('sheet-item-effect-option')?.selectedOptions?.[0];
+      const wrap=document.getElementById('sheet-item-level-wrap');
+      const select=document.getElementById('sheet-item-effect-level');
+      if (wrap) wrap.style.display=option?.dataset.levels==='true'?'block':'none';
+      if (wrap?.firstChild) wrap.firstChild.nodeValue='Nivel\n                ';
+      setLootLevelLabels(select,option?.value);
+      const detail=document.getElementById('sheet-item-effect-text');
+      if(detail) detail.placeholder=option?.value==='custom'?'Describe el efecto exacto...':'Detalle adicional opcional';
+    }
+    function openSheetItemBuilder() {
+      if (!isMasterClient && activeClientIdentity !== activeRole) return;
+      document.getElementById('sheet-item-name').value='';
+      document.getElementById('sheet-item-weight').value='0.5';
+      document.getElementById('sheet-item-rarity').value='comun';
+      document.getElementById('sheet-item-type').value='potion';
+      document.getElementById('sheet-item-effect-level').value='1';
+      document.getElementById('sheet-item-effect-text').value='';
+      updateSheetItemEffectOptions();
+      openModal('modal-sheet-item-builder');
+    }
+    function saveSheetItemFromModal() {
+      if (!isMasterClient && activeClientIdentity !== activeRole) return;
+      const name=document.getElementById('sheet-item-name')?.value.trim();
+      if(!name){showToast('⚠️ Escribe el nombre del objeto.');return;}
+      const type=document.getElementById('sheet-item-type').value;
+      const effectCode=document.getElementById('sheet-item-effect-option').value;
+      const effectLevel=parseInt(document.getElementById('sheet-item-effect-level').value)||1;
+      const effectText=document.getElementById('sheet-item-effect-text').value.trim();
+      const item={name,qty:'1',weight:document.getElementById('sheet-item-weight').value||'0.5',rarity:document.getElementById('sheet-item-rarity').value||'comun',type,effectCode,effectLevel,effectText,desc:`${describeLootEffect(type,effectCode,effectLevel,effectText)}`};
+      commitDomToActivePlayer();
+      const p=allPlayersData[activeRole]; if(!p)return;
+      p.inventory=Array.isArray(p.inventory)?p.inventory:[]; p.inventory.push(item);
+      closeModal('modal-sheet-item-builder'); applyDataToForm(p); saveActivePlayerToCloud(true); showToast(`🎒 [${name}] agregado a la mochila.`);
     }
 
     function describeLootEffect(type, effect, level, custom = '') {
@@ -7165,7 +7228,7 @@ function claimActionCooldown(key, duration = 4000) {
   return true;
 }
 function installActionCooldowns() {
-  const actionPattern = /(executeResumenAction|executeSummonAttack|executeSummonTechnique|deleteSummonTechnique|applyEnemyDamage|applyEnemyHeal|gmDirectHpPrompt|rollInitiative|rollD20AttackCrit|rollWeaponD6Direct|rollMassEnemiesInitiative|sortCombatantsByInitiative|useTechniqueDirect|useAwakenedTechnique|useAwakenedTech|useInventoryItem|toggleConcentradoAction|restoreFullHp|restoreFullSmath|clearNegativeStates|clearTurnActions|gmResetRound|spawnQuickEnemy|spawnEnemyHorde|duplicateEnemy|deleteEnemy|saveToBestiary|sendCustomEnemyToCombat|deliverLootItem|toggleNpcFaction|saveWeaponBuilderChanges|saveTechniqueBuilderChanges|deleteWeaponRow|deleteTechniqueRow|addWeaponRow|addTechniqueRow|addAwakenedTechnique|deleteAwakenedTechnique|addPassiveRow|addInventoryRow|addNewPlayer|saveEnemyEdit|rollEnemyInitiative|toggleEnemyConcentrated|toggleSummonCubeAction|dismissSummon|duplicateSummon|broadcastTableMessage|sendActiveWhisper|confirmWishAction|clearConfirmedWish|deleteObjective|clearTableHistory|remove\s*\()/;
+  const actionPattern = /(executeResumenAction|executeSummonAttack|executeSummonTechnique|deleteSummonTechnique|applyEnemyDamage|applyEnemyHeal|gmDirectHpPrompt|rollInitiative|rollWeaponD6Direct|rollMassEnemiesInitiative|sortCombatantsByInitiative|useTechniqueDirect|useAwakenedTechnique|useAwakenedTech|useInventoryItem|toggleConcentradoAction|restoreFullHp|restoreFullSmath|clearNegativeStates|clearTurnActions|gmResetRound|spawnQuickEnemy|spawnEnemyHorde|duplicateEnemy|deleteEnemy|saveToBestiary|sendCustomEnemyToCombat|deliverLootItem|toggleNpcFaction|saveWeaponBuilderChanges|saveTechniqueBuilderChanges|deleteWeaponRow|deleteTechniqueRow|addWeaponRow|addTechniqueRow|addAwakenedTechnique|deleteAwakenedTechnique|addPassiveRow|addInventoryRow|addNewPlayer|saveSheetItemFromModal|saveEnemyEdit|rollEnemyInitiative|toggleEnemyConcentrated|toggleSummonCubeAction|dismissSummon|duplicateSummon|broadcastTableMessage|sendActiveWhisper|confirmWishAction|clearConfirmedWish|deleteObjective|clearTableHistory|remove\s*\()/;
   document.addEventListener('click', event => {
     const button = event.target.closest('button');
     if (!button) return;
