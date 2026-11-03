@@ -5090,16 +5090,20 @@
     function useMotivation(playerId){
       if(!isMasterClient&&activeClientIdentity!==playerId)return false;
       const player=allPlayersData[playerId];if(!player)return false;
-      if(battleActive&&!isPlayerInBattleRoster(playerId)){showToast('🪑 Este jugador está fuera de batalla. Entra desde Preparación.');return false;}
       if((parseFloat(player.inputs?.['stat-hp-curr'])||0)<=0||combatantHasState(`p_${playerId}`,false,'stun')||combatantHasState(`p_${playerId}`,false,'petrificado')){showToast('⚠️ Este personaje no puede activar Motivación ahora.');return false;}
       const uses=parseInt(player.motivationUses)||0;if(uses>=2){showToast('⚠️ Ya usaste Motivación dos veces en esta ronda.');return false;}
       if(Date.now()-(player.lastMotivationAt||0)<10000){showToast('⏳ Motivación tiene 10 segundos de enfriamiento.');return false;}
       const cost=uses===0?3:5,current=parseFloat(player.inputs?.['stat-smath-curr'])||0;if(current<cost){showToast(`⚠️ Necesitas ${cost} Smath.`);return false;}
-      player.inputs['stat-smath-curr']=current-cost;player.motivationUses=uses+1;player.commonActionsUsed=0;player.commonActionBonus=(parseInt(player.commonActionBonus)||0)+1;player.lastMotivationAt=Date.now();player.turnActionUsed=true;
-      player.turnAttacks=player.turnAttacks||[];player.turnAttacks.push(`Motivación (-${cost} Smath, +1 acción común)`);
+      player.inputs['stat-smath-curr']=current-cost;
+      player.motivationUses=uses+1;
+      player.commonActionsUsed=Math.max(0,(parseInt(player.commonActionsUsed)||1)-1);
+      player.lastMotivationAt=Date.now();
+      player.turnActionUsed=true;
+      player.turnAttacks=player.turnAttacks||[];
+      player.turnAttacks.push(`Motivación (-${cost} Smath, +1 acción común)`);
       if(player.checkboxes?.['status-mareado'])player.dizzyOverrideActions=(parseInt(player.dizzyOverrideActions)||0)+1;
       if(activeRole===playerId){const sm=document.getElementById('stat-smath-curr');if(sm)sm.value=current-cost;updateResourceBarsUI();}
-      broadcastSystemCombatEntry('tech',`🔥 <b>${escapeHtml(player.inputs?.['char-name']||playerId)}</b> activa Motivación (-${cost} Smath) y reinicia su Acción Común.`);
+      broadcastSystemCombatEntry('tech',`🔥 <b>${escapeHtml(player.inputs?.['char-name']||playerId)}</b> activa Motivación (-${cost} Smath) y reactiva 1 Acción Común.`);
       renderGMDashboard();saveActivePlayerToCloud(true);showToast(`🔥 Motivación: +1 Acción Común (-${cost} Smath).`);return true;
     }
     function waitCombatantPriority(id){
@@ -7874,15 +7878,59 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
             for (let i = 0; i < sum.maxCubes; i++) {
               cubesHtml += `<span class="action-cube ${i < sum.currentCubes ? 'action-cube-ready' : 'action-cube-spent'}" onclick="toggleSummonCubeAction('${pid}', ${sIdx}, ${i})" title="Cubo ${i + 1}"></span>`;
             }
+            const summonTargetId = `sum_${pid}_${sIdx}`;
+            const isSummonTargetSelected = selectedTargetIds.has(summonTargetId);
+
             const sCard = document.createElement('div');
-            sCard.className = `player-card-summon ${sum.currentCubes<=0?'summon-turn-spent':''} ${summonTurnClass} ${summonOutsideBattle?'battle-reserve':''}`;
+            sCard.id = `summon-card-${summonTargetId}`;
+            sCard.className = `player-card-summon ${isSummonTargetSelected ? 'target-selected' : ''} ${sum.currentCubes<=0?'summon-turn-spent':''} ${summonTurnClass} ${summonOutsideBattle?'battle-reserve':''}`;
+            sCard.style.cssText = 'padding:6px 10px; margin-bottom:6px; border-radius:5px; border-left:4px solid var(--border-gold); background:rgba(255,255,255,0.55); border:1px solid #9a7134; font-family:var(--f-title);';
             sCard.innerHTML = `
-              <div class="summon-heading-row"><div class="summon-heading-name"><span class="summon-connector">🐾</span> <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle?'<small class="battle-reserve-badge">🪑 Fuera de batalla</small>':''}</div><div class="summon-combat-row"><div class="summon-combat-values"><span>🗡️ PC: <b>${stats.pc}</b></span><span>|</span><span>🛡️ PD: <b>${stats.pd}</b></span><span>|</span><span>⚡ Iniciativa: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b></span>${isGm?`<button type="button" class="btn-mini-tool" style="padding:1px 4px;min-height:18px;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar de nuevo la iniciativa">↻</button>`:''}</div>${renderCardStatusMenu('summon',pid,sIdx)}<div class="summon-action-controls" style="display:${canControl&&!summonOutsideBattle?'flex':'none'};"><span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span>${renderSummonAttackPicker(pid,sIdx,sum,summonCanAct,summonCanUseTech)}${battleActive?`<button type="button" class="btn-mini-tool" onclick="endCombatantTurn('${summonCombatantId}')" title="Terminar turno de la invocación">🛑</button>`:''}</div></div></div>
-              <div class="gm-stats-columns" style="grid-template-columns:1fr;">
-              <div class="gm-stat-line summon-hp-row" style="grid-column:1/-1;"><span style="white-space:nowrap;min-width:74px;">❤️ Resencia:</span><div class="summon-hp-meter"><div class="stat-bar-track" style="flex:1;"><div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div></div><b style="font-size:12px;white-space:nowrap;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b></div></div>
-              
+              <!-- Fila 1: Nombre + Fuera de batalla a la izquierda / [🎯 OBJETIVO] + Duplicar + Disipar a la derecha -->
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:5px;">
+                <div style="display:flex; align-items:center; gap:6px; min-width:0; font-size:13px; font-weight:bold; color:#4a2b0f;">
+                  <span class="summon-connector">🐾</span> <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle ? '<small class="battle-reserve-badge">🪑 Fuera de batalla</small>' : ''}
+                </div>
+                <div style="display:flex; align-items:center; gap:4px; flex-shrink:0;">
+                  <button type="button" class="btn-mini-tool ${isSummonTargetSelected ? 'active-target-btn' : ''}" 
+                          style="font-size:11px; font-weight:bold; padding:2px 7px; background:${isSummonTargetSelected ? '#991b1b' : '#fff'}; color:${isSummonTargetSelected ? '#fff' : '#4a2b0f'}; border:1px solid ${isSummonTargetSelected ? '#7f1d1d' : '#8c6530'}; border-radius:3px; cursor:pointer;"
+                          onclick="toggleCombatantTargetSelection(this.closest('.player-card-summon'), '${summonTargetId}')" 
+                          title="Marcar como objetivo">
+                    🎯 OBJETIVO
+                  </button>
+                  <button type="button" class="btn-mini-tool" onclick="duplicateSummon('${pid}', ${sIdx})" title="Duplicar esbirro" style="padding:2px 5px; font-size:11px;">📋</button>
+                  <button type="button" class="btn-mini-tool" onclick="confirmDismissSummon('${pid}', ${sIdx}, '${escapeHtml(sum.name)}')" title="Disipar esbirro" style="padding:2px 5px; font-size:11px; color:#b91c1c;">💀</button>
+                </div>
               </div>
-              ${renderSummonStateTags(pid,sIdx,sum)}
+
+              <!-- Fila 2 Unificada: Atributos, Cubos, Selector de ataque y Barra de Resencia en un solo renglón -->
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:11.5px; background:rgba(0,0,0,0.03); padding:3px 8px; border-radius:3px; margin-bottom:3px; flex-wrap:wrap;">
+                <div style="display:flex; align-items:center; gap:6px; color:#5b3815; white-space:nowrap;">
+                  <span>🗡️ PC: <b>${stats.pc}</b></span>
+                  <span>|</span>
+                  <span>🛡️ PD: <b>${stats.pd}</b></span>
+                  <span>|</span>
+                  <span>⚡ Inic: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b></span>
+                  ${isGm ? `<button type="button" class="btn-mini-tool" style="padding:1px 4px; min-height:18px; line-height:1;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar de nuevo la iniciativa">↻</button>` : ''}
+                  ${renderCardStatusMenu('summon', pid, sIdx)}
+                  <div class="summon-action-controls" style="display:${canControl && !summonOutsideBattle ? 'inline-flex' : 'none'}; align-items:center; gap:4px; margin-left:4px;">
+                    <span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span>
+                    ${renderSummonAttackPicker(pid, sIdx, sum, summonCanAct, summonCanUseTech)}
+                    ${battleActive ? `<button type="button" class="btn-mini-tool" onclick="endCombatantTurn('${summonCombatantId}')" title="Terminar turno de la invocación">🛑</button>` : ''}
+                  </div>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:140px; justify-content:flex-end;">
+                  <span style="white-space:nowrap;">❤️ Resencia:</span>
+                  <div class="stat-bar-track" style="flex:1; max-width:110px; height:6px;">
+                    <div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div>
+                  </div>
+                  <b style="white-space:nowrap; font-size:11px;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b>
+                </div>
+              </div>
+
+              <!-- Fila 3: Estados alterados -->
+              ${renderSummonStateTags(pid, sIdx, sum)}
             `;
             cardsGrid.appendChild(sCard);
           });
@@ -9871,7 +9919,7 @@ function applyTechniqueEffects(target, isEnemy, tech, defaultValue, playerId = n
       applied.push(`potencia +${parseInt(boost.pc)||0} PC, +${parseInt(boost.pd)||0} PD, +${parseInt(boost.damage)||0} daño (${turns}T)`);
     } else if (labels[effect]) applied.push(`${labels[effect]}${tech.effectText ? `: ${tech.effectText}` : ''}`);
   });
-  if (tech.effectText && effects.length === 0) applied.push(tech.effectText);
+  // No inyectamos texto libre como pastilla de estado
   if (applied.length) target.lastEffect = applied.join(', ');
   return applied.join(', ');
 }
