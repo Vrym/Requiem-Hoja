@@ -7478,7 +7478,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       applyPermissions();
     }
 
-    // GESTIÓN DE ROLES Y PESTAÑAS
+   // GESTIÓN DE ROLES Y PESTAÑAS
     function renderRoleBar() {
       const container = document.getElementById('role-bar-container');
       const mobileSelect = document.getElementById('mobile-role-select');
@@ -7504,75 +7504,22 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           mobileSelect.appendChild(cOpt);
         }
       }
-// 🟢 REGLA DE PRIVACIDAD:
-    // Si no es Master, solo se renderiza la pestaña del jugador que tiene la sesión activa.
-    playerList.forEach((pid, idx) => {
-      if (!isMasterClient && pid !== activeClientIdentity) {
-        return;
-      }
 
-      const pdata = allPlayersData[pid] || {};
-      const icon = pdata.inputs?.['char-icon'] || '👤';
-      const name = pdata.inputs?.['char-name'] || `Jugador ${idx + 1}`;
-
-      // Pestaña en barra de escritorio
-      if (container) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
-        btn.innerHTML = `${icon} ${escapeHtml(name)}`;
-        btn.onclick = () => switchRole(pid);
-        container.appendChild(btn);
-      }
-
-      // Opción en desplegable móvil
-      if (mobileSelect) {
-        const opt = document.createElement('option');
-        opt.value = pid;
-        opt.innerText = `${icon} ${name}`;
-        if (activeRole === pid) opt.selected = true;
-        mobileSelect.appendChild(opt);
-      }
-    });
-
-    if (mobileSelect && activeRole) {
-      mobileSelect.value = activeRole;
-    }
-  }
-// 1. ORDENAMIENTO: El jugador conectado ve su propia tarjeta arriba de todo
-      const currentUserId = (typeof activeClientIdentity !== 'undefined') ? activeClientIdentity : activeRole;
-      const sortedPlayerList = [...playerList].sort((a, b) => {
-        if (a === currentUserId) return -1;
-        if (b === currentUserId) return 1;
-        return 0;
-      });
-
-      // 2. RECORRIDO Y FILTRO DE PREPARACIÓN
-      sortedPlayerList.forEach((pid, index) => {
-        const pdata = allPlayersData[pid] || createBlankCharacterData('');
-
-        // 🟢 FILTRO ESTRICTO DE PREPARACIÓN:
-        // Si el jugador no está marcado en la preparación activa, se oculta de la mesa
-        const isParticipant = (typeof isPlayerInBattleRoster === 'function')
-          ? isPlayerInBattleRoster(pid)
-          : ((typeof battleParticipants !== 'undefined' && Array.isArray(battleParticipants))
-              ? battleParticipants.includes(pid)
-              : (pdata.inBattle === true || pdata.battleParticipant === true || pdata.isPrepared === true));
-
-        if (!isParticipant) {
-          return; // Salta este jugador: no dibuja la tarjeta si no tiene el check
+      // Regla de privacidad: si no es Master, solo dibuja la pestaña del jugador conectado
+      playerList.forEach((pid, idx) => {
+        if (!isMasterClient && pid !== activeClientIdentity) {
+          return;
         }
 
-        const pInputs = pdata.inputs || {};
-        const pChecks = pdata.checkboxes || {};
-        const icon = pInputs['char-icon'] || '👤';
-        const charName = pInputs['char-name']?.trim();
-        const label = charName ? `${icon} ${charName}` : `${icon} Jugador ${index + 1}`;
+        const pdata = allPlayersData[pid] || {};
+        const icon = pdata.inputs?.['char-icon'] || '👤';
+        const name = pdata.inputs?.['char-name'] || `Jugador ${idx + 1}`;
+
         if (container) {
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
-          btn.innerText = label;
+          btn.innerHTML = `${icon} ${escapeHtml(name)}`;
           btn.onclick = () => switchRole(pid);
           container.appendChild(btn);
         }
@@ -7580,12 +7527,15 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         if (mobileSelect) {
           const opt = document.createElement('option');
           opt.value = pid;
-          opt.innerText = label;
+          opt.innerText = `${icon} ${name}`;
+          if (activeRole === pid) opt.selected = true;
           mobileSelect.appendChild(opt);
         }
       });
 
-      if (mobileSelect) mobileSelect.value = activeRole;
+      if (mobileSelect && activeRole) {
+        mobileSelect.value = activeRole;
+      }
 
       const deleteBtn = document.getElementById('btn-delete-player');
       if (deleteBtn) {
@@ -7782,10 +7732,19 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       ensureSummonCombatIds();
       cardsGrid.innerHTML = '';
 
-playerList.forEach((pid, idx) => {
+      // 1. ORDEN: El jugador activo ve su tarjeta primero
+      const currentUserId = (typeof activeClientIdentity !== 'undefined') ? activeClientIdentity : activeRole;
+      const sortedPlayerList = [...playerList].sort((a, b) => {
+        if (a === currentUserId) return -1;
+        if (b === currentUserId) return 1;
+        return 0;
+      });
+
+      // 2. RECORRIDO CON FILTRO DE PREPARACIÓN
+      sortedPlayerList.forEach((pid, idx) => {
         const pdata = allPlayersData[pid] || createBlankCharacterData('');
 
-        // 🟢 FILTRO DE PREPARACIÓN: Si no fue marcado por el Master, no entra a la mesa
+        // Filtro de preparación: si no está en la lista de batalla, no se dibuja
         const isParticipant = (typeof isPlayerInBattleRoster === 'function')
           ? isPlayerInBattleRoster(pid)
           : ((typeof battleParticipants !== 'undefined' && Array.isArray(battleParticipants))
@@ -7793,7 +7752,7 @@ playerList.forEach((pid, idx) => {
               : (pdata.inBattle === true || pdata.battleParticipant === true || pdata.isPrepared === true));
 
         if (!isParticipant) {
-          return; // No dibuja la tarjeta si no tiene el check
+          return;
         }
 
         const pInputs = pdata.inputs || {};
