@@ -7918,18 +7918,18 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
                 </div>
               </div>
 
-              <!-- Fila 3: ❤️ Resencia a la IZQUIERDA / Cubos + Atacar a la DERECHA -->
-              <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:4px;">
-                <!-- Izquierda: Barra y número de Resencia -->
-                <div style="display:flex; align-items:center; gap:5px; flex:1; min-width:115px;">
+             <!-- Fila 3: ❤️ Resencia expandida al máximo a la IZQUIERDA / Cubos + Atacar fijos a la DERECHA -->
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:4px;">
+                <!-- Izquierda: Barra elástica que toma todo el espacio sobrante -->
+                <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:0;">
                   <span style="white-space:nowrap; font-size:11px;">❤️ Resencia:</span>
-                  <div class="stat-bar-track" style="flex:1; max-width:75px; height:6px;">
+                  <div class="stat-bar-track" style="flex:1; height:6px; min-width:40px;">
                     <div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div>
                   </div>
                   <b style="white-space:nowrap; font-size:10.5px;">${stats.hpCurr}/${stats.hpMax}</b>
                 </div>
 
-                <!-- Derecha: Cubos de acción + Botón de ataque -->
+                <!-- Derecha: Cubos + Atacar fijos sin encogerse -->
                 <div class="summon-action-controls" style="display:${canControl && !summonOutsideBattle ? 'inline-flex' : 'none'}; align-items:center; gap:4px; flex-shrink:0;">
                   <span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span>
                   ${renderSummonAttackPicker(pid, sIdx, sum, summonCanAct, summonCanUseTech)}
