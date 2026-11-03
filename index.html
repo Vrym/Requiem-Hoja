@@ -7951,13 +7951,15 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
             <div class="action-economy-pills"><span class="state-chip">⚡ Rápida ${quickActionsUsed}/1</span><span class="state-chip">🗡️ Común ${commonActionsUsed}/${commonActionsMax}</span>${pdata.defendingTurn?'<span class="state-chip">🛡️ Defendiendo (+2 PD)</span>':''}</div>
             ${(parseInt(pdata.shield)||0)>0 ? `<div class="shield-status">🛡️ Escudo: <b>${parseInt(pdata.shield)||0}</b>${parseInt(pdata.shieldTurns)>0?` · ${parseInt(pdata.shieldTurns)}T`:''}</div>` : ''}
             <div class="player-state-summary">${playerStateHtml || '<small style="color:#7b6544;font-style:italic;">Sin estados activos</small>'}</div>
-            <div class="gm-skill-roll" style="display:${canControl ? 'flex' : 'none'};align-items:center;gap:5px;margin-top:5px;padding:5px 6px;background:#eee5d2;border:1px solid #9c7743;border-radius:4px;">
-              <b style="font: bold 11px var(--f-title);color:#573213;white-space:nowrap;">✨ Habilidad</b>
-              <select id="summary-skill-order-${pid}" class="skill-sort-select" onchange="updateSummarySkillOptions('${pid}')" aria-label="Orden de habilidades"><option value="arq">Tipo</option><option value="az">A&gt;Z</option></select>
-              <select id="summary-skill-sel-${pid}" class="resumen-action-select" style="flex:1;min-width:0;">${summarySkillOptions}</select>
-              <button type="button" class="skill-roll-btn" onclick="rollPlayerSkillD20('${pid}')" ${isDead?'disabled':''}>D20</button>
-              <span id="summary-skill-result-${pid}" class="skill-roll-result">—</span>
-            </div>
+            <div class="gm-skill-roll" style="display:${canControl ? 'flex' : 'none'};flex-direction:column;align-items:stretch;gap:4px;margin-top:5px;padding:5px 6px;background:#eee5d2;border:1px solid #9c7743;border-radius:4px;">
+  <div style="font: bold 11px var(--f-title);color:#573213;">✨ Habilidad</div>
+  <div style="display:flex;align-items:center;gap:4px;width:100%;">
+    <select id="summary-skill-order-${pid}" class="skill-sort-select" style="flex:0 0 54px;width:54px;min-height:24px;height:24px;padding:1px 2px;font-size:10px;" onchange="updateSummarySkillOptions('${pid}')" aria-label="Orden de habilidades"><option value="arq">Tipo</option><option value="az">A&gt;Z</option></select>
+    <select id="summary-skill-sel-${pid}" class="resumen-action-select" style="flex:1 1 auto;width:100%;min-width:0;min-height:24px;height:24px;padding:1px 4px;font-size:10.5px;">${summarySkillOptions}</select>
+    <button type="button" class="skill-roll-btn" style="flex:0 0 auto;width:34px;height:24px;min-height:24px;" onclick="rollPlayerSkillD20('${pid}')" ${isDead?'disabled':''}>D20</button>
+    <span id="summary-skill-result-${pid}" class="skill-roll-result" style="flex:0 0 auto;min-width:32px;height:24px;display:inline-flex;align-items:center;justify-content:center;">—</span>
+  </div>
+</div>
 
             <!-- CONTROLES DE ACCIÓN DE COMBATE DIRECTO -->
             <div style="margin-top:6px; padding:4px 6px; background:rgba(0,0,0,0.04); border-radius:3px; display:${canControl ? 'flex' : 'none'}; align-items:center; justify-content:space-between; gap:4px; flex-wrap:wrap;">
