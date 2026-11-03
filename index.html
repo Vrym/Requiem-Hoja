@@ -1046,13 +1046,28 @@
     .resumen-action-select {
       background: #fff;
       border: 1px solid var(--border-dark);
-      border-radius: 2px;
+      border-radius: 3px;
       font-family: var(--f-title);
-      font-size: 11px;
+      font-size: 10.5px !important;
+      line-height: 1.2;
       padding: 2px 4px;
       outline: none;
+      max-width: 220px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-
+    .resumen-action-select optgroup {
+      font-size: 10px;
+      font-weight: bold;
+      color: #633a16;
+      background: #fbf5e8;
+    }
+    .resumen-action-select option {
+      font-size: 11px;
+      padding: 3px 6px;
+      color: #231408;
+      background: #fff;
+    }
     /* ESENCIA: GRADOS 1 AL 15 */
     .essence-row-3 {
       display: grid;
@@ -7807,22 +7822,22 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         const turnSummary=turnSummaryParts.join(' · ')||'Sin acciones registradas';
         const quickActionsUsed=parseInt(pdata.quickActionsUsed)||0,commonActionsUsed=parseInt(pdata.commonActionsUsed)||0,commonActionsMax=1+(parseInt(pdata.commonActionBonus)||0);
 
-        // Desplegable de Armas y Técnicas
+        // Desplegable de Armas y Técnicas (Formato conciso para evitar saltos de línea)
         let actionOptionsHtml = '<optgroup label="Armas">';
         (pdata.weapons || []).forEach(w => {
           const blocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'common-offense')||!canUseOffensiveAction(`p_${pid}`,false,false);
-          actionOptionsHtml += `<option value="wpn_${w.id}" ${blocked?'disabled':''}>🗡️ ${escapeHtml(w.name)} · Común (${w.scalePct ?? 0}%)</option>`;
+          actionOptionsHtml += `<option value="wpn_${w.id}" ${blocked?'disabled':''}>🗡️ ${escapeHtml(w.name)} (${w.scalePct ?? 0}%)</option>`;
         });
         actionOptionsHtml += '</optgroup><optgroup label="Técnicas">';
         (pdata.techniques || []).forEach((t, tIdx) => {
           const support=t.category==='support'||['heal','shield','cleanse'].some(effect=>t.effects?.includes(effect));
           const actionKind=`${t.isQuickAction?'quick':'common'}${support?'':'-offense'}`;
           const blocked=isDead||isOutOfBattle||isPlayerSealed||!getCombatActionAvailability(`p_${pid}`,false,actionKind)||(!support&&!canUseOffensiveAction(`p_${pid}`,false,false));
-          actionOptionsHtml += `<option value="tech_${tIdx}" ${blocked?'disabled':''}>${t.isQuickAction?'⚡ Rápida':'🗡️ Común'} · ${t.isEssenceTechnique ? '✨' : '⚡'} ${escapeHtml(t.name || 'Téc')} (${t.cost ?? 2} Sm)</option>`;
+          actionOptionsHtml += `<option value="tech_${tIdx}" ${blocked?'disabled':''}>${t.isQuickAction?'⚡':'🗡️'} ${t.isEssenceTechnique ? '✨' : ''} ${escapeHtml(t.name || 'Téc')} (${t.cost ?? 2} Sm)</option>`;
         });
         const commonBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'common'),quickBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'quick');
-        actionOptionsHtml += `</optgroup><optgroup label="Acciones"><option value="move" ${quickBlocked?'disabled':''}>🏃 Desplazarse · Rápida</option><option value="conc" ${commonBlocked?'disabled':''}>🧘 Concentrarse · Común</option><option value="defend" ${commonBlocked?'disabled':''}>🛡️ Defenderse · Común</option><option value="motivation" ${isDead||isOutOfBattle||pChecks['status-stun']||pChecks['status-petrificado']||(parseInt(pdata.motivationUses)||0)>=2?'disabled':''}>🔥 Motivación · +Acción común</option></optgroup><optgroup label="Pociones">`;
-        (pdata.inventory||[]).forEach((item,itemIndex)=>{if(item.type==='potion')actionOptionsHtml+=`<option value="item_${itemIndex}" ${quickBlocked||isDead?'disabled':''}>🧪 ${escapeHtml(item.name||'Poción')} · Rápida</option>`;});
+        actionOptionsHtml += `</optgroup><optgroup label="Acciones"><option value="move" ${quickBlocked?'disabled':''}>🏃 Desplazarse (Rápida)</option><option value="conc" ${commonBlocked?'disabled':''}>🧘 Concentrarse</option><option value="defend" ${commonBlocked?'disabled':''}>🛡️ Defenderse (+2 PD)</option><option value="motivation" ${isDead||isOutOfBattle||pChecks['status-stun']||pChecks['status-petrificado']||(parseInt(pdata.motivationUses)||0)>=2?'disabled':''}>🔥 Motivación (+1 Acción)</option></optgroup><optgroup label="Pociones">`;
+        (pdata.inventory||[]).forEach((item,itemIndex)=>{if(item.type==='potion')actionOptionsHtml+=`<option value="item_${itemIndex}" ${quickBlocked||isDead?'disabled':''}>🧪 ${escapeHtml(item.name||'Poción')}</option>`;});
         actionOptionsHtml+='</optgroup>';
 
         const card = document.createElement('div');
@@ -7859,7 +7874,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
                 </div>
               </div>
               <div class="gm-tactical-matrix" style="grid-column:1/-1;">
-                <div class="gm-tactical-cell">🗡️ PC: <b>${pcTot}</b> | 🛡️ PD: <b>${pdTot}</b> | ⚡ Iniciativa: <b>${isOutOfBattle?'—':escapeHtml(String(getCombatantInitDisplay(combatantId)))}</b></div>
+                <div class="gm-tactical-cell">🗡️ PC: <b>${pcTot}</b> | 🛡️ PD: <b>${pdTot}</b> | ⚡ Inic.: <b>${isOutOfBattle?'—':escapeHtml(String(getCombatantInitDisplay(combatantId)))}</b></div>
                 <div class="gm-tactical-cell">✨ Esencia: <b>${essenceLevel} (${essenceTier})</b></div>
                 <div class="gm-tactical-cell">🌌 Deseos: <b>${wishesUsed}/2 Usados</b></div>
                 <div class="gm-tactical-cell">🔥 Modo: <b>${modeNames[pdata.essenceMode||'none']||'Inactivo'}</b></div>
