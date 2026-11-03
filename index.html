@@ -9803,7 +9803,7 @@ function deleteTechniqueRow(row) {
     }
   });
   playSound(isSupport ? 'tech_cast' : 'sword_hit');
-  const resourceCostLabel=summonSource?'(acción de la invocación; no consume acción ni Smath del dueño)':`(-${cost} Smath)`;
+  const resourceCostLabel=summonSource?:`(-${cost} Smath)`;
   broadcastSystemCombatEntry('tech', `⚡ <b>${escapeHtml(name)}</b> usó <b>${escapeHtml(tech.name || 'Técnica')}</b>${isPifia ? ' ⚠️ PIFIA' : isPerfect ? ' 🌟 PERFECTA · DAÑO CRÍTICO MÁXIMO' : isCrit ? ' <span class="badge-entry-crit">⭐ GOLPE CRÍTICO</span>' : ''} ${resourceCostLabel}${isSupport ? '' : ` (D20 ${d20} + ${pc} = ${precision})`}:<br>${lines.join('<br>')}`);
   clearAllSelectedTargets(); renderEnemiesCards(); if (activeRole === 'gm') renderGMDashboard();
   saveActivePlayerToCloud(true); showToast(summonSource?`🐾 ${name} usó ${tech.name} de forma independiente.`:isSupport ? `🛡️ Técnica de apoyo: ${amount} HP.` : `⚡ Técnica resuelta: ${amount} de daño potencial.`);
