@@ -7539,18 +7539,35 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       mobileSelect.value = activeRole;
     }
   }
-    // 🟢 ORDEN DE VISTA: Si no es Master, sitúa la tarjeta del jugador activo en primer lugar
-      const isMaster = (typeof isMasterClient !== 'undefined' ? isMasterClient : (activeClientIdentity === 'gm'));
-      const sortedPlayerList = isMaster 
-        ? [...playerList] 
-        : [...playerList].sort((a, b) => (a === activeClientIdentity ? -1 : b === activeClientIdentity ? 1 : 0));
+// 1. ORDENAMIENTO: El jugador conectado ve su propia tarjeta arriba de todo
+      const currentUserId = (typeof activeClientIdentity !== 'undefined') ? activeClientIdentity : activeRole;
+      const sortedPlayerList = [...playerList].sort((a, b) => {
+        if (a === currentUserId) return -1;
+        if (b === currentUserId) return 1;
+        return 0;
+      });
 
+      // 2. RECORRIDO Y FILTRO DE PREPARACIÓN
       sortedPlayerList.forEach((pid, index) => {
-        const pInputs = allPlayersData[pid]?.inputs || {};
+        const pdata = allPlayersData[pid] || createBlankCharacterData('');
+
+        // 🟢 FILTRO ESTRICTO DE PREPARACIÓN:
+        // Si el jugador no está marcado en la preparación activa, se oculta de la mesa
+        const isParticipant = (typeof isPlayerInBattleRoster === 'function')
+          ? isPlayerInBattleRoster(pid)
+          : ((typeof battleParticipants !== 'undefined' && Array.isArray(battleParticipants))
+              ? battleParticipants.includes(pid)
+              : (pdata.inBattle === true || pdata.battleParticipant === true || pdata.isPrepared === true));
+
+        if (!isParticipant) {
+          return; // Salta este jugador: no dibuja la tarjeta si no tiene el check
+        }
+
+        const pInputs = pdata.inputs || {};
+        const pChecks = pdata.checkboxes || {};
         const icon = pInputs['char-icon'] || '👤';
         const charName = pInputs['char-name']?.trim();
         const label = charName ? `${icon} ${charName}` : `${icon} Jugador ${index + 1}`;
-        
         if (container) {
           const btn = document.createElement('button');
           btn.type = 'button';
