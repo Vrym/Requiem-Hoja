@@ -2449,6 +2449,36 @@
     #gm-console-wrap .workshop-complex-only > label select,
     #gm-console-wrap .currency-console-grid > label input,
     #gm-console-wrap .environment-grid > label input { width:100%; }
+
+    /* 🟢 EXTENSIÓN DEL SELECTOR DE HABILIDAD */
+    .gm-skill-roll {
+      display: flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .gm-skill-roll > b {
+      flex: 0 0 auto !important;
+      white-space: nowrap !important;
+    }
+    .skill-sort-select,
+    .gm-skill-roll .skill-sort-select {
+      flex: 0 0 auto !important;
+      width: 58px !important;
+      min-width: 58px !important;
+    }
+    select[id^="summary-skill-sel-"],
+    .gm-skill-roll select.resumen-action-select {
+      flex: 1 1 auto !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: none !important;
+    }
+    .gm-skill-roll .skill-roll-btn,
+    .gm-skill-roll .skill-roll-result {
+      flex: 0 0 auto !important;
+    }
   </style>
 </head>
 <body>
@@ -7923,7 +7953,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
             <div class="player-state-summary">${playerStateHtml || '<small style="color:#7b6544;font-style:italic;">Sin estados activos</small>'}</div>
             <div class="gm-skill-roll" style="display:${canControl ? 'flex' : 'none'};align-items:center;gap:5px;margin-top:5px;padding:5px 6px;background:#eee5d2;border:1px solid #9c7743;border-radius:4px;">
               <b style="font: bold 11px var(--f-title);color:#573213;white-space:nowrap;">✨ Habilidad</b>
-              <select id="summary-skill-order-${pid}" class="skill-sort-select" onchange="updateSummarySkillOptions('${pid}')" aria-label="Orden de habilidades"><option value="arq">Arq & Hab</option><option value="az">A&gt;Z</option></select>
+              <select id="summary-skill-order-${pid}" class="skill-sort-select" onchange="updateSummarySkillOptions('${pid}')" aria-label="Orden de habilidades"><option value="arq">Tipo</option><option value="az">A&gt;Z</option></select>
               <select id="summary-skill-sel-${pid}" class="resumen-action-select" style="flex:1;min-width:0;">${summarySkillOptions}</select>
               <button type="button" class="skill-roll-btn" onclick="rollPlayerSkillD20('${pid}')" ${isDead?'disabled':''}>D20</button>
               <span id="summary-skill-result-${pid}" class="skill-roll-result">—</span>
