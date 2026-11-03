@@ -5698,18 +5698,39 @@
         const abilitiesHtml = (sum.techniques || []).map(t => `<span style="display:inline-flex;align-items:center;gap:3px;background:#eee5c9;border:1px solid #9a7134;border-radius:3px;padding:2px 4px;font-size:10px;" title="${escapeHtml(t.desc||t.effectText||'Técnica propia de la invocación')}">⚡ <b>${escapeHtml(t.name || 'Técnica')}</b></span>`).join('');
         const abilitiesDropdown=renderSummonTechniquesDropdown(abilitiesHtml,(sum.techniques||[]).length);
 
-        const card = document.createElement('div');
+const card = document.createElement('div');
         card.className = `player-card-summon ${sum.currentCubes<=0?'summon-turn-spent':''} ${summonTurnClass} ${summonOutsideBattle?'battle-reserve':''}`;
         card.innerHTML = `
-          <div class="summon-heading-row">
-            <div class="summon-heading-name"><span class="summon-connector">🐾</span> <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle?'<small class="battle-reserve-badge">🪑 Fuera de batalla</small>':''}</div>
-            <div class="summon-combat-row"><div class="summon-combat-values"><span>🗡️ PC: <b>${stats.pc}</b></span><span>|</span><span>🛡️ PD: <b>${stats.pd}</b></span><span>|</span><span>⚡ Iniciativa: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b></span>${isMasterClient?`<button type="button" class="btn-mini-tool" style="padding:1px 4px;min-height:18px;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar de nuevo la iniciativa">↻</button>`:''}</div>${renderCardStatusMenu('summon',pid,sIdx)}<div class="summon-action-controls" style="display:${summonOutsideBattle?'none':'flex'};"><span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span></div></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:nowrap; margin-bottom:5px;">
+            <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; overflow-x:auto; scrollbar-width:none; font-family:var(--f-title); font-size:12px;">
+              <span class="summon-connector" style="white-space:nowrap;">🐾 <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle?'<small class="battle-reserve-badge">🪑</small>':''}</span>
+              <span style="font-size:11px; color:#6b4423; white-space:nowrap; opacity:0.9;">
+                🗡️ PC: <b>${stats.pc}</b> | 🛡️ PD: <b>${stats.pd}</b> | ⚡ Inic: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b>
+              </span>
+              ${isMasterClient?`<button type="button" class="btn-mini-tool" style="padding:1px 4px; min-height:18px; line-height:1;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar iniciativa">↻</button>`:''}
+              ${renderCardStatusMenu('summon',pid,sIdx)}
+              <div class="summon-action-controls" style="display:${summonOutsideBattle?'none':'inline-flex'}; align-items:center;">
+                <span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:3px; flex-shrink:0;">
+              <button type="button" class="btn-mini-tool" onclick="duplicateSummon('${pid}',${sIdx})" title="Duplicar esbirro" style="padding:2px 5px; font-size:11px;">📋</button>
+              <button type="button" class="btn-mini-tool" onclick="dismissSummon('${pid}',${sIdx})" title="Disipar esbirro" style="padding:2px 5px; font-size:11px; color:#b91c1c;">💀</button>
+            </div>
           </div>
-          <div class="gm-stats-columns" style="grid-template-columns:1fr;">
-            <div class="gm-stat-line summon-hp-row" style="grid-column:1/-1;"><span style="white-space:nowrap;min-width:74px;">❤️ Resencia:</span><div class="summon-hp-meter"><div class="stat-bar-track" style="flex:1;"><div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div></div><b style="font-size:12px;white-space:nowrap;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b></div><div class="summon-hp-actions"><button type="button" class="btn-mini-tool" onclick="duplicateSummon('${pid}',${sIdx})" title="Duplicar esbirro">📋 Duplicar</button><button type="button" class="btn-mini-tool" style="color:#b91c1c;font-weight:bold;" onclick="dismissSummon('${pid}',${sIdx})" title="Disipar">💀 Disipar</button></div></div>
+
+          <div style="margin-bottom:4px;">
+            <div style="display:flex; align-items:center; gap:6px; font-size:11px; font-family:var(--f-title);">
+              <span style="white-space:nowrap;">❤️ Resencia:</span>
+              <div class="stat-bar-track" style="flex:1; height:6px; min-width:60px;">
+                <div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div>
+              </div>
+              <b style="font-size:11px; white-space:nowrap;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b>
+            </div>
           </div>
+
+          <!-- Píldoras de estados activos -->
           ${renderSummonStateTags(pid,sIdx,sum)}
-          ${abilitiesDropdown}
         `;
         container.appendChild(card);
       });
