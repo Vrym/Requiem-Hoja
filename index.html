@@ -2479,6 +2479,23 @@
     .gm-skill-roll .skill-roll-result {
       flex: 0 0 auto !important;
     }
+    /* Reduce la fuente base del selector y sus opciones */
+select.resumen-action-select,
+select[id^="summary-skill-sel-"],
+select[id^="action-sel-"] {
+  font-size: 11px !important;
+  line-height: 1.1 !important;
+  padding: 1px 3px !important;
+  min-height: 24px !important;
+  height: 24px !important;
+}
+
+select[id^="summary-skill-sel-"] option,
+select[id^="summary-skill-sel-"] optgroup {
+  font-size: 10px !important;
+  padding: 2px 4px !important;
+  line-height: 1.1 !important;
+}
   </style>
 </head>
 <body>
@@ -5503,10 +5520,16 @@
       return level >= 0 ? SKILL_BONUSES[level] : '+0';
     }
    function buildSummarySkillOptions(pdata, mode = 'arq') {
-      const optionFor = skillId => {
-        const group = SKILL_ARCHETYPE_GROUPS.find(g => skillId >= g.from && skillId <= g.to) || SKILL_ARCHETYPE_GROUPS[0];
-        return `<option value="${skillId}" style="color:${group.color};background:${group.wash};font-weight:bold;font-size:9.5px;padding:1px 3px;">${escapeHtml(SKILL_NAMES[skillId-1])} (${getSavedSkillBonusText(pdata, skillId)})</option>`;
-      };
+  const optionFor = skillId => {
+    const group = SKILL_ARCHETYPE_GROUPS.find(g => skillId >= g.from && skillId <= g.to) || SKILL_ARCHETYPE_GROUPS[0];
+    return `<option value="${skillId}" style="color:${group.color};background:${group.wash};font-weight:bold;font-size:10px;padding:1px 3px;">${escapeHtml(SKILL_NAMES[skillId-1])} (${getSavedSkillBonusText(pdata, skillId)})</option>`;
+  };
+  if (mode === 'az') {
+    return SKILL_NAMES.map((name, index) => ({ name, index: index + 1 })).sort((a, b) => a.name.localeCompare(b.name, 'es'))
+      .map(item => optionFor(item.index)).join('');
+  }
+  return SKILL_ARCHETYPE_GROUPS.map(group => `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};font-size:9.5px;padding:1px 2px;">${Array.from({ length: group.to - group.from + 1 }, (_, i) => optionFor(group.from + i)).join('')}</optgroup>`).join('');
+}
       if (mode === 'az') {
         return SKILL_NAMES.map((name, index) => ({ name, index: index + 1 })).sort((a, b) => a.name.localeCompare(b.name, 'es'))
           .map(item => optionFor(item.index)).join('');
