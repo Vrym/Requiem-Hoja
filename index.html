@@ -7504,8 +7504,48 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           mobileSelect.appendChild(cOpt);
         }
       }
+// 🟢 REGLA DE PRIVACIDAD:
+    // Si no es Master, solo se renderiza la pestaña del jugador que tiene la sesión activa.
+    playerList.forEach((pid, idx) => {
+      if (!isMasterClient && pid !== activeClientIdentity) {
+        return;
+      }
 
-      playerList.forEach((pid, index) => {
+      const pdata = allPlayersData[pid] || {};
+      const icon = pdata.inputs?.['char-icon'] || '👤';
+      const name = pdata.inputs?.['char-name'] || `Jugador ${idx + 1}`;
+
+      // Pestaña en barra de escritorio
+      if (container) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `role-btn ${activeRole === pid ? 'active' : ''}`;
+        btn.innerHTML = `${icon} ${escapeHtml(name)}`;
+        btn.onclick = () => switchRole(pid);
+        container.appendChild(btn);
+      }
+
+      // Opción en desplegable móvil
+      if (mobileSelect) {
+        const opt = document.createElement('option');
+        opt.value = pid;
+        opt.innerText = `${icon} ${name}`;
+        if (activeRole === pid) opt.selected = true;
+        mobileSelect.appendChild(opt);
+      }
+    });
+
+    if (mobileSelect && activeRole) {
+      mobileSelect.value = activeRole;
+    }
+  }
+    // 🟢 ORDEN DE VISTA: Si no es Master, sitúa la tarjeta del jugador activo en primer lugar
+      const isMaster = (typeof isMasterClient !== 'undefined' ? isMasterClient : (activeClientIdentity === 'gm'));
+      const sortedPlayerList = isMaster 
+        ? [...playerList] 
+        : [...playerList].sort((a, b) => (a === activeClientIdentity ? -1 : b === activeClientIdentity ? 1 : 0));
+
+      sortedPlayerList.forEach((pid, index) => {
         const pInputs = allPlayersData[pid]?.inputs || {};
         const icon = pInputs['char-icon'] || '👤';
         const charName = pInputs['char-name']?.trim();
