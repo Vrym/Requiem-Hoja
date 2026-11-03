@@ -7725,8 +7725,20 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       ensureSummonCombatIds();
       cardsGrid.innerHTML = '';
 
-      playerList.forEach((pid, idx) => {
+playerList.forEach((pid, idx) => {
         const pdata = allPlayersData[pid] || createBlankCharacterData('');
+
+        // 🟢 FILTRO DE PREPARACIÓN: Si no fue marcado por el Master, no entra a la mesa
+        const isParticipant = (typeof isPlayerInBattleRoster === 'function')
+          ? isPlayerInBattleRoster(pid)
+          : ((typeof battleParticipants !== 'undefined' && Array.isArray(battleParticipants))
+              ? battleParticipants.includes(pid)
+              : (pdata.inBattle === true || pdata.battleParticipant === true || pdata.isPrepared === true));
+
+        if (!isParticipant) {
+          return; // No dibuja la tarjeta si no tiene el check
+        }
+
         const pInputs = pdata.inputs || {};
         const pChecks = pdata.checkboxes || {};
 
@@ -7944,6 +7956,14 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           });
         }
       });
+      // 🟢 CONTROL DE PREPARACIÓN VACÍA: Si ningún jugador fue marcado (0/3), muestra el aviso
+      if (cardsGrid && cardsGrid.children.length === 0) {
+        cardsGrid.innerHTML = `
+          <div style="text-align:center; padding:16px; color:#8c6530; font-family:var(--f-title); font-style:italic; background:rgba(0,0,0,0.03); border:1px dashed #bf8a3b; border-radius:4px; margin-top:6px;">
+            🛡️ No hay jugadores en el campo. Selecciona los participantes desde <b>PREPARACIÓN</b>.
+          </div>
+        `;
+      }
       // Renderiza PNJ aliados después de jugadores y sus mascotas en cada refresco del dashboard.
       renderEnemiesCards();
     }
