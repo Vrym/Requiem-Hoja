@@ -965,11 +965,16 @@
     .summon-combat-row { display:flex;align-items:center;justify-content:space-between;gap:2px;flex-wrap:wrap;margin:3px 0; }
     .summon-combat-values { display:flex;align-items:center;gap:2px;flex:0 1 auto;min-width:0;font:10.5px var(--f-title);white-space:nowrap; }
     .summon-combat-values .summon-init-value { font-weight:bold; }
+    .summon-combat-values .card-status-controls { flex:0 0 auto; }
     .summon-heading-row { display:flex;align-items:center;justify-content:space-between;gap:7px;min-width:0;margin-bottom:4px; }
     .summon-heading-name { flex:1 1 150px;min-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
     .summon-heading-row .summon-combat-row { flex:0 1 auto;justify-content:flex-end;min-width:0;margin:0; }
     .summon-heading-row .summon-combat-values { font-size:10px; }
     .summon-management-controls { display:flex;justify-content:flex-end;gap:4px;margin-top:3px; }
+    .summon-hp-row { display:flex;align-items:center;gap:6px;min-width:0; }
+    .summon-hp-row .summon-hp-meter { display:flex;align-items:center;gap:6px;flex:1 1 auto;min-width:70px; }
+    .summon-hp-actions { display:flex;align-items:center;gap:4px;flex:0 0 auto;margin-left:auto; }
+    .summon-state-tags-row { display:flex;align-items:center;justify-content:flex-start;gap:4px;flex-wrap:wrap;margin:3px 0 0; }
     @media (max-width:560px) { .summon-heading-row { flex-wrap:wrap; } .summon-heading-name { flex-basis:100%; } .summon-heading-row .summon-combat-row { margin-left:auto; } }
     .card-status-section.summon-state-inline { justify-content:flex-end;flex:0 1 auto;gap:3px;margin:0 0 0 auto; }
     .summon-action-controls { display:flex;align-items:center;gap:4px;flex:0 0 auto;margin-left:auto;white-space:nowrap; }
@@ -1656,6 +1661,26 @@
     .tech-essence-mark { display:inline-block;margin-right:3px;color:#9a6714;font-size:11px; }
     .tech-quick-mark { display:inline-block;white-space:nowrap;padding:1px 4px;border:1px solid #4d7c43;border-radius:7px;background:#e8f5e1;color:#315c36;font:bold 8px var(--f-title); }
     .tech-summon-reference { margin-top:4px;padding:4px 6px;border:1px solid #52805e;border-left:4px solid #347147;border-radius:3px;background:linear-gradient(100deg,#e6f3e2,#fffdf5);color:#315c36;font:10px var(--f-title); }
+    .tech-summon-reference-details { margin-top:4px;color:#315c36;font:10px var(--f-title); }
+    .tech-summon-reference-details > summary { padding:3px 5px;border:1px solid #52805e;border-left:4px solid #347147;border-radius:3px;background:linear-gradient(100deg,#e6f3e2,#fffdf5);cursor:pointer; }
+    .summon-techniques-dropdown { margin-top:4px;padding-top:3px;border-top:1px dashed rgba(95,60,20,.35);font:10px var(--f-title); }
+    .summon-techniques-dropdown > summary { color:#583c14;font:bold 10px var(--f-title);cursor:pointer; }
+    .summon-techniques-list { display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:4px; }
+    .builder-summon-tech-config { margin-top:4px;padding-top:6px;border-top:1px dashed #5f8b51; }
+    .builder-summon-tech-header { display:flex;align-items:center;justify-content:space-between;gap:5px;margin-bottom:5px;color:#27553a;font:10px var(--f-title); }
+    .builder-summon-techniques-list { display:flex;flex-direction:column;gap:5px; }
+    .builder-summon-tech-row { padding:6px;border:1px solid #8fa783;border-radius:4px;background:#f4f8ef; }
+    .builder-summon-tech-row-head { display:grid;grid-template-columns:minmax(0,1fr) 100px 26px;gap:4px;align-items:center; }
+    .builder-summon-tech-row input,.builder-summon-tech-row select { min-width:0;width:100%;box-sizing:border-box;font-size:10px !important; }
+    .builder-summon-tech-effect-options { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px 5px;margin-top:4px; }
+    .builder-summon-tech-effect-options label { display:flex !important;align-items:center;gap:3px;font:9px var(--f-title); }
+    .builder-summon-tech-effect-options input { width:auto !important; }
+    .builder-summon-tech-values { display:grid;grid-template-columns:minmax(0,1fr) 90px;gap:5px;margin-top:4px; }
+    .summon-attack-picker { position:relative;display:flex;align-items:center;justify-content:center;flex:0 0 auto; }
+    .summon-attack-picker > summary { display:flex;align-items:center;justify-content:center;min-height:22px;padding:1px 4px;list-style:none;text-align:center;cursor:pointer;white-space:nowrap; }
+    .summon-attack-picker > summary::-webkit-details-marker { display:none; }
+    .summon-attack-picker-menu { position:absolute;right:0;top:calc(100% + 4px);z-index:1200;display:flex;flex-direction:column;gap:3px;min-width:150px;max-width:min(260px,80vw);padding:5px;border:1px solid #9a7134;border-radius:4px;background:#fff8e8;box-shadow:0 5px 14px rgba(35,21,8,.35); }
+    .summon-attack-picker-menu .btn-mini-tool { text-align:left;white-space:normal; }
     #char-data-content-wrap { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 12px; }
     #char-data-content-wrap .header-info-line { min-width:0;display:flex;align-items:center;gap:5px; }
     #char-data-content-wrap .header-info-line input { min-width:0;flex:1 1 auto; }
@@ -2612,17 +2637,17 @@
       <div id="sheet-item-effects-wrap" class="loot-item-effect-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px;">
         <label style="font:bold 11px var(--f-title);">Uso / efecto<select id="sheet-item-effect-option" class="table-msg-select" onchange="updateSheetItemEffectUI()"></select></label>
         <label id="sheet-item-level-wrap" style="font:bold 11px var(--f-title);">Nivel<select id="sheet-item-effect-level" class="table-msg-select"><option value="1">N1 · 25%</option><option value="2">N2 · 50%</option><option value="3">N3 · 100%</option></select></label>
+        <label id="sheet-item-magnitude-wrap" style="display:none;font:bold 11px var(--f-title);">Bono / Magnitud (+Valor)<input type="number" id="sheet-item-magnitude" class="table-msg-input" min="1" value="2"></label>
       </div>
       <div id="sheet-armor-creation-fields" style="display:none;margin-top:8px;padding:8px;border:1px solid #8b6a35;border-radius:4px;background:#f6ecd3;">
         <b style="font: bold 11px var(--f-title);color:#633a16;">🛡️ CREACIÓN DE ARMADURA</b>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;">
+        <div style="display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px;">
           <label style="font:bold 10px var(--f-title);">Tipo<select id="sheet-item-armor-subtype" class="table-msg-select" style="width:100%;"><option value="tela">Tela</option><option value="cuero">Cuero</option><option value="malla">Malla</option><option value="coraza">Coraza</option></select></label>
-          <label style="font:bold 10px var(--f-title);">Bono PD<input type="number" id="sheet-item-armor-pd" class="table-msg-input" min="0" value="0"></label>
         </div>
-        <label style="display:inline-flex;align-items:center;gap:5px;margin-top:6px;font:bold 10px var(--f-title);"><input type="checkbox" id="sheet-item-equipped"> Equipar al agregar</label>
         <details style="margin-top:6px;"><summary style="cursor:pointer;font:bold 10px var(--f-title);">Resistencias de la armadura</summary><div class="inv-resistance-grid"><label>Veneno %<input type="number" id="sheet-armor-resist-veneno" min="-100" value="0"></label><label>Sangrado %<input type="number" id="sheet-armor-resist-sangrado" min="-100" value="0"></label><label>Stun %<input type="number" id="sheet-armor-resist-stun" min="-100" value="0"></label><label>Mareado %<input type="number" id="sheet-armor-resist-mareado" min="-100" value="0"></label><label>Petrificado %<input type="number" id="sheet-armor-resist-petrificado" min="-100" value="0"></label><label>Infectado %<input type="number" id="sheet-armor-resist-infectado" min="-100" value="0"></label></div></details>
       </div>
       <div id="sheet-weapon-create-hint" style="display:none;margin-top:8px;padding:7px;border:1px dashed #9a7134;border-radius:4px;background:#f6ecd3;font:11px var(--f-title);">⚔️ El arma se configura en el constructor, donde defines escala, rareza y efectos.</div>
+      <label id="sheet-item-equipped-wrap" style="display:none;align-items:center;gap:5px;margin-top:7px;font:bold 10px var(--f-title);"><input type="checkbox" id="sheet-item-equipped"> Equipada al agregar</label>
       <label id="sheet-item-detail-wrap" style="display:block;font:bold 11px var(--f-title);margin-top:7px;">Detalle adicional<input type="text" id="sheet-item-effect-text" class="table-msg-input" style="width:100%;" placeholder="Reglas o descripción"></label>
       <div style="display:flex;justify-content:flex-end;gap:7px;margin-top:10px;">
         <button type="button" id="btn-sheet-item-save" class="btn-modal-danger" style="background:#1e4a28;" onclick="saveSheetItemFromModal()">Guardar objeto</button>
@@ -2730,10 +2755,9 @@
           <div class="summon-field-wide"><label style="font-size:10.5px;font-family:var(--f-title);">Nombre del ataque:</label><input type="text" id="builder-summon-atk-name" class="table-msg-input" style="width:100%;" placeholder="Mordisco"></div>
           <div><label style="font-size:10.5px;font-family:var(--f-title);">Daño base:</label><input type="number" id="builder-summon-atk-dmg" class="table-msg-input" style="width:100%;text-align:center;" value="12" min="1"></div>
           <div class="summon-field-wide"><label style="font-size:10.5px;font-family:var(--f-title);">Régimen de Smath de la invocación:</label><select id="builder-summon-upkeep-type" class="table-msg-select" style="width:100%;"><option value="fixed">Gasto único al invocar</option><option value="turn">Mantenimiento por turno</option></select></div>
-          <div class="summon-field-wide" style="margin-top:4px;padding-top:6px;border-top:1px dashed #5f8b51;">
-            <label style="font-size:10.5px;font-family:var(--f-title);">Técnica especial de la invocación (opcional; usa sus acciones):</label>
-            <input type="text" id="builder-summon-tech-name" class="table-msg-input" style="width:100%;" placeholder="Ej.: Rugido que aturde">
-            <input type="text" id="builder-summon-tech-desc" class="table-msg-input" style="margin-top:4px;" placeholder="Describe qué hace esta habilidad">
+          <div class="summon-field-wide builder-summon-tech-config">
+            <div class="builder-summon-tech-header"><b>⚡ Técnicas propias (cada una usa 1 acción, sin Smath)</b><button type="button" class="btn-mini-tool" onclick="addBuilderSummonTechniqueRow()">＋ Técnica</button></div>
+            <div id="builder-summon-techniques-list" class="builder-summon-techniques-list"></div>
           </div>
         </div>
       </div>
@@ -3449,7 +3473,8 @@
             <div class="box-frame-title">Esencia</div>
 
             <div style="padding-bottom:6px; text-align:center;">
-              <div style="font-family:var(--f-title); font-size:14px; font-weight:bold; margin-bottom:8px; color:#4f250b; letter-spacing:1px;">🔮 ESENCIA (GRADOS 1 AL 15)</div>
+              <div style="font-family:var(--f-title); font-size:14px; font-weight:bold; margin-bottom:3px; color:#4f250b; letter-spacing:1px;">🔮 ESENCIA (GRADOS 1 AL 15)</div>
+              <div id="essence-equipment-bonus" style="margin-bottom:7px;font:10px var(--f-title);color:#75522a;"></div>
               
               <div style="background:rgba(0,0,0,0.06); border:1.5px solid var(--border-dark); border-radius:4px; padding:6px 8px; margin-bottom:8px; font-family:var(--f-title); font-size:11px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px; margin-bottom:5px; padding-bottom:3px; border-bottom:1px dotted rgba(60, 30, 10, 0.25);">
@@ -3832,13 +3857,35 @@
       renderGMDashboard();saveActivePlayerToCloud(true);
       showToast(checkbox.checked?'🛡️ Inmune aplicado.':'🛡️ Inmune retirado.');
     }
-    function getEquippedArmorPd(player) {
-      if (!player) return 0;
-      if (player===allPlayersData[activeRole]) {
-        const rows=Array.from(document.querySelectorAll('#inventory-body tr'));
-        if(rows.length)return rows.reduce((sum,row)=>sum+(row.dataset.itemType==='armor'&&row.querySelector('.inv-equipped')?.checked?(parseInt(row.dataset.armorPd)||0):0),0);
+    function getEquippedItemBonus(player,effectCode){
+      if(!player)return 0;
+      const isCurrentPlayer=activeRole!=='gm'&&player===allPlayersData[activeRole];
+      const rows=isCurrentPlayer?Array.from(document.querySelectorAll('#inventory-body tr')):[];
+      if(rows.length){
+        return rows.reduce((sum,row)=>{
+          if(!row.querySelector('.inv-equipped')?.checked)return sum;
+          const type=row.dataset.itemType||'',code=row.dataset.effectCode||'';
+          if(effectCode==='armor_pd'&&type==='armor')return sum+Math.max(0,parseNumericValue(row.querySelector('.inv-relic-magnitude')?.value??row.dataset.armorPd,0));
+          if(type==='relic'&&code===effectCode)return sum+Math.max(0,parseNumericValue(row.querySelector('.inv-relic-magnitude')?.value??row.dataset.effectMagnitude,0));
+          return sum;
+        },0);
       }
-      return (player.inventory||[]).reduce((sum,item)=>sum+(item.type==='armor'&&item.equipped?(parseInt(item.armorPd)||0):0),0);
+      return (player.inventory||[]).reduce((sum,item)=>{
+        if(!item.equipped)return sum;
+        if(effectCode==='armor_pd'&&item.type==='armor'){
+          const stored=Number.isFinite(parseFloat(item.effectMagnitude))&&parseFloat(item.effectMagnitude)>0?item.effectMagnitude:item.armorPd;
+          return sum+Math.max(0,parseNumericValue(stored,0));
+        }
+        if(item.type==='relic'&&item.effectCode===effectCode)return sum+Math.max(0,parseNumericValue(item.effectMagnitude,0));
+        return sum;
+      },0);
+    }
+    function getEffectiveEssenceLevel(player){
+      const base=activeRole!=='gm'&&player===allPlayersData[activeRole]?activeEssence:(parseInt(player?.essence)||0);
+      return Math.max(0,Math.min(15,base+getEquippedItemBonus(player,'relic_essence')));
+    }
+    function getEquippedArmorPd(player) {
+      return getEquippedItemBonus(player,'armor_pd')+getEquippedItemBonus(player,'relic_pd');
     }
     function getEquippedArmorResistance(player,state){
       if(!player)return 0;
@@ -3860,17 +3907,18 @@
     }
     function handleArmorEquippedChange(input){
       if(!input?.checked)return;
-      const selected=input.closest('tr');document.querySelectorAll('#inventory-body tr').forEach(row=>{if(row!==selected&&row.dataset.itemType==='armor'){const other=row.querySelector('.inv-equipped');if(other)other.checked=false;}});
+      const selected=input.closest('tr');if(selected?.dataset.itemType!=='armor')return;
+      document.querySelectorAll('#inventory-body tr').forEach(row=>{if(row!==selected&&row.dataset.itemType==='armor'){const other=row.querySelector('.inv-equipped');if(other)other.checked=false;}});
     }
     function getPlayerMaxHpValue(player) {
       let archetypeHp=0;ARCHETYPES.forEach(arch=>archetypeHp+=(player.archLevels?.[arch]||0)*GRADE_BONUSES[arch].hp);
       const base=(parseFloat(player.inputs?.['stat-hp-max-base'])||0)+archetypeHp;
       const passive=base+Math.round(base*.2*(player.aspects?.defensiva||0));
-      return Math.max(1,Math.round(passive*getEssenceHpMultiplier(player.essenceMode)));
+      return Math.max(1,Math.round(passive*getEssenceHpMultiplier(player.essenceMode))+getEquippedItemBonus(player,'relic_hp'));
     }
     function getPlayerMaxSmathValue(player) {
       let bonus=0;ARCHETYPES.forEach(arch=>bonus+=(player.archLevels?.[arch]||0)*GRADE_BONUSES[arch].smath);
-      return Math.max(0,(parseFloat(player.inputs?.['stat-smath-max-base'])||0)+bonus);
+      return Math.max(0,(parseFloat(player.inputs?.['stat-smath-max-base'])||0)+bonus+getEquippedItemBonus(player,'relic_smath'));
     }
     function getEnemyDerivedPd(enemy) {
       if(enemy?.states?.stun||enemy?.states?.petrificado)return 0;
@@ -3880,6 +3928,10 @@
       if(player?.checkboxes?.['status-stun']||player?.checkboxes?.['status-petrificado'])return 0;
       let bonus=0;ARCHETYPES.forEach(arch=>bonus+=(player?.archLevels?.[arch]||0)*GRADE_BONUSES[arch].pd);
       return (parseFloat(player?.inputs?.['stat-pd-base'])||0)+bonus+(parseInt(player?.aspects?.defensiva)||0)*getEssenceModeMultiplier(player?.essenceMode)+getEquippedArmorPd(player)+(parseInt(player?.itemCombatBuff?.pd)||0)+(player?.defendingTurn?2:0)+getEnvironmentModifier('pd');
+    }
+    function getPlayerDerivedPc(player){
+      let bonus=0;ARCHETYPES.forEach(arch=>bonus+=(player?.archLevels?.[arch]||0)*GRADE_BONUSES[arch].pc);
+      return (parseFloat(player?.inputs?.['stat-pc-base'])||0)+bonus+getEquippedItemBonus(player,'relic_pc')+(parseInt(player?.itemCombatBuff?.pc)||0)+getEnvironmentModifier('pc');
     }
     function transitionEnemyEssenceMode(enemy,mode) {
       if(!enemy)return;
@@ -4220,9 +4272,10 @@
       const title = document.getElementById('reference-info-title');
       const body = document.getElementById('reference-info-body');
       if (!title || !body) return;
-      const pointMultiplier = getEssencePassiveMultiplier(activeEssence);
+      const effectiveEssence=getEffectiveEssenceLevel(allPlayersData[activeRole]);
+      const pointMultiplier = getEssencePassiveMultiplier(effectiveEssence);
       title.innerText = 'ℹ️ Bonificación por cada punto de Aspecto';
-      body.innerHTML = `<p style="margin:0 0 8px;color:#67451d;">Bonificación de referencia de <b>un punto</b>. Tu Esencia actual es <b>${activeEssence}</b>; Asistencia y Singular aportan <b>+${pointMultiplier}</b> por punto en este grado.</p><div style="display:grid;gap:6px;"><div class="aspect-info-row"><b>⚔️ Ofensiva</b><span>Despierta: +5% daño · Manifestada: +10% · Trascendida: +15% · Ascendida: +20% por punto activo.</span></div><div class="aspect-info-row"><b>🛡️ Defensiva</b><span>Pasivo: +20% Resencia máxima por punto · PD activo: +1 / +2 / +3 / +4 según modo.</span></div><div class="aspect-info-row"><b>🎯 Táctica</b><span>El umbral de crítico suma +1 / +2 / +3 / +4 al D20 según el modo activo.</span></div><div class="aspect-info-row"><b>🤝 Asistencia</b><span>Puntos de Técnica por punto: grados 1–3: +0 · 4–6: +2 · 7–9: +3 · 10–12: +4 · 13–15: +5.</span></div><div class="aspect-info-row"><b>⭐ Singular</b><span>Concentración de Smath por punto: grados 1–3: +0 · 4–6: +2 · 7–9: +3 · 10–12: +4 · 13–15: +5.</span></div></div>`;
+      body.innerHTML = `<p style="margin:0 0 8px;color:#67451d;">Bonificación de referencia de <b>un punto</b>. Tu Esencia actual es <b>${effectiveEssence}</b>; Asistencia y Singular aportan <b>+${pointMultiplier}</b> por punto en este grado.</p><div style="display:grid;gap:6px;"><div class="aspect-info-row"><b>⚔️ Ofensiva</b><span>Despierta: +5% daño · Manifestada: +10% · Trascendida: +15% · Ascendida: +20% por punto activo.</span></div><div class="aspect-info-row"><b>🛡️ Defensiva</b><span>Pasivo: +20% Resencia máxima por punto · PD activo: +1 / +2 / +3 / +4 según modo.</span></div><div class="aspect-info-row"><b>🎯 Táctica</b><span>El umbral de crítico suma +1 / +2 / +3 / +4 al D20 según el modo activo.</span></div><div class="aspect-info-row"><b>🤝 Asistencia</b><span>Puntos de Técnica por punto: grados 1–3: +0 · 4–6: +2 · 7–9: +3 · 10–12: +4 · 13–15: +5.</span></div><div class="aspect-info-row"><b>⭐ Singular</b><span>Concentración de Smath por punto: grados 1–3: +0 · 4–6: +2 · 7–9: +3 · 10–12: +4 · 13–15: +5.</span></div></div>`;
       openModal('modal-reference-info');
     }
 
@@ -5550,9 +5603,8 @@
     const SUMMON_STATE_LABELS={veneno:'☠️ Veneno',sangrado:'🩸 Sangrado',stun:'💫 Aturdido',sellado:'🔒 Sellado',mareado:'🌀 Mareado',infectado:'☣️ Infectado',petrificado:'🗿 Petrificado',curacion:'💚 Regeneración',inmune:'🛡️ Inmune'};
     function renderSummonStateTags(pid,sIdx,sum){
       const states=sum.states&&typeof sum.states==='object'?sum.states:{};
-      const tags=renderCardStatusTags('summon',pid,sIdx,states),menu=renderCardStatusMenu('summon',pid,sIdx);
-      if(!tags&&!menu)return '';
-      return `<div class="card-status-section summon-state-inline">${tags}${menu}</div>`;
+      const tags=renderCardStatusTags('summon',pid,sIdx,states);
+      return tags?`<div class="summon-state-tags-row">${tags}</div>`:'';
     }
     function toggleSummonStateEditor(button){
       if(!isMasterClient)return;
@@ -5610,6 +5662,16 @@
       if(isTechnique&&summon?.states?.sellado){showToast(`🔒 ${summon.name} está Sellada y no puede usar técnicas.`);return false;}
       return true;
     }
+    function renderSummonTechniquesDropdown(html,count){
+      if(!html||!count)return '';
+      const label=count===1?'técnica':'técnicas';
+      return `<details class="summon-techniques-dropdown"><summary>⚡ ${count} ${label}</summary><div class="summon-techniques-list">${html}</div></details>`;
+    }
+    function renderSummonAttackPicker(pid,sIdx,sum,canAct,canUseTech){
+      const basicDisabled=(parseInt(sum.currentCubes)||0)<=0||!canAct;
+      const options=[`<button type="button" class="btn-mini-tool" onclick="executeSummonAttack('${pid}',${sIdx})" ${basicDisabled?'disabled':''} title="Ataque básico: ${escapeHtml(sum.atkName||'Ataque')} · Daño ${parseInt(sum.atkDmg)||12}">🗡️ ${escapeHtml(sum.atkName||'Ataque')} · Daño ${parseInt(sum.atkDmg)||12}</button>`,...(sum.techniques||[]).map((tech,index)=>`<button type="button" class="btn-mini-tool" onclick="executeSummonTechnique('${pid}',${sIdx},${index})" ${(parseInt(sum.currentCubes)||0)<=0||!canUseTech?'disabled':''} title="${escapeHtml(tech.desc||tech.effectText||tech.name||'Técnica')}">⚡ ${escapeHtml(tech.name||'Técnica')}</button>`)].join('');
+      return `<details class="summon-attack-picker"><summary class="btn-stat-max" style="background:#166534;">🐾 Atacar ▾</summary><div class="summon-attack-picker-menu">${options}</div></details>`;
+    }
     function getSummonCardStats(summon){
       const hpMax=Math.max(1,parseFloat(summon?.hpMax)||1),hpCurr=Math.max(0,Math.min(hpMax,parseFloat(summon?.hpCurr)||0));
       return {hpMax,hpCurr,hpPct:Math.max(0,Math.min(100,Math.round(hpCurr/hpMax*100))),pc:(parseInt(summon?.pc??summon?.atkBonus)||0)+(parseInt(summon?.combatBuff?.pc)||0)+getEnvironmentModifier('pc'),pd:(parseInt(summon?.pd)||0)+(parseInt(summon?.combatBuff?.pd)||0)+getEnvironmentModifier('pd')};
@@ -5633,20 +5695,21 @@
           const isReady = i < sum.currentCubes;
           cubesHtml += `<span class="action-cube ${isReady ? 'action-cube-ready' : 'action-cube-spent'}" onclick="toggleSummonCubeAction('${pid}', ${sIdx}, ${i})" title="Cubo ${i + 1}"></span>`;
         }
-        const abilitiesHtml = (sum.techniques || []).map((t, tIdx) => `<span style="display:inline-flex;align-items:center;gap:3px;background:#eee5c9;border:1px solid #9a7134;border-radius:3px;padding:2px 4px;font-size:10px;"><b>${escapeHtml(t.name || 'Habilidad')}</b><button type="button" class="btn-mini-tool" onclick="executeSummonTechnique('${pid}',${sIdx},${tIdx})" ${sum.currentCubes<=0||!summonCanUseTech?'disabled':''} title="Técnica propia; consume una acción de la invocación">Usar</button></span>`).join('');
+        const abilitiesHtml = (sum.techniques || []).map(t => `<span style="display:inline-flex;align-items:center;gap:3px;background:#eee5c9;border:1px solid #9a7134;border-radius:3px;padding:2px 4px;font-size:10px;" title="${escapeHtml(t.desc||t.effectText||'Técnica propia de la invocación')}">⚡ <b>${escapeHtml(t.name || 'Técnica')}</b></span>`).join('');
+        const abilitiesDropdown=renderSummonTechniquesDropdown(abilitiesHtml,(sum.techniques||[]).length);
 
         const card = document.createElement('div');
         card.className = `player-card-summon ${sum.currentCubes<=0?'summon-turn-spent':''} ${summonTurnClass} ${summonOutsideBattle?'battle-reserve':''}`;
         card.innerHTML = `
           <div class="summon-heading-row">
             <div class="summon-heading-name"><span class="summon-connector">🐾</span> <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle?'<small class="battle-reserve-badge">🪑 Fuera de batalla</small>':''}</div>
-            <div class="summon-combat-row"><div class="summon-combat-values"><span>🗡️ PC: <b>${stats.pc}</b></span><span>|</span><span>🛡️ PD: <b>${stats.pd}</b></span><span>|</span><span>⚡ Iniciativa: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b></span>${isMasterClient?`<button type="button" class="btn-mini-tool" style="padding:1px 4px;min-height:18px;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar de nuevo la iniciativa">↻</button>`:''}</div>${renderSummonStateTags(pid,sIdx,sum)}<div class="summon-action-controls" style="display:${summonOutsideBattle?'none':'flex'};"><span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span><button type="button" class="btn-stat-max" style="background:#166534;font-size:10px;" onclick="executeSummonAttack('${pid}',${sIdx})" ${sum.currentCubes<=0||!summonCanAct?'disabled':''} title="${escapeHtml(`Atacar con ${sum.atkName}; consume una acción de la invocación`)}">🐾 Atacar</button>${battleActive?`<button type="button" class="btn-mini-tool" onclick="endCombatantTurn('${summonCombatantId}')" title="Terminar turno de la invocación">🛑</button>`:''}</div></div>
+            <div class="summon-combat-row"><div class="summon-combat-values"><span>🗡️ PC: <b>${stats.pc}</b></span><span>|</span><span>🛡️ PD: <b>${stats.pd}</b></span><span>|</span><span>⚡ Iniciativa: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b></span>${isMasterClient?`<button type="button" class="btn-mini-tool" style="padding:1px 4px;min-height:18px;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar de nuevo la iniciativa">↻</button>`:''}</div>${renderCardStatusMenu('summon',pid,sIdx)}<div class="summon-action-controls" style="display:${summonOutsideBattle?'none':'flex'};"><span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span></div></div>
           </div>
           <div class="gm-stats-columns" style="grid-template-columns:1fr;">
-            <div class="gm-stat-line" style="grid-column:1/-1;"><span style="white-space:nowrap;min-width:74px;">❤️ Resencia:</span><div style="flex:1;display:flex;align-items:center;gap:6px;"><div class="stat-bar-track" style="flex:1;"><div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div></div><b style="font-size:12px;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b></div></div>
+            <div class="gm-stat-line summon-hp-row" style="grid-column:1/-1;"><span style="white-space:nowrap;min-width:74px;">❤️ Resencia:</span><div class="summon-hp-meter"><div class="stat-bar-track" style="flex:1;"><div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div></div><b style="font-size:12px;white-space:nowrap;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b></div><div class="summon-hp-actions"><button type="button" class="btn-mini-tool" onclick="duplicateSummon('${pid}',${sIdx})" title="Duplicar esbirro">📋 Duplicar</button><button type="button" class="btn-mini-tool" style="color:#b91c1c;font-weight:bold;" onclick="dismissSummon('${pid}',${sIdx})" title="Disipar">💀 Disipar</button></div></div>
           </div>
-          <div class="summon-management-controls"><button type="button" class="btn-mini-tool" onclick="duplicateSummon('${pid}', ${sIdx})" title="Duplicar esbirro">📋 Duplicar</button><button type="button" class="btn-mini-tool" style="color:#b91c1c;font-weight:bold;" onclick="dismissSummon('${pid}', ${sIdx})" title="Disipar">💀 Disipar</button></div>
-          ${abilitiesHtml?`<div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:5px;">${abilitiesHtml}</div>`:''}
+          ${renderSummonStateTags(pid,sIdx,sum)}
+          ${abilitiesDropdown}
         `;
         container.appendChild(card);
       });
@@ -5940,17 +6003,7 @@
         const pInputs = pdata.inputs || {};
         const pChecks = pdata.checkboxes || {};
 
-        let bHp = 0, bSmath = 0;
-        ARCHETYPES.forEach(arch => {
-          bHp += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].hp;
-          bSmath += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].smath;
-        });
-        const baseHp = (parseFloat(pInputs['stat-hp-max-base']) || 0) + bHp;
-        const defLvl = pdata.aspects?.defensiva || 0;
-        let maxHp = baseHp + Math.round(baseHp * (0.20 * defLvl));
-        maxHp = Math.round(maxHp * getEssenceHpMultiplier(pdata.essenceMode));
-
-        const maxSmath = Math.max(0, (parseFloat(pInputs['stat-smath-max-base']) || 0) + bSmath);
+        const maxHp=getPlayerMaxHpValue(pdata),maxSmath=getPlayerMaxSmathValue(pdata);
 
         let currHp = parseFloat(pInputs['stat-hp-curr']) || 0;
         let currSmath = parseFloat(pInputs['stat-smath-curr']) || 0;
@@ -6377,8 +6430,8 @@
       document.getElementById('builder-summon-atk-name').value = t.summonData?.atkName || '';
       document.getElementById('builder-summon-atk-dmg').value = t.summonData?.atkDmg ?? 12;
       document.getElementById('builder-summon-upkeep-type').value = t.summonData?.upkeepType || 'fixed';
-      document.getElementById('builder-summon-tech-name').value = t.summonData?.specialTechnique?.name || '';
-      document.getElementById('builder-summon-tech-desc').value = t.summonData?.specialTechnique?.desc || '';
+      const savedSummonTechniques=Array.isArray(t.summonData?.techniques)?t.summonData.techniques:(t.summonData?.specialTechnique?.name?[t.summonData.specialTechnique]:[]);
+      renderBuilderSummonTechniqueRows(allowSummon&&isSum?savedSummonTechniques:[]);
       openModal('modal-technique-builder');
     }
 
@@ -6528,6 +6581,28 @@
       dock.classList.add('is-visible');
     }
 
+    const BUILDER_SUMMON_TECH_EFFECTS=[['stun','💫 Aturdir'],['sealed','🔒 Sellar'],['poison','☠️ Veneno'],['bleed','🩸 Sangrado'],['heal','💚 Curar'],['regen','💚 Regeneración'],['dizzy','🌀 Marear'],['infected','☣️ Infectar'],['petrified','🗿 Petrificar'],['cleanse','🧹 Limpiar'],['shield','🛡️ Escudo']];
+    function addBuilderSummonTechniqueRow(tech={}){
+      const list=document.getElementById('builder-summon-techniques-list');if(!list)return;
+      const row=document.createElement('div');row.className='builder-summon-tech-row';
+      const effects=Array.isArray(tech.effects)?tech.effects:[];
+      const effectOptions=BUILDER_SUMMON_TECH_EFFECTS.map(([value,label])=>`<label><input type="checkbox" class="builder-summon-tech-effect" value="${value}" ${effects.includes(value)?'checked':''}> ${label}</label>`).join('');
+      const category=tech.category||'attack';
+      row.innerHTML=`<div class="builder-summon-tech-row-head"><input type="text" class="table-msg-input builder-summon-tech-name" placeholder="Nombre de técnica" value="${escapeHtml(tech.name||'')}"><select class="table-msg-select builder-summon-tech-category"><option value="attack" ${category==='attack'?'selected':''}>Ofensiva</option><option value="support" ${category==='support'?'selected':''}>Soporte</option></select><button type="button" class="btn-mini-tool" onclick="removeBuilderSummonTechniqueRow(this)" title="Quitar técnica">✕</button></div><input type="text" class="table-msg-input builder-summon-tech-desc" style="margin-top:4px;" placeholder="Descripción de la técnica" value="${escapeHtml(tech.desc||'')}"><details style="margin-top:4px;"><summary style="cursor:pointer;font:bold 9px var(--f-title);">Efectos de la técnica</summary><div class="builder-summon-tech-effect-options">${effectOptions}</div></details><div class="builder-summon-tech-values"><label style="font:9px var(--f-title);">Daño / valor<input type="text" class="table-msg-input builder-summon-tech-value" value="${escapeHtml(String(tech.effectValue??0))}" placeholder="Ej.: 1d6"></label><label style="font:9px var(--f-title);">Turnos<input type="number" class="table-msg-input builder-summon-tech-turns" min="1" value="${Math.max(1,parseInt(tech.effectTurns)||2)}"></label></div>`;
+      list.appendChild(row);
+    }
+    function removeBuilderSummonTechniqueRow(button){button?.closest('.builder-summon-tech-row')?.remove();}
+    function renderBuilderSummonTechniqueRows(techniques=[]){
+      const list=document.getElementById('builder-summon-techniques-list');if(!list)return;
+      list.innerHTML='';(Array.isArray(techniques)?techniques:[]).forEach(tech=>addBuilderSummonTechniqueRow(tech));
+    }
+    function collectBuilderSummonTechniques(){
+      return Array.from(document.querySelectorAll('#builder-summon-techniques-list .builder-summon-tech-row')).map(row=>{
+        const name=row.querySelector('.builder-summon-tech-name')?.value.trim();if(!name)return null;
+        const desc=row.querySelector('.builder-summon-tech-desc')?.value.trim()||'';
+        return {name,cost:0,category:row.querySelector('.builder-summon-tech-category')?.value||'attack',desc,effects:Array.from(row.querySelectorAll('.builder-summon-tech-effect:checked')).map(input=>input.value),effectValue:row.querySelector('.builder-summon-tech-value')?.value.trim()||'0',effectTurns:Math.max(1,parseInt(row.querySelector('.builder-summon-tech-turns')?.value)||2),effectText:desc,isQuickAction:false,requiredModes:[]};
+      }).filter(Boolean);
+    }
     function toggleSummonFields(isChecked) {
       const fields = document.getElementById('summon-config-fields');
       if (fields) fields.style.display = isChecked ? 'grid' : 'none';
@@ -6576,6 +6651,7 @@
       if (tIdx < 0 || tIdx >= list.length) list.push(t); else list[tIdx] = t;
       const isSum = t.isSummon;
       if (isSum) {
+        const summonTechniques=collectBuilderSummonTechniques();
         t.summonData = {
           name: document.getElementById('builder-summon-name').value.trim() || 'Criatura',
           hp: parseInt(document.getElementById('builder-summon-hp').value) || 25,
@@ -6586,16 +6662,8 @@
           atkName: document.getElementById('builder-summon-atk-name').value.trim() || 'Ataque',
           atkDmg: Math.max(1,parseInt(document.getElementById('builder-summon-atk-dmg').value)||12),
           upkeepType: document.getElementById('builder-summon-upkeep-type').value,
-          specialTechnique: document.getElementById('builder-summon-tech-name').value.trim() ? {
-            name: document.getElementById('builder-summon-tech-name').value.trim(),
-            cost: 0,
-            category: 'attack',
-            desc: document.getElementById('builder-summon-tech-desc').value.trim(),
-            effects: [],
-            effectValue: 0,
-            effectTurns: 2,
-            effectText: document.getElementById('builder-summon-tech-desc').value.trim()
-          } : null
+          techniques:summonTechniques,
+          specialTechnique:summonTechniques[0]||null
         };
       } else if (kind !== 'summon') delete t.summonData;
 
@@ -6643,7 +6711,7 @@
             <button type="button" class="btn-mini-tool" onclick="openTechniqueInfo(${rowIdx})" title="Ver detalles y reglas">ℹ️</button>
             <button type="button" class="btn-mini-tool" onclick="openTechniqueBuilder(${rowIdx})" title="Configurar efecto, invocación o dados">⚙️</button>
           </div>
-          ${isSummon&&summonData?`<div class="tech-summon-reference"><b>🐾 ${escapeHtml(summonData.name||'Invocación')}</b> · HP ${parseInt(summonData.hp)||25} · PD ${parseInt(summonData.pd)||12} · PC ${parseInt(summonData.pc)||10} · ${parseInt(summonData.cubes)||2} acciones/turno · ${escapeHtml(summonData.atkName||'Ataque')} · Daño ${parseInt(summonData.atkDmg)||12} · ${summonData.upkeepType==='turn'?'Mantenimiento por turno':'Coste único'}${summonData.specialTechnique?.name?` · Técnica: ${escapeHtml(summonData.specialTechnique.name)}`:''}</div>`:''}
+          ${isSummon&&summonData?`<details class="tech-summon-reference-details"><summary>🐾 Invocación: ${escapeHtml(summonData.name||'Criatura')} · HP ${parseInt(summonData.hp)||25} · PC ${parseInt(summonData.pc)||10} · PD ${parseInt(summonData.pd)||12}</summary><div class="tech-summon-reference">${parseInt(summonData.cubes)||2} acciones/turno · ${escapeHtml(summonData.atkName||'Ataque')} · Daño ${parseInt(summonData.atkDmg)||12} · ${summonData.upkeepType==='turn'?'Mantenimiento por turno':'Coste único'}${summonData.specialTechnique?.name?` · Técnica: ${escapeHtml(summonData.specialTechnique.name)}`:''}</div></details>`:''}
         </td>
         <td style="text-align:center;">
           <div style="display:inline-flex; align-items:center; gap:3px;">
@@ -6717,7 +6785,7 @@
           atkBonus: summonPc,
           initBonus: parseInt(t.summonData.initBonus)||0,
           atkDmg: summonDmg,
-          techniques: t.summonData.specialTechnique?.name ? [{ ...t.summonData.specialTechnique }] : [],
+          techniques: Array.isArray(t.summonData.techniques)?t.summonData.techniques.map(tech=>({...tech,cost:0,isQuickAction:false})):t.summonData.specialTechnique?.name?[{...t.summonData.specialTechnique,cost:0,isQuickAction:false}]:[],
           upkeepType: t.summonData.upkeepType || 'fixed',
           cost: cost
         });
@@ -6858,11 +6926,8 @@
         if((parseFloat(pdata.inputs?.['stat-hp-curr'])||0)<=0){showToast('💀 Un personaje caído o muerto no puede atacar.');return;}
         attackerData = pdata;
         attackerName = pdata.inputs?.['char-name'] || 'Héroe';
-        ARCHETYPES.forEach(arch => {
-          pcBono += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].pc;
-          bDmg += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].dmg;
-        });
-        pcBono += (parseFloat(pdata.inputs?.['stat-pc-base']) || 0) + (parseInt(pdata.itemCombatBuff?.pc) || 0)+getEnvironmentModifier('pc');
+        ARCHETYPES.forEach(arch => { bDmg += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].dmg; });
+        pcBono=getPlayerDerivedPc(pdata);
 
         const ofeLvl = pdata.aspects?.ofensiva || 0;
         aspectDmgPct = ofeLvl * 0.05 * getEssenceModeMultiplier(pdata.essenceMode);
@@ -7327,6 +7392,8 @@
       savedInventory.forEach(i=>{
         if(i.type==='armor'&&i.equipped){if(equippedArmorRestored)i.equipped=false;else equippedArmorRestored=true;}
         if(i.type==='armor'&&!parseInt(i.armorPd)&&i.effectCode==='armor_pd')i.armorPd=({1:1,2:3,3:5})[parseInt(i.effectLevel)||1]||1;
+        if(i.type==='armor'&&i.effectCode==='armor_pd'&&!parseNumericValue(i.effectMagnitude,0))i.effectMagnitude=parseInt(i.armorPd)||1;
+        if(i.type==='relic'&&['relic_pc','relic_pd','relic_smath','relic_hp','relic_essence'].includes(i.effectCode)&&!parseNumericValue(i.effectMagnitude,0))i.effectMagnitude=({1:1,2:3,3:5})[parseInt(i.effectLevel)||1]||1;
         if(i.type==='armor'&&!i.resistances)i.resistances={};
         addInventoryRow(i.name,i.qty,i.weight,i.desc,i.rarity,i.type,i.effectCode,i.effectLevel,i.effectText,i);
       });
@@ -7618,29 +7685,13 @@
         let hpCurr = parseFloat(pInputs['stat-hp-curr']) || 0;
         let smCurr = parseFloat(pInputs['stat-smath-curr']) || 0;
 
-        let bHp = 0, bSmath = 0, bPc = 0, bPd = 0;
-        ARCHETYPES.forEach(arch => {
-          bHp += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].hp;
-          bSmath += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].smath;
-          bPc += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].pc;
-          bPd += (pdata.archLevels?.[arch] || 0) * GRADE_BONUSES[arch].pd;
-        });
-
-        const baseHp = (parseFloat(pInputs['stat-hp-max-base']) || 0) + bHp;
-        const defLvl = pdata.aspects?.defensiva || 0;
-        let hpMaxTot = baseHp + Math.round(baseHp * (0.20 * defLvl));
-        hpMaxTot = Math.round(hpMaxTot * getEssenceHpMultiplier(pdata.essenceMode));
-        hpMaxTot = Math.max(1, hpMaxTot);
-
-        const smMaxTot = Math.max(1, (parseFloat(pInputs['stat-smath-max-base']) || 0) + bSmath);
+        const hpMaxTot=getPlayerMaxHpValue(pdata);
+        const smMaxTot=Math.max(1,getPlayerMaxSmathValue(pdata));
         hpCurr = Math.min(hpCurr,hpMaxTot);
         smCurr = Math.min(smCurr,smMaxTot);
         if (parseFloat(pInputs['stat-hp-curr']) > hpMaxTot) pInputs['stat-hp-curr'] = hpCurr;
         if (parseFloat(pInputs['stat-smath-curr']) > smMaxTot) pInputs['stat-smath-curr'] = smCurr;
-        const pcTot = (parseFloat(pInputs['stat-pc-base']) || 0) + bPc + (parseInt(pdata.itemCombatBuff?.pc) || 0)+getEnvironmentModifier('pc');
-        const defPdBonus = (pdata.aspects?.defensiva || 0) * getEssenceModeMultiplier(pdata.essenceMode);
-        const armorPd=getEquippedArmorPd(pdata);
-        const pdTot = (parseFloat(pInputs['stat-pd-base']) || 0) + bPd + defPdBonus + armorPd + (parseInt(pdata.itemCombatBuff?.pd) || 0)+(pdata.defendingTurn?2:0)+getEnvironmentModifier('pd');
+        const pcTot=getPlayerDerivedPc(pdata),pdTot=getPlayerDerivedPd(pdata);
 
         const hpPct = Math.min(100, Math.max(0, Math.round((hpCurr / hpMaxTot) * 100)));
         const smPct = Math.min(100, Math.max(0, Math.round((smCurr / smMaxTot) * 100)));
@@ -7660,7 +7711,7 @@
         const turnClass=`${completedCombatants.has(combatantId)?'turn-completed':''} ${activeCombatantId===combatantId?'turn-current':''}`;
         const playerStateHtml = getPlayerStateSummaryHtml(pdata,pid);
         const summarySkillOptions = buildSummarySkillOptions(pdata,'arq');
-        const essenceTier = (pdata.essence||0)>=13?'Ascendida':(pdata.essence||0)>=10?'Trascendida':(pdata.essence||0)>=7?'Manifestada':(pdata.essence||0)>=4?'Despierta':'Latente';
+        const essenceLevel=getEffectiveEssenceLevel(pdata),essenceTier=essenceLevel>=13?'Ascendida':essenceLevel>=10?'Trascendida':essenceLevel>=7?'Manifestada':essenceLevel>=4?'Despierta':'Latente';
         const wishesUsed=Number(!!pChecks['world-wish-1'])+Number(!!pChecks['world-wish-2']);
         const modeNames={none:'Inactivo',despierta:'Despierta',manifestada:'Manifestada',trascendida:'Trascendida',ascendida:'Ascendida'};
         const summarizeTurnItems=(items,format)=>{
@@ -7731,7 +7782,7 @@
               </div>
               <div class="gm-tactical-matrix" style="grid-column:1/-1;">
                 <div class="gm-tactical-cell">🗡️ PC: <b>${pcTot}</b> | 🛡️ PD: <b>${pdTot}</b> | ⚡ Iniciativa: <b>${isOutOfBattle?'—':escapeHtml(String(getCombatantInitDisplay(combatantId)))}</b></div>
-                <div class="gm-tactical-cell">✨ Esencia: <b>${pdata.essence||0} (${essenceTier})</b></div>
+                <div class="gm-tactical-cell">✨ Esencia: <b>${essenceLevel} (${essenceTier})</b></div>
                 <div class="gm-tactical-cell">🌌 Deseos: <b>${wishesUsed}/2 Usados</b></div>
                 <div class="gm-tactical-cell">🔥 Modo: <b>${modeNames[pdata.essenceMode||'none']||'Inactivo'}</b></div>
               </div>
@@ -7777,15 +7828,14 @@
             for (let i = 0; i < sum.maxCubes; i++) {
               cubesHtml += `<span class="action-cube ${i < sum.currentCubes ? 'action-cube-ready' : 'action-cube-spent'}" onclick="toggleSummonCubeAction('${pid}', ${sIdx}, ${i})" title="Cubo ${i + 1}"></span>`;
             }
-            const petAbilities = (sum.techniques || []).map((t, tIdx) => `<button type="button" class="btn-mini-tool" onclick="executeSummonTechnique('${pid}',${sIdx},${tIdx})" ${sum.currentCubes<=0||!summonCanUseTech?'disabled':''} title="Consume una acción de la invocación">⚡ ${escapeHtml(t.name || 'Habilidad')}</button>`).join('');
             const sCard = document.createElement('div');
             sCard.className = `player-card-summon ${sum.currentCubes<=0?'summon-turn-spent':''} ${summonTurnClass} ${summonOutsideBattle?'battle-reserve':''}`;
             sCard.innerHTML = `
-              <div class="summon-heading-row"><div class="summon-heading-name"><span class="summon-connector">🐾</span> <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle?'<small class="battle-reserve-badge">🪑 Fuera de batalla</small>':''}</div><div class="summon-combat-row"><div class="summon-combat-values"><span>🗡️ PC: <b>${stats.pc}</b></span><span>|</span><span>🛡️ PD: <b>${stats.pd}</b></span><span>|</span><span>⚡ Iniciativa: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b></span>${isGm?`<button type="button" class="btn-mini-tool" style="padding:1px 4px;min-height:18px;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar de nuevo la iniciativa">↻</button>`:''}</div>${renderSummonStateTags(pid,sIdx,sum)}<div class="summon-action-controls" style="display:${canControl&&!summonOutsideBattle?'flex':'none'};"><span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span><button type="button" class="btn-stat-max" style="background:#166534;font-size:10px;" onclick="executeSummonAttack('${pid}',${sIdx})" ${sum.currentCubes<=0||!summonCanAct?'disabled':''} title="${escapeHtml(`Atacar con ${sum.atkName}; consume una acción de la invocación`)}">🐾 Atacar</button>${battleActive?`<button type="button" class="btn-mini-tool" onclick="endCombatantTurn('${summonCombatantId}')" title="Terminar turno de la invocación">🛑</button>`:''}</div></div></div>
+              <div class="summon-heading-row"><div class="summon-heading-name"><span class="summon-connector">🐾</span> <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle?'<small class="battle-reserve-badge">🪑 Fuera de batalla</small>':''}</div><div class="summon-combat-row"><div class="summon-combat-values"><span>🗡️ PC: <b>${stats.pc}</b></span><span>|</span><span>🛡️ PD: <b>${stats.pd}</b></span><span>|</span><span>⚡ Iniciativa: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b></span>${isGm?`<button type="button" class="btn-mini-tool" style="padding:1px 4px;min-height:18px;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar de nuevo la iniciativa">↻</button>`:''}</div>${renderCardStatusMenu('summon',pid,sIdx)}<div class="summon-action-controls" style="display:${canControl&&!summonOutsideBattle?'flex':'none'};"><span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span>${renderSummonAttackPicker(pid,sIdx,sum,summonCanAct,summonCanUseTech)}${battleActive?`<button type="button" class="btn-mini-tool" onclick="endCombatantTurn('${summonCombatantId}')" title="Terminar turno de la invocación">🛑</button>`:''}</div></div></div>
               <div class="gm-stats-columns" style="grid-template-columns:1fr;">
-                <div class="gm-stat-line" style="grid-column:1/-1;"><span style="white-space:nowrap;min-width:74px;">❤️ Resencia:</span><div style="flex:1;display:flex;align-items:center;gap:6px;"><div class="stat-bar-track" style="flex:1;"><div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div></div><b style="font-size:12px;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b></div></div>
+                <div class="gm-stat-line summon-hp-row" style="grid-column:1/-1;"><span style="white-space:nowrap;min-width:74px;">❤️ Resencia:</span><div class="summon-hp-meter"><div class="stat-bar-track" style="flex:1;"><div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div></div><b style="font-size:12px;white-space:nowrap;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b></div></div>
               </div>
-              <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;">${petAbilities}</div>
+              ${renderSummonStateTags(pid,sIdx,sum)}
             `;
             cardsGrid.appendChild(sCard);
           });
@@ -8564,8 +8614,8 @@
       const options = {
         potion:[['hp','Resencia: curar HP',true],['smath','Recuperar Smath',true],['essence','Recuperar Esencia',true],['revive','Reanimar (HP + Smath)',true],['cleanse','Curar todos los estados',false],['combat','Poción de combate (PC + PD)',true]],
         weapon:[],
-        armor:[],
-        relic:[['relic_pc','Aumentar PC',true],['relic_pd','Aumentar PD',true],['relic_smath','Aumentar Smath máximo',true],['relic_essence','Aumentar Esencia',true],['custom','Efecto de reliquia personalizado',false]],
+        armor:[['armor_pd','Aumentar PD',false]],
+        relic:[['relic_pc','Aumentar PC',false],['relic_pd','Aumentar PD',false],['relic_smath','Aumentar Smath máximo',false],['relic_hp','Aumentar HP máximo',false],['relic_essence','Aumentar Esencia',false],['custom','Efecto de reliquia personalizado',false]],
         mission:[['custom','Objeto de misión (sin efecto numérico)',false]],
         mundane:[['custom','Descripción / uso manual',false]]
       };
@@ -8575,7 +8625,6 @@
       if(type==='mission'){const rarity=document.getElementById('sheet-item-rarity');if(rarity)rarity.value='mision';}
       if(type==='potion'){const weight=document.getElementById('sheet-item-weight');if(weight)weight.value='0';}
       else if(['weapon','armor','relic'].includes(type)){const weight=document.getElementById('sheet-item-weight');if(weight&&(parseFloat(weight.value)||0)<=0)weight.value='0.5';}
-      const levelWrap=document.getElementById('sheet-item-level-wrap');if(levelWrap&&type==='armor')levelWrap.style.display='none';
       select.innerHTML=(options[type]||options.mundane).map(([value,label,levels])=>`<option value="${value}" data-levels="${levels?'true':'false'}">${label}</option>`).join('');
       updateSheetItemEffectUI();
     }
@@ -8587,21 +8636,27 @@
       const detailWrap=document.getElementById('sheet-item-detail-wrap');
       const saveButton=document.getElementById('btn-sheet-item-save');
       const createWeaponButton=document.getElementById('btn-sheet-create-weapon');
-      if(effectsWrap)effectsWrap.style.display=['armor','weapon'].includes(type)?'none':'grid';
+      const option=document.getElementById('sheet-item-effect-option')?.selectedOptions?.[0];
+      const effectCode=option?.value||'';
+      const directEffects=['relic_pc','relic_pd','relic_smath','relic_hp','relic_essence','armor_pd'];
+      const isDirectMagnitude=['relic','armor'].includes(type)&&directEffects.includes(effectCode);
+      const magnitudeWrap=document.getElementById('sheet-item-magnitude-wrap');
+      const levelWrap=document.getElementById('sheet-item-level-wrap');
+      const equippedWrap=document.getElementById('sheet-item-equipped-wrap');
+      if(effectsWrap)effectsWrap.style.display=type==='weapon'?'none':'grid';
       if(armorFields)armorFields.style.display=type==='armor'?'block':'none';
       if(weaponHint)weaponHint.style.display=type==='weapon'?'block':'none';
       if(detailWrap)detailWrap.style.display=['armor','weapon'].includes(type)?'none':'block';
       if(saveButton)saveButton.style.display=type==='weapon'?'none':'inline-block';
       if(createWeaponButton)createWeaponButton.style.display=type==='weapon'?'inline-block':'none';
-      const option=document.getElementById('sheet-item-effect-option')?.selectedOptions?.[0];
-      const wrap=document.getElementById('sheet-item-level-wrap');
+      if(levelWrap)levelWrap.style.display=type==='potion'&&option?.dataset.levels==='true'?'block':'none';
+      if(magnitudeWrap)magnitudeWrap.style.display=isDirectMagnitude?'block':'none';
+      if(equippedWrap)equippedWrap.style.display=['armor','relic'].includes(type)?'inline-flex':'none';
       const select=document.getElementById('sheet-item-effect-level');
-      if (wrap) wrap.style.display=option?.dataset.levels==='true'?'block':'none';
-      if (wrap?.firstChild) wrap.firstChild.nodeValue='Nivel\n                ';
+      if(levelWrap?.firstChild)levelWrap.firstChild.nodeValue='Nivel de poción\n                ';
       setLootLevelLabels(select,option?.value);
       const detail=document.getElementById('sheet-item-effect-text');
       if(detail) detail.placeholder=option?.value==='custom'?'Describe el efecto exacto...':'Detalle adicional opcional';
-      if(['armor','weapon'].includes(type)&&wrap)wrap.style.display='none';
     }
     function openSheetItemBuilder() {
       if (!isMasterClient && activeClientIdentity !== activeRole) return;
@@ -8610,9 +8665,9 @@
       document.getElementById('sheet-item-rarity').value='comun';
       document.getElementById('sheet-item-type').value='potion';
       document.getElementById('sheet-item-effect-level').value='1';
+      document.getElementById('sheet-item-magnitude').value='2';
       document.getElementById('sheet-item-effect-text').value='';
       document.getElementById('sheet-item-armor-subtype').value='tela';
-      document.getElementById('sheet-item-armor-pd').value='0';
       document.getElementById('sheet-item-equipped').checked=false;
       ['veneno','sangrado','stun','mareado','petrificado','infectado'].forEach(state=>{const field=document.getElementById(`sheet-armor-resist-${state}`);if(field)field.value='0';});
       updateSheetItemEffectOptions();
@@ -8623,28 +8678,32 @@
       const name=document.getElementById('sheet-item-name')?.value.trim();
       if(!name){showToast('⚠️ Escribe el nombre del objeto.');return;}
       const type=document.getElementById('sheet-item-type').value;
-      const effectCode=['armor','weapon'].includes(type)?'':(document.getElementById('sheet-item-effect-option')?.value||'custom');
-      const effectLevel=parseInt(document.getElementById('sheet-item-effect-level').value)||1;
+      const effectCode=type==='weapon'?'':(document.getElementById('sheet-item-effect-option')?.value||'custom');
+      const directEffects=['relic_pc','relic_pd','relic_smath','relic_hp','relic_essence','armor_pd'];
+      const isDirectMagnitude=['relic','armor'].includes(type)&&directEffects.includes(effectCode);
+      const effectMagnitude=isDirectMagnitude?Math.max(1,parseNumericValue(document.getElementById('sheet-item-magnitude')?.value,2)):0;
+      const effectLevel=type==='potion'?(parseInt(document.getElementById('sheet-item-effect-level').value)||1):0;
       const effectText=document.getElementById('sheet-item-effect-text').value.trim();
       const armorSubtype=type==='armor'?(document.getElementById('sheet-item-armor-subtype')?.value||'tela'):'tela';
-      const armorPd=type==='armor'?Math.max(0,parseInt(document.getElementById('sheet-item-armor-pd')?.value)||0):0;
+      const armorPd=type==='armor'?effectMagnitude:0;
       const resistances=Object.fromEntries(['veneno','sangrado','stun','mareado','petrificado','infectado'].map(state=>[state,type==='armor'?(parseFloat(document.getElementById(`sheet-armor-resist-${state}`)?.value)||0):0]));
-      const equipped=type==='armor'&&!!document.getElementById('sheet-item-equipped')?.checked;
+      const equipped=['armor','relic'].includes(type)&&!!document.getElementById('sheet-item-equipped')?.checked;
       const weaponId=type==='weapon'?`w_${Date.now()}_${Math.random().toString(36).slice(2,7)}`:'';
       const weight=['potion','mission'].includes(type)?'0':(document.getElementById('sheet-item-weight').value||'0.5');
       const rarity=type==='mission'?'mision':type==='potion'?'comun':(document.getElementById('sheet-item-rarity').value||'comun');
       commitDomToActivePlayer();
       const p=allPlayersData[activeRole]; if(!p)return;
-      const description=type==='armor'?`Armadura ${armorSubtype} · +${armorPd} PD`:type==='weapon'?'Arma configurable en el constructor':describeLootEffect(type,effectCode,effectLevel,effectText);
-      const item={name,qty:'1',weight,rarity,type,effectCode,effectLevel:type==='armor'?0:effectLevel,effectText:type==='armor'||type==='weapon'?'':effectText,desc:description,armorSubtype,armorPd,resistances,equipped,effectMagnitude:0,weaponId};
+      const directLabels={relic_pc:'PC',relic_pd:'PD',relic_smath:'Smath máximo',relic_hp:'HP máximo',relic_essence:'Esencia',armor_pd:'PD'};
+      const description=type==='armor'?`Armadura ${armorSubtype} · +${armorPd} PD`:type==='weapon'?'Arma configurable en el constructor':type==='relic'&&directLabels[effectCode]?`Reliquia: +${effectMagnitude} ${directLabels[effectCode]}`:describeLootEffect(type,effectCode,effectLevel,effectText);
+      const item={name,qty:'1',weight,rarity,type,effectCode,effectLevel,effectText:type==='weapon'?'':effectText,desc:description,armorSubtype,armorPd,resistances,equipped,effectMagnitude,weaponId};
       p.inventory=Array.isArray(p.inventory)?p.inventory:[];
-      if(equipped)p.inventory.forEach(existing=>{if(existing.type==='armor')existing.equipped=false;});
+      if(type==='armor'&&equipped)p.inventory.forEach(existing=>{if(existing.type==='armor')existing.equipped=false;});
       p.inventory.push(item);
       if(type==='weapon'){
         p.weapons=Array.isArray(p.weapons)?p.weapons:[];
         p.weapons.push({id:weaponId,name,scalePct:100,rarity,effectType:'none',effectDice:'',effectTurns:2,critMult:2,critOnly:false,lastRoll:'-',lastDmg:'-'});
       }
-      closeModal('modal-sheet-item-builder'); applyDataToForm(p); saveActivePlayerToCloud(true); showToast(`🎒 [${name}] agregado a la mochila.`);
+      closeModal('modal-sheet-item-builder'); applyDataToForm(p); recalcAllAutoStats(); renderGMDashboard(); saveActivePlayerToCloud(true); showToast(`🎒 [${name}] agregado a la mochila.`);
       if(openWeaponAfterSave&&type==='weapon'){
         const row=[...document.querySelectorAll('#inventory-body tr')].find(entry=>entry.dataset.weaponId===weaponId);
         if(row)openInventoryWeaponBuilder(row);
@@ -8986,9 +9045,16 @@ function recalcAllAutoStats() {
   const ofe = aspectState.ofensiva || 0, def = aspectState.defensiva || 0;
   const tac = aspectState.tactica || 0, asi = aspectState.asistencia || 0;
   const sin = aspectState.singular || 0;
-  const multiplier = getEssencePassiveMultiplier(activeEssence);
-  const totalTech = activeEssence * 2 + asi * multiplier;
+  const activePlayerData=allPlayersData[activeRole];
+  const effectiveEssence=getEffectiveEssenceLevel(activePlayerData);
+  const multiplier = getEssencePassiveMultiplier(effectiveEssence);
+  const totalTech = effectiveEssence * 2 + asi * multiplier;
   const concBonus = sin * multiplier;
+  const minimumEssenceForMode={despierta:4,manifestada:7,trascendida:10,ascendida:13};
+  if(currentEssenceMode!=='none'&&effectiveEssence<(minimumEssenceForMode[currentEssenceMode]||0)){
+    currentEssenceMode='none';if(activePlayerData)activePlayerData.essenceMode='none';
+    ['despierta','manifestada','trascendida','ascendida'].forEach(mode=>{const input=document.getElementById(`essence-mode-${mode}`);if(input)input.checked=false;});
+  }
   const modeMultiplier = getEssenceModeMultiplier(currentEssenceMode);
   const percent = ofe * 0.05 * modeMultiplier;
   const setText = (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; };
@@ -9012,24 +9078,29 @@ function recalcAllAutoStats() {
   const first = document.querySelector('#weapons-container .weapon-card .weapon-total-text');
   updateReferenceD6Table(parseFloat(first?.innerText) || 0);
 
-  const itemBuff = allPlayersData[activeRole]?.itemCombatBuff || {};
-  setText('stat-pc-bono', `+${bPc + (parseInt(itemBuff.pc)||0)+getEnvironmentModifier('pc')}`);
-  setText('stat-pc-total', (parseFloat(document.getElementById('stat-pc-base')?.value) || 0) + bPc + (parseInt(itemBuff.pc)||0)+getEnvironmentModifier('pc'));
+  const itemBuff = activePlayerData?.itemCombatBuff || {};
+  const relicPc=getEquippedItemBonus(activePlayerData,'relic_pc'),relicHp=getEquippedItemBonus(activePlayerData,'relic_hp'),relicSmath=getEquippedItemBonus(activePlayerData,'relic_smath'),relicEssence=getEquippedItemBonus(activePlayerData,'relic_essence');
+  setText('essence-equipment-bonus',`Esencia efectiva: ${effectiveEssence}${relicEssence?` (+${relicEssence} equipo)`:''}`);
+  setText('stat-pc-bono', `+${bPc + relicPc + (parseInt(itemBuff.pc)||0)+getEnvironmentModifier('pc')}`);
+  setText('stat-pc-total', (parseFloat(document.getElementById('stat-pc-base')?.value) || 0) + bPc + relicPc + (parseInt(itemBuff.pc)||0)+getEnvironmentModifier('pc'));
   const pdAspect = def * modeMultiplier;
-  const armorPd=getEquippedArmorPd(allPlayersData[activeRole]);
+  const armorPd=getEquippedArmorPd(activePlayerData);
   setText('stat-pd-bono', `+${bPd + pdAspect + armorPd + (parseInt(itemBuff.pd)||0)+getEnvironmentModifier('pd')}`);
-  setText('stat-pd-total', (parseFloat(document.getElementById('stat-pd-base')?.value) || 0) + bPd + pdAspect + armorPd + (parseInt(itemBuff.pd)||0)+(allPlayersData[activeRole]?.defendingTurn?2:0)+getEnvironmentModifier('pd'));
+  setText('stat-pd-total', (parseFloat(document.getElementById('stat-pd-base')?.value) || 0) + bPd + pdAspect + armorPd + (parseInt(itemBuff.pd)||0)+(activePlayerData?.defendingTurn?2:0)+getEnvironmentModifier('pd'));
 
   const hpBase = (parseFloat(document.getElementById('stat-hp-max-base')?.value) || 0) + bHp;
   let hpTotal = hpBase + Math.round(hpBase * 0.20 * def);
-  hpTotal = Math.round(hpTotal * getEssenceHpMultiplier(currentEssenceMode));
+  hpTotal = Math.round(hpTotal * getEssenceHpMultiplier(currentEssenceMode))+relicHp;
   const hpModeBonus = ({despierta:'+50%',manifestada:'+100%',trascendida:'+200%',ascendida:'+300%'})[currentEssenceMode] || '';
-  setText('stat-hp-bono', `+${bHp + Math.round(hpBase * 0.20 * def)}${hpModeBonus ? ` (${hpModeBonus})` : ''}`);
+  setText('stat-hp-bono', `+${bHp + Math.round(hpBase * 0.20 * def)+relicHp}${hpModeBonus ? ` (${hpModeBonus})` : ''}`);
   setText('stat-hp-max-total', hpTotal);
   const smBase = parseFloat(document.getElementById('stat-smath-max-base')?.value) || 0;
-  setText('stat-smath-bono', `+${bSmath}`); setText('stat-smath-max-total', smBase + bSmath);
+  const smathMax=smBase+bSmath+relicSmath;
+  setText('stat-smath-bono', `+${bSmath+relicSmath}`); setText('stat-smath-max-total', smathMax);
+  const hpCurrentInput=document.getElementById('stat-hp-curr'),smathCurrentInput=document.getElementById('stat-smath-curr');
+  if(hpCurrentInput&&(parseFloat(hpCurrentInput.value)||0)>hpTotal)hpCurrentInput.value=hpTotal;
+  if(smathCurrentInput&&(parseFloat(smathCurrentInput.value)||0)>smathMax)smathCurrentInput.value=smathMax;
   const conc = document.getElementById('stat-conc');
-  const activePlayerData=allPlayersData[activeRole];
   if(conc&&activePlayerData){
     if(activePlayerData.baseConcentration===undefined)activePlayerData.baseConcentration=parseFloat(conc.value)||0;
     conc.value=(parseFloat(activePlayerData.baseConcentration)||0)+concBonus;
@@ -9053,7 +9124,8 @@ function recalcAllAutoStats() {
 function updateTechPoints(totalPts = null) {
   if (totalPts === null) {
     const a = aspectState.asistencia || 0;
-    totalPts = activeEssence * 2 + a * getEssencePassiveMultiplier(activeEssence);
+    const essenceLevel=getEffectiveEssenceLevel(allPlayersData[activeRole]);
+    totalPts = essenceLevel * 2 + a * getEssencePassiveMultiplier(essenceLevel);
   }
   let spent = 0;
   document.querySelectorAll('#techniques-body tr').forEach((row, idx) => {
@@ -9232,6 +9304,7 @@ function addInventoryRow(name = '', qty = '', weight = '', desc = '', rarity = '
   tr.dataset.effectText = effectText || '';
   tr.dataset.armorSubtype=extra.armorSubtype||'tela';
   tr.dataset.armorPd=parseInt(extra.armorPd)||0;
+  tr.dataset.effectMagnitude=parseNumericValue(extra.effectMagnitude,0)||parseNumericValue(extra.armorPd,0);
   tr.dataset.resistances=JSON.stringify(extra.resistances||{});
   const rarityOptions = [['basura','Basura'],['comun','Común'],['infrecuente','Infrecuente'],['raro','Raro'],['mitico','Mítico'],['mision','Única']];
   const typeLabels = {potion:'🧪 Poción',weapon:'⚔️ Arma',armor:'🛡️ Armadura',relic:'💎 Reliquia',mission:'📜 Misión',mundane:'📦 Mundano'};
@@ -9239,14 +9312,22 @@ function addInventoryRow(name = '', qty = '', weight = '', desc = '', rarity = '
   const useButton = type === 'potion' && effectCode ? `<button type="button" class="btn-use-inventory" onclick="useInventoryItem(this.closest('tr'))">Usar</button>` : '';
   const weaponButton = type==='weapon' ? `<button type="button" class="btn-use-inventory" onclick="openInventoryWeaponBuilder(this.closest('tr'))" title="Abrir el constructor de arma">⚙️ Crear / editar arma</button>` : '';
   const tradeOptions = playerList.filter(pid=>pid!==activeRole).map(pid=>`<option value="${escapeHtml(pid)}">${escapeHtml(allPlayersData[pid]?.inputs?.['char-name']||getIdentityLabel(pid))}</option>`).join('');
-  const armorFields = type==='armor' ? `<div class="inv-special-fields inv-armor-equip-only"><label><input type="checkbox" class="inv-equipped" ${extra.equipped?'checked':''}> 🛡️ Equipada</label></div>` : '';
-  const relicFields = type==='relic' ? `<div class="inv-special-fields"><label>Valor / magnitud <input type="number" class="inv-relic-magnitude" value="${parseNumericValue(extra.effectMagnitude,0)}"></label></div>` : '';
+  const armorMagnitude=parseNumericValue(extra.effectMagnitude,0)||parseNumericValue(extra.armorPd,0);
+  const armorFields = type==='armor' ? `<div class="inv-special-fields inv-armor-equip-only"><label><input type="checkbox" class="inv-equipped" ${extra.equipped?'checked':''}> 🛡️ Equipada</label><label>Bono PD <input type="number" class="inv-relic-magnitude" value="${armorMagnitude}" min="0" step="1"></label></div>` : '';
+  const relicFields = type==='relic' ? `<div class="inv-special-fields"><label><input type="checkbox" class="inv-equipped" ${extra.equipped?'checked':''}> 💎 Equipada</label><label>Bono / magnitud <input type="number" class="inv-relic-magnitude" value="${parseNumericValue(extra.effectMagnitude,0)}" min="0" step="1"></label></div>` : '';
   const weightValue = (type==='potion'||type==='mission') ? 0 : (weight ?? '');
   const rarityValue = type==='mission' ? 'mision' : (type==='potion' ? 'comun' : rarity);
   const rarityDisabled = type==='potion'||type==='mission';
   tr.innerHTML = `<td data-label="Objeto"><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(name)}</textarea><div class="inv-item-meta"><select class="inv-item-type" aria-label="Tipo de objeto" onchange="changeInventoryType(this)">${[['mundane','📦 Mundano'],['potion','🧪 Poción'],['weapon','⚔️ Arma'],['armor','🛡️ Armadura'],['relic','💎 Reliquia'],['mission','📜 Misión']].map(([v,label])=>`<option value="${v}" ${type===v?'selected':''}>${label}</option>`).join('')}</select>${useButton}${weaponButton}<select class="inv-trade-target" aria-label="Transferir a jugador">${tradeOptions || '<option value="">Sin destinatarios</option>'}</select><input type="number" class="inv-trade-qty" min="1" value="1" aria-label="Cantidad a pasar"><button type="button" class="btn-trade-inventory" onclick="tradeInventoryItem(this.closest('tr'))" ${tradeOptions?'':'disabled'}>🤝 Pasar</button></div>${armorFields}${relicFields}</td><td data-label="Cant."><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Peso"><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(String(weightValue))}" min="0" ${type==='potion'||type==='mission'?'readonly':''} oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Descripción"><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(desc)}</textarea></td><td data-label="Rareza"><select class="inv-rarity" style="display:${rarityDisabled?'none':'inline-block'};" ${rarityDisabled?'disabled':''} onchange="updateInventoryRarityStyle(this); syncToFirebaseDebounced();" aria-label="Rareza del objeto">${rarityOptions.map(([v,label]) => `<option value="${v}" ${rarityValue === v ? 'selected' : ''}>${label}</option>`).join('')}</select></td><td data-label="Eliminar" style="text-align:center"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); recalcAllAutoStats(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:#9d1717;font-weight:bold">✖</button></td>`;
-  tr.querySelectorAll('.inv-equipped,.inv-relic-magnitude').forEach(el=>el.addEventListener('input',()=>{if(el.classList.contains('inv-equipped'))return;syncToFirebaseDebounced();}));
-  tr.querySelectorAll('.inv-equipped').forEach(el=>el.addEventListener('change',()=>{handleArmorEquippedChange(el);recalcAllAutoStats();syncToFirebaseDebounced();}));
+  tr.querySelectorAll('.inv-relic-magnitude').forEach(el=>{
+    el.addEventListener('input',()=>{
+      const row=el.closest('tr'),value=parseNumericValue(el.value,0);
+      if(row?.dataset.itemType==='armor')row.dataset.armorPd=String(value);else if(row)row.dataset.effectMagnitude=String(value);
+      recalcAllAutoStats();commitDomToActivePlayer();renderGMDashboard();syncToFirebaseDebounced(350);
+    });
+    el.addEventListener('change',()=>saveActivePlayerToCloud(true));
+  });
+  tr.querySelectorAll('.inv-equipped').forEach(el=>el.addEventListener('change',()=>{handleArmorEquippedChange(el);recalcAllAutoStats();commitDomToActivePlayer();renderGMDashboard();saveActivePlayerToCloud(true);}));
   tbody.appendChild(tr); tr.querySelectorAll('textarea').forEach(autoResizeTextarea); updateInventoryRarityStyle(tr.querySelector('.inv-rarity')); calcTotalWeight();
 }
 function updateInventoryRarityStyle(select) {
@@ -9603,7 +9684,7 @@ function deleteTechniqueRow(row) {
       essenceMode='none';offense=0;critBonus=0;
     }else{
       let bPc = 0; ARCHETYPES.forEach(a => { bPc += (actor.archLevels?.[a] || 0) * GRADE_BONUSES[a].pc; baseDamage += (actor.archLevels?.[a] || 0) * GRADE_BONUSES[a].dmg; });
-      pc = (parseFloat(actor.inputs?.['stat-pc-base']) || 0) + bPc + (parseInt(actor.itemCombatBuff?.pc) || 0)+getEnvironmentModifier('pc');
+      pc = getPlayerDerivedPc(actor);
       baseDamage += parseInt(actor.itemCombatBuff?.damage)||0;
       essenceMode = actor.essenceMode || 'none'; offense = actor.aspects?.ofensiva || 0;
       critBonus=(actor.aspects?.tactica||0)*getEssenceModeMultiplier(essenceMode);
@@ -9620,7 +9701,7 @@ function deleteTechniqueRow(row) {
       maxCubes: s.cubes || 2, currentCubes: s.cubes || 2, atkName: s.atkName || 'Ataque',
       pc:summonPc,atkBonus:summonPc,atkDmg:summonDmg,
       initBonus:parseInt(s.initBonus)||0,
-      techniques: s.specialTechnique?.name ? [{ ...s.specialTechnique }] : [],
+      techniques: Array.isArray(s.techniques)?s.techniques.map(tech=>({...tech,cost:0,isQuickAction:false})):s.specialTechnique?.name?[{...s.specialTechnique,cost:0,isQuickAction:false}]:[],
       upkeepType: s.upkeepType || 'fixed', cost });
     registerSummonCombatant(String(actorId).replace(/^p_/,''),p.summons[p.summons.length-1]);
     clearAllSelectedTargets(); renderPlayerSummons(actorId); if (activeRole === 'gm') renderGMDashboard();
@@ -9765,12 +9846,14 @@ function toggleEssence(level) {
   const hpSnapshot=getCurrentHpRatio();
   activeEssence = activeEssence === level ? level - 1 : level;
   for (let i = 1; i <= 15; i++) document.getElementById('seal-' + i)?.classList.toggle('active', i <= activeEssence);
+  const pdata=allPlayersData[activeRole];if(pdata)pdata.essence=activeEssence;
+  const effectiveEssence=getEffectiveEssenceLevel(pdata);
   const minLevel = { despierta: 4, manifestada: 7, trascendida: 10, ascendida: 13 };
-  if (minLevel[currentEssenceMode] > activeEssence) {
+  if (minLevel[currentEssenceMode] > effectiveEssence) {
     currentEssenceMode = 'none';
     ['despierta','manifestada','trascendida','ascendida'].forEach(m => { const el = document.getElementById(`essence-mode-${m}`); if (el) el.checked = false; });
   }
-  const pdata=allPlayersData[activeRole];if(pdata){pdata.essence=activeEssence;pdata.essenceMode=currentEssenceMode;}
+  if(pdata)pdata.essenceMode=currentEssenceMode;
   recalcAllAutoStats();restoreHpRatioAfterRecalc(hpSnapshot);renderEssenceModeButtons();
   updateResourceBarsUI(); syncToFirebaseDebounced();
 }
@@ -9782,7 +9865,7 @@ function toggleEssenceActivation(mode) {
   const pdata=allPlayersData[activeRole];
   if((parseFloat(document.getElementById('stat-hp-curr')?.value)||0)<=0){checkbox.checked=false;showToast('💀 Un personaje caído o muerto no puede activar Esencia.');renderEssenceModeButtons();return;}
   if(isPlayerSealed(pdata)){checkbox.checked=false;showToast('🔒 Sellado bloquea los modos de Esencia.');renderEssenceModeButtons();return;}
-  if (checkbox.checked && activeEssence < requirements[mode]) { checkbox.checked = false; showToast(`⚠️ Requiere Esencia ${requirements[mode]} para ${mode}.`); return; }
+  if (checkbox.checked && getEffectiveEssenceLevel(pdata) < requirements[mode]) { checkbox.checked = false; showToast(`⚠️ Requiere Esencia ${requirements[mode]} para ${mode}.`); return; }
   const next=checkbox.checked?mode:'none';
   if(next===currentEssenceMode){renderEssenceModeButtons();return;}
   const hpSnapshot=getCurrentHpRatio();
