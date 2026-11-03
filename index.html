@@ -1057,7 +1057,7 @@
       white-space: nowrap;
     }
     .resumen-action-select optgroup {
-      font-size: 10px;
+      font-size: 7px;
       font-weight: bold;
       color: #633a16;
       background: #fbf5e8;
@@ -7836,7 +7836,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           actionOptionsHtml += `<option value="tech_${tIdx}" ${blocked?'disabled':''}>${t.isQuickAction?'⚡':'🗡️'} ${t.isEssenceTechnique ? '✨' : ''} ${escapeHtml(t.name || 'Téc')} (${t.cost ?? 2} Sm)</option>`;
         });
         const commonBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'common'),quickBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'quick');
-        actionOptionsHtml += `</optgroup><optgroup label="Acciones"><option value="move" ${quickBlocked?'disabled':''}>🏃 Desplazarse (Rápida)</option><option value="conc" ${commonBlocked?'disabled':''}>🧘 Concentrarse</option><option value="defend" ${commonBlocked?'disabled':''}>🛡️ Defenderse (+2 PD)</option><option value="motivation" ${isDead||isOutOfBattle||pChecks['status-stun']||pChecks['status-petrificado']||(parseInt(pdata.motivationUses)||0)>=2?'disabled':''}>🔥 Motivación (+1 Acción)</option></optgroup><optgroup label="Pociones">`;
+        actionOptionsHtml += `</optgroup><optgroup label="Acciones"><option value="move" ${quickBlocked?'disabled':''}>🏃 Desplazarse(R)</option><option value="conc" ${commonBlocked?'disabled':''}>🧘 Concentrarse</option><option value="defend" ${commonBlocked?'disabled':''}>🛡️ Defensa (+2 PD)</option><option value="motivation" ${isDead||isOutOfBattle||pChecks['status-stun']||pChecks['status-petrificado']||(parseInt(pdata.motivationUses)||0)>=2?'disabled':''}>🔥 Motivación (+1 Ac)</option></optgroup><optgroup label="Pociones">`;
         (pdata.inventory||[]).forEach((item,itemIndex)=>{if(item.type==='potion')actionOptionsHtml+=`<option value="item_${itemIndex}" ${quickBlocked||isDead?'disabled':''}>🧪 ${escapeHtml(item.name||'Poción')}</option>`;});
         actionOptionsHtml+='</optgroup>';
 
