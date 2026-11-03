@@ -7884,52 +7884,60 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
             const sCard = document.createElement('div');
             sCard.id = `summon-card-${summonTargetId}`;
             sCard.className = `player-card-summon ${isSummonTargetSelected ? 'target-selected' : ''} ${sum.currentCubes<=0?'summon-turn-spent':''} ${summonTurnClass} ${summonOutsideBattle?'battle-reserve':''}`;
-            sCard.style.cssText = 'padding:6px 10px; margin-bottom:6px; border-radius:5px; border-left:4px solid var(--border-gold); background:rgba(255,255,255,0.55); border:1px solid #9a7134; font-family:var(--f-title);';
+            sCard.style.cssText = 'padding:6px 10px; margin-bottom:6px; border-radius:5px; border-left:4px solid var(--border-gold); background:rgba(255,255,255,0.6); border:1px solid #9a7134; font-family:var(--f-title); box-sizing:border-box; overflow:hidden;';
             sCard.innerHTML = `
-              <!-- Fila 1: Nombre + Fuera de batalla a la izquierda / [🎯 OBJETIVO] + Duplicar + Disipar a la derecha -->
-              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:5px;">
-                <div style="display:flex; align-items:center; gap:6px; min-width:0; font-size:13px; font-weight:bold; color:#4a2b0f;">
-                  <span class="summon-connector">🐾</span> <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle ? '<small class="battle-reserve-badge">🪑 Fuera de batalla</small>' : ''}
+              <!-- Fila 1: Nombre a la izquierda / [🎯 OBJETIVO] + [📋] + [💀] a la derecha -->
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:5px;">
+                <div style="display:flex; align-items:center; gap:5px; min-width:0; font-size:12.5px; font-weight:bold; color:#4a2b0f;">
+                  <span class="summon-connector">🐾</span> <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(sum.name)}</span>${summonOutsideBattle ? '<small class="battle-reserve-badge">🪑</small>' : ''}
                 </div>
-                <div style="display:flex; align-items:center; gap:4px; flex-shrink:0;">
+                <div style="display:flex; align-items:center; gap:3px; flex-shrink:0;">
                   <button type="button" class="btn-mini-tool ${isSummonTargetSelected ? 'active-target-btn' : ''}" 
-                          style="font-size:11px; font-weight:bold; padding:2px 7px; background:${isSummonTargetSelected ? '#991b1b' : '#fff'}; color:${isSummonTargetSelected ? '#fff' : '#4a2b0f'}; border:1px solid ${isSummonTargetSelected ? '#7f1d1d' : '#8c6530'}; border-radius:3px; cursor:pointer;"
+                          style="font-size:10.5px; font-weight:bold; padding:2px 6px; background:${isSummonTargetSelected ? '#991b1b' : '#fff'}; color:${isSummonTargetSelected ? '#fff' : '#4a2b0f'}; border:1px solid ${isSummonTargetSelected ? '#7f1d1d' : '#8c6530'}; border-radius:3px; cursor:pointer;"
                           onclick="toggleCombatantTargetSelection(this.closest('.player-card-summon'), '${summonTargetId}')" 
                           title="Marcar como objetivo">
                     🎯 OBJETIVO
                   </button>
-                  <button type="button" class="btn-mini-tool" onclick="duplicateSummon('${pid}', ${sIdx})" title="Duplicar esbirro" style="padding:2px 5px; font-size:11px;">📋</button>
-                  <button type="button" class="btn-mini-tool" onclick="confirmDismissSummon('${pid}', ${sIdx}, '${escapeHtml(sum.name)}')" title="Disipar esbirro" style="padding:2px 5px; font-size:11px; color:#b91c1c;">💀</button>
+                  <button type="button" class="btn-mini-tool" onclick="duplicateSummon('${pid}', ${sIdx})" title="Duplicar esbirro" style="padding:2px 4px; font-size:11px;">📋</button>
+                  <button type="button" class="btn-mini-tool" onclick="confirmDismissSummon('${pid}', ${sIdx}, '${escapeHtml(sum.name)}')" title="Disipar esbirro" style="padding:2px 4px; font-size:11px; color:#b91c1c;">💀</button>
                 </div>
               </div>
 
-              <!-- Fila 2 Unificada: Atributos, Cubos, Selector de ataque y Barra de Resencia en un solo renglón -->
-              <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:11.5px; background:rgba(0,0,0,0.03); padding:3px 8px; border-radius:3px; margin-bottom:3px; flex-wrap:wrap;">
-                <div style="display:flex; align-items:center; gap:6px; color:#5b3815; white-space:nowrap;">
+              <!-- Fila 2: Stats (PC, PD, Inic) a la izquierda / Menú Estado a la derecha -->
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:11px; background:rgba(0,0,0,0.04); padding:3px 6px; border-radius:3px; margin-bottom:5px;">
+                <div style="display:flex; align-items:center; gap:4px; color:#5b3815; white-space:nowrap;">
                   <span>🗡️ PC: <b>${stats.pc}</b></span>
                   <span>|</span>
                   <span>🛡️ PD: <b>${stats.pd}</b></span>
                   <span>|</span>
                   <span>⚡ Inic: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b></span>
-                  ${isGm ? `<button type="button" class="btn-mini-tool" style="padding:1px 4px; min-height:18px; line-height:1;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar de nuevo la iniciativa">↻</button>` : ''}
-                  ${renderCardStatusMenu('summon', pid, sIdx)}
-                  <div class="summon-action-controls" style="display:${canControl && !summonOutsideBattle ? 'inline-flex' : 'none'}; align-items:center; gap:4px; margin-left:4px;">
-                    <span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span>
-                    ${renderSummonAttackPicker(pid, sIdx, sum, summonCanAct, summonCanUseTech)}
-                    ${battleActive ? `<button type="button" class="btn-mini-tool" onclick="endCombatantTurn('${summonCombatantId}')" title="Terminar turno de la invocación">🛑</button>` : ''}
-                  </div>
+                  ${isGm ? `<button type="button" class="btn-mini-tool" style="padding:0 3px; min-height:16px; line-height:1; font-size:10px;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar iniciativa">↻</button>` : ''}
                 </div>
-
-                <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:140px; justify-content:flex-end;">
-                  <span style="white-space:nowrap;">❤️ Resencia:</span>
-                  <div class="stat-bar-track" style="flex:1; max-width:110px; height:6px;">
-                    <div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div>
-                  </div>
-                  <b style="white-space:nowrap; font-size:11px;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b>
+                <div style="display:flex; align-items:center; gap:3px;">
+                  ${renderCardStatusMenu('summon', pid, sIdx)}
                 </div>
               </div>
 
-              <!-- Fila 3: Estados alterados -->
+              <!-- Fila 3: ❤️ Resencia a la IZQUIERDA / Cubos + Atacar a la DERECHA -->
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:4px;">
+                <!-- Izquierda: Barra y número de Resencia -->
+                <div style="display:flex; align-items:center; gap:5px; flex:1; min-width:115px;">
+                  <span style="white-space:nowrap; font-size:11px;">❤️ Resencia:</span>
+                  <div class="stat-bar-track" style="flex:1; max-width:75px; height:6px;">
+                    <div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div>
+                  </div>
+                  <b style="white-space:nowrap; font-size:10.5px;">${stats.hpCurr}/${stats.hpMax}</b>
+                </div>
+
+                <!-- Derecha: Cubos de acción + Botón de ataque -->
+                <div class="summon-action-controls" style="display:${canControl && !summonOutsideBattle ? 'inline-flex' : 'none'}; align-items:center; gap:4px; flex-shrink:0;">
+                  <span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span>
+                  ${renderSummonAttackPicker(pid, sIdx, sum, summonCanAct, summonCanUseTech)}
+                  ${battleActive ? `<button type="button" class="btn-mini-tool" onclick="endCombatantTurn('${summonCombatantId}')" title="Terminar turno">🛑</button>` : ''}
+                </div>
+              </div>
+
+              <!-- Estados alterados activos -->
               ${renderSummonStateTags(pid, sIdx, sum)}
             `;
             cardsGrid.appendChild(sCard);
