@@ -2065,8 +2065,23 @@
       .btn-execute-action-target { white-space:nowrap; min-height:34px; }
       .gm-skill-roll { flex-wrap:wrap; }
       .gm-skill-roll .resumen-action-select { flex:1 1 140px; }
-      .gm-skill-roll .skill-sort-select { width:104px; flex:0 0 104px; min-height:34px; }
-      .gm-skill-roll > b { flex:1 1 100%; }
+.skill-sort-select,
+.gm-skill-roll .skill-sort-select {
+  width: 58px !important;
+  flex: 0 0 58px !important;
+  min-width: 0 !important;
+  min-height: 22px !important;
+  height: 22px !important;
+  padding: 1px 2px !important;
+  font-size: 9.5px !important;
+  line-height: 1.1 !important;
+  box-sizing: border-box;
+}
+
+.skill-sort-select option {
+  font-size: 9.5px !important;
+  padding: 2px 4px !important;
+}      .gm-skill-roll > b { flex:1 1 100%; }
       .gm-card-tactical-actions .btn-mini-tool { flex:1 1 0; }
       .gm-card-toolbar button { padding:4px 8px; min-height:34px; }
 
