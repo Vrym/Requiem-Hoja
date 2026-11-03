@@ -5699,38 +5699,56 @@
         const abilitiesDropdown=renderSummonTechniquesDropdown(abilitiesHtml,(sum.techniques||[]).length);
 
 const card = document.createElement('div');
-        card.className = `player-card-summon ${sum.currentCubes<=0?'summon-turn-spent':''} ${summonTurnClass} ${summonOutsideBattle?'battle-reserve':''}`;
+        card.className = `player-card-summon ${sum.currentCubes <= 0 ? 'summon-turn-spent' : ''}`;
+        card.style.cssText = 'padding:6px 8px; margin-bottom:6px; border-radius:4px; border-left:4px solid var(--border-gold); background:rgba(255,255,255,0.45); border:1px solid #9a7134;';
+
         card.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:nowrap; margin-bottom:5px;">
-            <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; overflow-x:auto; scrollbar-width:none; font-family:var(--f-title); font-size:12px;">
-              <span class="summon-connector" style="white-space:nowrap;">🐾 <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle?'<small class="battle-reserve-badge">🪑</small>':''}</span>
-              <span style="font-size:11px; color:#6b4423; white-space:nowrap; opacity:0.9;">
-                🗡️ PC: <b>${stats.pc}</b> | 🛡️ PD: <b>${stats.pd}</b> | ⚡ Inic: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b>
-              </span>
-              ${isMasterClient?`<button type="button" class="btn-mini-tool" style="padding:1px 4px; min-height:18px; line-height:1;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar iniciativa">↻</button>`:''}
-              ${renderCardStatusMenu('summon',pid,sIdx)}
-              <div class="summon-action-controls" style="display:${summonOutsideBattle?'none':'inline-flex'}; align-items:center;">
-                <span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span>
-              </div>
+          <!-- Fila 1: Nombre a la izquierda / Íconos Duplicar y Disipar (con confirmación) a la derecha -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <div style="font-family:var(--f-title); font-size:13px; font-weight:bold; color:#4a2b0f;">
+              🐾 <span>${escapeHtml(sum.name)}</span>
             </div>
-            <div style="display:flex; gap:3px; flex-shrink:0;">
-              <button type="button" class="btn-mini-tool" onclick="duplicateSummon('${pid}',${sIdx})" title="Duplicar esbirro" style="padding:2px 5px; font-size:11px;">📋</button>
-              <button type="button" class="btn-mini-tool" onclick="dismissSummon('${pid}',${sIdx})" title="Disipar esbirro" style="padding:2px 5px; font-size:11px; color:#b91c1c;">💀</button>
+            <div style="display:flex; gap:3px;">
+              <button type="button" class="btn-mini-tool" onclick="duplicateSummon('${pid}', ${sIdx})" title="Duplicar esbirro" style="padding:1px 5px; font-size:12px;">📋</button>
+              <button type="button" class="btn-mini-tool" onclick="confirmDismissSummon('${pid}', ${sIdx}, '${escapeHtml(sum.name)}')" title="Disipar esbirro" style="padding:1px 5px; font-size:12px; color:#b91c1c;">💀</button>
             </div>
           </div>
 
-          <div style="margin-bottom:4px;">
-            <div style="display:flex; align-items:center; gap:6px; font-size:11px; font-family:var(--f-title);">
-              <span style="white-space:nowrap;">❤️ Resencia:</span>
-              <div class="stat-bar-track" style="flex:1; height:6px; min-width:60px;">
-                <div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div>
-              </div>
-              <b style="font-size:11px; white-space:nowrap;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b>
+<!-- Fila 2: PC, PD, Iniciativa y Cubos de Acción reales -->
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; font-family:var(--f-title); font-size:11px; margin-bottom:4px; background:rgba(0,0,0,0.03); padding:2px 5px; border-radius:3px;">
+            <div style="display:flex; align-items:center; gap:6px; color:#5b3815;">
+              <span>🗡️ PC: <b>${sum.pc !== undefined ? sum.pc : (sum.atkBonus !== undefined ? sum.atkBonus : '--')}</b></span>
+              <span>|</span>
+              <span>🛡️ PD: <b>${sum.pd || 12}</b></span>
+              <span>|</span>
+              <span>⚡ Inic: <b>${sum.init || sum.lastInit || 10}</b></span>
+            </div>
+            <div class="action-cubes-container" style="display:inline-flex; align-items:center; gap:3px;" title="Cubos de acción">
+              ${cubesHtml}
             </div>
           </div>
 
-          <!-- Píldoras de estados activos -->
-          ${renderSummonStateTags(pid,sIdx,sum)}
+          <!-- Fila 3: Resencia (HP) -->
+          <div style="display:flex; align-items:center; gap:6px; font-family:var(--f-title); font-size:11px; margin-bottom:4px;">
+            <span style="white-space:nowrap;">❤️ Resencia:</span>
+            <div class="stat-bar-track" style="flex:1; height:6px; min-width:60px;">
+              <div class="stat-bar-fill-hp" style="width:${Math.max(0, Math.min(100, Math.round((sum.hpCurr / sum.hpMax) * 100)))}%;"></div>
+            </div>
+            <b style="font-size:11px; white-space:nowrap;">${sum.hpCurr} / ${sum.hpMax} (${Math.round((sum.hpCurr / sum.hpMax) * 100)}%)</b>
+          </div>
+
+          <!-- Fila 4: Pastillas de estados alterados (SOLO si los tiene activos) -->
+          ${(function() {
+            if (!sum.states || Object.keys(sum.states).length === 0) return '';
+            const badges = Object.entries(sum.states).map(([st, data]) => {
+              const icons = { veneno: '☠️ Veneno', sangrado: '🩸 Sangrado', stun: '💫 Aturdido', mareado: '🌀 Mareado', petrificado: '🗿 Petrificado', infectado: '☣️ Infectado' };
+              const label = icons[st] || st.toUpperCase();
+              const val = data.val ? ` -${data.val}` : '';
+              const turns = data.turns !== undefined ? ` ⏳${data.turns}` : '';
+              return `<span class="state-chip" style="font-size:9.5px; padding:1px 5px;">${label}${val}${turns}</span>`;
+            }).join('');
+            return `<div style="display:flex; flex-wrap:wrap; gap:3px; margin-top:2px;">${badges}</div>`;
+          })()}
         `;
         container.appendChild(card);
       });
@@ -5824,7 +5842,12 @@ const card = document.createElement('div');
       saveActivePlayerToCloud(true);
       showToast(`💀 ${sum.name} ha sido disipada.`);
     }
-
+function confirmDismissSummon(pid, sIdx, summonName) {
+      if (!isMasterClient && activeClientIdentity !== pid) return;
+      if (confirm(`¿Estás seguro de que deseas disipar a "${summonName}"?.`)) {
+        dismissSummon(pid, sIdx);
+      }
+    }
     function executeSummonAttack(pid, sIdx) {
       if (!isMasterClient && activeClientIdentity !== pid) {
         showToast('⚠️ No puedes controlar esta invocación.');
@@ -6719,38 +6742,40 @@ const card = document.createElement('div');
       openModal('modal-technique-info');
     }
 
-    function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lvl1 = true, lvl2 = false, lvl3 = false, isSummon = false, summonData = null, isEssenceTechnique = false, isQuickAction = false) {
+function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lvl1 = true, lvl2 = false, lvl3 = false, isSummon = false, summonData = null, isEssenceTechnique = false, isQuickAction = false) {
       const tbody = document.getElementById('techniques-body');
       const rowIdx = tbody.children.length;
       const tr = document.createElement('tr');
       if (isEssenceTechnique) tr.classList.add('tech-row-essence');
 
       tr.innerHTML = `
-        <td>
-          <div style="display:flex; align-items:center; gap:4px;">
-            ${isEssenceTechnique ? '<span class="tech-essence-mark" title="Técnica de Esencia">✨</span>' : ''}${isQuickAction?'<span class="tech-quick-mark" title="Consume Acción Rápida">⚡ Rápida</span>':''}<textarea class="tech-row-name" rows="1" placeholder="Poder..." style="flex:1; background:transparent; border:none; border-bottom:1px solid #7a5833; font-family:var(--f-body); font-size:14px; padding:2px 0; resize:none; overflow:hidden;" oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(name)}</textarea>
-            <button type="button" class="btn-mini-tool" onclick="openTechniqueInfo(${rowIdx})" title="Ver detalles y reglas">ℹ️</button>
-            <button type="button" class="btn-mini-tool" onclick="openTechniqueBuilder(${rowIdx})" title="Configurar efecto, invocación o dados">⚙️</button>
+        <td style="padding:4px 6px;">
+          <div style="display:flex; align-items:center; gap:5px; flex-wrap:nowrap;">
+            ${isEssenceTechnique ? '<span class="tech-essence-mark" title="Técnica de Esencia">✨</span>' : ''}
+            ${isQuickAction ? '<span class="tech-quick-mark" title="Consume Acción Rápida">⚡</span>' : ''}
+            <input type="text" class="tech-row-name" value="${escapeHtml(name)}" placeholder="Poder / Invocación..." style="flex:1; min-width:80px; height:24px; background:transparent; border:none; border-bottom:1px solid #7a5833; font-family:var(--f-body); font-size:13.5px; font-weight:bold; padding:1px 4px; outline:none;" oninput="syncToFirebaseDebounced(1200);">
+            <button type="button" class="btn-mini-tool" onclick="openTechniqueInfo(${rowIdx})" title="Ver detalles y reglas" style="padding:1px 5px; height:22px;">ℹ️</button>
+            <button type="button" class="btn-mini-tool" onclick="openTechniqueBuilder(${rowIdx})" title="Configurar" style="padding:1px 5px; height:22px;">⚙️</button>
           </div>
-          ${isSummon&&summonData?`<details class="tech-summon-reference-details"><summary>🐾 Invocación: ${escapeHtml(summonData.name||'Criatura')} · HP ${parseInt(summonData.hp)||25} · PC ${parseInt(summonData.pc)||10} · PD ${parseInt(summonData.pd)||12}</summary><div class="tech-summon-reference">${parseInt(summonData.cubes)||2} acciones/turno · ${escapeHtml(summonData.atkName||'Ataque')} · Daño ${parseInt(summonData.atkDmg)||12} · ${summonData.upkeepType==='turn'?'Mantenimiento por turno':'Coste único'}${summonData.specialTechnique?.name?` · Técnica: ${escapeHtml(summonData.specialTechnique.name)}`:''}</div></details>`:''}
         </td>
-        <td style="text-align:center;">
+        <td style="text-align:center; padding:4px 2px;">
           <div style="display:inline-flex; align-items:center; gap:3px;">
-            <input type="number" class="tech-cost-input" value="${cost}" min="0" style="width:36px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-            <button type="button" class="btn-stat-max btn-use-tech" style="background:#731e0b; color:#ffe8b5; font-size:10.5px; padding:2px 5px;" onclick="useTechniqueDirect(${rowIdx})" title="Gastar Smath o convocar criatura">⚡ Usar</button>
+            <input type="number" class="tech-cost-input" value="${cost}" min="0" style="width:32px; height:22px; padding:1px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px; font-size:12px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+            <button type="button" class="btn-stat-max btn-use-tech" style="background:#731e0b; color:#ffe8b5; font-size:10px; padding:2px 5px; height:22px;" onclick="useTechniqueDirect(${rowIdx})" title="Gastar Smath / Invocar">⚡</button>
           </div>
         </td>
-        <td>
-          <div style="display:flex; gap:3px; justify-content:center;">
-            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''} onclick="handleTechLevelClick(this.closest('tr'), 1, this.checked)" style="width:15px; height:15px; accent-color:#731e0b; cursor:pointer;">
-            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''} onclick="handleTechLevelClick(this.closest('tr'), 2, this.checked)" style="width:15px; height:15px; accent-color:#731e0b; cursor:pointer;">
-            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''} onclick="handleTechLevelClick(this.closest('tr'), 3, this.checked)" style="width:15px; height:15px; accent-color:#731e0b; cursor:pointer;">
+        <td style="padding:4px 2px;">
+          <div style="display:flex; gap:2px; justify-content:center; align-items:center;">
+            <input type="checkbox" class="tech-row-lvl1" title="Nivel 1" ${lvl1 ? 'checked' : ''} onclick="handleTechLevelClick(this.closest('tr'), 1, this.checked)" style="width:14px; height:14px; accent-color:#731e0b; cursor:pointer;">
+            <input type="checkbox" class="tech-row-lvl2" title="Nivel 2" ${lvl2 ? 'checked' : ''} onclick="handleTechLevelClick(this.closest('tr'), 2, this.checked)" style="width:14px; height:14px; accent-color:#731e0b; cursor:pointer;">
+            <input type="checkbox" class="tech-row-lvl3" title="Nivel 3" ${lvl3 ? 'checked' : ''} onclick="handleTechLevelClick(this.closest('tr'), 3, this.checked)" style="width:14px; height:14px; accent-color:#731e0b; cursor:pointer;">
           </div>
         </td>
-        <td style="text-align:center;"><button type="button" onclick="deleteTechniqueRow(this.closest('tr'))" style="background:none; border:none; cursor:pointer; color:red; font-weight:bold; font-size:14px; padding:4px 0;">✖</button></td>
+        <td style="text-align:center; padding:4px 2px;">
+          <button type="button" onclick="deleteTechniqueRow(this.closest('tr'))" style="background:none; border:none; cursor:pointer; color:red; font-weight:bold; font-size:14px; padding:0 3px;" title="Eliminar técnica">✖</button>
+        </td>
       `;
       tbody.appendChild(tr);
-      tr.querySelectorAll('textarea').forEach(t => autoResizeTextarea(t));
       recalcAllAutoStats();
     }
 
@@ -7854,7 +7879,8 @@ const card = document.createElement('div');
             sCard.innerHTML = `
               <div class="summon-heading-row"><div class="summon-heading-name"><span class="summon-connector">🐾</span> <b>${escapeHtml(sum.name)}</b>${summonOutsideBattle?'<small class="battle-reserve-badge">🪑 Fuera de batalla</small>':''}</div><div class="summon-combat-row"><div class="summon-combat-values"><span>🗡️ PC: <b>${stats.pc}</b></span><span>|</span><span>🛡️ PD: <b>${stats.pd}</b></span><span>|</span><span>⚡ Iniciativa: <b class="summon-init-value">${escapeHtml(String(summonInit))}</b></span>${isGm?`<button type="button" class="btn-mini-tool" style="padding:1px 4px;min-height:18px;" onclick="rollCombatantInitiative('${summonCombatantId}')" title="Tirar de nuevo la iniciativa">↻</button>`:''}</div>${renderCardStatusMenu('summon',pid,sIdx)}<div class="summon-action-controls" style="display:${canControl&&!summonOutsideBattle?'flex':'none'};"><span class="action-cubes-container" title="Acciones ${sum.currentCubes}/${sum.maxCubes}">${cubesHtml}</span>${renderSummonAttackPicker(pid,sIdx,sum,summonCanAct,summonCanUseTech)}${battleActive?`<button type="button" class="btn-mini-tool" onclick="endCombatantTurn('${summonCombatantId}')" title="Terminar turno de la invocación">🛑</button>`:''}</div></div></div>
               <div class="gm-stats-columns" style="grid-template-columns:1fr;">
-                <div class="gm-stat-line summon-hp-row" style="grid-column:1/-1;"><span style="white-space:nowrap;min-width:74px;">❤️ Resencia:</span><div class="summon-hp-meter"><div class="stat-bar-track" style="flex:1;"><div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div></div><b style="font-size:12px;white-space:nowrap;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b></div></div>
+              <div class="gm-stat-line summon-hp-row" style="grid-column:1/-1;"><span style="white-space:nowrap;min-width:74px;">❤️ Resencia:</span><div class="summon-hp-meter"><div class="stat-bar-track" style="flex:1;"><div class="stat-bar-fill-hp" style="width:${stats.hpPct}%;"></div></div><b style="font-size:12px;white-space:nowrap;">${stats.hpCurr} / ${stats.hpMax} (${stats.hpPct}%)</b></div></div>
+              
               </div>
               ${renderSummonStateTags(pid,sIdx,sum)}
             `;
