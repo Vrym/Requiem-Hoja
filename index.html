@@ -2247,8 +2247,30 @@
     }
     .gm-skill-roll[style*="display:flex"] { display:grid !important; grid-template-columns:minmax(0,.85fr) minmax(0,1.6fr) auto auto; gap:5px !important; align-items:center; }
     .gm-skill-roll > b { grid-column:1 / -1; flex:none; }
-    .gm-skill-roll select.skill-sort-select, .gm-skill-roll select.resumen-action-select {
-      width:100%; min-width:0; flex:none; min-height:28px !important; padding:2px 4px !important; font-size:11px !important;
+    .gm-skill-roll select.resumen-action-select,
+    select[id^="summary-skill-sel-"] {
+      width: 100% !important;
+      min-width: 0 !important;
+      min-height: 22px !important;
+      height: 22px !important;
+      padding: 1px 3px !important;
+      font-size: 10px !important;
+      line-height: 1.1 !important;
+      box-sizing: border-box;
+    }
+
+    select[id^="summary-skill-sel-"] optgroup {
+      font-size: 9px !important;
+      padding: 1px 2px !important;
+      margin: 0 !important;
+      line-height: 1.1 !important;
+    }
+
+    select[id^="summary-skill-sel-"] option {
+      font-size: 9.5px !important;
+      padding: 1px 3px !important;
+      min-height: 16px !important;
+      line-height: 1.1 !important;
     }
     .gm-skill-roll .skill-roll-btn { width:34px; height:28px; min-height:28px; }
     .gm-skill-roll .skill-roll-result { min-width:30px; }
@@ -5435,16 +5457,16 @@
       const level = Array.isArray(levels) && levels.length ? Math.max(...levels.map(Number)) : -1;
       return level >= 0 ? SKILL_BONUSES[level] : '+0';
     }
-    function buildSummarySkillOptions(pdata,mode='arq') {
+   function buildSummarySkillOptions(pdata, mode = 'arq') {
       const optionFor = skillId => {
         const group = SKILL_ARCHETYPE_GROUPS.find(g => skillId >= g.from && skillId <= g.to) || SKILL_ARCHETYPE_GROUPS[0];
-        return `<option value="${skillId}" style="color:${group.color};background:${group.wash};font-weight:600;">${escapeHtml(SKILL_NAMES[skillId-1].toLocaleUpperCase())} (${getSavedSkillBonusText(pdata,skillId)})</option>`;
+        return `<option value="${skillId}" style="color:${group.color};background:${group.wash};font-weight:bold;font-size:9.5px;padding:1px 3px;">${escapeHtml(SKILL_NAMES[skillId-1])} (${getSavedSkillBonusText(pdata, skillId)})</option>`;
       };
       if (mode === 'az') {
-        return SKILL_NAMES.map((name,index)=>({name,index:index+1})).sort((a,b)=>a.name.localeCompare(b.name,'es'))
-          .map(item=>optionFor(item.index)).join('');
+        return SKILL_NAMES.map((name, index) => ({ name, index: index + 1 })).sort((a, b) => a.name.localeCompare(b.name, 'es'))
+          .map(item => optionFor(item.index)).join('');
       }
-      return SKILL_ARCHETYPE_GROUPS.map(group => `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};">${Array.from({length:group.to-group.from+1},(_,i)=>optionFor(group.from+i)).join('')}</optgroup>`).join('');
+      return SKILL_ARCHETYPE_GROUPS.map(group => `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};font-size:9px;padding:1px 2px;">${Array.from({ length: group.to - group.from + 1 }, (_, i) => optionFor(group.from + i)).join('')}</optgroup>`).join('');
     }
     function updateSummarySkillOptions(pid) {
       const order = document.getElementById(`summary-skill-order-${pid}`);
