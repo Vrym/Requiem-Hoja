@@ -3188,7 +3188,11 @@ select[id^="summary-skill-sel-"] optgroup {
         <label>Estado<select id="edit-enemy-state" class="table-msg-select"><option value="">Sin estado</option><option value="stun">Aturdido</option><option value="sellado">Sellado</option><option value="veneno">Veneno</option><option value="sangrado">Sangrado</option><option value="mareado">Mareado</option><option value="infectado">Infectado</option><option value="inmune">🛡️ Inmune</option></select><span style="display:flex;align-items:center;gap:4px;font:10px var(--f-title);"><input id="edit-enemy-state-active" type="checkbox"> Activo</span></label>
         <label>Valor / fórmula<input id="edit-enemy-state-value" type="text" class="table-msg-input" placeholder="3d4, 1d8+2"></label>
         <label>Turnos restantes<input id="edit-enemy-state-turns" type="number" class="table-msg-input" min="0"></label>
-        <label style="grid-column:span 2;">Detalle / notas<textarea id="edit-enemy-note" class="table-msg-input" rows="2"></textarea></label>
+        <div style="grid-column:1/-1;border:1px solid #b99a62;border-radius:5px;background:#fff8e8;padding:7px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;margin-bottom:5px;"><b style="font: bold 11px var(--f-title);color:#6b3d13;">⚡ Técnicas del PNJ</b><button type="button" class="btn-mini-tool" onclick="openEnemyTechniqueBuilder(parseInt(document.getElementById('enemy-edit-index').value),-1)">＋ Agregar técnica</button></div>
+        <div id="edit-enemy-techniques-list" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+      </div>
+      <label style="grid-column:span 2;">Detalle / notas<textarea id="edit-enemy-note" class="table-msg-input" rows="2"></textarea></label>
         <fieldset style="grid-column:1/-1;margin:0;padding:7px;border:1px solid #9a7134;border-radius:4px;background:#f6ecd3;"><legend style="font:bold 10px var(--f-title);">🛡️ Resistencias a Estados Alterados</legend><div class="npc-resistance-grid"><label>Veneno %<input id="edit-resist-veneno" type="number" class="table-msg-input" min="-100" value="0"></label><label>Sangrado %<input id="edit-resist-sangrado" type="number" class="table-msg-input" min="-100" value="0"></label><label>Stun %<input id="edit-resist-stun" type="number" class="table-msg-input" min="-100" value="0"></label><label>Mareado %<input id="edit-resist-mareado" type="number" class="table-msg-input" min="-100" value="0"></label><label>Petrificado %<input id="edit-resist-petrificado" type="number" class="table-msg-input" min="-100" value="0"></label><label>Infectado %<input id="edit-resist-infectado" type="number" class="table-msg-input" min="-100" value="0"></label></div></fieldset>
       </div>
       <label style="display:inline-flex;align-items:center;gap:5px;font:bold 11px var(--f-title);"><input id="edit-enemy-complex" type="checkbox" checked> Jefe / Rival complejo (ficha táctica completa)</label>
@@ -7174,7 +7178,7 @@ function confirmDismissSummon(pid, sIdx, summonName) {
 
       closeModal('modal-technique-builder');
       if (kind === 'enemy-workshop') { renderWorkshopEnemyTechniques(); saveActivePlayerToCloud(true); }
-      else if (kind === 'enemy') { renderEnemiesCards(); saveActivePlayerToCloud(true); }
+      else if (kind === 'enemy') { renderEnemiesCards(); renderConsoleNpcManagement(); renderEnemyEditTechniques(enemyIndex); saveActivePlayerToCloud(true); }
       else { applyDataToForm(pdata); saveActivePlayerToCloud(true); }
       showToast(kind === 'awakened' ? '✨ Técnica despierta guardada.' : kind === 'summon' ? '🐾 Habilidad de la mascota guardada.' : kind.startsWith('enemy') ? '👹 Técnica de PNJ guardada.' : '⚡ Técnica configurada y guardada.');
     }
@@ -8709,6 +8713,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       document.getElementById('edit-enemy-tech').value = e.tech ?? '';
       document.getElementById('edit-enemy-concentrated').checked = !!e.isConcentrated;
       document.getElementById('edit-enemy-note').value = e.note || '';
+      renderEnemyEditTechniques(idx);
       ['veneno','sangrado','stun','mareado','petrificado','infectado'].forEach(state=>{const input=document.getElementById(`edit-resist-${state}`);if(input)input.value=e.stateResistances?.[state]??0;});
       const stateKey = Object.keys(e.states || {})[0] || '';
       const state = stateKey ? e.states[stateKey] : {};
@@ -8739,6 +8744,17 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       if (Object.keys(enemiesList[idx].states).length === 0) delete enemiesList[idx].states;
       delete enemiesList[idx].lastEffect;
       renderEnemiesCards(); saveActivePlayerToCloud(true); showToast('🧹 Estado del PNJ eliminado.');
+    }
+
+    function renderEnemyEditTechniques(idx){
+      const list=document.getElementById('edit-enemy-techniques-list');if(!list)return;
+      const npc=enemiesList[idx];list.innerHTML='';
+      (npc?.techniques||[]).forEach((tech,ti)=>{
+        const item=document.createElement('span');item.style.cssText='display:inline-flex;align-items:center;gap:4px;padding:3px 5px;border:1px solid #c5a36b;border-radius:4px;background:#f2e3c4;font:10px var(--f-title);';
+        item.innerHTML='<b>'+escapeHtml(tech.name||'Técnica')+'</b><button type="button" class="btn-mini-tool" onclick="openEnemyTechniqueBuilder('+idx+','+ti+')" title="Editar">⚙</button><button type="button" class="btn-mini-tool" onclick="deleteEnemyTechnique('+idx+','+ti+')" title="Eliminar">×</button>';
+        list.appendChild(item);
+      });
+      if(!npc?.techniques?.length)list.innerHTML='<small style="color:#80633b;font-style:italic;">Este PNJ todavía no tiene técnicas.</small>';
     }
 
     function saveEnemyEdit() {
@@ -8783,7 +8799,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       else if (state && e.states) { delete e.states[state]; if (!Object.keys(e.states).length) delete e.states; }
       if(e.states?.sellado){transitionEnemyEssenceMode(e,'none');e.summons=[];}
       else {const passive=e.base_hp_max+Math.round(e.base_hp_max*.2*(e.aspects.defensiva||0));e.hp_max=Math.max(1,Math.round(passive*getEssenceHpMultiplier(e.essenceMode)));e.hp_current=requestedCurrent<=0?0:Math.round(e.hp_max*hpRatio);}
-      closeModal('modal-enemy-edit'); renderEnemiesCards(); saveActivePlayerToCloud(true); showToast('💾 PNJ actualizado.');
+      closeModal('modal-enemy-edit'); renderEnemiesCards(); renderConsoleNpcManagement(); saveActivePlayerToCloud(true); showToast('💾 PNJ actualizado.');
     }
 
     function toggleEnemyConcentrated(idx) {
