@@ -2496,7 +2496,41 @@ select[id^="summary-skill-sel-"] optgroup {
   padding: 2px 4px !important;
   line-height: 1.1 !important;
 }
-  </style>
+  
+    .skill-points-line{display:flex;align-items:center;gap:10px;width:100%;min-width:0;}
+    .skill-points-line .skill-points-calc{flex:1 1 auto;min-width:0;white-space:nowrap;}
+    .skill-points-line .skill-points-spent{flex:0 0 auto;margin-left:auto;white-space:nowrap;gap:10px!important;}
+    @media(max-width:560px){.skill-points-line{gap:5px;}.skill-points-line .skill-points-spent{gap:6px!important;font-size:11px!important;}.skill-points-line .skill-points-spent b{font-size:14px!important;}}
+    .inventory-table{border-collapse:separate;border-spacing:0 5px;}
+    .inventory-table thead th{border:0!important;background:linear-gradient(180deg,#ead8b2,#d8bd87);color:#54300f;letter-spacing:.35px;}
+    .inventory-table tbody tr{background:#fffaf0;box-shadow:0 2px 5px rgba(69,43,12,.10);}
+    .inventory-table tbody td{border-top:1px solid #d8c49c;border-bottom:1px solid #d8c49c;padding:6px 5px;vertical-align:middle;}
+    .inventory-table tbody td:first-child{border-left:3px solid var(--inventory-rarity,#b89452);border-radius:5px 0 0 5px;}
+    .inventory-table tbody td:last-child{border-right:1px solid #d8c49c;border-radius:0 5px 5px 0;}
+    .inventory-item-title{display:flex;align-items:center;gap:6px;min-width:0;color:#42240c;font:bold 12px var(--f-title);overflow-wrap:anywhere;}
+    .inventory-item-icon{display:inline-flex;align-items:center;justify-content:center;width:25px;height:25px;flex:0 0 25px;border-radius:6px;background:#efe1c3;border:1px solid #d2b67b;font-size:15px;}
+    .inventory-item-type{display:inline-flex;margin-top:3px;padding:2px 6px;border-radius:10px;background:#f0e6d2;color:#76501d;font:bold 9px var(--f-title);}
+    .inventory-rarity-badge{display:inline-flex;justify-content:center;padding:3px 6px;border:1px solid #b89b69;border-radius:10px;background:#fff7e6;color:#76501d;font:bold 9px var(--f-title);white-space:nowrap;}
+    .inventory-equip-toggle{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:2px 6px;border:1px solid #9a7134;border-radius:4px;background:#f5ead0;color:#654114;font:bold 9px var(--f-title);cursor:pointer;}
+    .inventory-equip-toggle.is-equipped{background:#e7f2e3;border-color:#54834a;color:#285a2c;}
+    .inventory-readonly-value{display:none!important;}
+    .inventory-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:8px;padding:7px 8px;border:1px solid #c6a875;border-radius:5px;background:linear-gradient(100deg,#f2e4c5,#fff9ea);}
+    .inventory-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+    .inventory-transfer-btn,.inventory-use-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 10px;border:1px solid #6b451a;border-radius:4px;background:linear-gradient(180deg,#7e4d1e,#512d0e);color:#fff1c9;font:bold 10px var(--f-title);cursor:pointer;box-shadow:0 2px 3px rgba(60,35,10,.18);}
+    .inventory-transfer-btn:hover,.inventory-use-btn:hover{filter:brightness(1.12);}
+    .inventory-use-btn{background:linear-gradient(180deg,#34744a,#1d5130);border-color:#285e39;}
+    .inventory-total-weight{font:bold 12px var(--f-title);color:#644116;white-space:nowrap;}
+    .inventory-total-weight b{color:#8b2416;font-size:15px;}
+    .inventory-action-modal-box{padding:15px;}
+    .inventory-action-tabs{display:flex;gap:6px;margin:4px 0 12px;}
+    .inventory-action-tab{flex:1;padding:7px;border:1px solid #b99a64;border-radius:4px;background:#f4e9d1;color:#6b451a;font:bold 10px var(--f-title);cursor:pointer;}
+    .inventory-action-tab.active{background:#643b16;color:#fff0c2;border-color:#a77a35;}
+    .inventory-action-label{display:flex;flex-direction:column;gap:4px;margin:8px 0;color:#654019;font:bold 11px var(--f-title);}
+    .inventory-action-fields{display:grid;grid-template-columns:minmax(0,1fr) 105px;gap:8px;}
+    .inventory-action-footer{display:flex;gap:7px;margin-top:14px;}
+    .inventory-action-footer button{flex:1;min-height:34px;}
+    @media(max-width:520px){.inventory-table thead{display:none;}.inventory-table,.inventory-table tbody,.inventory-table tr,.inventory-table td{display:block;width:100%;box-sizing:border-box;}.inventory-table tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:0 8px;padding:6px;}.inventory-table tbody td{border:0!important;padding:3px!important;}.inventory-table tbody td:first-child{grid-column:1/-1;border-left:3px solid var(--inventory-rarity,#b89452)!important;}.inventory-table tbody td:nth-child(4){grid-column:1/-1;}.inventory-action-fields{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
 <!-- MODAL DE CONFIRMACIÓN -->
@@ -3679,18 +3713,19 @@ select[id^="summary-skill-sel-"] optgroup {
             <span>✨ PUNTOS DE HABILIDAD</span>
             <button type="button" class="info-icon-btn" onclick="openGradeInfoModal()" title="Ver bonificaciones por grado">ℹ</button>
           </div>
-          <div class="skill-points-calc" style="font-family:var(--f-title); font-size:13.5px; font-weight:bold; color:#3b1b07; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-            <span class="calc-tag">Base:</span>
-            <input type="number" id="pts-base" value="0" style="width:48px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-            <span class="calc-tag">+ Bono:</span>
-            <span id="pts-bono" class="calc-tag" style="font-weight:bold; color:#731e0b;">+0</span>
-            <span class="calc-tag">=</span>
-            <span id="pts-obtenidos-total" style="font-family:var(--f-body); font-size:16px; font-weight:bold; color:var(--txt-red);">0</span>
-          </div>
-
-          <div class="skill-points-spent" style="display:flex; align-items:center; gap:14px; font-family:var(--f-title); font-size:12.5px;">
-            <div><span>Gastados:</span> <b id="pts-gastados" style="font-size:16px; color:var(--txt-red);">0</b></div>
-            <div><span>Restantes:</span> <b id="pts-restantes" style="font-size:16px; color:#166534;">0</b></div>
+          <div class="skill-points-line">
+            <div class="skill-points-calc" style="font-family:var(--f-title); font-size:13.5px; font-weight:bold; color:#3b1b07; display:flex; align-items:center; gap:6px; flex-wrap:nowrap;">
+              <span class="calc-tag">Base:</span>
+              <input type="number" id="pts-base" value="0" style="width:48px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+              <span class="calc-tag">+ Bono:</span>
+              <span id="pts-bono" class="calc-tag" style="font-weight:bold; color:#731e0b;">+0</span>
+              <span class="calc-tag">=</span>
+              <span id="pts-obtenidos-total" style="font-family:var(--f-body); font-size:16px; font-weight:bold; color:var(--txt-red);">0</span>
+            </div>
+            <div class="skill-points-spent" style="display:flex; align-items:center; gap:14px; font-family:var(--f-title); font-size:12.5px;">
+              <div><span>Gastados:</span> <b id="pts-gastados" style="font-size:16px; color:var(--txt-red);">0</b></div>
+              <div><span>Restantes:</span> <b id="pts-restantes" style="font-size:16px; color:#166534;">0</b></div>
+            </div>
           </div>
         </div>
 
@@ -3822,21 +3857,51 @@ select[id^="summary-skill-sel-"] optgroup {
           <table class="inventory-table" style="margin-top:4px;">
             <thead>
               <tr style="background:#dfcb9f; font-family:var(--f-title); font-size:12px; text-align:center;">
-                <th style="width:26%; border:1px solid var(--border-dark); padding:4px 3px;">OBJETOS</th>
-                <th style="width:10%; border:1px solid var(--border-dark); padding:4px 3px;">CANT.</th>
-                <th style="width:12%; border:1px solid var(--border-dark); padding:4px 3px;">PESO</th>
-                <th style="width:27%; border:1px solid var(--border-dark); padding:4px 3px;">DESC.</th>
-                <th style="width:17%; border:1px solid var(--border-dark); padding:4px 3px;">RAREZA</th>
-                <th style="width:8%; border:1px solid var(--border-dark); padding:4px 3px;">✖</th>
+                <th style="width:38%; border:1px solid var(--border-dark); padding:5px 4px;">OBJETO</th>
+                <th style="width:9%; border:1px solid var(--border-dark); padding:5px 3px;">CANT.</th>
+                <th style="width:10%; border:1px solid var(--border-dark); padding:5px 3px;">PESO</th>
+                <th style="width:27%; border:1px solid var(--border-dark); padding:5px 4px;">DESCRIPCIÓN</th>
+                <th style="width:16%; border:1px solid var(--border-dark); padding:5px 3px;">RAREZA</th>
               </tr>
             </thead>
             <tbody id="inventory-body"></tbody>
           </table>
         </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
-          <button type="button" class="btn-add-item" onclick="openSheetItemBuilder()">+ Agregar Objeto</button>
-          <div style="font-family:var(--f-title); font-weight:bold; font-size:14px;">
-            PESO TOTAL: <span id="total-weight" style="color:var(--txt-red);">0</span> Kg
+        <div class="inventory-footer">
+          <div class="inventory-actions">
+            <button type="button" class="btn-add-item" onclick="openSheetItemBuilder()">＋ Agregar</button>
+            <button type="button" class="inventory-transfer-btn" onclick="openInventoryActionModal('give')">↗ Dar objeto</button>
+            <button type="button" class="inventory-use-btn" onclick="openInventoryActionModal('use')">✦ Usar poción</button>
+          </div>
+          <div class="inventory-total-weight">PESO TOTAL: <b id="total-weight">0</b> Kg</div>
+        </div>
+        <div id="inventory-action-modal" class="modal-backdrop" style="z-index:100010;">
+          <div class="hub-modal-box inventory-action-modal-box" style="max-width:430px;text-align:left;">
+            <div class="modal-title" style="color:#6b3b12;text-align:center;">🎒 GESTIONAR OBJETOS</div>
+            <div class="inventory-action-tabs">
+              <button type="button" id="inventory-tab-give" class="inventory-action-tab active" onclick="openInventoryActionModal('give')">↗ Dar objeto</button>
+              <button type="button" id="inventory-tab-use" class="inventory-action-tab" onclick="openInventoryActionModal('use')">✦ Usar poción</button>
+            </div>
+            <label class="inventory-action-label">Objeto
+              <select id="inventory-action-item" class="table-msg-select" style="width:100%;"></select>
+            </label>
+            <div id="inventory-action-give-fields" class="inventory-action-fields">
+              <label class="inventory-action-label">Destinatario
+                <select id="inventory-action-recipient" class="table-msg-select" style="width:100%;"></select>
+              </label>
+              <label class="inventory-action-label">Cantidad
+                <input id="inventory-action-quantity" class="table-msg-input" type="number" min="1" value="1" style="width:100%;">
+              </label>
+            </div>
+            <div id="inventory-action-use-fields" class="inventory-action-fields" style="display:none;">
+              <label class="inventory-action-label">Usar sobre
+                <select id="inventory-action-target" class="table-msg-select" style="width:100%;"></select>
+              </label>
+            </div>
+            <div class="inventory-action-footer">
+              <button type="button" id="inventory-action-submit" class="inventory-transfer-btn" onclick="confirmInventoryAction()">Dar objeto</button>
+              <button type="button" class="btn-modal-cancel" onclick="closeModal('inventory-action-modal')">Cancelar</button>
+            </div>
           </div>
         </div>
       </div>
