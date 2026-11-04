@@ -5526,7 +5526,8 @@ select[id^="summary-skill-sel-"] optgroup {
         const rawName = SKILL_NAMES[skillId - 1] || '';
         const cleanName = formatTitleCase(rawName);
         const group = SKILL_ARCHETYPE_GROUPS.find(g => skillId >= g.from && skillId <= g.to) || SKILL_ARCHETYPE_GROUPS[0];
-        return `<option value="${skillId}" style="color:${group.color};background:${group.wash};font-weight:bold;font-size:10px;padding:1px 3px;">${escapeHtml(cleanName)} (${getSavedSkillBonusText(pdata, skillId)})</option>`;
+        return `<option value="${skillId}" style="color:${group.color};background:${group.wash};font-weight:bold;font-size:10px;padding:1px 3px;
+		">${escapeHtml(cleanName)} (${getSavedSkillBonusText(pdata, skillId)})</option>`;
       };
 
       if (mode === 'az') {
@@ -5537,12 +5538,8 @@ select[id^="summary-skill-sel-"] optgroup {
       }
 
       return SKILL_ARCHETYPE_GROUPS.map(group => 
-        `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};font-size:9.5px;padding:1px 2px;">${Array.from({ length: group.to - group.from + 1 }, (_, i) => optionFor(group.from + i)).join('')}</optgroup>`
-      ).join('');
-    }
-
-      return SKILL_ARCHETYPE_GROUPS.map(group => 
-        `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};font-size:9.5px;padding:1px 2px;">${Array.from({ length: group.to - group.from + 1 }, (_, i) => optionFor(group.from + i)).join('')}</optgroup>`
+        `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};font-size:9.5px;padding:1px 2px;">$
+	{Array.from({ length: group.to - group.from + 1 }, (_, i) => optionFor(group.from + i)).join('')}</optgroup>`
       ).join('');
     }
     function updateSummarySkillOptions(pid) {
