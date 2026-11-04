@@ -2496,7 +2496,41 @@ select[id^="summary-skill-sel-"] optgroup {
   padding: 2px 4px !important;
   line-height: 1.1 !important;
 }
-  </style>
+  
+    .skill-points-line{display:flex;align-items:center;gap:10px;width:100%;min-width:0;}
+    .skill-points-line .skill-points-calc{flex:1 1 auto;min-width:0;white-space:nowrap;}
+    .skill-points-line .skill-points-spent{flex:0 0 auto;margin-left:auto;white-space:nowrap;gap:10px!important;}
+    @media(max-width:560px){.skill-points-line{gap:5px;}.skill-points-line .skill-points-spent{gap:6px!important;font-size:11px!important;}.skill-points-line .skill-points-spent b{font-size:14px!important;}}
+    .inventory-table{border-collapse:separate;border-spacing:0 5px;}
+    .inventory-table thead th{border:0!important;background:linear-gradient(180deg,#ead8b2,#d8bd87);color:#54300f;letter-spacing:.35px;}
+    .inventory-table tbody tr{background:#fffaf0;box-shadow:0 2px 5px rgba(69,43,12,.10);}
+    .inventory-table tbody td{border-top:1px solid #d8c49c;border-bottom:1px solid #d8c49c;padding:6px 5px;vertical-align:middle;}
+    .inventory-table tbody td:first-child{border-left:3px solid var(--inventory-rarity,#b89452);border-radius:5px 0 0 5px;}
+    .inventory-table tbody td:last-child{border-right:1px solid #d8c49c;border-radius:0 5px 5px 0;}
+    .inventory-item-title{display:flex;align-items:center;gap:6px;min-width:0;color:#42240c;font:bold 12px var(--f-title);overflow-wrap:anywhere;}
+    .inventory-item-icon{display:inline-flex;align-items:center;justify-content:center;width:25px;height:25px;flex:0 0 25px;border-radius:6px;background:#efe1c3;border:1px solid #d2b67b;font-size:15px;}
+    .inventory-item-type{display:inline-flex;margin-top:3px;padding:2px 6px;border-radius:10px;background:#f0e6d2;color:#76501d;font:bold 9px var(--f-title);}
+    .inventory-rarity-badge{display:inline-flex;justify-content:center;padding:3px 6px;border:1px solid #b89b69;border-radius:10px;background:#fff7e6;color:#76501d;font:bold 9px var(--f-title);white-space:nowrap;}
+    .inventory-equip-toggle{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:2px 6px;border:1px solid #9a7134;border-radius:4px;background:#f5ead0;color:#654114;font:bold 9px var(--f-title);cursor:pointer;}
+    .inventory-equip-toggle.is-equipped{background:#e7f2e3;border-color:#54834a;color:#285a2c;}
+    .inventory-readonly-value{display:none!important;}
+    .inventory-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:8px;padding:7px 8px;border:1px solid #c6a875;border-radius:5px;background:linear-gradient(100deg,#f2e4c5,#fff9ea);}
+    .inventory-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+    .inventory-transfer-btn,.inventory-use-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 10px;border:1px solid #6b451a;border-radius:4px;background:linear-gradient(180deg,#7e4d1e,#512d0e);color:#fff1c9;font:bold 10px var(--f-title);cursor:pointer;box-shadow:0 2px 3px rgba(60,35,10,.18);}
+    .inventory-transfer-btn:hover,.inventory-use-btn:hover{filter:brightness(1.12);}
+    .inventory-use-btn{background:linear-gradient(180deg,#34744a,#1d5130);border-color:#285e39;}
+    .inventory-total-weight{font:bold 12px var(--f-title);color:#644116;white-space:nowrap;}
+    .inventory-total-weight b{color:#8b2416;font-size:15px;}
+    .inventory-action-modal-box{padding:15px;}
+    .inventory-action-tabs{display:flex;gap:6px;margin:4px 0 12px;}
+    .inventory-action-tab{flex:1;padding:7px;border:1px solid #b99a64;border-radius:4px;background:#f4e9d1;color:#6b451a;font:bold 10px var(--f-title);cursor:pointer;}
+    .inventory-action-tab.active{background:#643b16;color:#fff0c2;border-color:#a77a35;}
+    .inventory-action-label{display:flex;flex-direction:column;gap:4px;margin:8px 0;color:#654019;font:bold 11px var(--f-title);}
+    .inventory-action-fields{display:grid;grid-template-columns:minmax(0,1fr) 105px;gap:8px;}
+    .inventory-action-footer{display:flex;gap:7px;margin-top:14px;}
+    .inventory-action-footer button{flex:1;min-height:34px;}
+    @media(max-width:520px){.inventory-table thead{display:none;}.inventory-table,.inventory-table tbody,.inventory-table tr,.inventory-table td{display:block;width:100%;box-sizing:border-box;}.inventory-table tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:0 8px;padding:6px;}.inventory-table tbody td{border:0!important;padding:3px!important;}.inventory-table tbody td:first-child{grid-column:1/-1;border-left:3px solid var(--inventory-rarity,#b89452)!important;}.inventory-table tbody td:nth-child(4){grid-column:1/-1;}.inventory-action-fields{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
 <!-- MODAL DE CONFIRMACIÓN -->
@@ -3679,18 +3713,19 @@ select[id^="summary-skill-sel-"] optgroup {
             <span>✨ PUNTOS DE HABILIDAD</span>
             <button type="button" class="info-icon-btn" onclick="openGradeInfoModal()" title="Ver bonificaciones por grado">ℹ</button>
           </div>
-          <div class="skill-points-calc" style="font-family:var(--f-title); font-size:13.5px; font-weight:bold; color:#3b1b07; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-            <span class="calc-tag">Base:</span>
-            <input type="number" id="pts-base" value="0" style="width:48px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-            <span class="calc-tag">+ Bono:</span>
-            <span id="pts-bono" class="calc-tag" style="font-weight:bold; color:#731e0b;">+0</span>
-            <span class="calc-tag">=</span>
-            <span id="pts-obtenidos-total" style="font-family:var(--f-body); font-size:16px; font-weight:bold; color:var(--txt-red);">0</span>
-          </div>
-
-          <div class="skill-points-spent" style="display:flex; align-items:center; gap:14px; font-family:var(--f-title); font-size:12.5px;">
-            <div><span>Gastados:</span> <b id="pts-gastados" style="font-size:16px; color:var(--txt-red);">0</b></div>
-            <div><span>Restantes:</span> <b id="pts-restantes" style="font-size:16px; color:#166534;">0</b></div>
+          <div class="skill-points-line">
+            <div class="skill-points-calc" style="font-family:var(--f-title); font-size:13.5px; font-weight:bold; color:#3b1b07; display:flex; align-items:center; gap:6px; flex-wrap:nowrap;">
+              <span class="calc-tag">Base:</span>
+              <input type="number" id="pts-base" value="0" style="width:48px; padding:2px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+              <span class="calc-tag">+ Bono:</span>
+              <span id="pts-bono" class="calc-tag" style="font-weight:bold; color:#731e0b;">+0</span>
+              <span class="calc-tag">=</span>
+              <span id="pts-obtenidos-total" style="font-family:var(--f-body); font-size:16px; font-weight:bold; color:var(--txt-red);">0</span>
+            </div>
+            <div class="skill-points-spent" style="display:flex; align-items:center; gap:14px; font-family:var(--f-title); font-size:12.5px;">
+              <div><span>Gastados:</span> <b id="pts-gastados" style="font-size:16px; color:var(--txt-red);">0</b></div>
+              <div><span>Restantes:</span> <b id="pts-restantes" style="font-size:16px; color:#166534;">0</b></div>
+            </div>
           </div>
         </div>
 
@@ -3822,28 +3857,58 @@ select[id^="summary-skill-sel-"] optgroup {
           <table class="inventory-table" style="margin-top:4px;">
             <thead>
               <tr style="background:#dfcb9f; font-family:var(--f-title); font-size:12px; text-align:center;">
-                <th style="width:26%; border:1px solid var(--border-dark); padding:4px 3px;">OBJETOS</th>
-                <th style="width:10%; border:1px solid var(--border-dark); padding:4px 3px;">CANT.</th>
-                <th style="width:12%; border:1px solid var(--border-dark); padding:4px 3px;">PESO</th>
-                <th style="width:27%; border:1px solid var(--border-dark); padding:4px 3px;">DESC.</th>
-                <th style="width:17%; border:1px solid var(--border-dark); padding:4px 3px;">RAREZA</th>
-                <th style="width:8%; border:1px solid var(--border-dark); padding:4px 3px;">✖</th>
+                <th style="width:38%; border:1px solid var(--border-dark); padding:5px 4px;">OBJETO</th>
+                <th style="width:9%; border:1px solid var(--border-dark); padding:5px 3px;">CANT.</th>
+                <th style="width:10%; border:1px solid var(--border-dark); padding:5px 3px;">PESO</th>
+                <th style="width:27%; border:1px solid var(--border-dark); padding:5px 4px;">DESCRIPCIÓN</th>
+                <th style="width:16%; border:1px solid var(--border-dark); padding:5px 3px;">RAREZA</th>
               </tr>
             </thead>
             <tbody id="inventory-body"></tbody>
           </table>
         </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
-          <button type="button" class="btn-add-item" onclick="openSheetItemBuilder()">+ Agregar Objeto</button>
-          <div style="font-family:var(--f-title); font-weight:bold; font-size:14px;">
-            PESO TOTAL: <span id="total-weight" style="color:var(--txt-red);">0</span> Kg
+        <div class="inventory-footer">
+          <div class="inventory-actions">
+            <button type="button" class="btn-add-item" onclick="openSheetItemBuilder()">＋ Agregar</button>
+            <button type="button" class="inventory-transfer-btn" onclick="openInventoryActionModal('give')">↗ Dar objeto</button>
+            <button type="button" class="inventory-use-btn" onclick="openInventoryActionModal('use')">✦ Usar poción</button>
           </div>
+          <div class="inventory-total-weight">PESO TOTAL: <b id="total-weight">0</b> Kg</div>
         </div>
-      </div>
-
     </div> <!-- Fin player-sheet-wrap -->
 
   </div> <!-- Fin sheet-container -->
+
+        <div id="inventory-action-modal" class="modal-backdrop" style="z-index:100010;">
+          <div class="hub-modal-box inventory-action-modal-box" style="max-width:430px;text-align:left;">
+            <div class="modal-title" style="color:#6b3b12;text-align:center;">🎒 GESTIONAR OBJETOS</div>
+            <div class="inventory-action-tabs">
+              <button type="button" id="inventory-tab-give" class="inventory-action-tab active" onclick="openInventoryActionModal('give')">↗ Dar objeto</button>
+              <button type="button" id="inventory-tab-use" class="inventory-action-tab" onclick="openInventoryActionModal('use')">✦ Usar poción</button>
+            </div>
+            <label class="inventory-action-label">Objeto
+              <select id="inventory-action-item" class="table-msg-select" style="width:100%;"></select>
+            </label>
+            <div id="inventory-action-give-fields" class="inventory-action-fields">
+              <label class="inventory-action-label">Destinatario
+                <select id="inventory-action-recipient" class="table-msg-select" style="width:100%;"></select>
+              </label>
+              <label class="inventory-action-label">Cantidad
+                <input id="inventory-action-quantity" class="table-msg-input" type="number" min="1" value="1" style="width:100%;">
+              </label>
+            </div>
+            <div id="inventory-action-use-fields" class="inventory-action-fields" style="display:none;">
+              <label class="inventory-action-label">Usar sobre
+                <select id="inventory-action-target" class="table-msg-select" style="width:100%;"></select>
+              </label>
+            </div>
+            <div class="inventory-action-footer">
+              <button type="button" id="inventory-action-submit" class="inventory-transfer-btn" onclick="confirmInventoryAction()">Dar objeto</button>
+              <button type="button" class="btn-modal-cancel" onclick="closeModal('inventory-action-modal')">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
 <script>
     // ========================================================
     // PARTE 4/6: LÓGICA JAVASCRIPT (PARTE 1 DE 3)
@@ -9566,37 +9631,53 @@ function addInventoryRow(name = '', qty = '', weight = '', desc = '', rarity = '
   tr.dataset.armorPd=parseInt(extra.armorPd)||0;
   tr.dataset.effectMagnitude=parseNumericValue(extra.effectMagnitude,0)||parseNumericValue(extra.armorPd,0);
   tr.dataset.resistances=JSON.stringify(extra.resistances||{});
-  const rarityOptions = [['basura','Basura'],['comun','Común'],['infrecuente','Infrecuente'],['raro','Raro'],['mitico','Mítico'],['mision','Única']];
-  const typeLabels = {potion:'🧪 Poción',weapon:'⚔️ Arma',armor:'🛡️ Armadura',relic:'💎 Reliquia',mission:'📜 Misión',mundane:'📦 Mundano'};
   if(extra.weaponId)tr.dataset.weaponId=extra.weaponId;
-  const useButton = type === 'potion' && effectCode ? `<button type="button" class="btn-use-inventory" onclick="useInventoryItem(this.closest('tr'))">Usar</button>` : '';
-  const weaponButton = type==='weapon' ? `<button type="button" class="btn-use-inventory" onclick="openInventoryWeaponBuilder(this.closest('tr'))" title="Abrir el constructor de arma">⚙️ Crear / editar arma</button>` : '';
-  const tradeOptions = playerList.filter(pid=>pid!==activeRole).map(pid=>`<option value="${escapeHtml(pid)}">${escapeHtml(allPlayersData[pid]?.inputs?.['char-name']||getIdentityLabel(pid))}</option>`).join('');
+  const rarityLabels={basura:'Basura',comun:'Común',infrecuente:'Infrecuente',raro:'Raro',mitico:'Mítico',mision:'Única'};
+  const typeLabels={potion:'Poción',weapon:'Arma',armor:'Armadura',relic:'Reliquia',mission:'Misión',mundane:'Mundano'};
+  const typeIcons={potion:'🧪',weapon:'⚔️',armor:'🛡️',relic:'💎',mission:'📜',mundane:'📦'};
+  const rarityValue=type==='mission'?'mision':(type==='potion'?'comun':(rarity||'comun'));
+  const weightValue=(type==='potion'||type==='mission')?0:(weight??'');
   const armorMagnitude=parseNumericValue(extra.effectMagnitude,0)||parseNumericValue(extra.armorPd,0);
-  const armorFields = type==='armor' ? `<div class="inv-special-fields inv-armor-equip-only"><label><input type="checkbox" class="inv-equipped" ${extra.equipped?'checked':''}> 🛡️ Equipada</label><label>Bono PD <input type="number" class="inv-relic-magnitude" value="${armorMagnitude}" min="0" step="1"></label></div>` : '';
-  const relicFields = type==='relic' ? `<div class="inv-special-fields"><label><input type="checkbox" class="inv-equipped" ${extra.equipped?'checked':''}> 💎 Equipada</label><label>Bono / magnitud <input type="number" class="inv-relic-magnitude" value="${parseNumericValue(extra.effectMagnitude,0)}" min="0" step="1"></label></div>` : '';
-  const weightValue = (type==='potion'||type==='mission') ? 0 : (weight ?? '');
-  const rarityValue = type==='mission' ? 'mision' : (type==='potion' ? 'comun' : rarity);
-  const rarityDisabled = type==='potion'||type==='mission';
-  tr.innerHTML = `<td data-label="Objeto"><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(name)}</textarea><div class="inv-item-meta"><select class="inv-item-type" aria-label="Tipo de objeto" onchange="changeInventoryType(this)">${[['mundane','📦 Mundano'],['potion','🧪 Poción'],['weapon','⚔️ Arma'],['armor','🛡️ Armadura'],['relic','💎 Reliquia'],['mission','📜 Misión']].map(([v,label])=>`<option value="${v}" ${type===v?'selected':''}>${label}</option>`).join('')}</select>${useButton}${weaponButton}<select class="inv-trade-target" aria-label="Transferir a jugador">${tradeOptions || '<option value="">Sin destinatarios</option>'}</select><input type="number" class="inv-trade-qty" min="1" value="1" aria-label="Cantidad a pasar"><button type="button" class="btn-trade-inventory" onclick="tradeInventoryItem(this.closest('tr'))" ${tradeOptions?'':'disabled'}>🤝 Pasar</button></div>${armorFields}${relicFields}</td><td data-label="Cant."><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Peso"><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(String(weightValue))}" min="0" ${type==='potion'||type==='mission'?'readonly':''} oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Descripción"><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(desc)}</textarea></td><td data-label="Rareza"><select class="inv-rarity" style="display:${rarityDisabled?'none':'inline-block'};" ${rarityDisabled?'disabled':''} onchange="updateInventoryRarityStyle(this); syncToFirebaseDebounced();" aria-label="Rareza del objeto">${rarityOptions.map(([v,label]) => `<option value="${v}" ${rarityValue === v ? 'selected' : ''}>${label}</option>`).join('')}</select></td><td data-label="Eliminar" style="text-align:center"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); recalcAllAutoStats(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:#9d1717;font-weight:bold">✖</button></td>`;
-  tr.querySelectorAll('.inv-relic-magnitude').forEach(el=>{
-    el.addEventListener('input',()=>{
-      const row=el.closest('tr'),value=parseNumericValue(el.value,0);
-      if(row?.dataset.itemType==='armor')row.dataset.armorPd=String(value);else if(row)row.dataset.effectMagnitude=String(value);
-      recalcAllAutoStats();commitDomToActivePlayer();renderGMDashboard();syncToFirebaseDebounced(350);
-    });
-    el.addEventListener('change',()=>saveActivePlayerToCloud(true));
-  });
-  tr.querySelectorAll('.inv-equipped').forEach(el=>el.addEventListener('change',()=>{handleArmorEquippedChange(el);recalcAllAutoStats();commitDomToActivePlayer();renderGMDashboard();saveActivePlayerToCloud(true);}));
-  tbody.appendChild(tr); tr.querySelectorAll('textarea').forEach(autoResizeTextarea); updateInventoryRarityStyle(tr.querySelector('.inv-rarity')); calcTotalWeight();
+  const equipped=!!extra.equipped,hasEquipControl=type==='armor'||type==='relic';
+  const rarityColors={basura:'#737373',comun:'#9a7134',infrecuente:'#27834b',raro:'#2563b8',mitico:'#8737b6',mision:'#c08a21'};
+  tr.style.setProperty('--inventory-rarity',rarityColors[rarityValue]||rarityColors.comun);
+  tr.innerHTML =
+    '<td data-label="Objeto"><div class="inventory-item-title"><span class="inventory-item-icon">'+(typeIcons[type]||'📦')+'</span><span class="inventory-item-name">'+escapeHtml(name||'Objeto sin nombre')+'</span></div>'+
+    '<span class="inventory-item-type">'+(typeLabels[type]||'Objeto')+'</span>'+
+    (hasEquipControl?'<button type="button" class="inventory-equip-toggle '+(equipped?'is-equipped':'')+'" onclick="toggleInventoryEquipped(this)">'+(equipped?'✓ Equipada':'＋ Equipar')+'</button>':'')+
+    '<input type="hidden" class="inv-name inventory-readonly-value" value="'+escapeHtml(name)+'">'+
+    '<input type="checkbox" class="inv-equipped inventory-readonly-value" '+(equipped?'checked':'')+'>'+
+    '<input type="hidden" class="inv-relic-magnitude inventory-readonly-value" value="'+armorMagnitude+'"></td>'+
+    '<td data-label="Cant."><span class="inventory-count">'+escapeHtml(String(qty||1))+'</span><input type="hidden" class="inv-qty inventory-readonly-value" value="'+escapeHtml(String(qty||1))+'"></td>'+
+    '<td data-label="Peso"><span class="inventory-weight">'+escapeHtml(String(weightValue))+' kg</span><input type="hidden" class="inv-weight inventory-readonly-value" value="'+escapeHtml(String(weightValue))+'"></td>'+
+    '<td data-label="Descripción"><span class="inventory-description">'+escapeHtml(desc||effectText||'—')+'</span><input type="hidden" class="inv-desc inventory-readonly-value" value="'+escapeHtml(desc)+'"></td>'+
+    '<td data-label="Rareza"><span class="inventory-rarity-badge">'+(rarityLabels[rarityValue]||'Común')+'</span><input type="hidden" class="inv-rarity inventory-readonly-value" value="'+escapeHtml(rarityValue)+'"></td>';
+  tbody.appendChild(tr);
+  updateInventoryRarityStyle(tr.querySelector('.inv-rarity'));
+  calcTotalWeight();
 }
+function toggleInventoryEquipped(button){
+  const row=button?.closest('tr'),checkbox=row?.querySelector('.inv-equipped');if(!row||!checkbox)return;
+  checkbox.checked=!checkbox.checked;
+  if(checkbox.checked&&row.dataset.itemType==='armor')handleArmorEquippedChange(checkbox);
+  document.querySelectorAll('#inventory-body tr').forEach(entry=>{
+    const equipped=entry.querySelector('.inv-equipped')?.checked,control=entry.querySelector('.inventory-equip-toggle');
+    if(control){control.classList.toggle('is-equipped',!!equipped);control.textContent=equipped?'✓ Equipada':'＋ Equipar';}
+  });
+  commitDomToActivePlayer();
+  recalcAllAutoStats();
+  renderGMDashboard();
+  saveActivePlayerToCloud(true);
+}
+
 function updateInventoryRarityStyle(select) {
   if (!select) return;
-  const styles = {basura:['#5d5d5d','#f1f1ef','#5c5a57'],comun:['#76551f','#fff7df','#77746e'],infrecuente:['#166534','#effcf1','#187345'],raro:['#1d4ed8','#eff6ff','#2459ad'],mitico:['#7e22ce','#fbf4ff','#7926a3'],mision:['#9a6a0b','#fff3cf','#986500']};
-  const [border,background,textColor] = styles[select.value] || styles.comun;
-  select.style.border = `1.5px solid ${border}`; select.style.background = background; select.style.fontWeight = 'bold';
-  const row=select.closest('tr'); if(row){row.style.background=`linear-gradient(110deg,${background},rgba(255,255,255,.72))`;row.style.boxShadow=`inset 4px 0 ${border}`;}
-  const nameInput = row?.querySelector('.inv-name'); if (nameInput) nameInput.style.color = textColor;
+  const styles={basura:['#5d5d5d','#f1f1ef','#5c5a57'],comun:['#76551f','#fff7df','#77746e'],infrecuente:['#166534','#effcf1','#187345'],raro:['#1d4ed8','#eff6ff','#2459ad'],mitico:['#7e22ce','#fbf4ff','#7926a3'],mision:['#9a6a0b','#fff3cf','#986500']};
+  const [border,background,textColor]=styles[select.value]||styles.comun;
+  const row=select.closest('tr'),badge=row?.querySelector('.inventory-rarity-badge'),title=row?.querySelector('.inventory-item-title');
+  if(row){row.style.setProperty('--inventory-rarity',border);row.style.background='linear-gradient(110deg,'+background+',rgba(255,255,255,.78))';}
+  if(badge){badge.style.borderColor=border;badge.style.background=background;badge.style.color=textColor;}
+  if(title)title.style.color=textColor;
 }
 function changeInventoryType(select) {
   const row=select?.closest('tr');if(!row)return;
@@ -9618,7 +9699,7 @@ function openInventoryWeaponBuilder(row) {
   if(!weapon){player.weapons=Array.isArray(player.weapons)?player.weapons:[];weaponId=`w_${Date.now()}`;player.weapons.push({id:weaponId,name:item.name||'Arma',scalePct:100,rarity:item.rarity||'comun',effectType:'none',effectDice:'',effectTurns:2,critMult:2,critOnly:false,lastRoll:'-',lastDmg:'-'});item.weaponId=weaponId;}
   applyDataToForm(player);openWeaponBuilder(weaponId);saveActivePlayerToCloud(true);
 }
-function useInventoryItem(row, playerIdOverride = null, indexOverride = null) {
+function useInventoryItem(row, playerIdOverride = null, indexOverride = null, targetOverride = undefined) {
   const playerId=playerIdOverride||activeRole;
   if((!isMasterClient&&activeClientIdentity!==playerId)||!playerList.includes(playerId)){showToast('🔒 Solo puedes usar objetos de una ficha de jugador.');return;}
   const rowIndex=Number.isInteger(indexOverride)?indexOverride:(row?Array.from(document.querySelectorAll('#inventory-body tr')).indexOf(row):-1);
@@ -9634,7 +9715,7 @@ function useInventoryItem(row, playerIdOverride = null, indexOverride = null) {
   const allies=playerList.map(pid=>`${pid} = ${allPlayersData[pid]?.inputs?.['char-name']||getIdentityLabel(pid)}`);
   const alliedNpcs=enemiesList.map((enemy,idx)=>enemy.faction==='ally'?`e_${idx} = ${enemy.name}`:null).filter(Boolean);
   const choices=[`${playerId} = Yo (propio)`,...allies.filter(line=>!line.startsWith(`${playerId} =`)),...alliedNpcs].join('\n');
-  const selected=prompt(`Destino de la poción (escribe el código):\n${choices}`,playerId);
+  const selected=targetOverride===undefined?prompt(`Destino de la poción (escribe el código):\n${choices}`,playerId):targetOverride;
   if(selected===null)return;
   let targetPlayerId=null,targetNpc=null,target;
   if(selected.startsWith('e_')){targetNpc=enemiesList[parseInt(selected.slice(2))];if(!targetNpc||targetNpc.faction!=='ally'){showToast('⚠️ Solo puedes usarla en un PNJ aliado.');return;}target=targetNpc;}
@@ -9704,6 +9785,83 @@ function useInventoryItem(row, playerIdOverride = null, indexOverride = null) {
   renderEnemiesCards();if(activeRole==='gm')renderGMDashboard();
   broadcastSystemCombatEntry('tech',`🧪 <b>${escapeHtml(pdata.inputs?.['char-name']||'Personaje')}</b> usó <b>${escapeHtml(item.name||'poción')}</b> y ${escapeHtml(message)}.`);
   showToast(`🧪 ${message}.`);
+}
+let inventoryActionSourceId=null;
+let inventoryActionMode='give';
+function openInventoryActionModal(mode='give'){
+  if(!isMasterClient&&activeClientIdentity!==activeRole){showToast('🔒 No puedes administrar este inventario.');return;}
+  if(!playerList.includes(activeRole)){showToast('⚠️ Abre primero la ficha del personaje que tiene los objetos.');return;}
+  commitDomToActivePlayer();
+  const source=allPlayersData[activeRole];if(!source)return;
+  inventoryActionSourceId=activeRole;
+  inventoryActionMode=mode==='use'?'use':'give';
+  const itemSelect=document.getElementById('inventory-action-item'),recipient=document.getElementById('inventory-action-recipient'),target=document.getElementById('inventory-action-target');
+  const giveFields=document.getElementById('inventory-action-give-fields'),useFields=document.getElementById('inventory-action-use-fields');
+  const giveTab=document.getElementById('inventory-tab-give'),useTab=document.getElementById('inventory-tab-use'),submit=document.getElementById('inventory-action-submit');
+  const eligible=(source.inventory||[]).map((item,index)=>({item,index})).filter(entry=>inventoryActionMode==='use'?entry.item.type==='potion':true);
+  itemSelect.innerHTML=eligible.map(({item,index})=>'<option value="'+index+'">'+escapeHtml(item.name||'Objeto')+' · '+Math.max(1,parseInt(item.qty)||1)+' disp.</option>').join('');
+  if(!eligible.length){showToast(inventoryActionMode==='use'?'No hay pociones en este inventario.':'No hay objetos para entregar.');return;}
+  const recipients=playerList.filter(pid=>pid!==inventoryActionSourceId);
+  recipient.innerHTML=recipients.map(pid=>'<option value="'+escapeHtml(pid)+'">'+escapeHtml(allPlayersData[pid]?.inputs?.['char-name']||getIdentityLabel(pid))+'</option>').join('');
+  const targets=[
+    ...playerList.map(pid=>({id:pid,label:(pid===inventoryActionSourceId?'Yo · ':'')+(allPlayersData[pid]?.inputs?.['char-name']||getIdentityLabel(pid))})),
+    ...enemiesList.map((enemy,index)=>enemy.faction==='ally'?({id:'e_'+index,label:'Aliado · '+enemy.name}):null).filter(Boolean)
+  ];
+  target.innerHTML=targets.map(entry=>'<option value="'+escapeHtml(entry.id)+'">'+escapeHtml(entry.label)+'</option>').join('');
+  giveFields.style.display=inventoryActionMode==='give'?'grid':'none';
+  useFields.style.display=inventoryActionMode==='use'?'grid':'none';
+  giveTab.classList.toggle('active',inventoryActionMode==='give');useTab.classList.toggle('active',inventoryActionMode==='use');
+  submit.textContent=inventoryActionMode==='give'?'↗ Dar objeto':'✦ Usar poción';
+  submit.disabled=inventoryActionMode==='give'&&!recipients.length;
+  const qty=document.getElementById('inventory-action-quantity');
+  if(qty){qty.value=1;qty.max=Math.max(1,parseInt(eligible[0].item.qty)||1);}
+  itemSelect.onchange=()=>{
+    const selected=eligible.find(entry=>entry.index===parseInt(itemSelect.value));
+    if(qty&&selected){qty.max=Math.max(1,parseInt(selected.item.qty)||1);qty.value=Math.min(Math.max(1,parseInt(qty.value)||1),parseInt(qty.max));}
+  };
+  openModal('inventory-action-modal');
+}
+function confirmInventoryAction(){
+  const sourceId=inventoryActionSourceId;
+  if(!sourceId||sourceId!==activeRole||!playerList.includes(sourceId)){showToast('⚠️ El inventario de origen cambió; vuelve a abrir el menú.');closeModal('inventory-action-modal');return;}
+  commitDomToActivePlayer();
+  const source=allPlayersData[sourceId],itemIndex=parseInt(document.getElementById('inventory-action-item')?.value);
+  const item=source?.inventory?.[itemIndex];if(!item){showToast('⚠️ Selecciona un objeto válido.');return;}
+  if(inventoryActionMode==='use'){
+    const targetId=document.getElementById('inventory-action-target')?.value;
+    closeModal('inventory-action-modal');
+    useInventoryItem(null,sourceId,itemIndex,targetId);
+    return;
+  }
+  const targetId=document.getElementById('inventory-action-recipient')?.value;
+  if(!playerList.includes(targetId)||targetId===sourceId){showToast('⚠️ Selecciona otro jugador como destinatario.');return;}
+  const available=Math.max(1,parseInt(item.qty)||1),amount=Math.max(1,parseInt(document.getElementById('inventory-action-quantity')?.value)||1);
+  if(amount>available){showToast('⚠️ Solo hay '+available+' unidades disponibles.');return;}
+  if(item.type==='weapon'&&amount!==available){showToast('⚠️ Las armas se entregan completas, no por unidades parciales.');return;}
+  const receiver=allPlayersData[targetId]||(allPlayersData[targetId]=createBlankCharacterData(''));
+  source.inventory=Array.isArray(source.inventory)?source.inventory:[];receiver.inventory=Array.isArray(receiver.inventory)?receiver.inventory:[];
+  const itemName=item.name||'objeto',transferred={...item,qty:String(amount),equipped:false};
+  const remaining=available-amount;
+  if(remaining<=0)source.inventory.splice(itemIndex,1);else source.inventory[itemIndex].qty=String(remaining);
+  if(item.type==='weapon'){
+    source.weapons=Array.isArray(source.weapons)?source.weapons:[];
+    receiver.weapons=Array.isArray(receiver.weapons)?receiver.weapons:[];
+    const weapon=source.weapons.find(entry=>entry.id===item.weaponId);
+    const newWeaponId='w_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+    if(weapon){
+      receiver.weapons.push({...weapon,id:newWeaponId});
+      source.weapons=source.weapons.filter(entry=>entry.id!==item.weaponId);
+    }else{
+      receiver.weapons.push({id:newWeaponId,name:item.name||'Arma',scalePct:100,rarity:item.rarity||'comun',effectType:'none',effectDice:'',effectTurns:2,critMult:2,critOnly:false,lastRoll:'-',lastDmg:'-'});
+    }
+    transferred.weaponId=newWeaponId;
+  }
+  const stack=transferred.type==='weapon'?null:receiver.inventory.find(existing=>existing.name===transferred.name&&existing.type===transferred.type&&existing.rarity===transferred.rarity&&existing.effectCode===transferred.effectCode&&(existing.type!=='armor'||(existing.armorSubtype===transferred.armorSubtype&&existing.armorPd===transferred.armorPd&&JSON.stringify(existing.resistances||{})===JSON.stringify(transferred.resistances||{}))));
+  if(stack)stack.qty=String((parseInt(stack.qty)||0)+amount);else receiver.inventory.push(transferred);
+  closeModal('inventory-action-modal');
+  applyDataToForm(source);recalcAllAutoStats();renderGMDashboard();saveActivePlayerToCloud(true);renderEnemiesCards();
+  broadcastSystemCombatEntry('chat','🤝 <b>'+escapeHtml(source.inputs?.['char-name']||getIdentityLabel(sourceId))+'</b> entregó <b>'+amount+'× '+escapeHtml(itemName)+'</b> a <b>'+escapeHtml(receiver.inputs?.['char-name']||getIdentityLabel(targetId))+'</b>.');
+  showToast('🤝 '+amount+'× '+itemName+' entregado.');
 }
 function tradeInventoryItem(row) {
   if (!row || (!isMasterClient && activeClientIdentity !== activeRole) || !playerList.includes(activeRole)) { showToast('🔒 Solo puedes pasar objetos desde tu propia ficha.'); return; }
