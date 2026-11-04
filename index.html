@@ -1831,9 +1831,12 @@
     @media (max-width: 650px) {
       html, body { max-width:100%; overflow-x:clip; }
       .role-bar-wrap { top:auto; gap:4px; padding:4px; }
-      .gm-fixed-container { display:none !important; }
+      .gm-fixed-container { display:flex !important; flex:0 0 auto; }
       .role-bar-tabs { display:none !important; }
+      .role-bar-wrap:has(#mobile-role-select[hidden]) #role-bar-container { display:flex!important; flex:1 1 auto; min-width:0; }
+      .role-bar-wrap:has(#mobile-role-select[hidden]) #role-bar-container .role-btn { padding:5px 6px; font-size:10px; white-space:normal; }
       .mobile-role-selector-wrap { display:flex !important; flex:1 1 auto; min-width:0; }
+      .mobile-role-selector-wrap:has(#mobile-role-select[hidden]) { display:none !important; }
       .mobile-role-select { min-height:38px; font-size:12px; }
       #mobile-advance-turn:not([hidden]) { display:inline-flex; flex:0 0 auto; min-height:38px; align-items:center; justify-content:center; padding:4px 7px; background:#7a2810; color:#fff0cf; border:2px solid #d6a340; border-radius:4px; font:bold 10px var(--f-title); white-space:nowrap; }
       .btn-role-settings { margin-left:0; flex:0 0 auto; }
@@ -7750,7 +7753,11 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       if (gmBtn) gmBtn.classList.toggle('active', activeRole === 'gm');
 
       const consoleBtn = document.getElementById('gm-console-btn');
-      if (consoleBtn) consoleBtn.classList.toggle('active', activeRole === 'console');
+      if (consoleBtn) {
+        consoleBtn.classList.toggle('active', activeRole === 'console');
+        consoleBtn.style.display = isMasterClient ? '' : 'none';
+      }
+      if (gmBtn) gmBtn.style.display = '';
 
       if (mobileSelect) {
         mobileSelect.hidden = !isMasterClient;
