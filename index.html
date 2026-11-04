@@ -2691,7 +2691,7 @@ select[id^="summary-skill-sel-"] optgroup {
 .diary-card{border:1.5px solid #b58a4c!important;border-radius:8px!important;box-shadow:0 3px 9px #56310d20,inset 0 0 0 1px #fff8e7!important;padding:12px 13px!important;overflow:hidden}
 .diary-card.main{background:linear-gradient(135deg,#fff4d7 0%,#f0d6a4 100%)!important;border-left:6px solid #9b3023!important}
 .diary-card.secondary{background:linear-gradient(135deg,#eff5e4 0%,#d9e6c8 100%)!important;border-left:6px solid #587844!important}
-.diary-card.done,.diary-card.failed{filter:saturate(.72);opacity:.83}
+.diary-card.done{background:linear-gradient(135deg,#e4efd8 0%,#c9dfb6 100%)!important;border-color:#78965f!important;border-left-color:#426b32!important;box-shadow:0 3px 9px #36572a25,inset 0 0 0 1px #f8fff0!important}.diary-card.done .diary-card-title{text-decoration:line-through;text-decoration-color:#6d8c55;text-decoration-thickness:1px}.diary-card.failed{background:linear-gradient(135deg,#f4dfd9 0%,#e8c4bb 100%)!important;border-color:#bd8176!important;border-left-color:#8b2118!important;box-shadow:0 3px 9px #8b211825,inset 0 0 0 1px #fff5f1!important}.diary-card.failed .diary-card-title{color:#8b2118!important}.diary-card.done,.diary-card.failed{opacity:.9}
 .diary-inactive{background:#e5dfd3!important;color:#6e6658!important;border-color:#aaa092!important;font-size:8px!important;letter-spacing:.35px}
 .diary-delete-x{flex:0 0 19px;width:19px;height:19px;padding:0;margin-left:2px;border:1px solid #bd8c80;border-radius:50%;background:#f7e2dc;color:#8b2118;font:700 13px/16px var(--f-title);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
 .diary-delete-x:hover{background:#8b2118;color:#fff;border-color:#8b2118}
@@ -10704,9 +10704,18 @@ function executeModalAction() {
     }
     function setMissionStatus(id,status){
       if(!isMasterClient||!id||!['done','failed'].includes(status))return;
-      gameRef.child('missions').child(id).update({status,updatedAt:Date.now()})
-        .then(()=>{missionDiaryFilter=status;setMissionDiaryFilter(status);showToast(status==='done'?'✓ Misión completada':'✕ Misión marcada como fallida');})
-        .catch(err=>{console.error('Mission status update failed',err);showToast('❌ No se pudo cambiar el estado: '+(err?.message||'error de Firebase'));});
+      const missionRef=gameRef.child('missions').child(String(id)),previous=missionDiaryData[id]?.status||'active',stamp=Date.now();
+      // Actualización optimista: reflejar el cambio inmediatamente en el diario.
+      missionDiaryData[id]={...(missionDiaryData[id]||{}),status,updatedAt:stamp};
+      renderMissionDiary();
+      missionRef.update({status,updatedAt:stamp}).then(()=>{
+        missionDiaryFilter=status;setMissionDiaryFilter(status);
+        showToast(status==='done'?'✓ Misión completada':'✕ Misión marcada como fallida');
+      }).catch(err=>{
+        missionDiaryData[id]={...(missionDiaryData[id]||{}),status:previous};
+        renderMissionDiary();console.error('Mission status update failed',err);
+        showToast('❌ No se pudo cambiar el estado: '+(err?.message||'error de Firebase'));
+      });
     }
     function addMissionUpdate(id){
       if(!isMasterClient||!id)return;
@@ -10728,7 +10737,7 @@ function executeModalAction() {
         if(m.visibility==='individual'&&m.targetRole!==activeRole&&!isMasterClient)return false;
         if(!isMasterClient&&m.status==='active'&&m.visibility!=='all'&&m.targetRole!==activeRole)return false;
         return missionDiaryFilter==='active'?(!m.status||m.status==='active'):m.status===missionDiaryFilter;
-      }).sort((a,b)=>((b[1].updatedAt||b[1].createdAt||0)-(a[1].updatedAt||a[1].createdAt||0)));
+      }).sort((a,b)=>{const rank=m=>m.status==='done'||m.status==='failed'?1:0;return rank(a[1])-rank(b[1])||((b[1].updatedAt||b[1].createdAt||0)-(a[1].updatedAt||a[1].createdAt||0));});
       if(!entries.length){list.innerHTML='<div class="diary-empty">'+(missionDiaryFilter==='active'?'No hay misiones pendientes por aquí.':'Todavía no hay misiones en esta categoría.')+'</div>';return;}
       list.innerHTML=entries.map(([id,m])=>{
         const type=m.type==='secondary'?'Secundaria':'Principal',vis=m.visibility==='secret'?'Secreta':m.visibility==='individual'?'Individual':'Pública';
