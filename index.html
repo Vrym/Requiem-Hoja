@@ -2659,9 +2659,9 @@ select[id^="summary-skill-sel-"] optgroup {
               <option value="veneno">☠️ Veneno</option>
               <option value="sangrado">🩸 Sangrado</option>
               <option value="curacion">💚 Curación / Regeneración</option>
-              <option value="stun">💫 Stun / Aturdimiento</option>
+              <option value="stun">💫 Aturdido (pierde su turno)</option>
               <option value="sellado">🔒 Sellado</option>
-              <option value="mareado">🌀 Mareado</option>
+              <option value="mareado">🌀 Mareado (bloquea ofensivas)</option>
               <option value="infectado">☣️ Infectado</option>
             </select>
           </div>
@@ -3498,7 +3498,7 @@ select[id^="summary-skill-sel-"] optgroup {
               <label for="status-inmune" style="cursor:pointer;"><input type="checkbox" id="status-inmune" onchange="toggleImmuneStatus(this)"> 🛡️ Inmune</label>
             </div>
             <div style="display:flex; align-items:center; justify-content:space-between; gap:3px; font-size:12.5px; background:rgba(255,255,255,0.65); padding:3px 5px; border:1px solid rgba(60,30,10,0.25); border-radius:3px; font-weight:800;">
-              <label for="status-stun" style="cursor:pointer;"><input type="checkbox" id="status-stun"> 💫 Stun</label>
+              <label for="status-stun" style="cursor:pointer;" title="Aturdido: pierde el turno completo."><input type="checkbox" id="status-stun"> 💫 Aturdido</label>
               <div style="display:inline-flex; align-items:center; gap:2px;">
                 <input type="number" id="status-stun-turns" style="width:28px; font-size:11px; font-weight:800; text-align:center; border:1px dashed var(--border-gold); background:#fffdf8; border-radius:2px;" placeholder="T" title="Turnos restantes" min="0">
               </div>
@@ -4077,6 +4077,7 @@ select[id^="summary-skill-sel-"] optgroup {
     let completedCombatants = new Set();
     let lastRoundAdvancePromptRound = null;
     let roundAdvancePending = false;
+    let roundAdvanceInProgress = false;
     let environmentRules = {active:false,name:'',damage:0,heal:0,pc:0,pd:0,smath:0,concMultiplier:1,concBonus:0,techCost:0};
     let activeClientIdentity = localStorage.getItem('requiem_client_identity') || 'p1';
     let isIdentitySetupPending = localStorage.getItem('requiem_identity_version') !== '3' || localStorage.getItem('requiem_identity_claimed') !== 'true';
@@ -5058,7 +5059,7 @@ select[id^="summary-skill-sel-"] optgroup {
       if(!confirm(next?'¿Deseas iniciar la batalla?':'¿Deseas finalizar la batalla?'))return;
       if(!claimActionCooldown('battle-mode-toggle',1500))return;
       battleActive=next;
-      if(next){completedCombatants.clear();activeCombatantId=null;rollAutomaticInitiative('inicio del combate');}
+      if(next){completedCombatants.clear();activeCombatantId=null;lastRoundAdvancePromptRound=null;roundAdvancePending=false;roundAdvanceInProgress=false;rollAutomaticInitiative('inicio del combate');}
       else {activeCombatantId=null;completedCombatants.clear();lastRoundAdvancePromptRound=null;roundAdvancePending=false;}
       updateBattleToggleUI();renderInitiativeQueue();renderGMDashboard();renderEnemiesCards();
       broadcastSystemCombatEntry('round',next?'⚔️ <b>El Master inició la batalla.</b>':'🏁 <b>El Master finalizó la batalla.</b>');
@@ -5102,7 +5103,7 @@ select[id^="summary-skill-sel-"] optgroup {
         results.push(`<b>${escapeHtml(label)}</b> ${total} (D20 ${die} + ${bonus})`);
       });
       diceRollsHistory=diceRollsHistory.slice(0,30);
-      completedCombatants.clear();activeCombatantId=null;lastRoundAdvancePromptRound=null;
+      completedCombatants.clear();activeCombatantId=null;
       buildInitiativeQueue(true);
       playSound('dice');
       broadcastSystemCombatEntry('roll',`🎲 Iniciativa automática (${escapeHtml(reason)}): ${results.join(' · ')}`);
@@ -5130,13 +5131,19 @@ select[id^="summary-skill-sel-"] optgroup {
       }
       return true;
     }
+    function getCombatActionLimit(data,isEnemy=false,kind='common'){
+      if(String(kind).startsWith('quick'))return 1;
+      const configuredBase=parseInt(data?.commonActionsPerTurn);
+      const baseActions=isEnemy?Math.max(1,Math.min(12,Number.isFinite(configuredBase)?configuredBase:1)):1;
+      const bonus=Math.max(0,parseInt(data?.commonActionBonus)||0);
+      return baseActions+bonus;
+    }
     function getCombatActionAvailability(id,isEnemy,kind){
       const data=getCombatantActionData(id,isEnemy);if(!data)return false;
       if(battleActive&&!isEnemy&&String(id).startsWith('p_')&&!isPlayerInBattleRoster(String(id).slice(2)))return false;
       if(combatantHasState(id,isEnemy,'stun')||combatantHasState(id,isEnemy,'petrificado'))return false;
-      if(kind.startsWith('quick'))return (parseInt(data.quickActionsUsed)||0)<1;
-      const baseActions=isEnemy?Math.max(1,Math.min(12,parseInt(data.commonActionsPerTurn)||1)):1;
-      return (parseInt(data.commonActionsUsed)||0)<baseActions+(parseInt(data.commonActionBonus)||0);
+      const used=String(kind).startsWith('quick')?(parseInt(data.quickActionsUsed)||0):(parseInt(data.commonActionsUsed)||0);
+      return used<getCombatActionLimit(data,isEnemy,kind);
     }
     function consumeCombatAction(id,isEnemy,kind,label='Acción'){
       const data=getCombatantActionData(id,isEnemy);if(!data)return false;
@@ -5148,7 +5155,7 @@ select[id^="summary-skill-sel-"] optgroup {
       data.turnActionUsed=true;data.turnAttacks=data.turnAttacks||[];data.turnAttacks.push(label);
       return true;
     }
-    function getActionQuotaText(data){return `⚡ Rápida ${parseInt(data?.quickActionsUsed)||0}/1 · 🗡️ Común ${parseInt(data?.commonActionsUsed)||0}/${1+(parseInt(data?.commonActionBonus)||0)}`;}
+    function getActionQuotaText(data,isEnemy=false){return `⚡ Rápida ${parseInt(data?.quickActionsUsed)||0}/1 · 🗡️ Común ${parseInt(data?.commonActionsUsed)||0}/${getCombatActionLimit(data,isEnemy,'common')}`;}
     function performCombatMovement(id,isEnemy=false){
       if(!consumeCombatAction(id,isEnemy,'quick','Desplazarse'))return false;
       broadcastSystemCombatEntry('attack',`🏃 <b>${escapeHtml(getCombatantLabel(id))}</b> usa su Acción Rápida para desplazarse.`);
@@ -5233,7 +5240,7 @@ select[id^="summary-skill-sel-"] optgroup {
       maybePromptRoundAdvance();
     }
     function maybePromptRoundAdvance(){
-      if(!isMasterClient||!battleActive||!initiativeQueue.length)return false;
+      if(!isMasterClient||!battleActive||!initiativeQueue.length||isGmTurnCooldown||roundAdvanceInProgress)return false;
       const livingIds=initiativeQueue.filter(id=>{
         const combatant=getCombatantById(id);if(!combatant)return false;
         const hp=combatant.kind==='player'?parseFloat(combatant.data.inputs?.['stat-hp-curr']):combatant.kind==='summon'?parseFloat(combatant.data.hpCurr):parseFloat(combatant.data.hp_current);
@@ -5245,7 +5252,6 @@ select[id^="summary-skill-sel-"] optgroup {
       if(lastRoundAdvancePromptRound===globalRound)return false;
       lastRoundAdvancePromptRound=globalRound;
       if(confirm(`✅ Todos los combatientes terminaron la ronda ${globalRound}. ¿Quieres avanzar a la ronda ${globalRound+1}?`)){
-        if(isGmTurnCooldown){roundAdvancePending=true;showToast('⏳ Se avanzará de ronda al terminar el enfriamiento actual.');return true;}
         gmAdvanceGlobalTurn();return true;
       }
       return false;
@@ -5384,7 +5390,7 @@ select[id^="summary-skill-sel-"] optgroup {
         const lastTurn=state!=='inmune'&&turns===1;
         const canRemove=isMasterClient&&state!=='custom';
         const remove=canRemove?`<button type="button" class="state-remove-btn" data-status-kind="${kind}" data-target-id="${escapeHtml(String(targetId))}" data-target-index="${index||0}" data-status-key="${state}" onclick="removeCardStatusFromChip(this)" title="Quitar estado" aria-label="Quitar ${escapeHtml(name)}">×</button>`:'';
-        const title=escapeHtml(`${name}${valueTitle}${turnsTitle}`);
+        const behaviorTitle=state==='stun'?' · pierde el turno completo':state==='mareado'?' · impide acciones ofensivas':'',title=escapeHtml(`${name}${behaviorTitle}${valueTitle}${turnsTitle}`);
         return `<span class="state-chip card-status-chip st-${state}${lastTurn?' is-last-turn':''}${canRemove?' has-remove':''}" title="${title}"><span class="chip-icon">${escapeHtml(icon)}</span><span class="chip-name">${escapeHtml(name)}</span>${metaText?`<span class="chip-meta">${metaText}</span>`:''}${state==='inmune'?'':`<span class="chip-turns">⏳${turns}</span>`}${remove}</span>`;
       }).join('');
     }
@@ -5517,7 +5523,7 @@ select[id^="summary-skill-sel-"] optgroup {
     function getSavedSkillBonusText(pdata,skillId) {
       const levels = pdata?.skills?.[skillId] || pdata?.skills?.[String(skillId)] || [];
       const level = Array.isArray(levels) && levels.length ? Math.max(...levels.map(Number)) : -1;
-      return level >= 0 ? SKILL_BONUSES[level] : '+0';
+      return level===7 ? 'x2D +12' : level >= 0 ? SKILL_BONUSES[level] : '+0';
     }
   function buildSummarySkillOptions(pdata, mode = 'arq') {
       const formatTitleCase = str => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : '';
@@ -6100,11 +6106,13 @@ function confirmDismissSummon(pid, sIdx, summonName) {
         showToast('⚠️ Solo el Master puede avanzar el turno global.');
         return;
       }
-      if (isGmTurnCooldown) {
-        showToast('⏳ Espera al enfriamiento de turno.');
+      if (isGmTurnCooldown || roundAdvanceInProgress) {
+        showToast('⏳ Espera a que termine el avance de ronda actual.');
         return;
       }
 
+      roundAdvanceInProgress = true;
+      roundAdvancePending = false;
       isGmTurnCooldown = true;
       const btn = document.getElementById('btn-gm-advance-turn');
       let timeLeft = 10;
@@ -6121,19 +6129,19 @@ function confirmDismissSummon(pid, sIdx, summonName) {
         } else {
           clearInterval(timerInterval);
           isGmTurnCooldown = false;
+          roundAdvanceInProgress = false;
+          roundAdvancePending = false;
           if (btn) {
             btn.innerText = '⏳ Avanzar Turno Global';
             btn.style.opacity = '1';
             btn.style.cursor = 'pointer';
           }
-          if(roundAdvancePending&&battleActive){roundAdvancePending=false;gmAdvanceGlobalTurn();}
-          else {roundAdvancePending=false;maybePromptRoundAdvance();}
+          maybePromptRoundAdvance();
         }
       }, 1000);
 
       globalRound = (globalRound || 1) + 1;
       document.getElementById('global-round-display').innerText = globalRound;
-      lastRoundAdvancePromptRound=null;
       if(battleActive){completedCombatants.clear();activeCombatantId=null;}
       document.body.classList.remove('border-flash');
       void document.body.offsetWidth;
@@ -7916,7 +7924,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           ...summarizeTurnItems(pdata.summons||[],item=>`🐾 ${item.name}`)
         ];
         const turnSummary=turnSummaryParts.join(' · ')||'Sin acciones registradas';
-        const quickActionsUsed=parseInt(pdata.quickActionsUsed)||0,commonActionsUsed=parseInt(pdata.commonActionsUsed)||0,commonActionsMax=1+(parseInt(pdata.commonActionBonus)||0);
+        const quickActionsUsed=parseInt(pdata.quickActionsUsed)||0,commonActionsUsed=parseInt(pdata.commonActionsUsed)||0,commonActionsMax=getCombatActionLimit(pdata,false,'common');
 
         // Desplegable de Armas y Técnicas (Formato conciso para evitar saltos de línea)
         let actionOptionsHtml = '<optgroup label="Armas">';
@@ -8130,7 +8138,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         const enemySmathPct = enemySmathMax > 0 ? Math.max(0, Math.min(100, Math.round((enemySmathCurr / enemySmathMax) * 100))) : 0;
         const enemyTechCost = parseTechCost(e.tech);
         const isComplex = e.isComplex !== false;
-        const npcQuickUsed=parseInt(e.quickActionsUsed)||0,npcCommonUsed=parseInt(e.commonActionsUsed)||0,npcCommonMax=Math.max(1,Math.min(12,parseInt(e.commonActionsPerTurn)||1)+(parseInt(e.commonActionBonus)||0));
+        const npcQuickUsed=parseInt(e.quickActionsUsed)||0,npcCommonUsed=parseInt(e.commonActionsUsed)||0,npcCommonMax=getCombatActionLimit(e,true,'common');
         const npcActionCubesHtml=Array.from({length:Math.min(12,npcCommonMax)},(_,cubeIndex)=>`<span class="action-cube npc-action-cube ${cubeIndex<npcCommonUsed?'action-cube-spent':'action-cube-ready'}" title="Acción común ${cubeIndex+1}/${npcCommonMax}"></span>`).join('');
         const healthLabel = hpPct >= 70 ? 'Saludable' : hpPct >= 35 ? 'Herido' : 'Agónico';
         const enemyEssenceModeOptions=[['none','Inactivo'],['despierta','Despierta'],['manifestada','Manifestada'],['trascendida','Trascendida'],['ascendida','Ascendida']].map(([value,label])=>`<option value="${value}" ${value===(e.essenceMode||'none')?'selected':''}>${label}</option>`).join('');
@@ -9402,7 +9410,7 @@ function updateSkillsAndPoints(totalPh = null) {
       if (chk?.checked) { spent += SKILL_COSTS[i]; highest = i; }
     }
     const tag = document.getElementById(`sk-bonus-${s}`);
-    if (tag) { tag.innerText = highest >= 0 ? SKILL_BONUSES[highest] : '-'; tag.classList.toggle('has-bonus', highest >= 0); }
+    if (tag) { tag.innerText = highest===7 ? 'x2D +12' : highest >= 0 ? SKILL_BONUSES[highest] : '-'; tag.classList.toggle('has-bonus', highest >= 0); }
   }
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
   set('pts-gastados', spent);
@@ -9442,7 +9450,7 @@ function setupSkillBoxes() {
       chk.title = `${SKILL_BONUSES[i]} (Coste: ${SKILL_COSTS[i]} PH)`;
       chk.addEventListener('click', function() { handleSkillCheckboxClick(skill, i, this.checked); }); wrap.appendChild(chk);
     }
-    const button = document.createElement('button'); button.type = 'button'; button.className = 'skill-roll-btn'; button.title = 'Tirada de habilidad: D20 + bono'; button.textContent = 'D20';
+    const button = document.createElement('button'); button.type = 'button'; button.className = 'skill-roll-btn'; button.title = 'Tirada de habilidad: D20 + bono; con maestría, 2D20 +12'; button.textContent = 'D20';
     button.onclick = () => rollSkillD20(skill); row?.appendChild(button);
     const result = document.createElement('span'); result.id = `sk-roll-result-${skill}`; result.className = 'skill-roll-result'; result.textContent = '—'; row?.appendChild(result);
   });
@@ -9464,13 +9472,13 @@ function setupSkillBoxes() {
    const total = isPifia ? 0 : die + bonus;
    const label = document.querySelector(`.skill-boxes[data-skill="${skillId}"]`)?.parentElement?.querySelector('span')?.innerText || `Habilidad ${skillId}`;
    const result = document.getElementById(`sk-roll-result-${skillId}`);
-   const displayedResult=isPifia?'PIFIA':`${total}${d2===null?'':` (${d1}/${d2})`}${isPerfect?' · PERFECTA':''}`;
+   const displayedResult=isPifia?'PIFIA':`${total}${isPerfect?' · PERFECTA':''}`;
    if (result) { result.textContent = displayedResult; result.classList.toggle('critical-result',isPerfect); }
    const detail = `${label}: ${d2 === null ? `D20 ${d1}` : `2D20 ${d1}/${d2} (toma ${die})`} + ${bonus} = ${total}${isPifia?' — ⚠️ PIFIA':isPerfect?' — 🌟 PERFECTA':''}`;
    if(player)player.lastSkillRoll={label:String(label).trim(),result:displayedResult,detail,at:Date.now()};
   diceRollsHistory.unshift({time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),sender:getIdentityLabel(activeClientIdentity),detail});
   if(player){player.turnActionUsed=true;player.turnAttacks=player.turnAttacks||[];player.turnAttacks.push(`Habilidad: ${label}`);}
-  broadcastSystemCombatEntry('roll',`🎲 <b>${escapeHtml(label)}</b>: <span style="display:inline-block;background:#29113e;color:#fff1a8;border:2px solid ${isPifia?'#dc2626':isPerfect?'#ffd34e':'#9d72bb'};padding:2px 7px;border-radius:4px;font-weight:bold;">${d2===null?'D20 '+d1:`2D20 ${d1}/${d2}`} + ${bonus} = ${total}${isPifia?' ⚠️ PIFIA':isPerfect?' 🌟 PERFECTA':''}</span>`);
+  broadcastSystemCombatEntry('roll',`🎲 <b>${escapeHtml(label)}</b>: <span style="display:inline-block;background:#29113e;color:#fff1a8;border:2px solid ${isPifia?'#dc2626':isPerfect?'#ffd34e':'#9d72bb'};padding:2px 7px;border-radius:4px;font-weight:bold;">${escapeHtml(displayedResult)}</span>`);
   playSound('dice'); showToast(`🎲 ${label}: ${isPifia?'⚠️ PIFIA':isPerfect?'🌟 PERFECTA':total}`);if(player)saveActivePlayerToCloud(true);
 }
 function rollFreeDice(sides) {
@@ -9502,14 +9510,14 @@ function rollPlayerSkillD20(pid) {
    const bonus=parseInt(bonusText)||0,isPifia=!mastered&&isCriticalFailure(d1,d2),isPerfect=!isPifia&&die===20,total=isPifia?0:die+bonus;
    const skillName = SKILL_NAMES[skillId-1] || 'Habilidad';
    const result = document.getElementById(`summary-skill-result-${pid}`);
-   const displayedResult=isPifia?'PIFIA':`${total}${d2===null?'':` (${d1}/${d2})`}${isPerfect?' · PERFECTA':''}`;
+   const displayedResult=isPifia?'PIFIA':`${total}${isPerfect?' · PERFECTA':''}`;
    if (result) { result.textContent = displayedResult; result.classList.toggle('critical-result',isPerfect); }
    const actor = p.inputs?.['char-name'] || skillName;
    const detail = `${actor} · ${skillName}: ${d2 === null ? `D20 ${d1}` : `2D20 ${d1}/${d2} (toma ${die})`} + ${bonus} = ${total}${isPifia?' — ⚠️ PIFIA':isPerfect?' — 🌟 PERFECTA':''}`;
    diceRollsHistory.unshift({time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),sender:actor,detail});
   p.turnActionUsed=true;p.turnAttacks=p.turnAttacks||[];p.turnAttacks.push(`Habilidad: ${skillName}`);
   p.lastSkillRoll={label:skillName,result:displayedResult,detail,at:Date.now()};
-  broadcastSystemCombatEntry('roll',`🎲 <b>${escapeHtml(actor)}</b> tiró <b>${escapeHtml(skillName)}</b>: <span style="display:inline-block;background:#29113e;color:#fff1a8;border:2px solid ${isPifia?'#dc2626':isPerfect?'#ffd34e':'#9d72bb'};padding:2px 7px;border-radius:4px;font-weight:bold;">${d2===null?'D20 '+d1:`2D20 ${d1}/${d2}`} + ${bonus} = ${total}${isPifia?' ⚠️ PIFIA':isPerfect?' 🌟 PERFECTA':''}</span>`);
+  broadcastSystemCombatEntry('roll',`🎲 <b>${escapeHtml(actor)}</b> tiró <b>${escapeHtml(skillName)}</b>: <span style="display:inline-block;background:#29113e;color:#fff1a8;border:2px solid ${isPifia?'#dc2626':isPerfect?'#ffd34e':'#9d72bb'};padding:2px 7px;border-radius:4px;font-weight:bold;">${escapeHtml(displayedResult)}</span>`);
   playSound('dice');
   if(activeRole==='gm'){
     renderGMDashboard();
@@ -9795,7 +9803,7 @@ function claimActionCooldown(key, duration = 4000) {
   return true;
 }
 function installActionCooldowns() {
-   const actionPattern = /(executeResumenAction|executeSummonAttack|executeSummonTechnique|deleteSummonTechnique|applyEnemyDamage|applyEnemyHeal|gmDirectHpPrompt|applyManualCombatHp|rollInitiative|rollWeaponD6Direct|rollMassEnemiesInitiative|sortCombatantsByInitiative|useTechniqueDirect|useAwakenedTechnique|useAwakenedTech|useInventoryItem|tradeInventoryItem|rollFreeDice|toggleConcentradoAction|restoreFullHp|restoreFullSmath|clearNegativeStates|clearTurnActions|gmResetRound|spawnQuickEnemy|spawnEnemyHorde|duplicateEnemy|deleteEnemy|saveToBestiary|sendCustomEnemyToCombat|deliverLootItem|deliverCurrency|optimizeCurrency|toggleNpcFaction|saveWeaponBuilderChanges|saveTechniqueBuilderChanges|deleteWeaponRow|deleteTechniqueRow|addWeaponRow|addTechniqueRow|addAwakenedTechnique|deleteAwakenedTechnique|addInventoryRow|addNewPlayer|saveSheetItemFromModal|saveEnemyEdit|rollEnemyInitiative|toggleEnemyConcentrated|toggleSummonCubeAction|dismissSummon|duplicateSummon|broadcastTableMessage|sendActiveWhisper|confirmWishAction|clearConfirmedWish|deleteObjective|clearTableHistory|remove)/;
+   const actionPattern = /(deleteSummonTechnique|applyEnemyDamage|applyEnemyHeal|gmDirectHpPrompt|applyManualCombatHp|rollInitiative|rollWeaponD6Direct|rollMassEnemiesInitiative|sortCombatantsByInitiative|tradeInventoryItem|rollFreeDice|restoreFullHp|restoreFullSmath|clearNegativeStates|clearTurnActions|gmResetRound|spawnQuickEnemy|spawnEnemyHorde|duplicateEnemy|deleteEnemy|saveToBestiary|sendCustomEnemyToCombat|deliverLootItem|deliverCurrency|optimizeCurrency|toggleNpcFaction|saveWeaponBuilderChanges|saveTechniqueBuilderChanges|deleteWeaponRow|deleteTechniqueRow|addWeaponRow|addTechniqueRow|addAwakenedTechnique|deleteAwakenedTechnique|addInventoryRow|addNewPlayer|saveSheetItemFromModal|saveEnemyEdit|rollEnemyInitiative|toggleEnemyConcentrated|toggleSummonCubeAction|dismissSummon|duplicateSummon|broadcastTableMessage|sendActiveWhisper|confirmWishAction|clearConfirmedWish|deleteObjective|clearTableHistory|remove)/;
   document.addEventListener('click', event => {
     const button = event.target.closest('button');
     if (!button) return;
