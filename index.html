@@ -2797,6 +2797,7 @@ select[id^="summary-skill-sel-"] optgroup {
       <div class="loot-item-meta-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;">
         <label style="font:bold 11px var(--f-title);">Tipo<select id="sheet-item-type" class="table-msg-select" onchange="updateSheetItemEffectOptions()"><option value="potion">🧪 Poción</option><option value="weapon">⚔️ Arma</option><option value="armor">🛡️ Armadura</option><option value="relic">💎 Reliquia</option><option value="mission">📜 Misión</option><option value="mundane">📦 General</option></select></label>
         <label id="sheet-item-weight-wrap" style="font:bold 11px var(--f-title);">Peso (kg)<input type="number" id="sheet-item-weight" class="table-msg-input" min="0" step="0.1" value="0.5"></label>
+        <label id="sheet-item-quantity-wrap" style="display:none;font:bold 11px var(--f-title);">Cantidad<input type="number" id="sheet-item-quantity" class="table-msg-input" min="1" step="1" value="1"></label>
         <label id="sheet-item-rarity-wrap" style="font:bold 11px var(--f-title);">Rareza<select id="sheet-item-rarity" class="table-msg-select"><option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Única</option></select></label>
       </div>
       <div id="sheet-item-effects-wrap" class="loot-item-effect-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px;">
@@ -8960,7 +8961,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       if(relicMagnitudeWrap)relicMagnitudeWrap.style.display=type==='relic'&&['relic_pc','relic_pd','relic_smath','relic_hp','relic_essence'].includes(option?.value)?'block':'none';
       const rarityWrap=document.getElementById('loot-rarity-wrap');if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&option?.value==='cleanse')?'block':'none';
       const rarity=document.getElementById('loot-item-rarity');if(rarity&&(type==='mission'||(type==='potion'&&option?.value==='cleanse'))){rarity.innerHTML='<option value="mision">Única</option>';rarity.value='mision';}
-      if (levelWrap) levelWrap.style.display = isLevelled&&!['weapon','armor'].includes(type)&&!(type==='potion'&&option?.value==='cleanse') ? 'block' : 'none';
+      if (levelWrap) levelWrap.style.display = isLevelled&&type==='potion'&&option?.value!=='cleanse' ? 'block' : 'none';
       if (levelWrap?.firstChild) levelWrap.firstChild.nodeValue = 'Nivel de poción\n                ';
       if(['armor','weapon','relic','mission','mundane'].includes(type)&&levelWrap)levelWrap.style.display='none';
       setLootLevelLabels(levelSelect,option?.value);
@@ -8987,7 +8988,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       };
       const weightWrap=document.getElementById('sheet-item-weight-wrap'),rarityWrap=document.getElementById('sheet-item-rarity-wrap');
       if(weightWrap)weightWrap.style.display=['potion','mission'].includes(type)?'none':'block';
-      if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&document.getElementById('loot-item-effect-option')?.value==='cleanse')?'block':'none';
+      if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&document.getElementById('sheet-item-effect-option')?.value==='cleanse')?'block':'none';
       const rarity=document.getElementById('sheet-item-rarity');if(rarity){rarity.innerHTML=type==='mission'?'<option value="mision">Única</option>':'<option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Única</option>';if(type==='mission')rarity.value='mision';}
       const qtyWrap=document.getElementById('sheet-item-quantity-wrap');if(qtyWrap)qtyWrap.style.display=['potion','mission','mundane'].includes(type)?'block':'none';
       if(type==='potion'){const weight=document.getElementById('sheet-item-weight');if(weight)weight.value='0';}
