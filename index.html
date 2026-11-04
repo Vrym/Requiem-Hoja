@@ -2502,6 +2502,22 @@ select[id^="summary-skill-sel-"] optgroup {
     .skill-points-line .skill-points-spent{flex:0 0 auto;margin-left:auto;white-space:nowrap;gap:10px!important;}
     @media(max-width:560px){.skill-points-line{gap:5px;}.skill-points-line .skill-points-spent{gap:6px!important;font-size:11px!important;}.skill-points-line .skill-points-spent b{font-size:14px!important;}}
     .inventory-table{border-collapse:separate;border-spacing:0 5px;}
+    .inventory-row-actions{width:42px;text-align:center;}
+    .inventory-delete-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;max-width:100%;border:1px solid #9b5a36;border-radius:50%;background:#f8e5d2;color:#8b1e12;font:bold 18px/1 Arial;cursor:pointer;}
+    @media(max-width:640px){
+      .inventory-table,.inventory-table thead,.inventory-table tbody,.inventory-table tr,.inventory-table td{display:block;width:100%;max-width:100%;}
+      .inventory-table thead{display:none;}
+      .inventory-table tbody tr{display:flex;flex-wrap:wrap;align-items:center;position:relative;padding:5px 7px 7px;border:1px solid #d8c49c;border-radius:7px;overflow:hidden;}
+      .inventory-table tbody td{border:0!important;padding:4px 3px;min-width:0;}
+      .inventory-table tbody td:first-child{flex:1 1 100%;border-left:0!important;padding-right:35px;}
+      .inventory-table tbody td:not(:first-child):not(:last-child){flex:1 1 25%;min-width:0;}
+      .inventory-table tbody td:last-child{position:absolute;top:5px;right:5px;width:30px;padding:0;}
+      .inventory-table tbody td[data-label]::before{content:attr(data-label);display:block;margin-bottom:2px;color:#8a642c;font:bold 8px var(--f-title);text-transform:uppercase;letter-spacing:.3px;}
+      .inventory-table tbody td:first-child::before,.inventory-table tbody td:last-child::before{display:none;}
+      .inventory-item-title{font-size:11px;overflow-wrap:anywhere;}
+      .inventory-delete-btn{width:25px;height:25px;font-size:17px;}
+    }
+    @media(max-width:380px){.inventory-table tbody td:not(:first-child):not(:last-child){flex-basis:33.33%;}.inventory-table tbody td{font-size:10px;}}
     .inventory-table thead th{border:0!important;background:linear-gradient(180deg,#ead8b2,#d8bd87);color:#54300f;letter-spacing:.35px;}
     .inventory-table tbody tr{background:#fffaf0;box-shadow:0 2px 5px rgba(69,43,12,.10);}
     .inventory-table tbody td{border-top:1px solid #d8c49c;border-bottom:1px solid #d8c49c;padding:6px 5px;vertical-align:middle;}
@@ -2779,8 +2795,9 @@ select[id^="summary-skill-sel-"] optgroup {
         <input type="text" id="sheet-item-name" class="table-msg-input" style="width:100%;">
       </label>
       <div class="loot-item-meta-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;">
-        <label style="font:bold 11px var(--f-title);">Tipo<select id="sheet-item-type" class="table-msg-select" onchange="updateSheetItemEffectOptions()"><option value="potion">🧪 Poción</option><option value="weapon">⚔️ Arma</option><option value="armor">🛡️ Armadura</option><option value="relic">💎 Reliquia</option><option value="mission">📜 Misión</option><option value="mundane">📦 Mundano</option></select></label>
+        <label style="font:bold 11px var(--f-title);">Tipo<select id="sheet-item-type" class="table-msg-select" onchange="updateSheetItemEffectOptions()"><option value="potion">🧪 Poción</option><option value="weapon">⚔️ Arma</option><option value="armor">🛡️ Armadura</option><option value="relic">💎 Reliquia</option><option value="mission">📜 Misión</option><option value="mundane">📦 General</option></select></label>
         <label id="sheet-item-weight-wrap" style="font:bold 11px var(--f-title);">Peso (kg)<input type="number" id="sheet-item-weight" class="table-msg-input" min="0" step="0.1" value="0.5"></label>
+        <label id="sheet-item-quantity-wrap" style="display:none;font:bold 11px var(--f-title);">Cantidad<input type="number" id="sheet-item-quantity" class="table-msg-input" min="1" step="1" value="1"></label>
         <label id="sheet-item-rarity-wrap" style="font:bold 11px var(--f-title);">Rareza<select id="sheet-item-rarity" class="table-msg-select"><option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Única</option></select></label>
       </div>
       <div id="sheet-item-effects-wrap" class="loot-item-effect-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px;">
@@ -3249,6 +3266,7 @@ select[id^="summary-skill-sel-"] optgroup {
               <label id="loot-level-wrap" style="font-family:var(--f-title);font-size:11px;font-weight:bold;">Nivel de poción
                 <select id="loot-item-effect-level" class="table-msg-select" style="width:100%;"><option value="1">N1 · 25%</option><option value="2">N2 · 50%</option><option value="3">N3 · 100%</option></select>
               </label>
+              <label id="loot-relic-magnitude-wrap" style="display:none;font-family:var(--f-title);font-size:11px;font-weight:bold;">Bonificación<input type="number" id="loot-relic-magnitude" class="table-msg-input" min="1" value="2" style="width:100%;"></label>
             </div>
             <div id="loot-item-detail-wrap" style="margin-bottom:6px;">
               <label style="font-family:var(--f-title);font-size:11px;font-weight:bold;">Detalle adicional
@@ -3278,7 +3296,6 @@ select[id^="summary-skill-sel-"] optgroup {
               <select id="loot-target-player" class="table-msg-select" style="flex:1; min-width:130px;"></select>
               <button type="button" class="btn-stat-max" onclick="deliverLootItem()" style="background:#b45309; border-color:#fde047; color:#fff; font-weight:bold;">🎁 Entregar</button>
             </div>
-          </div>
 
           <div class="currency-console-card gm-currency-control">
             <h4 style="font: bold 13px var(--f-title);color:#731e0b;border-bottom:1px dotted #9c7743;padding-bottom:4px;margin:0 0 7px;">💰 Dispensador Monetario</h4>
@@ -3291,6 +3308,7 @@ select[id^="summary-skill-sel-"] optgroup {
               <select id="currency-target-player" class="table-msg-select" style="flex:1;min-width:0;"></select>
               <button type="button" class="btn-stat-max" onclick="deliverCurrency()" style="background:#9a6512;color:#fff6d7;">💰 Entregar fondos</button>
             </div>
+          </div>
           </div>
 
           <div class="currency-console-card gm-mass-control">
@@ -8910,7 +8928,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         potion:[['hp','Resencia: curar HP',1],['smath','Recuperar Smath',1],['essence','Recuperar Esencia',1],['revive','Reanimar (HP + Smath)',1],['cleanse','Curar todos los estados',0],['combat','Poción de combate (PC + PD)',1]],
         weapon:[],
         armor:[],
-        relic:[['relic_pc','Aumentar PC',1],['relic_pd','Aumentar PD',1],['relic_smath','Aumentar Smath máximo',1],['relic_essence','Aumentar Esencia',1],['custom','Efecto de reliquia personalizado',0]],
+        relic:[['relic_pc','Aumentar PC',0],['relic_pd','Aumentar PD',0],['relic_smath','Aumentar Smath máximo',0],['relic_hp','Aumentar HP máximo',0],['relic_essence','Aumentar Esencia',0],['custom','Efecto de reliquia personalizado',0]],
         mission:[['custom','Objeto de misión',0]],
         mundane:[['custom','Descripción / uso manual',0]]
       };
@@ -8939,11 +8957,13 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const detail = document.getElementById('loot-item-effect');
       const type = document.getElementById('loot-item-type')?.value || 'potion';
       const isLevelled = option?.dataset.levels === 'true';
+      const relicMagnitudeWrap=document.getElementById('loot-relic-magnitude-wrap');
+      if(relicMagnitudeWrap)relicMagnitudeWrap.style.display=type==='relic'&&['relic_pc','relic_pd','relic_smath','relic_hp','relic_essence'].includes(option?.value)?'block':'none';
       const rarityWrap=document.getElementById('loot-rarity-wrap');if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&option?.value==='cleanse')?'block':'none';
       const rarity=document.getElementById('loot-item-rarity');if(rarity&&(type==='mission'||(type==='potion'&&option?.value==='cleanse'))){rarity.innerHTML='<option value="mision">Única</option>';rarity.value='mision';}
-      if (levelWrap) levelWrap.style.display = isLevelled&&!['weapon','armor'].includes(type)&&!(type==='potion'&&option?.value==='cleanse') ? 'block' : 'none';
-      if (levelWrap?.firstChild) levelWrap.firstChild.nodeValue = type === 'potion' ? 'Nivel de poción\n                ' : 'Nivel del objeto\n                ';
-      if(['armor','weapon'].includes(type)&&levelWrap)levelWrap.style.display='none';
+      if (levelWrap) levelWrap.style.display = isLevelled&&type==='potion'&&option?.value!=='cleanse' ? 'block' : 'none';
+      if (levelWrap?.firstChild) levelWrap.firstChild.nodeValue = 'Nivel de poción\n                ';
+      if(['armor','weapon','relic','mission','mundane'].includes(type)&&levelWrap)levelWrap.style.display='none';
       setLootLevelLabels(levelSelect,option?.value);
       if (detail) detail.placeholder = option?.value === 'custom' ? 'Describe el efecto exacto...' : 'Detalle adicional opcional';
     }
@@ -8968,7 +8988,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       };
       const weightWrap=document.getElementById('sheet-item-weight-wrap'),rarityWrap=document.getElementById('sheet-item-rarity-wrap');
       if(weightWrap)weightWrap.style.display=['potion','mission'].includes(type)?'none':'block';
-      if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&document.getElementById('loot-item-effect-option')?.value==='cleanse')?'block':'none';
+      if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&document.getElementById('sheet-item-effect-option')?.value==='cleanse')?'block':'none';
       const rarity=document.getElementById('sheet-item-rarity');if(rarity){rarity.innerHTML=type==='mission'?'<option value="mision">Única</option>':'<option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Única</option>';if(type==='mission')rarity.value='mision';}
       const qtyWrap=document.getElementById('sheet-item-quantity-wrap');if(qtyWrap)qtyWrap.style.display=['potion','mission','mundane'].includes(type)?'block':'none';
       if(type==='potion'){const weight=document.getElementById('sheet-item-weight');if(weight)weight.value='0';}
@@ -8987,6 +9007,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const option=document.getElementById('sheet-item-effect-option')?.selectedOptions?.[0];
       const effectCode=option?.value||'';
       const rarityWrap=document.getElementById('sheet-item-rarity-wrap');if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&effectCode==='cleanse')?'block':'none';
+      const raritySelect=document.getElementById('sheet-item-rarity');if(raritySelect&&(type==='mission'||(type==='potion'&&effectCode==='cleanse'))){raritySelect.innerHTML='<option value="mision">Única</option>';raritySelect.value='mision';}
       const directEffects=['relic_pc','relic_pd','relic_smath','relic_hp','relic_essence','armor_pd'];
       const isDirectMagnitude=['relic','armor'].includes(type)&&directEffects.includes(effectCode);
       const magnitudeWrap=document.getElementById('sheet-item-magnitude-wrap');
@@ -9097,17 +9118,18 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const effectCode = ['weapon','armor'].includes(type)?'':(document.getElementById('loot-item-effect-option')?.value || 'custom');
       const effectLevel = ['weapon','armor'].includes(type)?0:(parseInt(document.getElementById('loot-item-effect-level')?.value) || 1);
       const effectText = document.getElementById('loot-item-effect')?.value.trim() || '';
+      const effectMagnitude=type==='relic'?Math.max(1,parseInt(document.getElementById('loot-relic-magnitude')?.value)||1):0;
       const target = document.getElementById('loot-target-player')?.value || 'all';
 
       if (!name) { showToast('⚠️ Escribe el nombre del objeto.'); return; }
 
-      const typeLabels = {potion:'Poción',weapon:'Arma',armor:'Armadura',relic:'Reliquia',mission:'Objeto de misión',mundane:'Mundano'};
+      const typeLabels = {potion:'Poción',weapon:'Arma',armor:'Armadura',relic:'Reliquia',mission:'Objeto de misión',mundane:'General'};
       const armorSubtype=document.getElementById('loot-armor-subtype')?.value||'tela';
       const armorPd=Math.max(0,parseInt(document.getElementById('loot-armor-pd')?.value)||0);
       const resistances=Object.fromEntries(['veneno','sangrado','stun','mareado','petrificado','infectado'].map(state=>[state,parseFloat(document.getElementById(`loot-armor-resist-${state}`)?.value)||0]));
       const weaponConfig={scalePct:Math.max(0,parseFloat(document.getElementById('loot-weapon-scale')?.value)||100),rarity,effectType:document.getElementById('loot-weapon-effect-type')?.value||'none',effectDice:document.getElementById('loot-weapon-effect-dice')?.value.trim()||'',effectTurns:Math.max(1,parseInt(document.getElementById('loot-weapon-effect-turns')?.value)||2),critMult:Math.max(1,parseFloat(document.getElementById('loot-weapon-crit-mult')?.value)||2),critOnly:!!document.getElementById('loot-weapon-crit-only')?.checked};
-      const itemDescription=type==='armor'?`Armadura ${armorSubtype} · +${armorPd} PD`:type==='weapon'?`Arma · escala ${weaponConfig.scalePct}%`:describeLootEffect(type,effectCode,effectLevel,effectText);
-      const baseItem={name,qty:'1',weight:['potion','mission'].includes(type)?'0':weight,desc:`${typeLabels[type]||'Objeto'}: ${itemDescription}`,rarity:type==='mission'?'mision':type==='potion'?'comun':rarity,type,effectCode:type==='mission'?'':effectCode,effectLevel,effectText:type==='weapon'||type==='armor'?'':effectText,armorSubtype,armorPd,resistances,equipped:false};
+      const itemDescription=type==='armor'?`Armadura ${armorSubtype} · +${armorPd} PD`:type==='weapon'?`Arma · escala ${weaponConfig.scalePct}%`:type==='relic'&&effectCode!=='custom'?`${effectCode.replace('relic_','').toUpperCase()} +${effectMagnitude}`:describeLootEffect(type,effectCode,effectLevel,effectText);
+      const baseItem={name,qty:'1',weight:['potion','mission'].includes(type)?'0':weight,desc:`${typeLabels[type]||'Objeto'}: ${itemDescription}`,rarity:type==='mission'?'mision':type==='potion'?'comun':rarity,type,effectCode:type==='mission'?'':effectCode,effectLevel,effectText:type==='weapon'||type==='armor'?'':effectText,effectMagnitude,armorSubtype,armorPd,resistances,equipped:false};
       const deliverToPlayer=pid=>{
         if(!allPlayersData[pid])allPlayersData[pid]=createBlankCharacterData('');
         const recipient=allPlayersData[pid];recipient.inventory=Array.isArray(recipient.inventory)?recipient.inventory:[];
@@ -9659,7 +9681,7 @@ function addInventoryRow(name = '', qty = '', weight = '', desc = '', rarity = '
   tr.dataset.resistances=JSON.stringify(extra.resistances||{});
   if(extra.weaponId)tr.dataset.weaponId=extra.weaponId;
   const rarityLabels={basura:'Basura',comun:'Común',infrecuente:'Infrecuente',raro:'Raro',mitico:'Mítico',mision:'Única'};
-  const typeLabels={potion:'Poción',weapon:'Arma',armor:'Armadura',relic:'Reliquia',mission:'Misión',mundane:'Mundano'};
+  const typeLabels={potion:'Poción',weapon:'Arma',armor:'Armadura',relic:'Reliquia',mission:'Misión',mundane:'General'};
   const typeIcons={potion:'🧪',weapon:'⚔️',armor:'🛡️',relic:'💎',mission:'📜',mundane:'📦'};
   const rarityValue=type==='mission'?'mision':(type==='potion'?'comun':(rarity||'comun'));
   const weightValue=(type==='potion'||type==='mission')?0:(weight??'');
