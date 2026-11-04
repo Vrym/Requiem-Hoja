@@ -9631,37 +9631,51 @@ function addInventoryRow(name = '', qty = '', weight = '', desc = '', rarity = '
   tr.dataset.armorPd=parseInt(extra.armorPd)||0;
   tr.dataset.effectMagnitude=parseNumericValue(extra.effectMagnitude,0)||parseNumericValue(extra.armorPd,0);
   tr.dataset.resistances=JSON.stringify(extra.resistances||{});
-  const rarityOptions = [['basura','Basura'],['comun','Común'],['infrecuente','Infrecuente'],['raro','Raro'],['mitico','Mítico'],['mision','Única']];
-  const typeLabels = {potion:'🧪 Poción',weapon:'⚔️ Arma',armor:'🛡️ Armadura',relic:'💎 Reliquia',mission:'📜 Misión',mundane:'📦 Mundano'};
   if(extra.weaponId)tr.dataset.weaponId=extra.weaponId;
-  const useButton = type === 'potion' && effectCode ? `<button type="button" class="btn-use-inventory" onclick="useInventoryItem(this.closest('tr'))">Usar</button>` : '';
-  const weaponButton = type==='weapon' ? `<button type="button" class="btn-use-inventory" onclick="openInventoryWeaponBuilder(this.closest('tr'))" title="Abrir el constructor de arma">⚙️ Crear / editar arma</button>` : '';
-  const tradeOptions = playerList.filter(pid=>pid!==activeRole).map(pid=>`<option value="${escapeHtml(pid)}">${escapeHtml(allPlayersData[pid]?.inputs?.['char-name']||getIdentityLabel(pid))}</option>`).join('');
+  const rarityLabels={basura:'Basura',comun:'Común',infrecuente:'Infrecuente',raro:'Raro',mitico:'Mítico',mision:'Única'};
+  const typeLabels={potion:'Poción',weapon:'Arma',armor:'Armadura',relic:'Reliquia',mission:'Misión',mundane:'Mundano'};
+  const typeIcons={potion:'🧪',weapon:'⚔️',armor:'🛡️',relic:'💎',mission:'📜',mundane:'📦'};
+  const rarityValue=type==='mission'?'mision':(type==='potion'?'comun':(rarity||'comun'));
+  const weightValue=(type==='potion'||type==='mission')?0:(weight??'');
   const armorMagnitude=parseNumericValue(extra.effectMagnitude,0)||parseNumericValue(extra.armorPd,0);
-  const armorFields = type==='armor' ? `<div class="inv-special-fields inv-armor-equip-only"><label><input type="checkbox" class="inv-equipped" ${extra.equipped?'checked':''}> 🛡️ Equipada</label><label>Bono PD <input type="number" class="inv-relic-magnitude" value="${armorMagnitude}" min="0" step="1"></label></div>` : '';
-  const relicFields = type==='relic' ? `<div class="inv-special-fields"><label><input type="checkbox" class="inv-equipped" ${extra.equipped?'checked':''}> 💎 Equipada</label><label>Bono / magnitud <input type="number" class="inv-relic-magnitude" value="${parseNumericValue(extra.effectMagnitude,0)}" min="0" step="1"></label></div>` : '';
-  const weightValue = (type==='potion'||type==='mission') ? 0 : (weight ?? '');
-  const rarityValue = type==='mission' ? 'mision' : (type==='potion' ? 'comun' : rarity);
-  const rarityDisabled = type==='potion'||type==='mission';
-  tr.innerHTML = `<td data-label="Objeto"><textarea class="inv-name" rows="1" placeholder="Objeto..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(name)}</textarea><div class="inv-item-meta"><select class="inv-item-type" aria-label="Tipo de objeto" onchange="changeInventoryType(this)">${[['mundane','📦 Mundano'],['potion','🧪 Poción'],['weapon','⚔️ Arma'],['armor','🛡️ Armadura'],['relic','💎 Reliquia'],['mission','📜 Misión']].map(([v,label])=>`<option value="${v}" ${type===v?'selected':''}>${label}</option>`).join('')}</select>${useButton}${weaponButton}<select class="inv-trade-target" aria-label="Transferir a jugador">${tradeOptions || '<option value="">Sin destinatarios</option>'}</select><input type="number" class="inv-trade-qty" min="1" value="1" aria-label="Cantidad a pasar"><button type="button" class="btn-trade-inventory" onclick="tradeInventoryItem(this.closest('tr'))" ${tradeOptions?'':'disabled'}>🤝 Pasar</button></div>${armorFields}${relicFields}</td><td data-label="Cant."><input type="number" class="inv-qty" value="${escapeHtml(qty)}" min="0" oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Peso"><input type="number" step="0.1" class="inv-weight" value="${escapeHtml(String(weightValue))}" min="0" ${type==='potion'||type==='mission'?'readonly':''} oninput="calcTotalWeight(); syncToFirebaseDebounced();"></td><td data-label="Descripción"><textarea class="inv-desc" rows="1" placeholder="Descripción..." oninput="autoResizeTextarea(this); syncToFirebaseDebounced(1200);">${escapeHtml(desc)}</textarea></td><td data-label="Rareza"><select class="inv-rarity" style="display:${rarityDisabled?'none':'inline-block'};" ${rarityDisabled?'disabled':''} onchange="updateInventoryRarityStyle(this); syncToFirebaseDebounced();" aria-label="Rareza del objeto">${rarityOptions.map(([v,label]) => `<option value="${v}" ${rarityValue === v ? 'selected' : ''}>${label}</option>`).join('')}</select></td><td data-label="Eliminar" style="text-align:center"><button type="button" onclick="this.closest('tr').remove(); calcTotalWeight(); recalcAllAutoStats(); syncToFirebaseDebounced();" style="background:none;border:none;cursor:pointer;color:#9d1717;font-weight:bold">✖</button></td>`;
-  tr.querySelectorAll('.inv-relic-magnitude').forEach(el=>{
-    el.addEventListener('input',()=>{
-      const row=el.closest('tr'),value=parseNumericValue(el.value,0);
-      if(row?.dataset.itemType==='armor')row.dataset.armorPd=String(value);else if(row)row.dataset.effectMagnitude=String(value);
-      recalcAllAutoStats();commitDomToActivePlayer();renderGMDashboard();syncToFirebaseDebounced(350);
-    });
-    el.addEventListener('change',()=>saveActivePlayerToCloud(true));
-  });
-  tr.querySelectorAll('.inv-equipped').forEach(el=>el.addEventListener('change',()=>{handleArmorEquippedChange(el);recalcAllAutoStats();commitDomToActivePlayer();renderGMDashboard();saveActivePlayerToCloud(true);}));
-  tbody.appendChild(tr); tr.querySelectorAll('textarea').forEach(autoResizeTextarea); updateInventoryRarityStyle(tr.querySelector('.inv-rarity')); calcTotalWeight();
+  const equipped=!!extra.equipped,hasEquipControl=type==='armor'||type==='relic';
+  const rarityColors={basura:'#737373',comun:'#9a7134',infrecuente:'#27834b',raro:'#2563b8',mitico:'#8737b6',mision:'#c08a21'};
+  tr.style.setProperty('--inventory-rarity',rarityColors[rarityValue]||rarityColors.comun);
+  tr.innerHTML =
+    '<td data-label="Objeto"><div class="inventory-item-title"><span class="inventory-item-icon">'+(typeIcons[type]||'📦')+'</span><span class="inventory-item-name">'+escapeHtml(name||'Objeto sin nombre')+'</span></div>'+
+    '<span class="inventory-item-type">'+(typeLabels[type]||'Objeto')+'</span>'+
+    (hasEquipControl?'<button type="button" class="inventory-equip-toggle '+(equipped?'is-equipped':'')+'" onclick="toggleInventoryEquipped(this)">'+(equipped?'✓ Equipada':'＋ Equipar')+'</button>':'')+
+    '<input type="hidden" class="inv-name inventory-readonly-value" value="'+escapeHtml(name)+'">'+
+    '<input type="checkbox" class="inv-equipped inventory-readonly-value" '+(equipped?'checked':'')+'>'+
+    '<input type="hidden" class="inv-relic-magnitude inventory-readonly-value" value="'+armorMagnitude+'"></td>'+
+    '<td data-label="Cant."><span class="inventory-count">'+escapeHtml(String(qty||1))+'</span><input type="hidden" class="inv-qty inventory-readonly-value" value="'+escapeHtml(String(qty||1))+'"></td>'+
+    '<td data-label="Peso"><span class="inventory-weight">'+escapeHtml(String(weightValue))+' kg</span><input type="hidden" class="inv-weight inventory-readonly-value" value="'+escapeHtml(String(weightValue))+'"></td>'+
+    '<td data-label="Descripción"><span class="inventory-description">'+escapeHtml(desc||effectText||'—')+'</span><input type="hidden" class="inv-desc inventory-readonly-value" value="'+escapeHtml(desc)+'"></td>'+
+    '<td data-label="Rareza"><span class="inventory-rarity-badge">'+(rarityLabels[rarityValue]||'Común')+'</span><input type="hidden" class="inv-rarity inventory-readonly-value" value="'+escapeHtml(rarityValue)+'"></td>';
+  tbody.appendChild(tr);
+  updateInventoryRarityStyle(tr.querySelector('.inv-rarity'));
+  calcTotalWeight();
 }
+function toggleInventoryEquipped(button){
+  const row=button?.closest('tr'),checkbox=row?.querySelector('.inv-equipped');if(!row||!checkbox)return;
+  checkbox.checked=!checkbox.checked;
+  if(checkbox.checked&&row.dataset.itemType==='armor')handleArmorEquippedChange(checkbox);
+  button.classList.toggle('is-equipped',checkbox.checked);
+  button.textContent=checkbox.checked?'✓ Equipada':'＋ Equipar';
+  commitDomToActivePlayer();
+  recalcAllAutoStats();
+  renderGMDashboard();
+  saveActivePlayerToCloud(true);
+}
+
 function updateInventoryRarityStyle(select) {
   if (!select) return;
-  const styles = {basura:['#5d5d5d','#f1f1ef','#5c5a57'],comun:['#76551f','#fff7df','#77746e'],infrecuente:['#166534','#effcf1','#187345'],raro:['#1d4ed8','#eff6ff','#2459ad'],mitico:['#7e22ce','#fbf4ff','#7926a3'],mision:['#9a6a0b','#fff3cf','#986500']};
-  const [border,background,textColor] = styles[select.value] || styles.comun;
-  select.style.border = `1.5px solid ${border}`; select.style.background = background; select.style.fontWeight = 'bold';
-  const row=select.closest('tr'); if(row){row.style.background=`linear-gradient(110deg,${background},rgba(255,255,255,.72))`;row.style.boxShadow=`inset 4px 0 ${border}`;}
-  const nameInput = row?.querySelector('.inv-name'); if (nameInput) nameInput.style.color = textColor;
+  const styles={basura:['#5d5d5d','#f1f1ef','#5c5a57'],comun:['#76551f','#fff7df','#77746e'],infrecuente:['#166534','#effcf1','#187345'],raro:['#1d4ed8','#eff6ff','#2459ad'],mitico:['#7e22ce','#fbf4ff','#7926a3'],mision:['#9a6a0b','#fff3cf','#986500']};
+  const [border,background,textColor]=styles[select.value]||styles.comun;
+  const row=select.closest('tr'),badge=row?.querySelector('.inventory-rarity-badge'),title=row?.querySelector('.inventory-item-title');
+  if(row){row.style.setProperty('--inventory-rarity',border);row.style.background='linear-gradient(110deg,'+background+',rgba(255,255,255,.78))';}
+  if(badge){badge.style.borderColor=border;badge.style.background=background;badge.style.color=textColor;}
+  if(title)title.style.color=textColor;
 }
 function changeInventoryType(select) {
   const row=select?.closest('tr');if(!row)return;
