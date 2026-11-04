@@ -6121,7 +6121,7 @@ function confirmDismissSummon(pid, sIdx, summonName) {
               targetsLog.push(`• 🐾 <span class="chat-target-link" onclick="focusCombatantCard('${tId}', false)">${escapeHtml(defName)}</span> (PD: ${defPd}): <b>¡Impacto! -${before-summon.hpCurr} HP</b>${isTargetDead?' · 💀 ¡Invocación derrotada!':` · 💚 Sobrevive (${summon.hpCurr}/${summon.hpMax} HP)`}${isCrit?' ⭐ CRÍTICO':''}`);
               renderPlayerSummons(ownerId);
             }else{
-              targetsLog.push(`• 🐾 <span class="chat-target-link" onclick="focusCombatantCard('${tId}', false)">${escapeHtml(defName)}</span> (PD: ${defPd}): 🛡️ ${isPifia?'PIFIA · ataque fallido':'¡Falló! (Ataque: ${attackPrecision})'}`);
+              targetsLog.push(`• 🐾 <span class="chat-target-link" onclick="focusCombatantCard('${tId}', false)">${escapeHtml(defName)}</span> (PD: ${defPd}): 🛡️ ${isPifia?'⚠️ PIFIA':'Falló'} (Ataque: ${attackPrecision})`);
             }
           }
         } else if (tId.startsWith('e_')) {
@@ -6134,7 +6134,7 @@ function confirmDismissSummon(pid, sIdx, summonName) {
             triggerCardDamageAnimation(`enemy-card-e_${idx}`);
             targetsLog.push(result.immune ? getImmuneCombatMessage(defender.name) : `• <span class="chat-target-link" onclick="focusCombatantCard('e_${idx}', true)">👹 ${escapeHtml(defender.name)}</span> (PD: ${defenderPd}): <b>¡Impacto! -${result.damage} HP${result.shieldAbsorbed ? ` (${result.shieldAbsorbed} absorbidos por escudo)` : ''}</b>${isCrit ? ' ⭐ GOLPE CRÍTICO' : ''}`);
           } else {
-            targetsLog.push(`• <span class="chat-target-link" onclick="focusCombatantCard('e_${idx}', true)">👹 ${escapeHtml(defender.name)}</span> (PD: ${defenderPd}): 🛡️ ¡Misió! (Ataque: ${totalPrecision})`);
+            targetsLog.push(`• <span class="chat-target-link" onclick="focusCombatantCard('e_${idx}', true)">👹 ${escapeHtml(defender.name)}</span> (PD: ${defenderPd}): 🛡️ ${isPifia?'⚠️ PIFIA':'Falló'} (Ataque: ${totalPrecision})`);
           }
         } else if (tId.startsWith('p_')) {
           const pDefId = tId.replace('p_', '');
@@ -7344,7 +7344,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       });
 
       const critTag = isPifia ? ' ⚠️ PIFIA' : isPerfect ? ' 🌟 PERFECTA · DAÑO CRÍTICO MÁXIMO' : isCrit ? ' <span class="badge-entry-crit">⭐ GOLPE CRÍTICO</span>' : '';
-      const entryText = `<b>${escapeHtml(attackerName)}</b> atacó con <b>${escapeHtml(weapon.name)}</b>${critTag}<br>🎲 D6: ${rollD6} · D20: ${d20Roll} + PC ${pcBono} = ${attackPrecision} · Crítico: ${critTotal}/20 (D20 ${d20Roll} + Táct ${critBonus})${isCrit ? ' ⭐' : ''}:<br>${targetsLog.join('<br>')}`;
+      const entryText = `<b>${escapeHtml(attackerName)}</b> usó <b>${escapeHtml(weapon.name)}</b>${critTag}<br>🎲 D6: ${rollD6} · D20: ${d20Roll} + PC ${pcBono} = ${attackPrecision} · Crítico: ${critTotal}/20 (D20 ${d20Roll} + Táct ${critBonus})${isCrit ? ' ⭐' : ''}:<br>${targetsLog.join('<br>')}`;
       broadcastSystemCombatEntry('attack', entryText);
       if(attackerData){attackerData.turnActionUsed=true;attackerData.turnAttacks=attackerData.turnAttacks||[];attackerData.turnAttacks.push(weapon.name||'Ataque');}
 
