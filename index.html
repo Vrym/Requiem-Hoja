@@ -5134,7 +5134,7 @@ select[id^="summary-skill-sel-"] optgroup {
     function getCombatActionLimit(data,isEnemy=false,kind='common'){
       if(String(kind).startsWith('quick'))return 1;
       const configuredBase=parseInt(data?.commonActionsPerTurn);
-      const baseActions=Number.isFinite(configuredBase)?Math.max(1,Math.min(12,configuredBase)):1;
+      const baseActions=isEnemy?Math.max(1,Math.min(12,Number.isFinite(configuredBase)?configuredBase:1)):1;
       const bonus=Math.max(0,parseInt(data?.commonActionBonus)||0);
       return baseActions+bonus;
     }
