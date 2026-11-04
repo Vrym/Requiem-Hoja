@@ -10674,7 +10674,7 @@ function executeModalAction() {
     gameRef.child('missions').on('value', snap => {
       missionDiaryData = snap.val() || {};
       missionDiaryReady = true;
-      if (document.getElementById('mission-diary-overlay')?.classList.contains('open')) renderMissionDiary();
+      if (document.getElementById('mission-diary-overlay')?.classList.contains('open')) { populateMissionTargetSelect(); renderMissionDiary(); }
     });
     function openMissionDiary(){
       const overlay=document.getElementById('mission-diary-overlay'); if(!overlay)return;
@@ -10712,7 +10712,7 @@ function executeModalAction() {
         if(m.visibility==='individual'&&m.targetRole!==activeRole&&!isMasterClient)return false;
         if(!isMasterClient&&m.status==='active'&&m.visibility!=='all'&&m.targetRole!==activeRole)return false;
         return missionDiaryFilter==='active'?(!m.status||m.status==='active'):m.status===missionDiaryFilter;
-      }).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
+      }).sort((a,b)=>((b[1].updatedAt||b[1].createdAt||0)-(a[1].updatedAt||a[1].createdAt||0)));
       if(!entries.length){list.innerHTML='<div class="diary-empty">'+(missionDiaryFilter==='active'?'No hay misiones pendientes por aquí.':'Todavía no hay misiones en esta categoría.')+'</div>';return;}
       list.innerHTML=entries.map(([id,m])=>{
         const type=m.type==='secondary'?'Secundaria':'Principal',vis=m.visibility==='secret'?'Secreta':m.visibility==='individual'?'Individual':'Pública';
