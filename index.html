@@ -5078,7 +5078,7 @@ select[id^="summary-skill-sel-"] optgroup {
     }
     function rollInitiativeForEnteringPlayer(pid,results){
       const pdata=allPlayersData[pid];if(!pdata||(parseFloat(pdata.inputs?.['stat-hp-curr'])||0)<=0)return;
-      pdata.quickActionsUsed=0;pdata.commonActionsUsed=0;pdata.commonActionBonus=0;pdata.motivationUses=0;pdata.defendingTurn=false;pdata.turnActionUsed=false;pdata.turnAttacks=[];pdata.turnTechniques=[];
+      pdata.quickActionsUsed=0;pdata.commonActionsUsed=0;pdata.commonActionBonus=0;pdata.motivationUses=0;pdata.motivacionUsedThisTurn=false;pdata.defendingTurn=false;pdata.turnActionUsed=false;pdata.turnAttacks=[];pdata.turnTechniques=[];
       const bonus=parseInt(pdata.inputs?.['stat-init-bono'])||0,die=rollDie(20),total=die+bonus,combatantId=`p_${pid}`;pdata.lastInit=total;completedCombatants.delete(combatantId);
       diceRollsHistory.unshift({time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),sender:getCombatantLabel(combatantId),detail:`Iniciativa al entrar: D20 ${die} + ${bonus} = ${total}`});
       results.push(`${escapeHtml(getCombatantLabel(combatantId))} ${total} (D20 ${die} + ${bonus})`);
@@ -5234,6 +5234,8 @@ select[id^="summary-skill-sel-"] optgroup {
     }
     function togglePlayerConcentration(pid){
       const player=allPlayersData[pid];if(!player)return false;
+      const usedMotivation=!!player.motivacionUsedThisTurn||(player.turnAttacks||[]).some(action=>/motivaci[oó]n|motivaci?n/i.test(String(action)));
+      if(!player.isConcentrado&&usedMotivation){showToast('🔒 Si activaste Motivación este turno, no puedes Concentrarte.');return false;}
       if(!player.isConcentrado&&!consumeCombatAction(`p_${pid}`,false,'common','Concentración'))return false;
       player.isConcentrado=!player.isConcentrado;
       if(activeRole===pid)updateConcentradoButtonUI();
@@ -5266,7 +5268,7 @@ select[id^="summary-skill-sel-"] optgroup {
       if(Date.now()-(player.lastMotivationAt||0)<10000){showToast('⏳ Motivación tiene 10 segundos de enfriamiento.');return false;}
       const cost=uses===0?3:5,current=parseFloat(player.inputs?.['stat-smath-curr'])||0;if(current<cost){showToast(`⚠️ Necesitas ${cost} Smath.`);return false;}
       player.inputs['stat-smath-curr']=current-cost;
-      player.motivationUses=uses+1;
+      player.motivationUses=uses+1;player.motivacionUsedThisTurn=true;
       player.commonActionsUsed=Math.max(0,(parseInt(player.commonActionsUsed)||1)-1);
       player.lastMotivationAt=Date.now();
       player.turnActionUsed=true;
@@ -6357,7 +6359,7 @@ function confirmDismissSummon(pid, sIdx, summonName) {
         pdata.turnTechniques = [];
         pdata.lastSkillRoll = null;
         pdata.turnActionUsed = false;
-        pdata.quickActionsUsed=0;pdata.commonActionsUsed=0;pdata.commonActionBonus=0;pdata.motivationUses=0;pdata.dizzyOverrideActions=0;pdata.defendingTurn=false;
+        pdata.quickActionsUsed=0;pdata.commonActionsUsed=0;pdata.commonActionBonus=0;pdata.motivationUses=0;pdata.motivacionUsedThisTurn=false;pdata.dizzyOverrideActions=0;pdata.defendingTurn=false;
         if (pdata.itemCombatBuff) {
           const remainingTurns = (parseInt(pdata.itemCombatBuff.turns) || 1) - 1;
           if (remainingTurns <= 0) { delete pdata.itemCombatBuff; roundStateEvents.push(`✨ ${escapeHtml(pInputs['char-name'] || pid)} pierde el efecto de su poción de combate.`); }
@@ -10050,7 +10052,7 @@ function handleMotivacionClick(box, useIndex) {
   const input = document.getElementById('stat-smath-curr'), current = parseFloat(input?.value) || 0;
   if (current < cost) { box.checked = false; showToast(`?? Necesitas ${cost} Smath para Motivaci?n.`); return; }
   if (input) input.value = current - cost;
-  p.lastMotivationAt = Date.now();p.motivationUses=(parseInt(p.motivationUses)||0)+1;p.turnActionUsed=true;p.turnAttacks = p.turnAttacks || []; p.turnAttacks.push(`Motivaci?n (-${cost} Smath)`);
+  p.lastMotivationAt = Date.now();p.motivationUses=(parseInt(p.motivationUses)||0)+1;p.motivacionUsedThisTurn=true;p.turnActionUsed=true;p.turnAttacks = p.turnAttacks || []; p.turnAttacks.push(`Motivaci?n (-${cost} Smath)`);
   p.commonActionsUsed=0;p.commonActionBonus=(parseInt(p.commonActionBonus)||0)+1;
   if(p.checkboxes?.['status-mareado'])p.dizzyOverrideActions=(parseInt(p.dizzyOverrideActions)||0)+1;
   if(activeRole===activeClientIdentity){recalcAllAutoStats();syncToFirebaseDebounced();updateResourceBarsUI();}
