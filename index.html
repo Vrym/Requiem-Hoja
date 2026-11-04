@@ -1749,6 +1749,23 @@
     .inventory-table { width:100%; border-collapse:collapse; table-layout:fixed; }
     .inventory-table textarea { width:100%; min-height:25px; box-sizing:border-box; resize:none; overflow:hidden; overflow-wrap:anywhere; white-space:pre-wrap; }
     .inventory-table input, .inventory-table select { max-width:100%; min-width:0; box-sizing:border-box; }
+    .currency-purse-redesign { display:block; padding:10px; margin:7px 0 10px; background:linear-gradient(145deg,#342313,#60421f 58%,#2d1d10); border:2px solid #a98242; border-radius:7px; box-shadow:inset 0 0 0 1px #24170d,0 3px 7px #0002; color:#f6e5bd; font-family:var(--f-title); }
+    .currency-purse-redesign .currency-purse-header { display:flex; align-items:center; gap:8px; width:100%; padding:0 0 9px; margin:0 0 9px; border-bottom:1px solid #a9824266; }
+    .currency-purse-redesign .currency-purse-header>b { color:#f4d18b; font-size:12px; letter-spacing:1px; }
+    .currency-purse-total { margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:2px; color:#cdb58b; font-size:9px; text-transform:uppercase; }
+    .currency-purse-total strong { color:#ffdf91; font-size:12px; text-transform:none; }
+    .currency-purse-redesign .info-icon-btn { flex:0 0 auto; }
+    .currency-denominations { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+    .currency-purse-redesign .currency-denomination { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:5px!important; padding:7px 6px; border:1px solid #a9824266; border-radius:5px; background:#1e150d55; color:#f5dfb5; min-width:0; }
+    .currency-name { grid-column:1/-1; font-size:10px; white-space:nowrap; }
+    .currency-purse-redesign input { width:100%; height:29px; padding:3px 4px; border:1px solid #9b7848; border-radius:4px; background:#fff8e9; color:#39230d; font:bold 13px var(--f-title); text-align:center; }
+    .currency-purse-redesign .currency-firencias input { border-color:#d6a43c; }
+    .currency-purse-redesign .currency-lascas input { border-color:#a9b6c5; }
+    .currency-purse-redesign .currency-cursouls input { border-color:#b97843; }
+    .currency-purse-redesign .currency-convert-btn { width:24px; height:27px; min-width:24px; display:flex; flex-direction:column; gap:0; border-color:#a98242; background:#f5e5c5; color:#553719; font-size:12px; }
+    .currency-purse-redesign .currency-convert-btn small { font-size:8px; line-height:8px; }
+    .currency-purse-redesign .currency-convert-pair { flex-direction:column; gap:3px; }
+    @media(max-width:420px){.currency-denominations{gap:4px}.currency-purse-redesign .currency-denomination{padding:6px 4px}.currency-name{font-size:9px}.currency-purse-total strong{font-size:10px}}
     .currency-purse { display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:7px;margin:5px 0 8px;background:linear-gradient(100deg,#f6ebd2,#e9d3a4);border:1.5px solid #a77a35;border-radius:4px;box-shadow:inset 0 1px 0 rgba(255,255,255,.7);font:11px var(--f-title); }
     .currency-purse label { display:inline-flex;align-items:center;gap:4px;font-weight:bold;color:#5d3a12; }
     .currency-purse input { width:68px;min-width:0;box-sizing:border-box;text-align:center;background:#fffdf8;border:1px solid #87602c;border-radius:3px;padding:3px; }
@@ -3887,15 +3904,17 @@ select[id^="summary-skill-sel-"] optgroup {
       <!-- MOCHILA -->
       <div class="box-frame">
         <div class="box-frame-title">Mochila</div>
-        <div class="currency-purse" aria-label="Monedero del personaje">
+        <div class="currency-purse currency-purse-redesign" aria-label="Monedero del personaje">
           <div class="currency-purse-header">
-            <b>🪙 MONEDERO</b>
+            <b>🪙 TESORO DEL PERSONAJE</b>
+            <span class="currency-purse-total">Valor total <strong id="currency-total-display">0 Cursouls</strong></span>
             <button type="button" class="info-icon-btn" onclick="showCurrencyExchangeInfo()" aria-label="Equivalencias de monedas" title="Ver equivalencias">ℹ️</button>
           </div>
-          <label class="currency-denomination">🪙 Firencias<input id="currency-firencias" type="number" min="0" step="1" value="0" oninput="calcCurrencyTotal();syncToFirebaseDebounced();"><button type="button" class="currency-convert-btn" onclick="convertCurrency('firenciasToLascas')" aria-label="Convertir una Firencia en veinte Lascas" title="↓ Convertir 1 Firencia en 20 Lascas">↓⚪</button></label>
-          <label class="currency-denomination">⚪ Lascas<input id="currency-lascas" type="number" min="0" step="1" value="0" oninput="calcCurrencyTotal();syncToFirebaseDebounced();"><span class="currency-convert-pair"><button type="button" class="currency-convert-btn" onclick="convertCurrency('lascasToFirencias')" aria-label="Convertir veinte Lascas en una Firencia" title="↑ Convertir 20 Lascas en 1 Firencia">↑🪙</button><button type="button" class="currency-convert-btn" onclick="convertCurrency('lascasToCursouls')" aria-label="Convertir una Lasca en cincuenta Cursouls" title="↓ Convertir 1 Lasca en 50 Cursouls">↓🟤</button></span></label>
-          <label class="currency-denomination">🟤 Cursouls<input id="currency-cursouls" type="number" min="0" step="1" value="0" oninput="calcCurrencyTotal();syncToFirebaseDebounced();"><button type="button" class="currency-convert-btn" onclick="convertCurrency('cursoulsToLascas')" aria-label="Convertir cincuenta Cursouls en una Laska" title="↑ Convertir 50 Cursouls en 1 Laska">↑⚪</button></label>
-          <span>Total guardado: <b id="currency-total-display">0 Cursouls</b></span>
+          <div class="currency-denominations">
+            <label class="currency-denomination currency-firencias"><span class="currency-name">🪙 Firencias</span><input id="currency-firencias" type="number" min="0" step="1" value="0" oninput="calcCurrencyTotal();syncToFirebaseDebounced();"><button type="button" class="currency-convert-btn" onclick="convertCurrency('firenciasToLascas')" aria-label="Convertir una Firencia en veinte Lascas" title="Convertir 1 Firencia en 20 Lascas">⇩<small>⚪</small></button></label>
+            <label class="currency-denomination currency-lascas"><span class="currency-name">⚪ Lascas</span><input id="currency-lascas" type="number" min="0" step="1" value="0" oninput="calcCurrencyTotal();syncToFirebaseDebounced();"><span class="currency-convert-pair"><button type="button" class="currency-convert-btn" onclick="convertCurrency('lascasToFirencias')" aria-label="Convertir veinte Lascas en una Firencia" title="Convertir 20 Lascas en 1 Firencia">⇧<small>🪙</small></button><button type="button" class="currency-convert-btn" onclick="convertCurrency('lascasToCursouls')" aria-label="Convertir una Lasca en cincuenta Cursouls" title="Convertir 1 Lasca en 50 Cursouls">⇩<small>🟤</small></button></span></label>
+            <label class="currency-denomination currency-cursouls"><span class="currency-name">🟤 Cursouls</span><input id="currency-cursouls" type="number" min="0" step="1" value="0" oninput="calcCurrencyTotal();syncToFirebaseDebounced();"><button type="button" class="currency-convert-btn" onclick="convertCurrency('cursoulsToLascas')" aria-label="Convertir cincuenta Cursouls en una Laska" title="Convertir 50 Cursouls en 1 Laska">⇧<small>⚪</small></button></label>
+          </div>
         </div>
         <div style="width:100%;">
           <table class="inventory-table" style="margin-top:4px;">
