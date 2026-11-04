@@ -10709,23 +10709,28 @@ function executeModalAction() {
       if(activeClientIdentity!=='gm'||!id||!['done','failed'].includes(status)){
         showToast('🔒 Seleccioná la identidad Master para cambiar estados.');return;
       }
-      const mission=missionDiaryData[id];
-      if(!mission){showToast('⚠️ No encuentro esa misión en el diario.');return;}
       if(missionStatusPending.has(id))return;
       missionStatusPending.add(id);
       if(button){button.disabled=true;button.setAttribute('aria-busy','true');}
       const stamp=Date.now(),missionRef=gameRef.child('missions').child(id);
-      missionRef.update({status,updatedAt:stamp}).then(()=>{
-        // El listener Firebase actualiza missionDiaryData; cambiamos el filtro después del ACK.
-        missionDiaryFilter=status;setMissionDiaryFilter(status);
-        showToast(status==='done'?'✓ Misión completada':'✕ Misión marcada como fallida');
-      }).catch(err=>{
-        console.error('[Diario de misiones] Firebase rechazó el cambio', {id,status,code:err?.code,message:err?.message});
-        showToast('❌ Firebase no guardó el estado: '+(err?.message||err?.code||'error desconocido'));
-      }).finally(()=>{
+      // Validamos y modificamos el mismo nodo en Firebase (no por título ni por caché local).
+      missionRef.transaction(current=>{
+        if(current===null)return; // Abort: no crear una misión fantasma si el ID no existe.
+        current.status=status;current.updatedAt=stamp;return current;
+      },(error,committed,snapshot)=>{
+        if(error){
+          console.error('[Diario de misiones] Firebase rechazó el cambio',{id,status,code:error.code,message:error.message});
+          showToast('❌ Firebase no guardó el estado: '+(error.message||error.code||'error desconocido'));
+        }else if(!committed||!snapshot?.exists()){
+          console.error('[Diario de misiones] No existe el nodo Firebase de la misión',{id});
+          showToast('⚠️ El registro de esta misión no existe en Firebase (ID '+id+').');
+        }else{
+          missionDiaryFilter=status;setMissionDiaryFilter(status);
+          showToast(status==='done'?'✓ Misión completada':'✕ Misión marcada como fallida');
+        }
         missionStatusPending.delete(id);
         if(button){button.disabled=false;button.removeAttribute('aria-busy');}
-      });
+      },false);
     }
     // Delegación: sobrevive a cada render/reconstrucción del listado y evita listeners perdidos.
     const missionDiaryListEl=document.getElementById('mission-diary-list');
