@@ -8939,6 +8939,8 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const detail = document.getElementById('loot-item-effect');
       const type = document.getElementById('loot-item-type')?.value || 'potion';
       const isLevelled = option?.dataset.levels === 'true';
+      const rarityWrap=document.getElementById('loot-rarity-wrap');if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&option?.value==='cleanse')?'block':'none';
+      const rarity=document.getElementById('loot-item-rarity');if(rarity&&(type==='mission'||(type==='potion'&&option?.value==='cleanse'))){rarity.innerHTML='<option value="mision">Única</option>';rarity.value='mision';}
       if (levelWrap) levelWrap.style.display = isLevelled&&!['weapon','armor'].includes(type)&&!(type==='potion'&&option?.value==='cleanse') ? 'block' : 'none';
       if (levelWrap?.firstChild) levelWrap.firstChild.nodeValue = type === 'potion' ? 'Nivel de poción\n                ' : 'Nivel del objeto\n                ';
       if(['armor','weapon'].includes(type)&&levelWrap)levelWrap.style.display='none';
@@ -8984,6 +8986,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const createWeaponButton=document.getElementById('btn-sheet-create-weapon');
       const option=document.getElementById('sheet-item-effect-option')?.selectedOptions?.[0];
       const effectCode=option?.value||'';
+      const rarityWrap=document.getElementById('sheet-item-rarity-wrap');if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&effectCode==='cleanse')?'block':'none';
       const directEffects=['relic_pc','relic_pd','relic_smath','relic_hp','relic_essence','armor_pd'];
       const isDirectMagnitude=['relic','armor'].includes(type)&&directEffects.includes(effectCode);
       const magnitudeWrap=document.getElementById('sheet-item-magnitude-wrap');
