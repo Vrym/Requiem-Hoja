@@ -2597,6 +2597,25 @@ select[id^="summary-skill-sel-"] optgroup {
 .inventory-add-modal #sheet-armor-creation-fields{border:1px solid #c6a16b!important;border-radius:9px!important;background:#f9edcf!important}
 .inventory-add-modal .btn-modal-danger,.inventory-add-modal .btn-modal-cancel{min-height:38px;border-radius:7px;padding:8px 14px;font:700 11px var(--f-title)}
 @media(max-width:560px){.inventory-add-modal{padding:14px!important;margin:10px!important}.inventory-add-modal .loot-item-meta-grid{grid-template-columns:1fr!important}.inventory-add-modal #sheet-item-effects-wrap{grid-template-columns:1fr!important}.inventory-add-modal>div:last-child{flex-direction:column}.inventory-add-modal>div:last-child button{width:100%}}
+
+/* FIX DEFINITIVO: monedero y barra sticky */
+.currency-purse-redesign label.currency-lascas{
+  display:grid!important;
+  grid-template-columns:22px minmax(0,1fr) 22px!important;
+  grid-template-rows:20px 30px!important;
+  width:100%!important;min-width:0!important;box-sizing:border-box!important;
+}
+.currency-purse-redesign label.currency-lascas .currency-name{grid-column:1/-1!important;grid-row:1!important}
+.currency-purse-redesign label.currency-lascas input#currency-lascas{
+  grid-column:2!important;grid-row:2!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  margin:0!important;padding-left:2px!important;padding-right:2px!important;
+  box-sizing:border-box!important;justify-self:stretch!important;
+}
+.currency-purse-redesign label.currency-lascas .currency-convert-btn:first-child{grid-column:1!important;grid-row:2!important;justify-self:start!important}
+.currency-purse-redesign label.currency-lascas .currency-convert-btn:last-child{grid-column:3!important;grid-row:2!important;justify-self:end!important}
+.role-bar-wrap{position:sticky!important;top:0!important;z-index:99999!important;align-self:stretch;isolation:isolate}
+@media(max-width:650px){.role-bar-wrap{position:sticky!important;top:0!important;z-index:99999!important}}
 </style>
 </head>
 <body>
