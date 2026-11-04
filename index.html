@@ -2547,6 +2547,12 @@ select[id^="summary-skill-sel-"] optgroup {
       .inventory-table tbody td:first-child{flex:1 1 100%;border-left:0!important;padding-right:35px;}
       .inventory-table tbody td:not(:first-child):not(:last-child){flex:1 1 25%;min-width:0;}
       .inventory-table tbody td:last-child{position:absolute;top:5px;right:5px;width:30px;padding:0;}
+      .inventory-table tbody td[data-label="Rareza"]{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+      .inventory-table tbody td[data-label="Rareza"]::before{width:100%;text-align:center;}
+      .inventory-table tbody td[data-label="Rareza"] .inventory-rarity-badge{margin:0 auto;max-width:100%;box-sizing:border-box;}
+      .inventory-table tbody td:last-child{top:50%;right:8px;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;box-sizing:border-box;z-index:2;}
+      .inventory-table tbody td:last-child .inventory-delete-btn{flex:0 0 25px;box-sizing:border-box;margin:0;}
+      .inventory-table input:not([type="hidden"]),.inventory-table select,.inventory-table textarea{text-align:center;}
       .inventory-table tbody td[data-label]::before{content:attr(data-label);display:block;margin-bottom:2px;color:#8a642c;font:bold 8px var(--f-title);text-transform:uppercase;letter-spacing:.3px;}
       .inventory-table tbody td:first-child::before,.inventory-table tbody td:last-child::before{display:none;}
       .inventory-item-title{font-size:11px;overflow-wrap:anywhere;}
