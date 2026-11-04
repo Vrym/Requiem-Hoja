@@ -1131,6 +1131,13 @@
       .grid-2col { grid-template-columns: 1fr; gap: 8px; }
       .role-bar-tabs { display: none !important; }
       .mobile-role-selector-wrap { display: block !important; }
+      .gm-fixed-container { gap:4px; padding-right:5px; }
+      .gm-fixed-container .role-btn { padding:5px 6px; font-size:10px; letter-spacing:0; }
+      .role-bar-wrap:has(#mobile-role-select[hidden]) .gm-fixed-container { border-right:0; }
+      .role-bar-wrap:has(#mobile-role-select[hidden]) .gm-fixed-container #gm-console-btn { display:none; }
+      .role-bar-wrap:has(#mobile-role-select[hidden]) #role-bar-container { display:flex!important; flex:1; min-width:0; }
+      .role-bar-wrap:has(#mobile-role-select[hidden]) #role-bar-container .role-btn { padding:5px 7px; font-size:10px; white-space:normal; }
+      .mobile-role-selector-wrap:has(#mobile-role-select[hidden]) { display:none!important; }
     }
   
     /* ===== CSS PORTADO 2.0 / 2.1 ===== */
@@ -7746,16 +7753,14 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       if (consoleBtn) consoleBtn.classList.toggle('active', activeRole === 'console');
 
       if (mobileSelect) {
-        const gmOpt = document.createElement('option');
-        gmOpt.value = 'gm';
-        gmOpt.innerText = '⚔️ Campo';
-        mobileSelect.appendChild(gmOpt);
-
+        mobileSelect.hidden = !isMasterClient;
         if (isMasterClient) {
-          const cOpt = document.createElement('option');
-          cOpt.value = 'console';
-          cOpt.innerText = '🛠️ Consola del Master';
-          mobileSelect.appendChild(cOpt);
+          const placeholder = document.createElement('option');
+          placeholder.value = '';
+          placeholder.innerText = '📚 Menú fichas personajes';
+          placeholder.disabled = true;
+          placeholder.selected = activeRole === 'gm' || activeRole === 'console';
+          mobileSelect.appendChild(placeholder);
         }
       }
 
@@ -7778,7 +7783,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           container.appendChild(btn);
         }
 
-        if (mobileSelect) {
+        if (mobileSelect && isMasterClient) {
           const opt = document.createElement('option');
           opt.value = pid;
           opt.innerText = `${icon} ${name}`;
@@ -7787,8 +7792,10 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         }
       });
 
-      if (mobileSelect && activeRole) {
+      if (mobileSelect && isMasterClient && activeRole && activeRole !== 'gm' && activeRole !== 'console') {
         mobileSelect.value = activeRole;
+      } else if (mobileSelect && isMasterClient) {
+        mobileSelect.value = '';
       }
 
       const deleteBtn = document.getElementById('btn-delete-player');
