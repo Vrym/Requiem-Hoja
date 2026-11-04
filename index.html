@@ -2672,6 +2672,19 @@ select[id^="summary-skill-sel-"] optgroup {
 .diary-launch{padding:5px 8px!important;font-size:12px!important;letter-spacing:.5px!important;border:1px solid #bf8a3b!important;border-radius:2px!important;gap:5px!important;box-shadow:none!important}
 .diary-launch .diary-glyph{font-size:14px!important}
 .diary-launch:hover{transform:none!important;box-shadow:none!important}
+
+/* Diario: identidad visual + ramas + bitacora */
+.diary-card.main{background:linear-gradient(110deg,#fff2d2,#ecd09a);border-color:#b88a42;border-left-color:#9b291d}
+.diary-card.secondary{background:linear-gradient(110deg,#edf4df,#d9e5c5);border-color:#8fa477;border-left-color:#527544}
+.diary-card.main .diary-tag.type-tag{background:#f4d9a0;color:#79251a;border-color:#c58c43}
+.diary-card.secondary .diary-tag.type-tag{background:#d6e5c7;color:#36572a;border-color:#8fa477}
+.diary-branch{font:11px var(--f-body);color:#76552c;margin-top:7px;padding:6px 8px;border-top:1px dashed #b99a69;background:#ffffff35}
+.diary-history{font:11px var(--f-body);color:#5c4a2e;margin-top:5px;white-space:pre-wrap}
+.diary-updated{background:#e6e0f4!important;color:#514078!important;border-color:#a89acb!important}
+.diary-action.update{background:#e6e0f4;color:#514078;border-color:#a89acb}
+.diary-form-grid.branch-grid{grid-template-columns:1fr 1fr}
+@media(max-width:520px){.diary-form-grid.branch-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -2688,6 +2701,7 @@ select[id^="summary-skill-sel-"] optgroup {
           <label class="diary-field">Tipo<select id="mission-new-type"><option value="main">Principal</option><option value="secondary">Secundaria</option></select></label>
           <label class="diary-field">Visibilidad<select id="mission-new-visibility" onchange="toggleMissionTargetField()"><option value="all">Pública (todos)</option><option value="individual">Individual</option><option value="secret">Secreta (solo GM)</option></select></label>
         </div>
+        <label class="diary-field" style="margin-top:8px">Deriva de / misión anterior<select id="mission-new-parent"><option value="">— Inicio de aventura —</option></select></label>
         <label class="diary-field" id="mission-target-field" style="display:none;margin-top:8px">Personaje destinatario<select id="mission-new-target"></select></label>
         <button class="diary-create" type="button" onclick="createMissionFromDiary()">＋ Añadir misión al diario</button>
       </div>
@@ -10613,10 +10627,11 @@ function executeModalAction() {
     function closeMissionDiary(){document.getElementById('mission-diary-overlay')?.classList.remove('open');document.body.style.overflow='';}
     function setMissionDiaryFilter(filter){missionDiaryFilter=filter;document.querySelectorAll('[data-diary-filter]').forEach(b=>b.classList.toggle('active',b.dataset.diaryFilter===filter));renderMissionDiary();}
     function populateMissionTargetSelect(){
-      const select=document.getElementById('mission-new-target');if(!select)return;
-      const old=select.value;select.innerHTML='';
+      const select=document.getElementById('mission-new-target');if(select){const old=select.value;select.innerHTML='';
       (playerList||[]).forEach(id=>{const d=allPlayersData[id]||{};const opt=document.createElement('option');opt.value=id;opt.textContent=[d.name,d.lastname].filter(Boolean).join(' ')||id;select.appendChild(opt);});
-      if(old&&[...select.options].some(o=>o.value===old))select.value=old;
+      if(old&&[...select.options].some(o=>o.value===old))select.value=old;}
+      const parent=document.getElementById('mission-new-parent');if(parent){const old=parent.value;parent.innerHTML='<option value="">— Inicio de aventura —</option>';
+      Object.entries(missionDiaryData||{}).forEach(([id,m])=>{if(!m)return;const o=document.createElement('option');o.value=id;o.textContent=(m.type==='secondary'?'[Sec.] ':'[Prin.] ')+(m.title||'Misión');parent.appendChild(o);});if(old&&[...parent.options].some(o=>o.value===old))parent.value=old;}
     }
     function toggleMissionTargetField(){const v=document.getElementById('mission-new-visibility')?.value;const f=document.getElementById('mission-target-field');if(f)f.style.display=v==='individual'?'flex':'none';}
     function createMissionFromDiary(){
@@ -10625,10 +10640,12 @@ function executeModalAction() {
       const type=document.getElementById('mission-new-type')?.value||'main';const visibility=document.getElementById('mission-new-visibility')?.value||'all';const target=visibility==='individual'?document.getElementById('mission-new-target')?.value:null;
       if(!title){showToast('⚠️ La misión necesita un nombre.');document.getElementById('mission-new-title')?.focus();return;}
       if(visibility==='individual'&&!target){showToast('⚠️ Elegí el personaje destinatario.');return;}
-      const mission={title,description:desc,type,visibility,targetRole:target||'',status:'active',createdAt:Date.now(),createdBy:activeClientIdentity||'master'};
+      const parentId=document.getElementById('mission-new-parent')?.value||'';
+      const mission={title,description:desc,type,visibility,targetRole:target||'',parentId,status:'active',createdAt:Date.now(),updatedAt:Date.now(),history:[],createdBy:activeClientIdentity||'master'};
       gameRef.child('missions').push(mission).then(()=>{document.getElementById('mission-new-title').value='';document.getElementById('mission-new-desc').value='';missionDiaryFilter='active';setMissionDiaryFilter('active');showToast('📜 Misión añadida al diario.');}).catch(()=>showToast('❌ No se pudo guardar la misión.'));
     }
     function setMissionStatus(id,status){if(!isMasterClient)return;gameRef.child('missions').child(id).update({status,updatedAt:Date.now()}).then(()=>{missionDiaryFilter=status;setMissionDiaryFilter(status);showToast(status==='done'?'✓ Misión archivada en Completadas':'✕ Misión archivada en Fallidas');}).catch(()=>showToast('No se pudo actualizar la misión.'));}
+    function addMissionUpdate(id){if(!isMasterClient)return;const note=prompt('¿Qué cambió o qué avance hubo en esta misión?');if(note===null||!note.trim())return;const m=missionDiaryData[id]||{};const history=[...(m.history||[]),{at:Date.now(),note:note.trim()}];gameRef.child('missions').child(id).update({updatedAt:Date.now(),history}).then(()=>showToast('📜 Actualización registrada.')).catch(()=>showToast('No se pudo registrar la actualización.'));}
     function deleteMissionFromDiary(id){if(!isMasterClient)return;if(!confirm('¿Eliminar esta misión definitivamente?'))return;gameRef.child('missions').child(id).remove().catch(()=>showToast('No se pudo eliminar la misión.'));}
     function renderMissionDiary(){
       const list=document.getElementById('mission-diary-list');if(!list)return;
@@ -10644,7 +10661,13 @@ function executeModalAction() {
         const status=m.status==='done'?'Completada':m.status==='failed'?'Fallida':'Pendiente';
         const safeTitle=escapeHtml(m.title||'Misión sin título'),safeDesc=escapeHtml(m.description||'Sin descripción u objetivo registrado.');
         const targetName=m.targetRole?escapeHtml(([allPlayersData[m.targetRole]?.name,allPlayersData[m.targetRole]?.lastname].filter(Boolean).join(' ')||m.targetRole)):'';
-        const actions=isMasterClient&&m.status==='active'?'<div class="diary-actions"><button class="diary-action complete" onclick="setMissionStatus(\''+id+'\',\'done\')">✓ Completar</button><button class="diary-action fail" onclick="setMissionStatus(\''+id+'\',\'failed\')">✕ Fallida</button><button class="diary-action" onclick="deleteMissionFromDiary(\''+id+'\')">🗑</button></div>':(isMasterClient?'<div class="diary-actions"><button class="diary-action" onclick="deleteMissionFromDiary(\''+id+'\')">🗑 Eliminar</button></div>':'');
+        const parent=m.parentId&&missionDiaryData[m.parentId]?missionDiaryData[m.parentId]:null;
+        const children=Object.entries(missionDiaryData||{}).filter(([cid,cm])=>cm&&cm.parentId===id).map(([,cm])=>escapeHtml(cm.title||'Misión'));
+        const branch=(parent||children.length)?'<div class="diary-branch">'+(parent?'↳ Deriva de: <b>'+escapeHtml(parent.title||'Misión')+'</b>':'')+(children.length?(parent?' · ':'')+'Continúa en: <b>'+children.join(', ')+'</b>':'')+'</div>':'';
+        const updated=m.updatedAt&&m.updatedAt>m.createdAt?'<span class="diary-tag diary-updated">✦ Actualizada</span>':'';
+        const history=(m.history||[]).slice(-3).reverse().map(h=>'<div class="diary-history">• '+new Date(h.at).toLocaleString()+' — '+escapeHtml(h.note||'Actualización')+'</div>').join('');
+
+        const actions=isMasterClient?'<div class="diary-actions">'+(m.status==='active'?'<button class="diary-action complete" onclick="setMissionStatus(\\''+id+'\\',\\'done\\')">✓ Completar</button><button class="diary-action fail" onclick="setMissionStatus(\\''+id+'\\',\\'failed\\')">✕ Fallida</button>':'')+'<button class="diary-action update" onclick="addMissionUpdate(\\''+id+'\\')">✎ Actualizar</button><button class="diary-action" onclick="deleteMissionFromDiary(\\''+id+'\\')">🗑</button></div>':'';
         return '<article class="diary-card '+(m.type==='secondary'?'secondary':'main')+' '+(m.status==='done'?'done':m.status==='failed'?'failed':'')+'"><div class="diary-card-top"><div class="diary-card-title">'+safeTitle+'</div><span class="diary-tag">'+type+'</span><span class="diary-tag '+(m.visibility==='secret'?'secret':m.visibility==='individual'?'individual':'')+'">'+vis+'</span></div><p class="diary-desc">'+safeDesc+'</p><div class="diary-meta"><span class="diary-status '+(m.status==='done'?'done':m.status==='failed'?'failed':'')+'">'+(m.status==='done'?'✓ ':m.status==='failed'?'✕ ':'◷ ')+status+'</span>'+(targetName?'<span class="diary-tag">↳ '+targetName+'</span>':'')+actions+'</div></article>';
       }).join('');
     }
