@@ -220,7 +220,7 @@
       padding-bottom: 2px;
       border-bottom: 1px solid rgba(197, 160, 89, 0.2);
     }
-    .chat-entry-badge {
+    .history-filter.active{background:#7c2d12!important;color:#fff7e6!important;border-color:#f0b45a!important;}.chat-entry-badge {
       font-size: 9.5px;
       font-weight: 700;
       text-transform: uppercase;
@@ -1694,7 +1694,7 @@
     .summon-attack-picker { position:relative;display:flex;align-items:center;justify-content:center;flex:0 0 auto; }
     .summon-attack-picker > summary { display:flex;align-items:center;justify-content:center;min-height:22px;padding:1px 4px;list-style:none;text-align:center;cursor:pointer;white-space:nowrap; }
     .summon-attack-picker > summary::-webkit-details-marker { display:none; }
-    .summon-attack-picker-menu { position:absolute;right:0;top:calc(100% + 4px);z-index:1200;display:flex;flex-direction:column;gap:3px;min-width:150px;max-width:min(260px,80vw);padding:5px;border:1px solid #9a7134;border-radius:4px;background:#fff8e8;box-shadow:0 5px 14px rgba(35,21,8,.35); }
+    .summon-attack-picker-menu { position:absolute;right:0;bottom:calc(100% + 4px);top:auto;right:0;z-index:12000;display:flex;flex-direction:column;gap:3px;min-width:150px;max-width:min(260px,80vw);padding:5px;border:1px solid #9a7134;border-radius:4px;background:#fff8e8;box-shadow:0 5px 14px rgba(35,21,8,.35); }
     .summon-attack-picker-menu .btn-mini-tool { text-align:left;white-space:normal; }
     #char-data-content-wrap { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 12px; }
     #char-data-content-wrap .header-info-line { min-width:0;display:flex;align-items:center;gap:5px; }
@@ -2542,7 +2542,7 @@ select[id^="summary-skill-sel-"] optgroup {
   <div id="history-modal-backdrop" class="modal-backdrop">
     <div class="hub-modal-box" style="max-width:520px; text-align:left;">
       <div class="modal-title" style="color:#731e0b; text-align:center;">💬 HISTORIAL DE LA MESA</div>
-      <div class="history-list" id="objectives-history-list" style="max-height:260px; overflow-y:auto; background:#fffdf8; border:1px solid var(--border-dark); padding:8px; font-size:13px; margin-bottom:10px;"></div>
+      <div id="table-history-filters" style="display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:0 0 8px;"><button type="button" class="btn-mini-tool history-filter active" data-filter="all" onclick="setTableHistoryFilter('all')">📚 Todo</button><button type="button" class="btn-mini-tool history-filter" data-filter="chat" onclick="setTableHistoryFilter('chat')">💬 Chat</button><button type="button" class="btn-mini-tool history-filter" data-filter="roll" onclick="setTableHistoryFilter('roll')">🎲 Tiradas</button><button type="button" class="btn-mini-tool history-filter" data-filter="combat" onclick="setTableHistoryFilter('combat')">⚔️ Combate</button></div><div class="history-list" id="objectives-history-list" style="max-height:260px; overflow-y:auto; background:#fffdf8; border:1px solid var(--border-dark); padding:8px; font-size:13px; margin-bottom:10px;"></div>
       <div style="display:flex;gap:7px;flex-wrap:wrap;">
         <button type="button" id="btn-clear-table-history" class="btn-modal-danger" onclick="clearTableHistory()" style="display:none;flex:1;background:#8b2416;">🧹 Limpiar historial</button>
         <button type="button" class="btn-modal-cancel" onclick="closeModal('history-modal-backdrop')" style="flex:1;">Cerrar Historial</button>
@@ -5523,7 +5523,7 @@ select[id^="summary-skill-sel-"] optgroup {
     function getSavedSkillBonusText(pdata,skillId) {
       const levels = pdata?.skills?.[skillId] || pdata?.skills?.[String(skillId)] || [];
       const level = Array.isArray(levels) && levels.length ? Math.max(...levels.map(Number)) : -1;
-      return level===7 ? 'x2D +12' : level >= 0 ? SKILL_BONUSES[level] : '+0';
+      return level===7 ? 'x2D' : level >= 0 ? SKILL_BONUSES[level] : '+0';
     }
   function buildSummarySkillOptions(pdata, mode = 'arq') {
       const formatTitleCase = str => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : '';
@@ -9410,7 +9410,7 @@ function updateSkillsAndPoints(totalPh = null) {
       if (chk?.checked) { spent += SKILL_COSTS[i]; highest = i; }
     }
     const tag = document.getElementById(`sk-bonus-${s}`);
-    if (tag) { tag.innerText = highest===7 ? 'x2D +12' : highest >= 0 ? SKILL_BONUSES[highest] : '-'; tag.classList.toggle('has-bonus', highest >= 0); }
+    if (tag) { tag.innerText = highest===7 ? 'x2D' : highest >= 0 ? SKILL_BONUSES[highest] : '-'; tag.classList.toggle('has-bonus', highest >= 0); }
   }
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
   set('pts-gastados', spent);
@@ -9749,11 +9749,23 @@ function addNewPlayer() {
   switchRole(id); saveActivePlayerToCloud(true); updateSenderSelect(); updateLootTargetSelect();
   showToast(`✅ Se agregó el Jugador ${index}.`);
 }
-    function renderObjectivesHistory() {
+    let tableHistoryFilter='all';
+function setTableHistoryFilter(filter){
+  tableHistoryFilter=['all','chat','roll','combat'].includes(filter)?filter:'all';
+  document.querySelectorAll('#table-history-filters .history-filter').forEach(btn=>btn.classList.toggle('active',btn.dataset.filter===tableHistoryFilter));
+  renderObjectivesHistory();
+}
+function renderObjectivesHistory() {
   const container = document.getElementById('objectives-history-list'); if (!container) return;
   container.innerHTML = '';
-  if (!objectivesList?.length) { container.innerHTML = '<div style="color:#777;font-style:italic;padding:10px;text-align:center">No hay mensajes registrados.</div>'; return; }
-  objectivesList.forEach(obj => {
+  const list=(objectivesList||[]).filter(obj=>{
+    if(tableHistoryFilter==='all')return true;
+    if(tableHistoryFilter==='chat')return obj.category==='chat';
+    if(tableHistoryFilter==='roll')return obj.category==='roll';
+    return ['attack','tech','summon','round'].includes(obj.category);
+  });
+  if (!list.length) { container.innerHTML = '<div style="color:#777;font-style:italic;padding:10px;text-align:center">No hay entradas en este filtro.</div>'; return; }
+  list.forEach(obj => {
     const item = document.createElement('div'); item.className = 'history-item';
     const categoryInfo = {chat:['badge-entry-chat','💬 MENSAJE'],attack:['badge-entry-attack','⚔️ COMBATE'],tech:['badge-entry-tech','⚡ TÉCNICA'],summon:['badge-entry-summon','🐾 MASCOTA'],round:['badge-entry-round','⏳ RONDA'],roll:['badge-entry-roll','🎲 TIRADA']}[obj.category] || ['badge-entry-chat','💬 MENSAJE'];
     item.innerHTML = `<div><div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:3px;"><b style="color:#731e0b">[${escapeHtml(obj.time || '')}]</b><span class="chat-entry-badge ${categoryInfo[0]}">${categoryInfo[1]}</span></div><span class="history-message"></span></div>${isMasterClient ? `<button type="button" onclick="deleteObjective('${escapeHtml(obj.id || '')}')" title="Borrar mensaje">✖</button>` : ''}`;
