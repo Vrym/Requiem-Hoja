@@ -2530,6 +2530,22 @@ select[id^="summary-skill-sel-"] optgroup {
     .inventory-action-footer{display:flex;gap:7px;margin-top:14px;}
     .inventory-action-footer button{flex:1;min-height:34px;}
     @media(max-width:520px){.inventory-table thead{display:none;}.inventory-table,.inventory-table tbody,.inventory-table tr,.inventory-table td{display:block;width:100%;box-sizing:border-box;}.inventory-table tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:0 8px;padding:6px;}.inventory-table tbody td{border:0!important;padding:3px!important;}.inventory-table tbody td:first-child{grid-column:1/-1;border-left:3px solid var(--inventory-rarity,#b89452)!important;}.inventory-table tbody td:nth-child(4){grid-column:1/-1;}.inventory-action-fields{grid-template-columns:1fr;}}
+
+/* Inventario: modal de alta renovado + acción de eliminación */
+.inventory-row-actions{width:42px;text-align:center;padding:5px!important}
+.inventory-delete-btn{display:inline-grid;place-items:center;width:27px;height:27px;border:1px solid #a34b40;border-radius:50%;background:#fff0e9;color:#9f241b;font:700 20px/1 Arial;cursor:pointer;transition:transform .15s,background .15s}
+.inventory-delete-btn:hover{background:#a92e24;color:#fff;transform:scale(1.08)}
+.inventory-add-backdrop{backdrop-filter:blur(4px);background:rgba(26,16,8,.62)}
+.inventory-add-modal{border:2px solid #9c7137!important;border-radius:14px!important;padding:20px!important;background:linear-gradient(145deg,#fff8e8,#ead5ad)!important;box-shadow:0 22px 65px rgba(0,0,0,.42)!important}
+.inventory-add-modal .combat-hub-title{font:900 20px var(--f-title);color:#5c3515!important;text-align:center;border-bottom:1px solid #c6a16b;padding:0 0 12px;margin-bottom:14px}
+.inventory-add-modal label{display:flex!important;flex-direction:column;gap:6px;color:#68451e;font:700 11px var(--f-title)!important}
+.inventory-add-modal input:not([type=checkbox]),.inventory-add-modal select{width:100%;min-height:38px;border:1px solid #c5a16d;border-radius:7px;background:#fffdf7;padding:8px 10px;color:#38220e;font:14px var(--f-body)}
+.inventory-add-modal input:focus,.inventory-add-modal select:focus{outline:2px solid #b58a4b;outline-offset:1px}
+.inventory-add-modal .loot-item-meta-grid{gap:10px!important;margin-top:12px}
+.inventory-add-modal #sheet-item-effects-wrap{gap:10px!important;margin-top:12px!important}
+.inventory-add-modal #sheet-armor-creation-fields{border:1px solid #c6a16b!important;border-radius:9px!important;background:#f9edcf!important}
+.inventory-add-modal .btn-modal-danger,.inventory-add-modal .btn-modal-cancel{min-height:38px;border-radius:7px;padding:8px 14px;font:700 11px var(--f-title)}
+@media(max-width:560px){.inventory-add-modal{padding:14px!important;margin:10px!important}.inventory-add-modal .loot-item-meta-grid{grid-template-columns:1fr!important}.inventory-add-modal #sheet-item-effects-wrap{grid-template-columns:1fr!important}.inventory-add-modal>div:last-child{flex-direction:column}.inventory-add-modal>div:last-child button{width:100%}}
 </style>
 </head>
 <body>
@@ -2756,8 +2772,8 @@ select[id^="summary-skill-sel-"] optgroup {
   </div>
 
   <!-- MODAL: AGREGAR OBJETO A LA FICHA -->
-  <div id="modal-sheet-item-builder" class="modal-backdrop" style="z-index:100004;">
-    <div class="hub-modal-box modal-box-large" style="max-width:600px;text-align:left;">
+  <div id="modal-sheet-item-builder" class="modal-backdrop inventory-add-backdrop" style="z-index:100004;">
+    <div class="hub-modal-box modal-box-large inventory-add-modal" style="max-width:600px;text-align:left;">
       <div class="modal-title combat-hub-title">🎁 Agregar objeto a la mochila</div>
       <label style="display:block;font:bold 11px var(--f-title);margin:8px 0;">Nombre del objeto
         <input type="text" id="sheet-item-name" class="table-msg-input" style="width:100%;">
@@ -9651,11 +9667,27 @@ function addInventoryRow(name = '', qty = '', weight = '', desc = '', rarity = '
     '<td data-label="Cant."><span class="inventory-count">'+escapeHtml(String(qty||1))+'</span><input type="hidden" class="inv-qty inventory-readonly-value" value="'+escapeHtml(String(qty||1))+'"></td>'+
     '<td data-label="Peso"><span class="inventory-weight">'+escapeHtml(String(weightValue))+' kg</span><input type="hidden" class="inv-weight inventory-readonly-value" value="'+escapeHtml(String(weightValue))+'"></td>'+
     '<td data-label="Descripción"><span class="inventory-description">'+escapeHtml(desc||effectText||'—')+'</span><input type="hidden" class="inv-desc inventory-readonly-value" value="'+escapeHtml(desc)+'"></td>'+
-    '<td data-label="Rareza"><span class="inventory-rarity-badge">'+(rarityLabels[rarityValue]||'Común')+'</span><input type="hidden" class="inv-rarity inventory-readonly-value" value="'+escapeHtml(rarityValue)+'"></td>';
+    '<td data-label="Rareza"><span class="inventory-rarity-badge">'+(rarityLabels[rarityValue]||'Común')+'</span><input type="hidden" class="inv-rarity inventory-readonly-value" value="'+escapeHtml(rarityValue)+'"></td>'+
+    '<td data-label="Acciones" class="inventory-row-actions"><button type="button" class="inventory-delete-btn" title="Eliminar objeto" aria-label="Eliminar objeto" onclick="deleteInventoryItem(this)">×</button></td>';
   tbody.appendChild(tr);
   updateInventoryRarityStyle(tr.querySelector('.inv-rarity'));
   calcTotalWeight();
 }
+function deleteInventoryItem(button){
+  if(!isMasterClient && activeClientIdentity!==activeRole){showToast('🔒 No puedes editar esta ficha.');return;}
+  const row=button?.closest('#inventory-body tr');if(!row)return;
+  const name=row.querySelector('.inv-name')?.value||row.querySelector('.inventory-item-name')?.textContent||'este objeto';
+  if(!confirm(`¿Eliminar “${name}” de la mochila? Esta acción no se puede deshacer.`))return;
+  const pdata=gatherFormData(),items=Array.isArray(pdata.inventory)?pdata.inventory:[];
+  const index=Array.from(document.querySelectorAll('#inventory-body tr')).indexOf(row);
+  if(index<0||index>=items.length)return;
+  const removed=items.splice(index,1)[0];
+  if(removed?.weaponId&&Array.isArray(pdata.weapons))pdata.weapons=pdata.weapons.filter(w=>w.id!==removed.weaponId);
+  pdata.inventory=items;allPlayersData[activeRole]=pdata;applyDataToForm(pdata);
+  recalcAllAutoStats();renderGMDashboard();saveActivePlayerToCloud(true);
+  showToast(`🗑️ “${name}” eliminado de la mochila.`);
+}
+
 function toggleInventoryEquipped(button){
   const row=button?.closest('tr'),checkbox=row?.querySelector('.inv-equipped');if(!row||!checkbox)return;
   checkbox.checked=!checkbox.checked;
