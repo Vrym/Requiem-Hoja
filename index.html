@@ -9835,20 +9835,26 @@ function confirmInventoryAction(){
   if(!playerList.includes(targetId)||targetId===sourceId){showToast('⚠️ Selecciona otro jugador como destinatario.');return;}
   const available=Math.max(1,parseInt(item.qty)||1),amount=Math.max(1,parseInt(document.getElementById('inventory-action-quantity')?.value)||1);
   if(amount>available){showToast('⚠️ Solo hay '+available+' unidades disponibles.');return;}
+  if(item.type==='weapon'&&amount!==available){showToast('⚠️ Las armas se entregan completas, no por unidades parciales.');return;}
   const receiver=allPlayersData[targetId]||(allPlayersData[targetId]=createBlankCharacterData(''));
   source.inventory=Array.isArray(source.inventory)?source.inventory:[];receiver.inventory=Array.isArray(receiver.inventory)?receiver.inventory:[];
   const itemName=item.name||'objeto',transferred={...item,qty:String(amount),equipped:false};
   const remaining=available-amount;
   if(remaining<=0)source.inventory.splice(itemIndex,1);else source.inventory[itemIndex].qty=String(remaining);
-  if(item.weaponId){
-    const weapon=source.weapons?.find(entry=>entry.id===item.weaponId);
+  if(item.type==='weapon'){
+    source.weapons=Array.isArray(source.weapons)?source.weapons:[];
+    receiver.weapons=Array.isArray(receiver.weapons)?receiver.weapons:[];
+    const weapon=source.weapons.find(entry=>entry.id===item.weaponId);
+    const newWeaponId='w_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
     if(weapon){
-      receiver.weapons=Array.isArray(receiver.weapons)?receiver.weapons:[];
-      const newWeaponId='w_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
-      receiver.weapons.push({...weapon,id:newWeaponId});transferred.weaponId=newWeaponId;
+      receiver.weapons.push({...weapon,id:newWeaponId});
+      source.weapons=source.weapons.filter(entry=>entry.id!==item.weaponId);
+    }else{
+      receiver.weapons.push({id:newWeaponId,name:item.name||'Arma',scalePct:100,rarity:item.rarity||'comun',effectType:'none',effectDice:'',effectTurns:2,critMult:2,critOnly:false,lastRoll:'-',lastDmg:'-'});
     }
+    transferred.weaponId=newWeaponId;
   }
-  const stack=receiver.inventory.find(existing=>existing.name===transferred.name&&existing.type===transferred.type&&existing.rarity===transferred.rarity&&existing.effectCode===transferred.effectCode&&(existing.type!=='armor'||(existing.armorSubtype===transferred.armorSubtype&&existing.armorPd===transferred.armorPd&&JSON.stringify(existing.resistances||{})===JSON.stringify(transferred.resistances||{}))));
+  const stack=transferred.type==='weapon'?null:receiver.inventory.find(existing=>existing.name===transferred.name&&existing.type===transferred.type&&existing.rarity===transferred.rarity&&existing.effectCode===transferred.effectCode&&(existing.type!=='armor'||(existing.armorSubtype===transferred.armorSubtype&&existing.armorPd===transferred.armorPd&&JSON.stringify(existing.resistances||{})===JSON.stringify(transferred.resistances||{}))));
   if(stack)stack.qty=String((parseInt(stack.qty)||0)+amount);else receiver.inventory.push(transferred);
   closeModal('inventory-action-modal');
   applyDataToForm(source);recalcAllAutoStats();renderGMDashboard();saveActivePlayerToCloud(true);renderEnemiesCards();
