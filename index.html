@@ -3017,6 +3017,7 @@ select[id^="summary-skill-sel-"] optgroup {
     <div class="status-bar">
       <div class="status-left-wrap">
         <span>🔥 Réquiem Smithnas</span>
+        <label id="identity-selector-wrap" style="display:flex;align-items:center;gap:5px;font:bold 10px var(--f-title);white-space:nowrap;">👤 Identidad <select id="table-msg-sender" class="table-msg-select" style="width:auto;max-width:150px;" onchange="onMasterIdentityChanged(this.value)"></select></label>
         <button type="button" id="btn-toggle-sound" class="btn-sound-toggle" onclick="toggleAudioMute()" title="Alternar Sonido">
           <span id="sound-icon">🔔</span> <span id="sound-label">Sonido</span>
         </button>
@@ -3055,7 +3056,6 @@ select[id^="summary-skill-sel-"] optgroup {
         </div>
 
         <div class="table-msg-composer">
-          <select id="table-msg-sender" class="table-msg-select" onchange="onMasterIdentityChanged(this.value)"></select>
           <input type="text" id="table-msg-input" class="table-msg-input" placeholder="Escribe un mensaje..." onkeydown="if(event.key==='Enter') broadcastTableMessage(false)">
           <button type="button" class="table-msg-btn quick-dice-btn" onclick="rollFreeDice(20)">🎲 D20</button>
           <button type="button" class="table-msg-btn quick-dice-btn" onclick="rollFreeDice(6)">🎲 D6</button>
