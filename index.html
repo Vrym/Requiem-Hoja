@@ -8911,17 +8911,17 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         weapon:[],
         armor:[],
         relic:[['relic_pc','Aumentar PC',1],['relic_pd','Aumentar PD',1],['relic_smath','Aumentar Smath máximo',1],['relic_essence','Aumentar Esencia',1],['custom','Efecto de reliquia personalizado',0]],
-        mission:[['custom','Objeto de misión (sin efecto numérico)',0]],
+        mission:[['custom','Objeto de misión',0]],
         mundane:[['custom','Descripción / uso manual',0]]
       };
       const weightWrap=document.getElementById('loot-weight-wrap'),rarityWrap=document.getElementById('loot-rarity-wrap');
       const effectGrid=document.getElementById('loot-item-effect-grid'),detailWrap=document.getElementById('loot-item-detail-wrap');
       const armorFields=document.getElementById('loot-armor-creation-fields'),weaponFields=document.getElementById('loot-weapon-creation-fields');
       if(weightWrap)weightWrap.style.display=['potion','mission'].includes(type)?'none':'block';
-      if(rarityWrap)rarityWrap.style.display=['potion','mission'].includes(type)?'none':'block';
+      if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&document.getElementById('sheet-item-effect-option')?.value==='cleanse')?'block':'none';
       if(rarityWrap){const rarity=document.getElementById('loot-item-rarity');if(rarity){const unique=type==='mission'||(type==='potion'&&document.getElementById('loot-item-effect-option')?.value==='cleanse');rarity.innerHTML=unique?'<option value="mision">Única</option>':'<option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Única</option>';if(unique)rarity.value='mision';}}
 
-      if(effectGrid)effectGrid.style.display=['weapon','armor'].includes(type)?'none':'grid';
+      if(effectGrid)effectGrid.style.display=['weapon','armor','mundane'].includes(type)?'none':'grid';
       if(detailWrap)detailWrap.style.display=['weapon','armor'].includes(type)?'none':'block';
       if(armorFields)armorFields.style.display=type==='armor'?'block':'none';
       if(weaponFields)weaponFields.style.display=type==='weapon'?'block':'none';
@@ -8966,7 +8966,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       };
       const weightWrap=document.getElementById('sheet-item-weight-wrap'),rarityWrap=document.getElementById('sheet-item-rarity-wrap');
       if(weightWrap)weightWrap.style.display=['potion','mission'].includes(type)?'none':'block';
-      if(rarityWrap)rarityWrap.style.display=['potion','mission'].includes(type)?'none':'block';
+      if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&document.getElementById('loot-item-effect-option')?.value==='cleanse')?'block':'none';
       const rarity=document.getElementById('sheet-item-rarity');if(rarity){rarity.innerHTML=type==='mission'?'<option value="mision">Única</option>':'<option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Única</option>';if(type==='mission')rarity.value='mision';}
       const qtyWrap=document.getElementById('sheet-item-quantity-wrap');if(qtyWrap)qtyWrap.style.display=['potion','mission','mundane'].includes(type)?'block':'none';
       if(type==='potion'){const weight=document.getElementById('sheet-item-weight');if(weight)weight.value='0';}
