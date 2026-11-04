@@ -9003,7 +9003,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       if(equippedWrap)equippedWrap.style.display=['armor','relic'].includes(type)?'inline-flex':'none';
       const magLabel=magnitudeWrap?.querySelector('label');if(magLabel)magLabel.firstChild.nodeValue=type==='armor'?'Puntos defensa (PD) +Valor':'Bonificación +Valor';
       const select=document.getElementById('sheet-item-effect-level');
-      if(levelWrap?.firstChild)levelWrap.firstChild.nodeValue='Nivel de poción\n                ';
+      if(levelWrap?.firstChild)levelWrap.firstChild.nodeValue=type==='potion'?'Nivel de poción\n                ':'Nivel\n                ';
       setLootLevelLabels(select,option?.value);
       const detail=document.getElementById('sheet-item-effect-text');
       if(detail) detail.placeholder=option?.value==='custom'?'Describe el efecto exacto...':'Detalle adicional opcional';
