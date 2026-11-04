@@ -3265,6 +3265,7 @@ select[id^="summary-skill-sel-"] optgroup {
               <label id="loot-level-wrap" style="font-family:var(--f-title);font-size:11px;font-weight:bold;">Nivel de poción
                 <select id="loot-item-effect-level" class="table-msg-select" style="width:100%;"><option value="1">N1 · 25%</option><option value="2">N2 · 50%</option><option value="3">N3 · 100%</option></select>
               </label>
+              <label id="loot-relic-magnitude-wrap" style="display:none;font-family:var(--f-title);font-size:11px;font-weight:bold;">Bonificación<input type="number" id="loot-relic-magnitude" class="table-msg-input" min="1" value="2" style="width:100%;"></label>
             </div>
             <div id="loot-item-detail-wrap" style="margin-bottom:6px;">
               <label style="font-family:var(--f-title);font-size:11px;font-weight:bold;">Detalle adicional
@@ -8926,7 +8927,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         potion:[['hp','Resencia: curar HP',1],['smath','Recuperar Smath',1],['essence','Recuperar Esencia',1],['revive','Reanimar (HP + Smath)',1],['cleanse','Curar todos los estados',0],['combat','Poción de combate (PC + PD)',1]],
         weapon:[],
         armor:[],
-        relic:[['relic_pc','Aumentar PC',1],['relic_pd','Aumentar PD',1],['relic_smath','Aumentar Smath máximo',1],['relic_essence','Aumentar Esencia',1],['custom','Efecto de reliquia personalizado',0]],
+        relic:[['relic_pc','Aumentar PC',0],['relic_pd','Aumentar PD',0],['relic_smath','Aumentar Smath máximo',0],['relic_hp','Aumentar HP máximo',0],['relic_essence','Aumentar Esencia',0],['custom','Efecto de reliquia personalizado',0]],
         mission:[['custom','Objeto de misión',0]],
         mundane:[['custom','Descripción / uso manual',0]]
       };
@@ -8955,11 +8956,13 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const detail = document.getElementById('loot-item-effect');
       const type = document.getElementById('loot-item-type')?.value || 'potion';
       const isLevelled = option?.dataset.levels === 'true';
+      const relicMagnitudeWrap=document.getElementById('loot-relic-magnitude-wrap');
+      if(relicMagnitudeWrap)relicMagnitudeWrap.style.display=type==='relic'&&['relic_pc','relic_pd','relic_smath','relic_hp','relic_essence'].includes(option?.value)?'block':'none';
       const rarityWrap=document.getElementById('loot-rarity-wrap');if(rarityWrap)rarityWrap.style.display=type==='mission'||(type==='potion'&&option?.value==='cleanse')?'block':'none';
       const rarity=document.getElementById('loot-item-rarity');if(rarity&&(type==='mission'||(type==='potion'&&option?.value==='cleanse'))){rarity.innerHTML='<option value="mision">Única</option>';rarity.value='mision';}
       if (levelWrap) levelWrap.style.display = isLevelled&&!['weapon','armor'].includes(type)&&!(type==='potion'&&option?.value==='cleanse') ? 'block' : 'none';
-      if (levelWrap?.firstChild) levelWrap.firstChild.nodeValue = type === 'potion' ? 'Nivel de poción\n                ' : 'Nivel del objeto\n                ';
-      if(['armor','weapon'].includes(type)&&levelWrap)levelWrap.style.display='none';
+      if (levelWrap?.firstChild) levelWrap.firstChild.nodeValue = 'Nivel de poción\n                ';
+      if(['armor','weapon','relic','mission','mundane'].includes(type)&&levelWrap)levelWrap.style.display='none';
       setLootLevelLabels(levelSelect,option?.value);
       if (detail) detail.placeholder = option?.value === 'custom' ? 'Describe el efecto exacto...' : 'Detalle adicional opcional';
     }
@@ -9114,6 +9117,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const effectCode = ['weapon','armor'].includes(type)?'':(document.getElementById('loot-item-effect-option')?.value || 'custom');
       const effectLevel = ['weapon','armor'].includes(type)?0:(parseInt(document.getElementById('loot-item-effect-level')?.value) || 1);
       const effectText = document.getElementById('loot-item-effect')?.value.trim() || '';
+      const effectMagnitude=type==='relic'?Math.max(1,parseInt(document.getElementById('loot-relic-magnitude')?.value)||1):0;
       const target = document.getElementById('loot-target-player')?.value || 'all';
 
       if (!name) { showToast('⚠️ Escribe el nombre del objeto.'); return; }
@@ -9123,8 +9127,8 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const armorPd=Math.max(0,parseInt(document.getElementById('loot-armor-pd')?.value)||0);
       const resistances=Object.fromEntries(['veneno','sangrado','stun','mareado','petrificado','infectado'].map(state=>[state,parseFloat(document.getElementById(`loot-armor-resist-${state}`)?.value)||0]));
       const weaponConfig={scalePct:Math.max(0,parseFloat(document.getElementById('loot-weapon-scale')?.value)||100),rarity,effectType:document.getElementById('loot-weapon-effect-type')?.value||'none',effectDice:document.getElementById('loot-weapon-effect-dice')?.value.trim()||'',effectTurns:Math.max(1,parseInt(document.getElementById('loot-weapon-effect-turns')?.value)||2),critMult:Math.max(1,parseFloat(document.getElementById('loot-weapon-crit-mult')?.value)||2),critOnly:!!document.getElementById('loot-weapon-crit-only')?.checked};
-      const itemDescription=type==='armor'?`Armadura ${armorSubtype} · +${armorPd} PD`:type==='weapon'?`Arma · escala ${weaponConfig.scalePct}%`:describeLootEffect(type,effectCode,effectLevel,effectText);
-      const baseItem={name,qty:'1',weight:['potion','mission'].includes(type)?'0':weight,desc:`${typeLabels[type]||'Objeto'}: ${itemDescription}`,rarity:type==='mission'?'mision':type==='potion'?'comun':rarity,type,effectCode:type==='mission'?'':effectCode,effectLevel,effectText:type==='weapon'||type==='armor'?'':effectText,armorSubtype,armorPd,resistances,equipped:false};
+      const itemDescription=type==='armor'?`Armadura ${armorSubtype} · +${armorPd} PD`:type==='weapon'?`Arma · escala ${weaponConfig.scalePct}%`:type==='relic'&&effectCode!=='custom'?`${effectCode.replace('relic_','').toUpperCase()} +${effectMagnitude}`:describeLootEffect(type,effectCode,effectLevel,effectText);
+      const baseItem={name,qty:'1',weight:['potion','mission'].includes(type)?'0':weight,desc:`${typeLabels[type]||'Objeto'}: ${itemDescription}`,rarity:type==='mission'?'mision':type==='potion'?'comun':rarity,type,effectCode:type==='mission'?'':effectCode,effectLevel,effectText:type==='weapon'||type==='armor'?'':effectText,effectMagnitude,armorSubtype,armorPd,resistances,equipped:false};
       const deliverToPlayer=pid=>{
         if(!allPlayersData[pid])allPlayersData[pid]=createBlankCharacterData('');
         const recipient=allPlayersData[pid];recipient.inventory=Array.isArray(recipient.inventory)?recipient.inventory:[];
