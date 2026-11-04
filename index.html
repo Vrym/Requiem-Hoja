@@ -5519,7 +5519,7 @@ select[id^="summary-skill-sel-"] optgroup {
       const level = Array.isArray(levels) && levels.length ? Math.max(...levels.map(Number)) : -1;
       return level >= 0 ? SKILL_BONUSES[level] : '+0';
     }
-   function buildSummarySkillOptions(pdata, mode = 'arq') {
+  function buildSummarySkillOptions(pdata, mode = 'arq') {
       const formatTitleCase = str => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : '';
 
       const optionFor = skillId => {
@@ -5535,6 +5535,11 @@ select[id^="summary-skill-sel-"] optgroup {
           .map(item => optionFor(item.index))
           .join('');
       }
+
+      return SKILL_ARCHETYPE_GROUPS.map(group => 
+        `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};font-size:9.5px;padding:1px 2px;">${Array.from({ length: group.to - group.from + 1 }, (_, i) => optionFor(group.from + i)).join('')}</optgroup>`
+      ).join('');
+    }
 
       return SKILL_ARCHETYPE_GROUPS.map(group => 
         `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};font-size:9.5px;padding:1px 2px;">${Array.from({ length: group.to - group.from + 1 }, (_, i) => optionFor(group.from + i)).join('')}</optgroup>`
