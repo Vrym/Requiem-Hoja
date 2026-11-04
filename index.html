@@ -9635,7 +9635,8 @@ function setupSkillBoxes() {
    const result = document.getElementById(`sk-roll-result-${skillId}`);
    const displayedResult=isPifia?'PIFIA':`${total}${isPerfect?' · PERFECTA':''}`;
    if (result) { result.textContent = displayedResult; result.classList.toggle('critical-result',isPerfect); }
-   const actor = getIdentityLabel(activeClientIdentity);\n   const detail = `${actor} · ${label}: ${d2 === null ? `D20 ${d1}` : `2D20 ${d1}/${d2} (toma ${die})`} + ${bonus} = ${total}${isPifia?' — ⚠️ PIFIA':isPerfect?' — 🌟 PERFECTA':''}`;
+   const actor = getIdentityLabel(activeClientIdentity);
+   const detail = `${actor} · ${label}: ${d2 === null ? `D20 ${d1}` : `2D20 ${d1}/${d2} (toma ${die})`} + ${bonus} = ${total}${isPifia?' — ⚠️ PIFIA':isPerfect?' — 🌟 PERFECTA':''}`;
    if(player)player.lastSkillRoll={label:String(label).trim(),result:displayedResult,detail,at:Date.now()};
   diceRollsHistory.unshift({time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),sender:actor,detail});
   if(player){player.turnActionUsed=true;player.turnAttacks=player.turnAttacks||[];player.turnAttacks.push(`Habilidad: ${label}`);}
