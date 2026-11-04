@@ -10706,31 +10706,27 @@ function executeModalAction() {
     const missionStatusPending = new Set();
     function setMissionStatus(id,status,button){
       id=String(id||'');status=String(status||'');
-      if(activeClientIdentity!=='gm'||!id||!['done','failed'].includes(status)){
+      if(!isMasterClient||!id||!['done','failed'].includes(status)){
         showToast('🔒 Seleccioná la identidad Master para cambiar estados.');return;
       }
       if(missionStatusPending.has(id))return;
       missionStatusPending.add(id);
       if(button){button.disabled=true;button.setAttribute('aria-busy','true');}
-      const stamp=Date.now(),missionRef=gameRef.child('missions').child(id);
-      // Validamos y modificamos el mismo nodo en Firebase (no por título ni por caché local).
-      missionRef.transaction(current=>{
-        if(current===null)return; // Abort: no crear una misión fantasma si el ID no existe.
-        current.status=status;current.updatedAt=stamp;return current;
-      },(error,committed,snapshot)=>{
-        if(error){
-          console.error('[Diario de misiones] Firebase rechazó el cambio',{id,status,code:error.code,message:error.message});
-          showToast('❌ Firebase no guardó el estado: '+(error.message||error.code||'error desconocido'));
-        }else if(!committed||!snapshot?.exists()){
-          console.error('[Diario de misiones] No existe el nodo Firebase de la misión',{id});
-          showToast('⚠️ El registro de esta misión no existe en Firebase (ID '+id+').');
-        }else{
-          missionDiaryFilter=status;setMissionDiaryFilter(status);
+      // Escribimos el estado sobre la clave exacta que Firebase entregó al renderizar la tarjeta.
+      gameRef.child('missions').child(id).update({status:status,updatedAt:Date.now()})
+        .then(()=>{
+          missionDiaryFilter=status;
+          setMissionDiaryFilter(status);
           showToast(status==='done'?'✓ Misión completada':'✕ Misión marcada como fallida');
-        }
-        missionStatusPending.delete(id);
-        if(button){button.disabled=false;button.removeAttribute('aria-busy');}
-      },false);
+        })
+        .catch(err=>{
+          console.error('[Bitácora] Error al actualizar misión',{id,status,code:err?.code,message:err?.message});
+          showToast('❌ No se pudo guardar: '+(err?.message||err?.code||'error de Firebase'));
+        })
+        .finally(()=>{
+          missionStatusPending.delete(id);
+          if(button){button.disabled=false;button.removeAttribute('aria-busy');}
+        });
     }
     // Delegación: sobrevive a cada render/reconstrucción del listado y evita listeners perdidos.
     const missionDiaryListEl=document.getElementById('mission-diary-list');
