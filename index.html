@@ -9559,7 +9559,8 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         turnReportPrev: turnReportPrev || [],
         gmNotes: gmSecretNotes || "",
         workshopTemplates: workshopTemplates || [],
-        whispersList: whispersList || []
+        whispersList: whispersList || [],
+        missions: missionDiaryData || {}
       };
 
       gameRef.set(payload).then(() => {
