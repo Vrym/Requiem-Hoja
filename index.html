@@ -8919,6 +8919,8 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const armorFields=document.getElementById('loot-armor-creation-fields'),weaponFields=document.getElementById('loot-weapon-creation-fields');
       if(weightWrap)weightWrap.style.display=['potion','mission'].includes(type)?'none':'block';
       if(rarityWrap)rarityWrap.style.display=['potion','mission'].includes(type)?'none':'block';
+      if(rarityWrap){const rarity=document.getElementById('loot-item-rarity');if(rarity){const unique=type==='mission'||(type==='potion'&&document.getElementById('loot-item-effect-option')?.value==='cleanse');rarity.innerHTML=unique?'<option value="mision">Única</option>':'<option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Única</option>';if(unique)rarity.value='mision';}}
+
       if(effectGrid)effectGrid.style.display=['weapon','armor'].includes(type)?'none':'grid';
       if(detailWrap)detailWrap.style.display=['weapon','armor'].includes(type)?'none':'block';
       if(armorFields)armorFields.style.display=type==='armor'?'block':'none';
@@ -8937,7 +8939,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const detail = document.getElementById('loot-item-effect');
       const type = document.getElementById('loot-item-type')?.value || 'potion';
       const isLevelled = option?.dataset.levels === 'true';
-      if (levelWrap) levelWrap.style.display = isLevelled&&!['weapon','armor'].includes(type) ? 'block' : 'none';
+      if (levelWrap) levelWrap.style.display = isLevelled&&!['weapon','armor'].includes(type)&&!(type==='potion'&&option?.value==='cleanse') ? 'block' : 'none';
       if (levelWrap?.firstChild) levelWrap.firstChild.nodeValue = type === 'potion' ? 'Nivel de poción\n                ' : 'Nivel del objeto\n                ';
       if(['armor','weapon'].includes(type)&&levelWrap)levelWrap.style.display='none';
       setLootLevelLabels(levelSelect,option?.value);
@@ -8965,7 +8967,8 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const weightWrap=document.getElementById('sheet-item-weight-wrap'),rarityWrap=document.getElementById('sheet-item-rarity-wrap');
       if(weightWrap)weightWrap.style.display=['potion','mission'].includes(type)?'none':'block';
       if(rarityWrap)rarityWrap.style.display=['potion','mission'].includes(type)?'none':'block';
-      if(type==='mission'){const rarity=document.getElementById('sheet-item-rarity');if(rarity)rarity.value='mision';}
+      const rarity=document.getElementById('sheet-item-rarity');if(rarity){rarity.innerHTML=type==='mission'?'<option value="mision">Única</option>':'<option value="basura">Basura</option><option value="comun" selected>Común</option><option value="infrecuente">Infrecuente</option><option value="raro">Raro</option><option value="mitico">Mítico</option><option value="mision">Única</option>';if(type==='mission')rarity.value='mision';}
+      const qtyWrap=document.getElementById('sheet-item-quantity-wrap');if(qtyWrap)qtyWrap.style.display=['potion','mission','mundane'].includes(type)?'block':'none';
       if(type==='potion'){const weight=document.getElementById('sheet-item-weight');if(weight)weight.value='0';}
       else if(['weapon','armor','relic'].includes(type)){const weight=document.getElementById('sheet-item-weight');if(weight&&(parseFloat(weight.value)||0)<=0)weight.value='0.5';}
       select.innerHTML=(options[type]||options.mundane).map(([value,label,levels])=>`<option value="${value}" data-levels="${levels?'true':'false'}">${label}</option>`).join('');
@@ -8995,6 +8998,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       if(levelWrap)levelWrap.style.display=type==='potion'&&option?.dataset.levels==='true'?'block':'none';
       if(magnitudeWrap)magnitudeWrap.style.display=isDirectMagnitude?'block':'none';
       if(equippedWrap)equippedWrap.style.display=['armor','relic'].includes(type)?'inline-flex':'none';
+      const magLabel=magnitudeWrap?.querySelector('label');if(magLabel)magLabel.firstChild.nodeValue=type==='armor'?'Puntos defensa (PD) +Valor':'Bonificación +Valor';
       const select=document.getElementById('sheet-item-effect-level');
       if(levelWrap?.firstChild)levelWrap.firstChild.nodeValue='Nivel de poción\n                ';
       setLootLevelLabels(select,option?.value);
@@ -9025,6 +9029,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const directEffects=['relic_pc','relic_pd','relic_smath','relic_hp','relic_essence','armor_pd'];
       const isDirectMagnitude=['relic','armor'].includes(type)&&directEffects.includes(effectCode);
       const effectMagnitude=isDirectMagnitude?Math.max(1,parseNumericValue(document.getElementById('sheet-item-magnitude')?.value,2)):0;
+      const quantity=['potion','mission','mundane'].includes(type)?Math.max(1,parseInt(document.getElementById('sheet-item-quantity')?.value)||1):1;
       const effectLevel=type==='potion'?(parseInt(document.getElementById('sheet-item-effect-level').value)||1):0;
       const effectText=document.getElementById('sheet-item-effect-text').value.trim();
       const armorSubtype=type==='armor'?(document.getElementById('sheet-item-armor-subtype')?.value||'tela'):'tela';
