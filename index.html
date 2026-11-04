@@ -10704,30 +10704,28 @@ function executeModalAction() {
     }
     // Estado de misión: una única ruta de evento delegada y persistencia confirmada por Firebase.
     const missionStatusPending = new Set();
-    function setMissionStatus(id,status,button){
-      id=String(id||'');status=String(status||'');
-      if(!isMasterClient||!id||!['done','failed'].includes(status)){
-        showToast('🔒 Seleccioná la identidad Master para cambiar estados.');return;
-      }
+    // Acción simple y directa: el botón cambia ESTA tarjeta y persiste su clave Firebase.
+    window.setMissionStatus = async function(id,status){
+      id=String(id||''); status=String(status||'');
+      if(!isMasterClient||!id||!['done','failed'].includes(status)){showToast('🔒 Solo Master puede cambiar estados.');return;}
+      const mission=missionDiaryData[id];
+      if(!mission){showToast('No se encuentra el registro de esta misión.');return;}
       if(missionStatusPending.has(id))return;
       missionStatusPending.add(id);
-      if(button){button.disabled=true;button.setAttribute('aria-busy','true');}
-      // Escribimos el estado sobre la clave exacta que Firebase entregó al renderizar la tarjeta.
-      gameRef.child('missions').child(id).update({status:status,updatedAt:Date.now()})
-        .then(()=>{
-          missionDiaryFilter=status;
-          setMissionDiaryFilter(status);
-          showToast(status==='done'?'✓ Misión completada':'✕ Misión marcada como fallida');
-        })
-        .catch(err=>{
-          console.error('[Bitácora] Error al actualizar misión',{id,status,code:err?.code,message:err?.message});
-          showToast('❌ No se pudo guardar: '+(err?.message||err?.code||'error de Firebase'));
-        })
-        .finally(()=>{
-          missionStatusPending.delete(id);
-          if(button){button.disabled=false;button.removeAttribute('aria-busy');}
-        });
-    }
+      const previous=mission.status||'active', stamp=Date.now();
+      // Cambio visual inmediato en el mismo registro.
+      missionDiaryData[id]={...mission,status,updatedAt:stamp};
+      missionDiaryFilter=status; renderMissionDiary();
+      try{
+        await gameRef.child('missions').child(id).update({status,updatedAt:stamp});
+        showToast(status==='done'?'✓ Misión completada':'✕ Misión fallida');
+      }catch(err){
+        missionDiaryData[id]={...mission,status:previous};
+        missionDiaryFilter='active'; renderMissionDiary();
+        console.error('[Bitácora] Firebase no guardó el estado',err);
+        showToast('Firebase rechazó el cambio: '+(err?.message||err?.code||'error'));
+      }finally{missionStatusPending.delete(id);}
+    };
     // Delegación: sobrevive a cada render/reconstrucción del listado y evita listeners perdidos.
     const missionDiaryListEl=document.getElementById('mission-diary-list');
     if(missionDiaryListEl&&!missionDiaryListEl.dataset.actionsBound){
@@ -10777,7 +10775,7 @@ function executeModalAction() {
         const updated=m.updatedAt&&m.updatedAt>m.createdAt?'<span class="diary-tag diary-updated">✦ Actualizada</span>':'';
         const versions=(m.versions||[]).slice().reverse();const versionLog=versions.length?'<details class="diary-versions"><summary class="diary-version-head">⏳ Versiones anteriores ('+versions.length+')</summary><div class="diary-versions-list">'+versions.map(v=>'<article class="diary-version"><span class="diary-old-badge">◷ ANTERIOR</span><div class="diary-version-title">'+escapeHtml(v.title||'Misión')+'</div>'+(v.note?'<p>'+escapeHtml(v.note)+'</p>':'')+(v.description?'<div class="diary-version-desc">'+escapeHtml(v.description)+'</div>':'')+'</article>').join('')+'</div></details>':'';
 
-        const actions=isMasterClient?`<div class="diary-actions">${(!m.status||m.status==='active')?'<button class="diary-action complete" type="button" data-mission-id="${id}" data-mission-status="done">✓ Completar</button><button class="diary-action fail" type="button" data-mission-id="${id}" data-mission-status="failed">✕ Fallida</button>':''}<button class="diary-action update" type="button" data-mission-update="${id}">✎ Actualizar</button></div>`:'';
+        const actions=isMasterClient?`<div class="diary-actions">${(!m.status||m.status==='active')?'<button class="diary-action complete" type="button" data-mission-id="${id}" data-mission-status="done" onclick="window.setMissionStatus(this.dataset.missionId, this.dataset.missionStatus)">✓ Completar</button><button class="diary-action fail" type="button" data-mission-id="${id}" data-mission-status="failed" onclick="window.setMissionStatus(this.dataset.missionId, this.dataset.missionStatus)">✕ Fallida</button>':''}<button class="diary-action update" type="button" data-mission-update="${id}">✎ Actualizar</button></div>`:'';
         return '<article class="diary-card '+(m.type==='secondary'?'secondary':'main')+' '+(m.status==='done'?'done':m.status==='failed'?'failed':'')+'"><div class="diary-card-top"><div class="diary-card-title">'+safeTitle+'</div><span class="diary-tag type-tag">'+type+'</span>'+updated+'<span class="diary-tag '+(m.visibility==='secret'?'secret':m.visibility==='individual'?'individual':'')+'">'+vis+'</span>'+(m.status==='active'||!m.status?'':'<span class="diary-tag diary-inactive">◌ INACTIVA · ARCHIVO</span>')+(isMasterClient?'<button class="diary-delete-x" type="button" title="Eliminar esta misión" aria-label="Eliminar '+safeTitle+'" onclick="deleteMissionFromDiary(&quot;'+id+'&quot;)">×</button>':'')+'</div><p class="diary-desc">'+safeDesc+'</p>'+branch+versionLog+'<div class="diary-meta"><span class="diary-status '+(m.status==='done'?'done':m.status==='failed'?'failed':'')+'">'+(m.status==='done'?'✓ ':m.status==='failed'?'✕ ':'◷ ')+status+'</span>'+(targetName?'<span class="diary-tag">↳ '+targetName+'</span>':'')+actions+'</div></article>';
       }).join('');
     }
