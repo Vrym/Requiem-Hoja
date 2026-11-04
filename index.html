@@ -2659,9 +2659,9 @@ select[id^="summary-skill-sel-"] optgroup {
               <option value="veneno">☠️ Veneno</option>
               <option value="sangrado">🩸 Sangrado</option>
               <option value="curacion">💚 Curación / Regeneración</option>
-              <option value="stun">💫 Stun / Aturdimiento</option>
+              <option value="stun">💫 Aturdido (pierde su turno)</option>
               <option value="sellado">🔒 Sellado</option>
-              <option value="mareado">🌀 Mareado</option>
+              <option value="mareado">🌀 Mareado (bloquea ofensivas)</option>
               <option value="infectado">☣️ Infectado</option>
             </select>
           </div>
@@ -5136,7 +5136,7 @@ select[id^="summary-skill-sel-"] optgroup {
       const configuredBase=parseInt(data?.commonActionsPerTurn);
       const baseActions=Number.isFinite(configuredBase)?Math.max(1,Math.min(12,configuredBase)):1;
       const bonus=Math.max(0,parseInt(data?.commonActionBonus)||0);
-      return Math.min(12,baseActions+bonus);
+      return baseActions+bonus;
     }
     function getCombatActionAvailability(id,isEnemy,kind){
       const data=getCombatantActionData(id,isEnemy);if(!data)return false;
@@ -5390,7 +5390,7 @@ select[id^="summary-skill-sel-"] optgroup {
         const lastTurn=state!=='inmune'&&turns===1;
         const canRemove=isMasterClient&&state!=='custom';
         const remove=canRemove?`<button type="button" class="state-remove-btn" data-status-kind="${kind}" data-target-id="${escapeHtml(String(targetId))}" data-target-index="${index||0}" data-status-key="${state}" onclick="removeCardStatusFromChip(this)" title="Quitar estado" aria-label="Quitar ${escapeHtml(name)}">×</button>`:'';
-        const title=escapeHtml(`${name}${valueTitle}${turnsTitle}`);
+        const behaviorTitle=state==='stun'?' · pierde el turno completo':state==='mareado'?' · impide acciones ofensivas':'',title=escapeHtml(`${name}${behaviorTitle}${valueTitle}${turnsTitle}`);
         return `<span class="state-chip card-status-chip st-${state}${lastTurn?' is-last-turn':''}${canRemove?' has-remove':''}" title="${title}"><span class="chip-icon">${escapeHtml(icon)}</span><span class="chip-name">${escapeHtml(name)}</span>${metaText?`<span class="chip-meta">${metaText}</span>`:''}${state==='inmune'?'':`<span class="chip-turns">⏳${turns}</span>`}${remove}</span>`;
       }).join('');
     }
@@ -9803,7 +9803,7 @@ function claimActionCooldown(key, duration = 4000) {
   return true;
 }
 function installActionCooldowns() {
-   const actionPattern = /(executeSummonAttack|executeSummonTechnique|deleteSummonTechnique|applyEnemyDamage|applyEnemyHeal|gmDirectHpPrompt|applyManualCombatHp|rollInitiative|rollWeaponD6Direct|rollMassEnemiesInitiative|sortCombatantsByInitiative|useTechniqueDirect|useAwakenedTechnique|useAwakenedTech|useInventoryItem|tradeInventoryItem|rollFreeDice|toggleConcentradoAction|restoreFullHp|restoreFullSmath|clearNegativeStates|clearTurnActions|gmResetRound|spawnQuickEnemy|spawnEnemyHorde|duplicateEnemy|deleteEnemy|saveToBestiary|sendCustomEnemyToCombat|deliverLootItem|deliverCurrency|optimizeCurrency|toggleNpcFaction|saveWeaponBuilderChanges|saveTechniqueBuilderChanges|deleteWeaponRow|deleteTechniqueRow|addWeaponRow|addTechniqueRow|addAwakenedTechnique|deleteAwakenedTechnique|addInventoryRow|addNewPlayer|saveSheetItemFromModal|saveEnemyEdit|rollEnemyInitiative|toggleEnemyConcentrated|toggleSummonCubeAction|dismissSummon|duplicateSummon|broadcastTableMessage|sendActiveWhisper|confirmWishAction|clearConfirmedWish|deleteObjective|clearTableHistory|remove)/;
+   const actionPattern = /(deleteSummonTechnique|applyEnemyDamage|applyEnemyHeal|gmDirectHpPrompt|applyManualCombatHp|rollInitiative|rollWeaponD6Direct|rollMassEnemiesInitiative|sortCombatantsByInitiative|tradeInventoryItem|rollFreeDice|restoreFullHp|restoreFullSmath|clearNegativeStates|clearTurnActions|gmResetRound|spawnQuickEnemy|spawnEnemyHorde|duplicateEnemy|deleteEnemy|saveToBestiary|sendCustomEnemyToCombat|deliverLootItem|deliverCurrency|optimizeCurrency|toggleNpcFaction|saveWeaponBuilderChanges|saveTechniqueBuilderChanges|deleteWeaponRow|deleteTechniqueRow|addWeaponRow|addTechniqueRow|addAwakenedTechnique|deleteAwakenedTechnique|addInventoryRow|addNewPlayer|saveSheetItemFromModal|saveEnemyEdit|rollEnemyInitiative|toggleEnemyConcentrated|toggleSummonCubeAction|dismissSummon|duplicateSummon|broadcastTableMessage|sendActiveWhisper|confirmWishAction|clearConfirmedWish|deleteObjective|clearTableHistory|remove)/;
   document.addEventListener('click', event => {
     const button = event.target.closest('button');
     if (!button) return;
