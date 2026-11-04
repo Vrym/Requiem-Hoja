@@ -6112,20 +6112,16 @@ function confirmDismissSummon(pid, sIdx, summonName) {
         if (tId.startsWith('sum_')) {
           const parts=tId.split('_'),ownerId=parts[1],summonIndex=parseInt(parts[2]),owner=allPlayersData[ownerId],summon=owner?.summons?.[summonIndex];
           if(summon){
-            defName=summon.name||'Invocación';
-            defPd=(parseInt(summon.pd)||12)+(parseInt(summon.combatBuff?.pd)||0)+getEnvironmentModifier('pd');
-            const summonHp=Math.max(0,parseFloat(summon.hpCurr)||0);
-            if(summonHp<=0){targetsLog.push(`• <b>${escapeHtml(defName)}</b>: fuera de combate`);}
+            defPd=parseInt(summon.pd)||12;defName=summon.name||'Invocación';
+            const summonHp=Math.max(0,parseInt(summon.hpCurr)||0);
+            if(summonHp<=0){targetsLog.push(`• 🐾 <b>${escapeHtml(defName)}</b>: ya estaba fuera de combate.`);}
             else if(!isPifia&&(isPerfect||attackPrecision>=defPd)){
-              const before=summonHp;
-              summon.hpCurr=Math.max(0,before-finalDamage);
-              isTargetDead=summon.hpCurr<=0;
+              const damage=Math.max(0,finalDamage),before=summonHp;summon.hpCurr=Math.max(0,before-damage);isTargetDead=summon.hpCurr<=0;
               triggerCardDamageAnimation(`summon-card-${tId}`);
-              targetsLog.push(`• 🐾 <b>${escapeHtml(defName)}</b>: <b>¡Impacto! -${before-summon.hpCurr} HP</b>${isTargetDead?' · 💀 Derrotada':` · ${summon.hpCurr}/${summon.hpMax} HP`}${isCrit?' ⭐ CRÍTICO':''}`);
+              targetsLog.push(`• 🐾 <span class="chat-target-link" onclick="focusCombatantCard('${tId}', false)">${escapeHtml(defName)}</span> (PD: ${defPd}): <b>¡Impacto! -${before-summon.hpCurr} HP</b>${isTargetDead?' · 💀 ¡Invocación derrotada!':` · 💚 Sobrevive (${summon.hpCurr}/${summon.hpMax} HP)`}${isCrit?' ⭐ CRÍTICO':''}`);
               renderPlayerSummons(ownerId);
-              saveActivePlayerToCloud(true);
             }else{
-              targetsLog.push(`• 🐾 <b>${escapeHtml(defName)}</b>: ${isPifia?'⚠️ PIFIA':'Falló'}`);
+              targetsLog.push(`• 🐾 <span class="chat-target-link" onclick="focusCombatantCard('${tId}', false)">${escapeHtml(defName)}</span> (PD: ${defPd}): 🛡️ ${isPifia?'PIFIA · ataque fallido':'¡Falló! (Ataque: ${attackPrecision})'}`);
             }
           }
         } else if (tId.startsWith('e_')) {
@@ -7278,7 +7274,26 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         let defName = 'Objetivo';
         let isTargetDead = false;
 
-        if (tId.startsWith('e_')) {
+        if (tId.startsWith('sum_')) {
+          const parts=tId.split('_'),ownerId=parts[1],summonIndex=parseInt(parts[2]),owner=allPlayersData[ownerId],summon=owner?.summons?.[summonIndex];
+          if(summon){
+            defName=summon.name||'Invocación';
+            defPd=(parseInt(summon.pd)||12)+(parseInt(summon.combatBuff?.pd)||0)+getEnvironmentModifier('pd');
+            const summonHp=Math.max(0,parseFloat(summon.hpCurr)||0);
+            if(summonHp<=0){targetsLog.push(`• <b>${escapeHtml(defName)}</b>: fuera de combate`);}
+            else if(!isPifia&&(isPerfect||attackPrecision>=defPd)){
+              const before=summonHp;
+              summon.hpCurr=Math.max(0,before-finalDamage);
+              isTargetDead=summon.hpCurr<=0;
+              triggerCardDamageAnimation(`summon-card-${tId}`);
+              targetsLog.push(`• 🐾 <b>${escapeHtml(defName)}</b>: <b>¡Impacto! -${before-summon.hpCurr} HP</b>${isTargetDead?' · 💀 Derrotada':` · ${summon.hpCurr}/${summon.hpMax} HP`}${isCrit?' ⭐ CRÍTICO':''}`);
+              renderPlayerSummons(ownerId);
+              saveActivePlayerToCloud(true);
+            }else{
+              targetsLog.push(`• 🐾 <b>${escapeHtml(defName)}</b>: ${isPifia?'⚠️ PIFIA':'Falló'}`);
+            }
+          }
+        } else if (tId.startsWith('e_')) {
           const idx = parseInt(tId.replace('e_', ''));
           const defender = enemiesList[idx];
           if (defender) {
@@ -7297,7 +7312,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
                 }
               }
             } else {
-              targetsLog.push(`• <b>${escapeHtml(defName)}</b>: ${isPifia?'⚠️ PIFIA':'Falló'}`);
+              targetsLog.push(`• <span class="chat-target-link" onclick="focusCombatantCard('${tId}', true)">👹 ${defName}</span> (PD: ${defPd}): 🛡️ ${isPifia?'PIFIA · ataque fallido':'¡Falló! (Ataque: ${attackPrecision})'}`);
             }
           }
         } else if (tId.startsWith('p_')) {
