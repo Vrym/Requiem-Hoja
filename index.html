@@ -9635,11 +9635,11 @@ function setupSkillBoxes() {
    const result = document.getElementById(`sk-roll-result-${skillId}`);
    const displayedResult=isPifia?'PIFIA':`${total}${isPerfect?' · PERFECTA':''}`;
    if (result) { result.textContent = displayedResult; result.classList.toggle('critical-result',isPerfect); }
-   const detail = `${label}: ${d2 === null ? `D20 ${d1}` : `2D20 ${d1}/${d2} (toma ${die})`} + ${bonus} = ${total}${isPifia?' — ⚠️ PIFIA':isPerfect?' — 🌟 PERFECTA':''}`;
+   const actor = getIdentityLabel(activeClientIdentity);\n   const detail = `${actor} · ${label}: ${d2 === null ? `D20 ${d1}` : `2D20 ${d1}/${d2} (toma ${die})`} + ${bonus} = ${total}${isPifia?' — ⚠️ PIFIA':isPerfect?' — 🌟 PERFECTA':''}`;
    if(player)player.lastSkillRoll={label:String(label).trim(),result:displayedResult,detail,at:Date.now()};
-  diceRollsHistory.unshift({time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),sender:getIdentityLabel(activeClientIdentity),detail});
+  diceRollsHistory.unshift({time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),sender:actor,detail});
   if(player){player.turnActionUsed=true;player.turnAttacks=player.turnAttacks||[];player.turnAttacks.push(`Habilidad: ${label}`);}
-  broadcastSystemCombatEntry('roll',`🎲 <b>${escapeHtml(label)}</b>: <span style="display:inline-block;background:#29113e;color:#fff1a8;border:2px solid ${isPifia?'#dc2626':isPerfect?'#ffd34e':'#9d72bb'};padding:2px 7px;border-radius:4px;font-weight:bold;">${escapeHtml(displayedResult)}</span>`);
+  broadcastSystemCombatEntry('roll',`🎲 <b>${escapeHtml(actor)}</b> tiró <b>${escapeHtml(label)}</b>: <span style="display:inline-block;background:#29113e;color:#fff1a8;border:2px solid ${isPifia?'#dc2626':isPerfect?'#ffd34e':'#9d72bb'};padding:2px 7px;border-radius:4px;font-weight:bold;">${escapeHtml(displayedResult)}</span>`);
   playSound('dice'); showToast(`🎲 ${label}: ${isPifia?'⚠️ PIFIA':isPerfect?'🌟 PERFECTA':total}`);if(player)saveActivePlayerToCloud(true);
 }
 function rollFreeDice(sides) {
