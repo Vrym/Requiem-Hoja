@@ -2677,9 +2677,10 @@ select[id^="summary-skill-sel-"] optgroup {
 .diary-mobile-holder{display:none}
 @media(max-width:767px){
   .diary-launch-desktop{display:none!important}
-  .diary-mobile-holder{display:none;position:relative;margin:7px 0 10px;padding:0 2px}
-  .diary-mobile-holder.is-master-mobile{display:block}
-  .diary-launch-mobile{display:flex!important;width:100%;justify-content:center;min-height:38px;padding:8px 12px!important;font-size:13px!important;border-radius:5px!important;background:linear-gradient(180deg,#68421d,#321907)!important}
+  .diary-mobile-holder{display:none!important;position:static;margin:0;padding:0;flex:0 0 auto}
+  .diary-mobile-holder.is-master-mobile{display:flex!important;align-items:center}
+  .diary-launch-mobile{display:flex!important;width:auto;justify-content:center;min-height:32px;padding:5px 8px!important;font-size:11px!important;border-radius:3px!important;background:linear-gradient(180deg,#68421d,#321907)!important;white-space:nowrap}
+  .role-bar-wrap .diary-mobile-holder{align-self:stretch}
   body.master-mobile-stack #gm-dashboard-wrap{display:block!important}
   body.master-mobile-stack #gm-console-wrap{display:block!important;margin-top:10px}
   body.master-mobile-stack #player-sheet-wrap{display:none!important}
@@ -3244,12 +3245,11 @@ select[id^="summary-skill-sel-"] optgroup {
       <div class="mobile-role-selector-wrap">
         <select id="mobile-role-select" class="mobile-role-select" onchange="switchRole(this.value)"></select>
       </div>
+      <div id="diary-mobile-holder" class="diary-mobile-holder"><button type="button" class="diary-launch diary-launch-mobile" onclick="openMissionDiary()" title="Abrir bitácora"><span class="diary-glyph">📜</span><span>Bitácora</span></button></div>
       <button type="button" id="mobile-advance-turn" onclick="gmAdvanceGlobalTurn()" hidden title="Avanzar turno global">⏳ Turno</button>
       <button type="button" class="diary-launch diary-launch-desktop" onclick="openMissionDiary()" title="Abrir bitácora"><span class="diary-glyph">📜</span><span>Bitácora</span></button>
       <button type="button" class="btn-role-settings" onclick="openHubModal()" title="Menú de opciones">⚙️</button>
     </div>
-
-    <div id="diary-mobile-holder" class="diary-mobile-holder"><button type="button" class="diary-launch diary-launch-mobile" onclick="openMissionDiary()" title="Abrir bitácora"><span class="diary-glyph">📜</span><span>Bitácora de Misiones</span></button></div>
 
     <!-- ========================================================
          RESUMEN DE COMBATE, CONSOLA GM Y FICHA DE PERSONAJE
