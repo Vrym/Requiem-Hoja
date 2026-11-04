@@ -9697,7 +9697,7 @@ function openInventoryWeaponBuilder(row) {
   if(!weapon){player.weapons=Array.isArray(player.weapons)?player.weapons:[];weaponId=`w_${Date.now()}`;player.weapons.push({id:weaponId,name:item.name||'Arma',scalePct:100,rarity:item.rarity||'comun',effectType:'none',effectDice:'',effectTurns:2,critMult:2,critOnly:false,lastRoll:'-',lastDmg:'-'});item.weaponId=weaponId;}
   applyDataToForm(player);openWeaponBuilder(weaponId);saveActivePlayerToCloud(true);
 }
-function useInventoryItem(row, playerIdOverride = null, indexOverride = null) {
+function useInventoryItem(row, playerIdOverride = null, indexOverride = null, targetOverride = undefined) {
   const playerId=playerIdOverride||activeRole;
   if((!isMasterClient&&activeClientIdentity!==playerId)||!playerList.includes(playerId)){showToast('🔒 Solo puedes usar objetos de una ficha de jugador.');return;}
   const rowIndex=Number.isInteger(indexOverride)?indexOverride:(row?Array.from(document.querySelectorAll('#inventory-body tr')).indexOf(row):-1);
@@ -9713,7 +9713,7 @@ function useInventoryItem(row, playerIdOverride = null, indexOverride = null) {
   const allies=playerList.map(pid=>`${pid} = ${allPlayersData[pid]?.inputs?.['char-name']||getIdentityLabel(pid)}`);
   const alliedNpcs=enemiesList.map((enemy,idx)=>enemy.faction==='ally'?`e_${idx} = ${enemy.name}`:null).filter(Boolean);
   const choices=[`${playerId} = Yo (propio)`,...allies.filter(line=>!line.startsWith(`${playerId} =`)),...alliedNpcs].join('\n');
-  const selected=prompt(`Destino de la poción (escribe el código):\n${choices}`,playerId);
+  const selected=targetOverride===undefined?prompt(`Destino de la poción (escribe el código):\n${choices}`,playerId):targetOverride;
   if(selected===null)return;
   let targetPlayerId=null,targetNpc=null,target;
   if(selected.startsWith('e_')){targetNpc=enemiesList[parseInt(selected.slice(2))];if(!targetNpc||targetNpc.faction!=='ally'){showToast('⚠️ Solo puedes usarla en un PNJ aliado.');return;}target=targetNpc;}
@@ -9783,6 +9783,77 @@ function useInventoryItem(row, playerIdOverride = null, indexOverride = null) {
   renderEnemiesCards();if(activeRole==='gm')renderGMDashboard();
   broadcastSystemCombatEntry('tech',`🧪 <b>${escapeHtml(pdata.inputs?.['char-name']||'Personaje')}</b> usó <b>${escapeHtml(item.name||'poción')}</b> y ${escapeHtml(message)}.`);
   showToast(`🧪 ${message}.`);
+}
+let inventoryActionSourceId=null;
+let inventoryActionMode='give';
+function openInventoryActionModal(mode='give'){
+  if(!isMasterClient&&activeClientIdentity!==activeRole){showToast('🔒 No puedes administrar este inventario.');return;}
+  if(!playerList.includes(activeRole)){showToast('⚠️ Abre primero la ficha del personaje que tiene los objetos.');return;}
+  commitDomToActivePlayer();
+  const source=allPlayersData[activeRole];if(!source)return;
+  inventoryActionSourceId=activeRole;
+  inventoryActionMode=mode==='use'?'use':'give';
+  const itemSelect=document.getElementById('inventory-action-item'),recipient=document.getElementById('inventory-action-recipient'),target=document.getElementById('inventory-action-target');
+  const giveFields=document.getElementById('inventory-action-give-fields'),useFields=document.getElementById('inventory-action-use-fields');
+  const giveTab=document.getElementById('inventory-tab-give'),useTab=document.getElementById('inventory-tab-use'),submit=document.getElementById('inventory-action-submit');
+  const eligible=(source.inventory||[]).map((item,index)=>({item,index})).filter(entry=>inventoryActionMode==='use'?entry.item.type==='potion':true);
+  itemSelect.innerHTML=eligible.map(({item,index})=>'<option value="'+index+'">'+escapeHtml(item.name||'Objeto')+' · '+Math.max(1,parseInt(item.qty)||1)+' disp.</option>').join('');
+  if(!eligible.length){showToast(inventoryActionMode==='use'?'No hay pociones en este inventario.':'No hay objetos para entregar.');return;}
+  const recipients=playerList.filter(pid=>pid!==inventoryActionSourceId);
+  recipient.innerHTML=recipients.map(pid=>'<option value="'+escapeHtml(pid)+'">'+escapeHtml(allPlayersData[pid]?.inputs?.['char-name']||getIdentityLabel(pid))+'</option>').join('');
+  const targets=[
+    ...playerList.map(pid=>({id:pid,label:(pid===inventoryActionSourceId?'Yo · ':'')+(allPlayersData[pid]?.inputs?.['char-name']||getIdentityLabel(pid))})),
+    ...enemiesList.map((enemy,index)=>enemy.faction==='ally'?({id:'e_'+index,label:'Aliado · '+enemy.name}):null).filter(Boolean)
+  ];
+  target.innerHTML=targets.map(entry=>'<option value="'+escapeHtml(entry.id)+'">'+escapeHtml(entry.label)+'</option>').join('');
+  giveFields.style.display=inventoryActionMode==='give'?'grid':'none';
+  useFields.style.display=inventoryActionMode==='use'?'grid':'none';
+  giveTab.classList.toggle('active',inventoryActionMode==='give');useTab.classList.toggle('active',inventoryActionMode==='use');
+  submit.textContent=inventoryActionMode==='give'?'↗ Dar objeto':'✦ Usar poción';
+  submit.disabled=inventoryActionMode==='give'&&!recipients.length;
+  const qty=document.getElementById('inventory-action-quantity');
+  if(qty){qty.value=1;qty.max=Math.max(1,parseInt(eligible[0].item.qty)||1);}
+  itemSelect.onchange=()=>{
+    const selected=eligible.find(entry=>entry.index===parseInt(itemSelect.value));
+    if(qty&&selected){qty.max=Math.max(1,parseInt(selected.item.qty)||1);qty.value=Math.min(Math.max(1,parseInt(qty.value)||1),parseInt(qty.max));}
+  };
+  openModal('inventory-action-modal');
+}
+function confirmInventoryAction(){
+  const sourceId=inventoryActionSourceId;
+  if(!sourceId||sourceId!==activeRole||!playerList.includes(sourceId)){showToast('⚠️ El inventario de origen cambió; vuelve a abrir el menú.');closeModal('inventory-action-modal');return;}
+  commitDomToActivePlayer();
+  const source=allPlayersData[sourceId],itemIndex=parseInt(document.getElementById('inventory-action-item')?.value);
+  const item=source?.inventory?.[itemIndex];if(!item){showToast('⚠️ Selecciona un objeto válido.');return;}
+  if(inventoryActionMode==='use'){
+    const targetId=document.getElementById('inventory-action-target')?.value;
+    closeModal('inventory-action-modal');
+    useInventoryItem(null,sourceId,itemIndex,targetId);
+    return;
+  }
+  const targetId=document.getElementById('inventory-action-recipient')?.value;
+  if(!playerList.includes(targetId)||targetId===sourceId){showToast('⚠️ Selecciona otro jugador como destinatario.');return;}
+  const available=Math.max(1,parseInt(item.qty)||1),amount=Math.max(1,parseInt(document.getElementById('inventory-action-quantity')?.value)||1);
+  if(amount>available){showToast('⚠️ Solo hay '+available+' unidades disponibles.');return;}
+  const receiver=allPlayersData[targetId]||(allPlayersData[targetId]=createBlankCharacterData(''));
+  source.inventory=Array.isArray(source.inventory)?source.inventory:[];receiver.inventory=Array.isArray(receiver.inventory)?receiver.inventory:[];
+  const itemName=item.name||'objeto',transferred={...item,qty:String(amount),equipped:false};
+  const remaining=available-amount;
+  if(remaining<=0)source.inventory.splice(itemIndex,1);else source.inventory[itemIndex].qty=String(remaining);
+  if(item.weaponId){
+    const weapon=source.weapons?.find(entry=>entry.id===item.weaponId);
+    if(weapon){
+      receiver.weapons=Array.isArray(receiver.weapons)?receiver.weapons:[];
+      const newWeaponId='w_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+      receiver.weapons.push({...weapon,id:newWeaponId});transferred.weaponId=newWeaponId;
+    }
+  }
+  const stack=receiver.inventory.find(existing=>existing.name===transferred.name&&existing.type===transferred.type&&existing.rarity===transferred.rarity&&existing.effectCode===transferred.effectCode&&(existing.type!=='armor'||(existing.armorSubtype===transferred.armorSubtype&&existing.armorPd===transferred.armorPd&&JSON.stringify(existing.resistances||{})===JSON.stringify(transferred.resistances||{}))));
+  if(stack)stack.qty=String((parseInt(stack.qty)||0)+amount);else receiver.inventory.push(transferred);
+  closeModal('inventory-action-modal');
+  applyDataToForm(source);recalcAllAutoStats();renderGMDashboard();saveActivePlayerToCloud(true);renderEnemiesCards();
+  broadcastSystemCombatEntry('chat','🤝 <b>'+escapeHtml(source.inputs?.['char-name']||getIdentityLabel(sourceId))+'</b> entregó <b>'+amount+'× '+escapeHtml(itemName)+'</b> a <b>'+escapeHtml(receiver.inputs?.['char-name']||getIdentityLabel(targetId))+'</b>.');
+  showToast('🤝 '+amount+'× '+itemName+' entregado.');
 }
 function tradeInventoryItem(row) {
   if (!row || (!isMasterClient && activeClientIdentity !== activeRole) || !playerList.includes(activeRole)) { showToast('🔒 Solo puedes pasar objetos desde tu propia ficha.'); return; }
