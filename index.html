@@ -3875,6 +3875,10 @@ select[id^="summary-skill-sel-"] optgroup {
           </div>
           <div class="inventory-total-weight">PESO TOTAL: <b id="total-weight">0</b> Kg</div>
         </div>
+    </div> <!-- Fin player-sheet-wrap -->
+
+  </div> <!-- Fin sheet-container -->
+
         <div id="inventory-action-modal" class="modal-backdrop" style="z-index:100010;">
           <div class="hub-modal-box inventory-action-modal-box" style="max-width:430px;text-align:left;">
             <div class="modal-title" style="color:#6b3b12;text-align:center;">🎒 GESTIONAR OBJETOS</div>
@@ -3905,10 +3909,6 @@ select[id^="summary-skill-sel-"] optgroup {
           </div>
         </div>
       </div>
-
-    </div> <!-- Fin player-sheet-wrap -->
-
-  </div> <!-- Fin sheet-container -->
 <script>
     // ========================================================
     // PARTE 4/6: LÓGICA JAVASCRIPT (PARTE 1 DE 3)
@@ -9660,8 +9660,10 @@ function toggleInventoryEquipped(button){
   const row=button?.closest('tr'),checkbox=row?.querySelector('.inv-equipped');if(!row||!checkbox)return;
   checkbox.checked=!checkbox.checked;
   if(checkbox.checked&&row.dataset.itemType==='armor')handleArmorEquippedChange(checkbox);
-  button.classList.toggle('is-equipped',checkbox.checked);
-  button.textContent=checkbox.checked?'✓ Equipada':'＋ Equipar';
+  document.querySelectorAll('#inventory-body tr').forEach(entry=>{
+    const equipped=entry.querySelector('.inv-equipped')?.checked,control=entry.querySelector('.inventory-equip-toggle');
+    if(control){control.classList.toggle('is-equipped',!!equipped);control.textContent=equipped?'✓ Equipada':'＋ Equipar';}
+  });
   commitDomToActivePlayer();
   recalcAllAutoStats();
   renderGMDashboard();
