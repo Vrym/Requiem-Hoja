@@ -2754,6 +2754,23 @@ select[id^="summary-skill-sel-"] optgroup {
 
 .diary-state-label{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--text-secondary,#777)}.diary-state-select{border:1px solid #9a9a9a;border-radius:8px;padding:7px 9px;font-weight:600;background:#f4f4f4;color:#333;max-width:100%}.diary-state-select.done{background:#c8e8bd;color:#245b20;border-color:#43833a}.diary-state-select.failed{background:#f2c5c1;color:#7e1d18;border-color:#b9473e}.diary-state-select.pending{background:#f4f4f4;color:#444}
 .diary-card-heading{display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex:1;min-width:0}.diary-card-heading .diary-card-title{width:100%}.diary-card-badges{display:flex;align-items:center;gap:5px;flex-wrap:wrap;width:100%}.diary-card-top{align-items:flex-start!important}.diary-active{background:#d9ead3!important;color:#315d27!important;border-color:#91b77e!important}
+
+/* Ajustes visuales: potenciar atributos, tabla D6 y resultados del Arsenal */
+#builder-tech-boost-fields.tech-boost-grid{display:none;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:8px;width:100%;}
+#builder-tech-boost-fields.tech-boost-grid[style*="grid"]{display:grid!important;}
+#builder-tech-boost-fields label{display:flex;flex-direction:column;gap:4px;min-width:0;padding:5px 4px;border:1px solid #9ab49b;border-radius:5px;background:linear-gradient(180deg,#f7fff4,#e0eddd);color:#28553a;text-align:center;font:bold 10px var(--f-title);}
+#builder-tech-boost-fields input{width:100%;min-width:0;max-width:100%;height:29px;box-sizing:border-box;text-align:center;border:1px solid #759779;border-radius:4px;background:#fffef9;color:#21472d;font:bold 13px var(--f-title);padding:2px;}
+.weapon-roll-result{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;background:linear-gradient(110deg,#fff4d4,#f1dfb4);border:1px solid #b68b42;border-radius:6px;padding:6px 9px;font:bold 12px var(--f-title);color:#593713;box-shadow:inset 0 1px 0 #fff9e8;}
+.weapon-roll-result>span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
+.weapon-roll-result .weapon-roll-val{display:inline-flex;min-width:27px;justify-content:center;padding:2px 6px;background:#3b2050;color:#ffe99a;border:1px solid #8c6bb1;border-radius:4px;font-size:15px;}
+.weapon-roll-result .weapon-dmg-val{display:inline-flex;min-width:35px;justify-content:center;padding:2px 7px;background:#7b2411;color:#fff0cf;border:1px solid #b65c3c;border-radius:4px;font-size:15px;}
+#modal-weapon-damage-info .weapon-d6-table-wrap{width:100%;overflow-x:auto;border:1px solid #b18b50;border-radius:5px;background:#fffaf0;padding:3px;}
+#modal-weapon-damage-info table{min-width:470px;width:100%;table-layout:fixed;}
+#modal-weapon-damage-info th,#modal-weapon-damage-info td{box-sizing:border-box;overflow-wrap:anywhere;text-align:center;vertical-align:middle;}
+#modal-weapon-damage-info tbody th{width:76px;white-space:normal;background:#ead7ad;color:#65421a;padding:6px 3px!important;}
+#modal-weapon-damage-info tbody td{padding:6px 3px!important;}
+@media(max-width:650px){#builder-tech-boost-fields.tech-boost-grid{grid-template-columns:repeat(3,minmax(0,1fr));}#builder-tech-boost-fields label{font-size:9px;}#builder-tech-boost-fields input{height:27px;font-size:12px;}}
+@media(max-width:390px){#builder-tech-boost-fields.tech-boost-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 </style>
 </head>
 <body>
@@ -2981,7 +2998,7 @@ select[id^="summary-skill-sel-"] optgroup {
     <div class="hub-modal-box" style="max-width:540px;text-align:left;">
       <div class="modal-title combat-hub-title" id="weapon-info-title">ℹ️ Daño del arma</div>
       <div id="weapon-info-formula" style="font:12px var(--f-title);color:#563512;margin:8px 0;padding:7px;background:#f0e3c4;border:1px solid #b08a4e;border-radius:3px;"></div>
-      <div style="overflow-x:auto;">
+      <div class="weapon-d6-table-wrap" style="overflow-x:auto;">
         <table style="width:100%;border-collapse:collapse;text-align:center;background:#fff9eb;border:2px solid #725026;table-layout:fixed;">
           <thead><tr style="background:#dfc99b;font: bold 12px var(--f-title);"><th style="padding:6px;border:1px solid #725026;">D6</th><th id="weapon-info-head-1" style="padding:6px;border:1px solid #725026;">1</th><th id="weapon-info-head-2" style="padding:6px;border:1px solid #725026;">2</th><th id="weapon-info-head-3" style="padding:6px;border:1px solid #725026;">3</th><th id="weapon-info-head-4" style="padding:6px;border:1px solid #725026;">4</th><th id="weapon-info-head-5" style="padding:6px;border:1px solid #725026;">5</th><th id="weapon-info-head-6" style="padding:6px;border:1px solid #725026;">6</th></tr></thead>
           <tbody>
@@ -3079,7 +3096,7 @@ select[id^="summary-skill-sel-"] optgroup {
       </div>
       <div style="padding:7px;margin:0 0 8px;border:1px solid #557a62;border-radius:4px;background:linear-gradient(100deg,#e8f1e6,#fffaf0);">
         <label style="font:bold 11px var(--f-title);color:#27553a;"><input type="checkbox" id="builder-tech-boost-enabled" onchange="toggleTechniqueBoostFields(this.checked)"> ✨ Potenciar atributos</label>
-        <div id="builder-tech-boost-fields" style="display:none;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-top:5px;">
+        <div id="builder-tech-boost-fields" class="tech-boost-grid" style="display:none;">
           <label>+PC<input type="number" id="builder-tech-boost-pc" class="table-msg-input" value="0"></label><label>+PD<input type="number" id="builder-tech-boost-pd" class="table-msg-input" value="0"></label><label>+Daño<input type="number" id="builder-tech-boost-damage" class="table-msg-input" value="0"></label><label>+HP<input type="number" id="builder-tech-boost-hp" class="table-msg-input" value="0"></label><label>+Smath<input type="number" id="builder-tech-boost-smath" class="table-msg-input" value="0"></label>
         </div>
       </div>
@@ -6824,14 +6841,14 @@ function confirmDismissSummon(pid, sIdx, summonName) {
         <div style="display:flex; align-items:center; justify-content:space-between; gap:4px; font-size:12px; font-family:var(--f-title); flex-wrap:wrap;">
           <span>Escala: <b class="weapon-scale-text" style="color:#731e0b;">${scalePct}%</b></span>
           <span>Base PJ: <b class="weapon-pj-base-text">0</b></span>
-          <span>Daño Base: <b class="weapon-total-text" style="color:var(--txt-red); font-size:15px;">0</b></span>
+          <span class="weapon-total-hidden" style="display:none;">Daño Base: <b class="weapon-total-text" style="color:var(--txt-red); font-size:15px;">0</b></span>
           ${effectBadge}
         </div>
         <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; width:100%; flex-wrap:wrap;">
-          <span class="weapon-d6-label">🎲 Tirada D6 automática por arma</span>
-          <div style="display:inline-flex; align-items:center; gap:4px; background:#fff; padding:2px 6px; border:1px solid var(--border-dark); border-radius:2px; font-size:12px; font-weight:bold; white-space:nowrap;">
-            <span>D6: <b class="weapon-roll-val" style="color:var(--txt-red);">${lastRoll}</b></span>
-            <span style="margin-left:4px;">Daño: <b class="weapon-dmg-val" style="color:var(--txt-red);">${lastDmg}</b></span>
+          
+          <div class="weapon-roll-result">
+            <span>🎲 D6: <b class="weapon-roll-val">${lastRoll}</b></span>
+            <span>⚔️ Daño: <b class="weapon-dmg-val">${lastDmg}</b></span>
           </div>
         </div>
       `;
