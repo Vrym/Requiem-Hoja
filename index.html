@@ -3279,7 +3279,7 @@ select[id^="summary-skill-sel-"] optgroup {
     <div class="role-bar-wrap">
       <div class="gm-fixed-container">
         <button type="button" id="gm-role-btn" class="role-btn" onclick="switchRole('gm')">⚔️ Campo</button>
-        <button type="button" id="gm-console-btn" class="role-btn btn-console-tab" onclick="switchRole('console')">🛠️ Consola GM</button>
+        <button type="button" id="gm-console-btn" class="role-btn btn-console-tab" onclick="openMasterConsole()">🛠️ Consola GM</button>
       </div>
       <div class="role-bar-tabs" id="role-bar-container"></div>
       <div class="mobile-role-selector-wrap">
@@ -8028,6 +8028,24 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       updateCurrencyTargetSelect();
     }
 
+    function openMasterConsole() {
+      if (!isMasterClient) { showToast('🔒 Solo el Master puede abrir la Consola GM.'); return; }
+      // Abrir la consola de forma explícita y asegurar que no quede oculta
+      // por estilos inline o por el estado anterior de la pestaña.
+      switchRole('console');
+      const consoleWrap=document.getElementById('gm-console-wrap');
+      const gmWrap=document.getElementById('gm-dashboard-wrap');
+      const sheetWrap=document.getElementById('player-sheet-wrap');
+      if(consoleWrap) consoleWrap.style.setProperty('display','block','important');
+      if(gmWrap) gmWrap.style.setProperty('display','none','important');
+      if(sheetWrap) sheetWrap.style.setProperty('display','none','important');
+      document.body.classList.remove('master-mobile-stack');
+      document.body.classList.add('master-console-view');
+      const btn=document.getElementById('gm-console-btn');
+      btn?.classList.add('active');
+      const fieldBtn=document.getElementById('gm-role-btn');
+      fieldBtn?.classList.remove('active');
+    }
     function switchRole(roleId) {
       if (activeRole !== 'gm' && activeRole !== 'console' && allPlayersData[activeRole] && !isRemoteUpdate) {
         allPlayersData[activeRole] = gatherFormData();
