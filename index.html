@@ -7550,7 +7550,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
                 }
               }
             } else {
-              targetsLog.push(`• <span class="chat-target-link" onclick="focusCombatantCard('${tId}', true)">👹 ${defName}</span> (PD: ${defPd}): 🛡️ ${isPifia?'PIFIA · ataque fallido':'¡Falló! (Ataque: ${attackPrecision})'}`);
+              targetsLog.push(`• <span class="chat-target-link" onclick="focusCombatantCard('${tId}', true)">👹 ${defName}</span> (PD: ${defPd}): 🛡️ ${isPifia?'PIFIA · ataque fallido':`¡Falló! (Ataque: ${attackPrecision})`}`);
             }
           }
         } else if (tId.startsWith('p_')) {
