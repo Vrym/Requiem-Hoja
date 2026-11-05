@@ -10376,8 +10376,13 @@ function renderDiceHistory() {
   const container = document.getElementById('dice-history-list'); if (!container) return;
   container.innerHTML = '';
   const characterName = String(allPlayersData[activeRole]?.inputs?.['char-name'] || '').trim();
-  const normalizeSender = value => String(value || '').replace(/[⚔️🛡️👑🎭]/gu,'').trim().toLowerCase();
-  const ownRolls = (diceRollsHistory || []).filter(r => characterName && normalizeSender(r.sender) === normalizeSender(characterName));
+  const playerIndex = playerList.indexOf(activeRole);
+  const fallbackName = playerIndex >= 0 ? `Jugador ${playerIndex + 1}` : '';
+  const normalizeSender = value => String(value || '').replace(/[⚔️🛡️👑🎭]/gu,'').replace(/^Master$/i,'').trim().toLowerCase();
+  // Arsenal muestra únicamente las tiradas atribuidas a la ficha abierta,
+  // no las de otros jugadores ni las del Master.
+  const ownSenderNames = [characterName, fallbackName, getIdentityLabel(activeRole)].map(normalizeSender).filter(Boolean);
+  const ownRolls = (diceRollsHistory || []).filter(r => ownSenderNames.includes(normalizeSender(r.sender)));
   if (!ownRolls.length) { container.innerHTML = '<div style="color:#777;font-style:italic;padding:10px;text-align:center">Esta ficha todavía no tiene tiradas registradas.</div>'; return; }
   ownRolls.forEach(r => { const item = document.createElement('div'); item.className = 'history-item'; item.innerHTML = `<div><b style="color:#731e0b">[${escapeHtml(r.time || '')}]</b><br><span>${escapeHtml(r.detail || '')}</span></div>`; container.appendChild(item); });
 }
