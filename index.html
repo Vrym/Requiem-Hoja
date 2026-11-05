@@ -7020,6 +7020,7 @@ function confirmDismissSummon(pid, sIdx, summonName) {
         if(revived<1){showToast('⚠️ El sacrificio no alcanza para reanimar al aliado.');return true;}
       }
       if(tech.effectType==='multiplication'&&(player.summons||[]).some(sum=>sum.isChizeClone&&(parseFloat(sum.hpCurr)||0)>0)){showToast('⚠️ Ya hay cuerpos de Multiplicación activos.');return true;}
+      if(tech.effectType==='multiplication'){const parts=Math.max(2,parseInt(tech.cloneBodies)||2),ownHp=Math.max(0,parseFloat(player.inputs?.['stat-hp-curr'])||0);if(Math.floor(ownHp/parts)<1){showToast('⚠️ No hay Resencia suficiente para dividirse.');return true;}}
       if(tech.effectType==='diffusion'&&player.activePowerEffects?.difuminacion?.active){showToast('🌫️ Difuminación ya está activa.');return true;}
       if(actionCount>0){
         const used=actionKind==='quick'?(parseInt(player.quickActionsUsed)||0):(parseInt(player.commonActionsUsed)||0);
@@ -7451,15 +7452,15 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           <div style="display:flex; align-items:center; gap:5px; flex-wrap:nowrap;">
             ${isEssenceTechnique ? '<span class="tech-essence-mark" title="Técnica de Esencia">✨</span>' : ''}
             ${isQuickAction ? '<span class="tech-quick-mark" title="Consume Acción Rápida">⚡</span>' : ''}
-            <input type="text" class="tech-row-name" value="${escapeHtml(name)}" placeholder="Poder / Invocación..." style="flex:1; min-width:80px; height:24px; background:transparent; border:none; border-bottom:1px solid #7a5833; font-family:var(--f-body); font-size:13.5px; font-weight:bold; padding:1px 4px; outline:none;" oninput="syncToFirebaseDebounced(1200);">
+            <input type="text" class="tech-row-name" value="${escapeHtml(name)}" ${catalogId ? "disabled title=\"Nombre administrado por la biblioteca\"" : ""} placeholder="Poder / Invocación..." style="flex:1; min-width:80px; height:24px; background:transparent; border:none; border-bottom:1px solid #7a5833; font-family:var(--f-body); font-size:13.5px; font-weight:bold; padding:1px 4px; outline:none;" oninput="syncToFirebaseDebounced(1200);">
             <button type="button" class="btn-mini-tool" onclick="openTechniqueInfo(${rowIdx})" title="Ver detalles y reglas" style="padding:1px 5px; height:22px;">ℹ️</button>
             <button type="button" class="btn-mini-tool" onclick="openTechniqueBuilder(${rowIdx})" title="Configurar" style="padding:1px 5px; height:22px;">⚙️</button>
           </div>
         </td>
         <td style="text-align:center; padding:4px 2px;">
           <div style="display:inline-flex; align-items:center; gap:3px;">
-            <input type="number" class="tech-cost-input" value="${cost}" min="0" style="width:32px; height:22px; padding:1px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px; font-size:12px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-            <button type="button" class="btn-stat-max btn-use-tech" style="background:#731e0b; color:#ffe8b5; font-size:10px; padding:2px 5px; height:22px;" onclick="useTechniqueDirect(${rowIdx})" title="Gastar Smath / Invocar">⚡</button>
+            <input type="number" class="tech-cost-input" value="${cost}" min="0" ${catalogId ? "disabled title=\"Coste administrado por la biblioteca\"" : ""} style="width:32px; height:22px; padding:1px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px; font-size:12px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
+            <button type="button" class="btn-stat-max btn-use-tech" style="background:#731e0b; color:#ffe8b5; font-size:10px; padding:2px 5px; height:22px;" onclick="useTechniqueDirect(${rowIdx})" ${catalogId ? "disabled title=\"Elegí el nivel desde el campo de combate\"" : "title=\"Gastar Smath / Invocar\""}>⚡</button>
           </div>
         </td>
         <td style="padding:4px 2px;">
@@ -8590,7 +8591,10 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         if(pdata.activePowerEffects?.['caricia-suave']?.active)actionOptionsHtml+='<option value="power_stop_caricia">⏹ Detener Caricia Suave</option>';
         if(pdata.activePowerEffects?.difuminacion?.active)actionOptionsHtml+='<option value="power_stop_diffusion">⏹ Detener Difuminación</option>';
         const commonBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'common'),quickBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'quick');
-        actionOptionsHtml += `</optgroup><optgroup label="Acciones"><option value="move" ${quickBlocked?'disabled':''}>🏃 Desplazarse(R)</option><option value="conc" ${commonBlocked?'disabled':''}>🧘 Concentrarse</option><option value="defend" ${commonBlocked?'disabled':''}>🛡️ Defensa (+2 PD)</option><option value="motivation" ${isDead||isOutOfBattle||pChecks['status-stun']||pChecks['status-petrificado']||(parseInt(pdata.motivationUses)||0)>=2?'disabled':''}>🔥 Motivación (+1 Ac)</option></optgroup><optgroup label="Pociones">`;
+        actionOptionsHtml += '</optgroup><optgroup label="Acciones">';
+        if(pdata.activePowerEffects?.['caricia-suave']?.active)actionOptionsHtml+='<option value="power_stop_caricia">⏹ Detener Caricia Suave</option>';
+        if(pdata.activePowerEffects?.difuminacion?.active)actionOptionsHtml+='<option value="power_stop_diffusion">⏹ Detener Difuminación</option>';
+        actionOptionsHtml += `<option value="move" ${quickBlocked?'disabled':''}>🏃 Desplazarse(R)</option><option value="conc" ${commonBlocked?'disabled':''}>🧘 Concentrarse</option><option value="defend" ${commonBlocked?'disabled':''}>🛡️ Defensa (+2 PD)</option><option value="motivation" ${isDead||isOutOfBattle||pChecks['status-stun']||pChecks['status-petrificado']||(parseInt(pdata.motivationUses)||0)>=2?'disabled':''}>🔥 Motivación (+1 Ac)</option></optgroup><optgroup label="Pociones">`;
         (pdata.inventory||[]).forEach((item,itemIndex)=>{if(item.type==='potion')actionOptionsHtml+=`<option value="item_${itemIndex}" ${quickBlocked||isDead?'disabled':''}>🧪 ${escapeHtml(item.name||'Poción')}</option>`;});
         actionOptionsHtml+='</optgroup>';
 
@@ -8770,7 +8774,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       if (!container) return;
       document.getElementById('gm-cards-container')?.querySelectorAll('.enemy-card[data-faction="ally"]').forEach(card=>card.remove());
       ensureEnemyCombatIds();
-      const sceneEnemies = (enemiesList || []).filter(e => e.faction !== 'ally');
+      const sceneEnemies = (enemiesList || []).filter(e => e.faction !== 'ally' && !e.retreated);
       if (badge) badge.innerText = sceneEnemies.length;
       container.innerHTML = `<section class="enemies-side-column"><h4 class="enemies-side-title">👹 Enemigos</h4><div id="enemies-enemy-column" class="enemies-side-cards"></div></section>`;
 
@@ -9933,7 +9937,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const remote=snap.val();
       sharedPowerCatalog=remote&&typeof remote==='object'?{...DEFAULT_POWER_CATALOG,...remote}:JSON.parse(JSON.stringify(DEFAULT_POWER_CATALOG));
       sharedPowerCatalogReady=!!remote;
-      if(isMasterClient){const patch={};Object.keys(DEFAULT_POWER_CATALOG).forEach(id=>{if(!remote?.[id])patch[id]=DEFAULT_POWER_CATALOG[id];});[1,2,3].forEach(level=>{patch['cola-feliz/levels/'+level+'/cost']=4;});if(Object.keys(patch).length)gameRef.child('powerCatalog').update(patch);}
+      if(isMasterClient){const patch={};Object.keys(DEFAULT_POWER_CATALOG).forEach(id=>{if(!remote?.[id]){patch[id]=JSON.parse(JSON.stringify(DEFAULT_POWER_CATALOG[id]));if(id==='cola-feliz')[1,2,3].forEach(level=>{patch[id].levels[String(level)].cost=4;});}});if(remote?.['cola-feliz']){[1,2,3].forEach(level=>{patch['cola-feliz/levels/'+level+'/cost']=4;});}if(Object.keys(patch).length)gameRef.child('powerCatalog').update(patch);}
       if(document.getElementById('modal-power-catalog')?.style.display==='flex')renderPowerCatalogList();
     });
 
