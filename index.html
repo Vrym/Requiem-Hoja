@@ -9569,6 +9569,8 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           if (cloudData.gmNotes !== undefined) gmSecretNotes = cloudData.gmNotes;
           if (Array.isArray(cloudData.workshopTemplates)) workshopTemplates = cloudData.workshopTemplates;
           if (Array.isArray(cloudData.whispersList)) { whispersList = cloudData.whispersList; checkIncomingMysticWhispers(whispersList); }
+       if (cloudData.missions && typeof cloudData.missions === 'object') missionDiaryData = cloudData.missions;
+          if (cloudData.missions && typeof cloudData.missions === 'object') missionDiaryData = cloudData.missions;
           renderBestiaryTemplates();
         } else {
           saveActivePlayerToCloud(true);
@@ -9687,7 +9689,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         missions: missionDiaryData || {}
       };
 
-      gameRef.set(payload).then(() => {
+      gameRef.update(payload).then(() => {
         if (savedRole === activeRole && editVersionAtSave === localSheetEditVersion) hasUnsavedSheetEdits = false;
         if (!silent) showToast('🔄 Sincronizado en vivo.');
       }).catch(err => {
