@@ -4268,7 +4268,7 @@ select[id^="summary-skill-sel-"] optgroup {
     }
     function isCriticalFailure(...dice) { return dice.some(value => Number(value) === 1); }
     function applyCombatDamageToPlayer(player, amount) {
-      if (player?.checkboxes?.['status-inmune']) return { immune: true, damage: 0, shieldAbsorbed: 0, hp:Math.max(0,parseFloat(player.inputs?.['stat-hp-curr'])||0) };
+      if (player?.checkboxes?.['status-inmune']||isPlayerTemporarilyInvulnerable(player)) return { immune: true, damage: 0, shieldAbsorbed: 0, hp:Math.max(0,parseFloat(player.inputs?.['stat-hp-curr'])||0) };
       const requested = Math.max(0, parseInt(amount) || 0);
       const shield = Math.max(0, parseInt(player?.shield) || 0);
       const shieldAbsorbed = Math.min(shield, requested);
@@ -4356,6 +4356,7 @@ select[id^="summary-skill-sel-"] optgroup {
       document.querySelectorAll('#inventory-body tr').forEach(row=>{if(row!==selected&&row.dataset.itemType==='armor'){const other=row.querySelector('.inv-equipped');if(other)other.checked=false;}});
     }
     function getPlayerMaxHpValue(player) {
+      if(parseFloat(player?.cloneSplitHpMax)>0)return Math.max(1,parseFloat(player.cloneSplitHpMax));
       let archetypeHp=0;ARCHETYPES.forEach(arch=>archetypeHp+=(player.archLevels?.[arch]||0)*GRADE_BONUSES[arch].hp);
       const base=(parseFloat(player.inputs?.['stat-hp-max-base'])||0)+archetypeHp;
       const passive=base+Math.round(base*.2*(player.aspects?.defensiva||0));
@@ -4367,12 +4368,12 @@ select[id^="summary-skill-sel-"] optgroup {
     }
     function getEnemyDerivedPd(enemy) {
       if(enemy?.states?.stun||enemy?.states?.petrificado)return 0;
-      return (parseFloat(enemy?.pd)||12)+(parseInt(enemy?.combatBuff?.pd)||0)+(enemy?.defendingTurn?2:0)+(parseInt(enemy?.aspects?.defensiva)||0)*getEssenceModeMultiplier(enemy?.essenceMode)+getEnvironmentModifier('pd');
+      return (parseFloat(enemy?.pd)||12)+(parseInt(enemy?.combatBuff?.pd)||0)+(enemy?.defendingTurn?2:0)+(parseInt(enemy?.aspects?.defensiva)||0)*getEssenceModeMultiplier(enemy?.essenceMode)+(parseInt(enemy?.powerPdPenalty)||0)+getEnvironmentModifier('pd');
     }
     function getPlayerDerivedPd(player){
       if(player?.checkboxes?.['status-stun']||player?.checkboxes?.['status-petrificado'])return 0;
       let bonus=0;ARCHETYPES.forEach(arch=>bonus+=(player?.archLevels?.[arch]||0)*GRADE_BONUSES[arch].pd);
-      return (parseFloat(player?.inputs?.['stat-pd-base'])||0)+bonus+(parseInt(player?.aspects?.defensiva)||0)*getEssenceModeMultiplier(player?.essenceMode)+getEquippedArmorPd(player)+(parseInt(player?.itemCombatBuff?.pd)||0)+(player?.defendingTurn?2:0)+getEnvironmentModifier('pd');
+      return (parseFloat(player?.inputs?.['stat-pd-base'])||0)+bonus+(parseInt(player?.aspects?.defensiva)||0)*getEssenceModeMultiplier(player?.essenceMode)+getEquippedArmorPd(player)+(parseInt(player?.itemCombatBuff?.pd)||0)+(parseInt(player?.powerBuffs?.pd)||0)+(player?.defendingTurn?2:0)+getEnvironmentModifier('pd');
     }
     function getPlayerDerivedPc(player){
       let bonus=0;ARCHETYPES.forEach(arch=>bonus+=(player?.archLevels?.[arch]||0)*GRADE_BONUSES[arch].pc);
@@ -6547,6 +6548,15 @@ function confirmDismissSummon(pid, sIdx, summonName) {
         let currHp = parseFloat(pInputs['stat-hp-curr']) || 0;
         let currSmath = parseFloat(pInputs['stat-smath-curr']) || 0;
         let hpChange = 0;
+        const powerEffects=pdata.activePowerEffects||{};
+        ['caricia-suave','difuminacion'].forEach(powerId=>{
+          const active=powerEffects[powerId];if(!active?.active)return;
+          const upkeep=Math.max(0,parseInt(active.upkeepCost)||0);
+          if(currSmath>=upkeep){currSmath-=upkeep;roundStateEvents.push('✨ '+escapeHtml(pInputs['char-name']||pid)+' mantiene '+(powerId==='caricia-suave'?'Caricia Suave':'Difuminación')+' (-'+upkeep+' Smath).');}
+          else{delete powerEffects[powerId];roundStateEvents.push('⚠️ '+escapeHtml(pInputs['char-name']||pid)+' no pudo pagar el mantenimiento; '+(powerId==='caricia-suave'?'Caricia Suave':'Difuminación')+' terminó.');}
+        });
+        if(pdata.powerBuffs&&parseInt(pdata.powerBuffs.expiresAtRound)<globalRound)delete pdata.powerBuffs;
+        if(parseInt(pdata.tempInvulnerableUntilRound||0)<globalRound)delete pdata.tempInvulnerableUntilRound;
         let smathGain = 0;
 
         if(environmentRules.active){
@@ -6959,6 +6969,123 @@ function confirmDismissSummon(pid, sIdx, summonName) {
       Object.entries(allPlayersData||{}).forEach(([pid,pdata])=>{if(ensureChizepruebaPowerLoadout(pdata,pid))updates['characters/'+pid]=pdata;});
       if(Object.keys(updates).length&&isCloudInitialized)gameRef.update(updates).catch(()=>showToast('⚠️ No se pudo sincronizar la ficha de Chizeprueba.'));
       return Object.keys(updates).length;
+    }
+
+    function getActivePlayerPowerState(player) {
+      if(!player.activePowerEffects||typeof player.activePowerEffects!=='object')player.activePowerEffects={};
+      return player.activePowerEffects;
+    }
+    function isPlayerDifuminated(player) { return !!player?.activePowerEffects?.difuminacion?.active; }
+    function isPlayerTemporarilyInvulnerable(player) { return Number(player?.tempInvulnerableUntilRound||0)>=Number(globalRound||1); }
+    function deactivatePlayerPower(pid,powerId) {
+      const player=allPlayersData[pid];if(!player?.activePowerEffects?.[powerId])return;
+      delete player.activePowerEffects[powerId];
+      if(activeRole===pid)renderPlayerSummons(pid);
+      renderGMDashboard();renderEnemiesCards();saveActivePlayerToCloud(true);
+      broadcastSystemCombatEntry('tech','✨ <b>'+escapeHtml(player.inputs?.['char-name']||pid)+'</b> detuvo '+(powerId==='caricia-suave'?'Caricia Suave':'Difuminación')+'.');
+    }
+    function executeCatalogPower(actorId,techIndex,tech) {
+      if(String(actorId).startsWith('e_')||!tech?.catalogId)return false;
+      const pid=String(actorId).replace(/^p_/,'');
+      if(!isMasterClient&&activeClientIdentity!==pid){showToast('🔒 No puedes usar poderes desde otra ficha.');return true;}
+      const player=allPlayersData[pid];if(!player)return true;
+      if(battleActive&&!isPlayerInBattleRoster(pid)){showToast('🪑 Este jugador está fuera de batalla.');return true;}
+      if((parseFloat(player.inputs?.['stat-hp-curr'])||0)<=0){showToast('💀 Un personaje caído no puede usar poderes.');return true;}
+      if(isPlayerSealed(player)||player.checkboxes?.['status-stun']||player.checkboxes?.['status-petrificado']){showToast('🔒 El estado actual impide usar poderes.');return true;}
+      const level=tech.powerLevel||getHighestTechniqueLevel(player.techniques?.[techIndex]);
+      const actionKind=tech.actionKind||'common';
+      const actionCount=Math.max(0,parseInt(tech.actionCount??(actionKind==='free'||actionKind==='passive'?0:1))||0);
+      const cost=Math.max(0,(parseInt(tech.cost)||0)+getEnvironmentModifier('techCost'));
+      const currentSmath=parseFloat(player.inputs?.['stat-smath-curr'])||0;
+      const targetIds=Array.from(selectedTargetIds);
+      const targetMode=tech.targetMode||'enemy';
+      if(['ally','ally-down'].includes(targetMode)&&(targetIds.length!==1||!targetIds[0].startsWith('p_'))){showToast('⚠️ Selecciona un único aliado jugador en el campo.');return true;}
+      if(targetMode==='enemy'&&(targetIds.length!==1||!targetIds[0].startsWith('e_'))){showToast('⚠️ Selecciona un único enemigo en el campo.');return true;}
+      let allyTarget=null,enemyTarget=null;
+      if(['ally','ally-down'].includes(targetMode))allyTarget=allPlayersData[targetIds[0].slice(2)];
+      if(targetMode==='enemy')enemyTarget=enemiesList[parseInt(targetIds[0].slice(2))];
+      if(targetMode==='ally'&&!allyTarget){showToast('⚠️ Aliado no encontrado.');return true;}
+      if(targetMode==='ally-down'&&(!allyTarget||(parseFloat(allyTarget.inputs?.['stat-hp-curr'])||0)>0)){showToast('⚠️ Chispeo de Esencia necesita un aliado vencido (0 HP).');return true;}
+      if(targetMode==='enemy'&&!enemyTarget){showToast('⚠️ Enemigo no encontrado.');return true;}
+      if(currentSmath<cost){showToast('⚠️ Necesitas '+cost+' Smath para '+tech.name+'.');return true;}
+      let sacrifice=0,revived=0;
+      if(tech.effectType==='essence-revive'){
+        const ownHp=Math.max(0,parseFloat(player.inputs?.['stat-hp-curr'])||0);
+        const raw=window.prompt('¿Cuántos HP de Suke quieres sacrificar? (Debe conservar al menos 1 HP)',String(Math.min(20,Math.max(1,ownHp-1))));
+        sacrifice=Math.floor(Number(raw));
+        if(raw===null||!Number.isFinite(sacrifice)||sacrifice<1||sacrifice>=ownHp){showToast('Reanimación cancelada: cantidad no válida.');return true;}
+        if(level===1&&sacrifice<10){showToast('⚠️ En nivel I debes sacrificar al menos 10 HP.');return true;}
+        revived=level===1?Math.floor(sacrifice/10)*5:Math.floor(sacrifice*(parseFloat(tech.reviveRatio)||1));
+        if(revived<1){showToast('⚠️ El sacrificio no alcanza para reanimar al aliado.');return true;}
+      }
+      if(tech.effectType==='multiplication'&&(player.summons||[]).some(sum=>sum.isChizeClone&&(parseFloat(sum.hpCurr)||0)>0)){showToast('⚠️ Ya hay cuerpos de Multiplicación activos.');return true;}
+      if(tech.effectType==='diffusion'&&player.activePowerEffects?.difuminacion?.active){showToast('🌫️ Difuminación ya está activa.');return true;}
+      if(actionCount>0){
+        const used=actionKind==='quick'?(parseInt(player.quickActionsUsed)||0):(parseInt(player.commonActionsUsed)||0);
+        const limit=actionKind==='quick'?1:getCombatActionLimit(player,false,'common');
+        if(used+actionCount>limit){showToast('⚠️ No tienes acciones suficientes para este poder.');return true;}
+        for(let i=0;i<actionCount;i++)if(!consumeCombatAction('p_'+pid,false,actionKind==='quick'?'quick':'common',tech.name))return true;
+      }
+      if(cost>0)player.inputs['stat-smath-curr']=currentSmath-cost;
+      if(sacrifice>0)player.inputs['stat-hp-curr']=Math.max(1,(parseFloat(player.inputs['stat-hp-curr'])||0)-sacrifice);
+      const name=player.inputs?.['char-name']||pid;
+      const log=(message)=>broadcastSystemCombatEntry('tech','✨ <b>'+escapeHtml(name)+'</b> · <b>'+escapeHtml(tech.name)+'</b> (N'+level+'): '+message);
+      const effectType=tech.effectType;
+      if(effectType==='animal-empathy'||effectType==='animal-speech'){
+        log(effectType==='animal-empathy'?'puede percibir y comunicar emociones con las bestias.':'puede hablar oralmente con las bestias.');
+        showToast('🐾 Capacidad de Lenguaje Natural disponible.');
+      }else if(effectType==='beast-retreat'){
+        if(confirm('¿'+(enemyTarget.name||'La bestia')+' acepta retirarse del combate?')){
+          enemyTarget.retreated=true;log('<b>'+escapeHtml(enemyTarget.name||'La bestia')+'</b> se retira de la escena.');buildInitiativeQueue();renderEnemiesCards();
+        }else{
+          enemyTarget.powerPdPenalty=(parseInt(enemyTarget.powerPdPenalty)||0)-2;log('<b>'+escapeHtml(enemyTarget.name||'La bestia')+'</b> rechaza la orden y queda con -2 PD durante el resto del combate.');renderEnemiesCards();
+        }
+      }else if(effectType==='wild-communion'){
+        log(escapeHtml(tech.desc||'La naturaleza favorece al grupo de forma pasiva.'));
+      }else if(effectType==='gentle-heal'){
+        const targetId=targetIds[0],target=allyTarget;
+        const before=Math.max(0,parseFloat(target.inputs?.['stat-hp-curr'])||0),maximum=getPlayerMaxHpValue(target),healed=Math.min(maximum-before,Math.max(0,parseInt(tech.effectValue)||0));
+        target.inputs['stat-hp-curr']=before+healed;target.hpDelta=healed;
+        getActivePlayerPowerState(player)['caricia-suave']={active:true,targetId,upkeepCost:Math.max(0,parseInt(tech.upkeepCost)||2),startedAtRound:globalRound};
+        log('cura a <b>'+escapeHtml(target.inputs?.['char-name']||targetId)+'</b> en '+healed+' HP y mantiene la conexión pagando '+(parseInt(tech.upkeepCost)||2)+' Smath por ronda.');
+        if(activeRole===targetId.slice(2))applyDataToForm(target);
+      }else if(effectType==='essence-revive'){
+        const targetId=targetIds[0];player.inputs['stat-hp-curr']=Math.max(1,(parseFloat(player.inputs['stat-hp-curr'])||0)-sacrifice);
+        allyTarget.inputs['stat-hp-curr']=Math.min(getPlayerMaxHpValue(allyTarget),revived);allyTarget.hpDelta=revived;
+        log('sacrifica '+sacrifice+' HP y reanima a <b>'+escapeHtml(allyTarget.inputs?.['char-name']||targetId)+'</b> con '+revived+' HP.');
+        if(activeRole===targetId.slice(2))applyDataToForm(allyTarget);
+      }else if(effectType==='multiplication'){
+        const parts=Math.max(2,parseInt(tech.cloneBodies)||2),ownHp=Math.max(0,parseFloat(player.inputs?.['stat-hp-curr'])||0),hpMax=getPlayerMaxHpValue(player);
+        const perCurrent=Math.floor(ownHp/parts),perMax=Math.max(1,Math.floor(hpMax/parts));
+        if(perCurrent<1){showToast('⚠️ No hay Resencia suficiente para dividirse.');return true;}
+        player.inputs['stat-hp-curr']=perCurrent;player.cloneSplitHpMax=perMax;player.cloneSplitLevel=level;
+        player.summons=Array.isArray(player.summons)?player.summons:[];
+        const baseName=player.inputs?.['char-name']||'Suke';let baseDamage=0;
+        ARCHETYPES.forEach(a=>baseDamage+=(player.archLevels?.[a]||0)*GRADE_BONUSES[a].dmg);baseDamage+=parseInt(player.itemCombatBuff?.damage)||0;
+        const cloneTechs=(player.techniques||[]).filter(item=>{
+          const resolved=item.catalogId?resolveCatalogTechnique(item,getHighestTechniqueLevel(item)):item;
+          const support=resolved?.category==='support'||resolved?.targetMode==='ally'||resolved?.targetMode==='ally-down';
+          return !!tech.cloneOffensiveTechniques||support;
+        }).map(item=>{const resolved=item.catalogId?resolveCatalogTechnique(item,getHighestTechniqueLevel(item)):item;return {...resolved,cost:0,isQuickAction:false,requiredModes:[],catalogId:null};});
+        for(let i=1;i<parts;i++){
+          const clone={name:baseName+' · Clon '+i,summonBaseName:baseName+' · Clon',isChizeClone:true,cloneOwner:pid,hpMax:perMax,hpCurr:perCurrent,pd:getPlayerDerivedPd(player),pc:getPlayerDerivedPc(player),maxCubes:1,currentCubes:1,atkName:'Ataque del clon',atkDmg:Math.max(1,baseDamage||12),techniques:cloneTechs.map(t=>({...t})),upkeepType:'fixed',cost:0};
+          player.summons.push(clone);registerSummonCombatant(pid,clone);
+        }
+        log('se divide en '+parts+' cuerpos; cada cuerpo queda con '+perCurrent+' HP.');
+        renderPlayerSummons(pid);buildInitiativeQueue();
+      }else if(effectType==='diffusion'){
+        getActivePlayerPowerState(player).difuminacion={active:true,level:level,upkeepCost:Math.max(0,parseInt(tech.upkeepCost)||cost),allowMovement:!!tech.allowMovement,startedAtRound:globalRound};
+        log('se difumina: queda invisible e invulnerable a ataques físicos'+(tech.allowMovement?' y puede desplazarse normalmente':' y no puede realizar acciones salvo hablar')+'.');
+      }else if(effectType==='happy-tail'){
+        const roll=rollDie(20),result=(tech.luck||[]).find(entry=>roll>=entry.min&&roll<=entry.max)||{};
+        if(result.invulnerable)allyTarget.tempInvulnerableUntilRound=globalRound;
+        else{const previous=allyTarget.powerBuffs||{};allyTarget.powerBuffs={pd:(parseInt(previous.pd)||0)+(parseInt(result.pd)||0),expiresAtRound:globalRound};}
+        log('deja una Cola Feliz sobre <b>'+escapeHtml(allyTarget.inputs?.['char-name']||targetIds[0])+'</b>. Fortuna: D20 '+roll+' · '+(result.invulnerable?'🛡️ Invulnerable hasta terminar la ronda':'+'+(parseInt(result.pd)||0)+' PD hasta terminar la ronda')+'.');
+        if(activeRole===targetIds[0].slice(2))updateResourceBarsUI();
+      }else{showToast('⚠️ Este poder todavía no tiene un efecto configurado.');return true;}
+      if(activeRole===pid){updateResourceBarsUI();recalcAllAutoStats();}
+      saveActivePlayerToCloud(true);renderGMDashboard();renderEnemiesCards();renderPlayerSummons(pid);clearAllSelectedTargets();
+      showToast('✨ '+tech.name+' · Nivel '+level+' utilizado.');return true;
     }
 
     function openTechniqueBuilder(tIdx) {
@@ -7811,6 +7938,12 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         techniques: allPlayersData[activeRole]?.techniques || [],
         awakenedTechniques: [],
         summons: allPlayersData[activeRole]?.summons || [],
+        activePowerEffects: allPlayersData[activeRole]?.activePowerEffects || {},
+        powerBuffs: allPlayersData[activeRole]?.powerBuffs || null,
+        tempInvulnerableUntilRound: allPlayersData[activeRole]?.tempInvulnerableUntilRound || 0,
+        cloneSplitHpMax: allPlayersData[activeRole]?.cloneSplitHpMax || 0,
+        cloneSplitLevel: allPlayersData[activeRole]?.cloneSplitLevel || 0,
+        chizePowerCatalogVersion: allPlayersData[activeRole]?.chizePowerCatalogVersion || 0,
         passives: Array.isArray(allPlayersData[activeRole]?.passives)?allPlayersData[activeRole].passives:[],
         inventory: [],
         essence: activeEssence,
@@ -8453,6 +8586,8 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
             actionOptionsHtml += '<option value="tech_'+tIdx+'" '+(blocked?'disabled':'')+'>'+(t.isQuickAction?'⚡':'🗡️')+' '+(t.isEssenceTechnique?'✨ ':'')+escapeHtml(t.name||'Téc')+' ('+(t.cost??2)+' Sm)</option>';
           }
         });
+        if(pdata.activePowerEffects?.['caricia-suave']?.active)actionOptionsHtml+='<option value="power_stop_caricia">⏹ Detener Caricia Suave</option>';
+        if(pdata.activePowerEffects?.difuminacion?.active)actionOptionsHtml+='<option value="power_stop_diffusion">⏹ Detener Difuminación</option>';
         const commonBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'common'),quickBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'quick');
         actionOptionsHtml += `</optgroup><optgroup label="Acciones"><option value="move" ${quickBlocked?'disabled':''}>🏃 Desplazarse(R)</option><option value="conc" ${commonBlocked?'disabled':''}>🧘 Concentrarse</option><option value="defend" ${commonBlocked?'disabled':''}>🛡️ Defensa (+2 PD)</option><option value="motivation" ${isDead||isOutOfBattle||pChecks['status-stun']||pChecks['status-petrificado']||(parseInt(pdata.motivationUses)||0)>=2?'disabled':''}>🔥 Motivación (+1 Ac)</option></optgroup><optgroup label="Pociones">`;
         (pdata.inventory||[]).forEach((item,itemIndex)=>{if(item.type==='potion')actionOptionsHtml+=`<option value="item_${itemIndex}" ${quickBlocked||isDead?'disabled':''}>🧪 ${escapeHtml(item.name||'Poción')}</option>`;});
@@ -9796,7 +9931,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const remote=snap.val();
       sharedPowerCatalog=remote&&typeof remote==='object'?{...DEFAULT_POWER_CATALOG,...remote}:JSON.parse(JSON.stringify(DEFAULT_POWER_CATALOG));
       sharedPowerCatalogReady=!!remote;
-      if(!remote&&isMasterClient)gameRef.child('powerCatalog').set(DEFAULT_POWER_CATALOG);
+      if(isMasterClient){const missing={};Object.keys(DEFAULT_POWER_CATALOG).forEach(id=>{if(!remote?.[id])missing[id]=DEFAULT_POWER_CATALOG[id];});if(Object.keys(missing).length)gameRef.child('powerCatalog').update(missing);}
       if(document.getElementById('modal-power-catalog')?.style.display==='flex')renderPowerCatalogList();
     });
 
