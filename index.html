@@ -7024,6 +7024,7 @@ function confirmDismissSummon(pid, sIdx, summonName) {
         revived=level===1?Math.floor(sacrifice/10)*5:Math.floor(sacrifice*(parseFloat(tech.reviveRatio)||1));
         if(revived<1){showToast('⚠️ El sacrificio no alcanza para reanimar al aliado.');return true;}
       }
+      if(tech.effectType==='beast-retreat'&&battleActive){showToast('🐾 Lenguaje Natural III solo puede usarse antes de iniciar el combate.');return true;}
       if(tech.effectType==='multiplication'&&(player.summons||[]).some(sum=>sum.isChizeClone&&(parseFloat(sum.hpCurr)||0)>0)){showToast('⚠️ Ya hay cuerpos de Multiplicación activos.');return true;}
       if(tech.effectType==='multiplication'){const parts=Math.max(2,parseInt(tech.cloneBodies)||2),ownHp=Math.max(0,parseFloat(player.inputs?.['stat-hp-curr'])||0);if(Math.floor(ownHp/parts)<1){showToast('⚠️ No hay Resencia suficiente para dividirse.');return true;}}
       if(tech.effectType==='diffusion'&&player.activePowerEffects?.difuminacion?.active){showToast('🌫️ Difuminación ya está activa.');return true;}
@@ -7073,7 +7074,7 @@ function confirmDismissSummon(pid, sIdx, summonName) {
           const resolved=item;
           const support=resolved?.category==='support'||resolved?.targetMode==='ally'||resolved?.targetMode==='ally-down';
           return !!tech.cloneOffensiveTechniques||support;
-        }).map(item=>{const resolved=item.catalogId?resolveCatalogTechnique(item,getHighestTechniqueLevel(item)):item;return {...resolved,cost:0,isQuickAction:false,requiredModes:[],catalogId:null};});
+        }).map(item=>({...item,cost:0,isQuickAction:false,requiredModes:[]}));
         for(let i=1;i<parts;i++){
           const clone={name:baseName+' · Clon '+i,summonBaseName:baseName+' · Clon',isChizeClone:true,cloneAllowsOffense:!!tech.cloneOffensiveTechniques,cloneOwner:pid,hpMax:perMax,hpCurr:perCurrent,pd:getPlayerDerivedPd(player),pc:getPlayerDerivedPc(player),maxCubes:1,currentCubes:1,atkName:'Ataque del clon',atkDmg:Math.max(1,baseDamage||12),techniques:cloneTechs.map(t=>({...t})),upkeepType:'fixed',cost:0};
           player.summons.push(clone);registerSummonCombatant(pid,clone);
