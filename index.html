@@ -4356,7 +4356,11 @@ select[id^="summary-skill-sel-"] optgroup {
       document.querySelectorAll('#inventory-body tr').forEach(row=>{if(row!==selected&&row.dataset.itemType==='armor'){const other=row.querySelector('.inv-equipped');if(other)other.checked=false;}});
     }
     function getPlayerMaxHpValue(player) {
-      if(parseFloat(player?.cloneSplitHpMax)>0)return Math.max(1,parseFloat(player.cloneSplitHpMax));
+      if(parseFloat(player?.cloneSplitHpMax)>0){
+        const livingClones=(player.summons||[]).some(sum=>sum.isChizeClone&&(parseFloat(sum.hpCurr)||0)>0);
+        if(livingClones)return Math.max(1,parseFloat(player.cloneSplitHpMax));
+        delete player.cloneSplitHpMax;delete player.cloneSplitLevel;
+      }
       let archetypeHp=0;ARCHETYPES.forEach(arch=>archetypeHp+=(player.archLevels?.[arch]||0)*GRADE_BONUSES[arch].hp);
       const base=(parseFloat(player.inputs?.['stat-hp-max-base'])||0)+archetypeHp;
       const passive=base+Math.round(base*.2*(player.aspects?.defensiva||0));
@@ -6147,7 +6151,7 @@ select[id^="summary-skill-sel-"] optgroup {
       return `<details class="summon-techniques-dropdown"><summary>⚡ ${count} ${label}</summary><div class="summon-techniques-list">${html}</div></details>`;
     }
     function renderSummonAttackPicker(pid,sIdx,sum,canAct,canUseTech){
-      const basicDisabled=(parseInt(sum.currentCubes)||0)<=0||!canAct;
+      const basicDisabled=(parseInt(sum.currentCubes)||0)<=0||!canAct||(sum.isChizeClone&&!sum.cloneAllowsOffense);
       const options=[`<button type="button" class="btn-mini-tool" onclick="executeSummonAttack('${pid}',${sIdx})" ${basicDisabled?'disabled':''} title="Ataque básico: ${escapeHtml(sum.atkName||'Ataque')} · Daño ${parseInt(sum.atkDmg)||12}">🗡️ ${escapeHtml(sum.atkName||'Ataque')} · Daño ${parseInt(sum.atkDmg)||12}</button>`,...(sum.techniques||[]).map((tech,index)=>`<button type="button" class="btn-mini-tool" onclick="executeSummonTechnique('${pid}',${sIdx},${index})" ${(parseInt(sum.currentCubes)||0)<=0||!canUseTech?'disabled':''} title="${escapeHtml(tech.desc||tech.effectText||tech.name||'Técnica')}">⚡ ${escapeHtml(tech.name||'Técnica')}</button>`)].join('');
       return `<details class="summon-attack-picker"><summary class="btn-stat-max" style="background:#166534;">🐾 Atacar ▾</summary><div class="summon-attack-picker-menu">${options}</div></details>`;
     }
@@ -6337,6 +6341,7 @@ function confirmDismissSummon(pid, sIdx, summonName) {
       const pdata = allPlayersData[pid];
       const sum = pdata?.summons?.[sIdx];
       if (!sum) return;
+      if(sum.isChizeClone&&!sum.cloneAllowsOffense){showToast('🌿 Este clon no puede realizar acciones ofensivas en este nivel de Multiplicación.');return;}
       if(!canSummonUseAction(sum,false))return;
       if((parseFloat(sum.hpCurr)||0)<=0){showToast(`💀 ${sum.name} no puede actuar si está caída.`);return;}
       sum.currentCubes=Math.max(0,parseInt(sum.currentCubes??sum.maxCubes)||0);
@@ -7059,19 +7064,21 @@ function confirmDismissSummon(pid, sIdx, summonName) {
         const parts=Math.max(2,parseInt(tech.cloneBodies)||2),ownHp=Math.max(0,parseFloat(player.inputs?.['stat-hp-curr'])||0),hpMax=getPlayerMaxHpValue(player);
         const perCurrent=Math.floor(ownHp/parts),perMax=Math.max(1,Math.floor(hpMax/parts));
         if(perCurrent<1){showToast('⚠️ No hay Resencia suficiente para dividirse.');return true;}
-        player.inputs['stat-hp-curr']=perCurrent;player.cloneSplitHpMax=perMax;player.cloneSplitLevel=level;
+        player.inputs['stat-hp-curr']=perCurrent;
         player.summons=Array.isArray(player.summons)?player.summons:[];
         const baseName=player.inputs?.['char-name']||'Suke';let baseDamage=0;
         ARCHETYPES.forEach(a=>baseDamage+=(player.archLevels?.[a]||0)*GRADE_BONUSES[a].dmg);baseDamage+=parseInt(player.itemCombatBuff?.damage)||0;
         const cloneTechs=(player.techniques||[]).filter(item=>{
-          const resolved=item.catalogId?resolveCatalogTechnique(item,getHighestTechniqueLevel(item)):item;
+          if(item.catalogId)return false;
+          const resolved=item;
           const support=resolved?.category==='support'||resolved?.targetMode==='ally'||resolved?.targetMode==='ally-down';
           return !!tech.cloneOffensiveTechniques||support;
         }).map(item=>{const resolved=item.catalogId?resolveCatalogTechnique(item,getHighestTechniqueLevel(item)):item;return {...resolved,cost:0,isQuickAction:false,requiredModes:[],catalogId:null};});
         for(let i=1;i<parts;i++){
-          const clone={name:baseName+' · Clon '+i,summonBaseName:baseName+' · Clon',isChizeClone:true,cloneOwner:pid,hpMax:perMax,hpCurr:perCurrent,pd:getPlayerDerivedPd(player),pc:getPlayerDerivedPc(player),maxCubes:1,currentCubes:1,atkName:'Ataque del clon',atkDmg:Math.max(1,baseDamage||12),techniques:cloneTechs.map(t=>({...t})),upkeepType:'fixed',cost:0};
+          const clone={name:baseName+' · Clon '+i,summonBaseName:baseName+' · Clon',isChizeClone:true,cloneAllowsOffense:!!tech.cloneOffensiveTechniques,cloneOwner:pid,hpMax:perMax,hpCurr:perCurrent,pd:getPlayerDerivedPd(player),pc:getPlayerDerivedPc(player),maxCubes:1,currentCubes:1,atkName:'Ataque del clon',atkDmg:Math.max(1,baseDamage||12),techniques:cloneTechs.map(t=>({...t})),upkeepType:'fixed',cost:0};
           player.summons.push(clone);registerSummonCombatant(pid,clone);
         }
+        player.cloneSplitHpMax=perMax;player.cloneSplitLevel=level;
         log('se divide en '+parts+' cuerpos; cada cuerpo queda con '+perCurrent+' HP.');
         renderPlayerSummons(pid);buildInitiativeQueue();
       }else if(effectType==='diffusion'){
