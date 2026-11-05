@@ -7479,6 +7479,9 @@ function confirmDismissSummon(pid, sIdx, summonName) {
 function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lvl1 = true, lvl2 = false, lvl3 = false, isSummon = false, summonData = null, isEssenceTechnique = false, isQuickAction = false, catalogId = null) {
       const tbody = document.getElementById('techniques-body');
       const rowIdx = tbody.children.length;
+      const catalogLevels={lvl1,lvl2,lvl3};
+      const catalogResolved=catalogId?resolveCatalogTechnique({catalogId,...catalogLevels},Math.max(...[1,2,3].filter(level=>catalogLevels['lvl'+level]))):null;
+      const isCatalogPassive=!!catalogId&&catalogResolved?.actionKind==='passive';
       const tr = document.createElement('tr');
       if (isEssenceTechnique) tr.classList.add('tech-row-essence');
       if (catalogId) tr.dataset.catalogId = catalogId;
@@ -7496,7 +7499,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         <td style="text-align:center; padding:4px 2px;">
           <div style="display:inline-flex; align-items:center; gap:3px;">
             <input type="number" class="tech-cost-input" value="${cost}" min="0" ${catalogId ? "disabled title=\"Coste administrado por la biblioteca\"" : ""} style="width:32px; height:22px; padding:1px; text-align:center; font-family:var(--f-body); font-weight:bold; border:1px solid var(--border-dark); border-radius:2px; font-size:12px;" oninput="recalcAllAutoStats(); syncToFirebaseDebounced();">
-            <button type="button" class="btn-stat-max btn-use-tech" style="background:#731e0b; color:#ffe8b5; font-size:10px; padding:2px 5px; height:22px;" onclick="useTechniqueDirect(${rowIdx})" ${catalogId ? "disabled title=\"Elegí el nivel desde el campo de combate\"" : "title=\"Gastar Smath / Invocar\""}>⚡</button>
+            <button type="button" class="btn-stat-max btn-use-tech" style="background:#731e0b; color:#ffe8b5; font-size:10px; padding:2px 5px; height:22px;" onclick="useTechniqueDirect(${rowIdx})" ${(catalogId||isCatalogPassive) ? "disabled title=\"Los poderes de biblioteca se gestionan desde el campo de combate\"" : "title=\"Gastar Smath / Invocar\""}>${isCatalogPassive?'🌿':'⚡'}</button>
           </div>
         </td>
         <td style="padding:4px 2px;">
@@ -8610,6 +8613,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           if(t.catalogId){
             getTechniqueUnlockedLevels(t).forEach(level=>{
               const resolved=resolveCatalogTechnique(t,level);
+              if(resolved.actionKind==='passive')return;
               const kind=resolved.actionKind||'common';
               const count=Math.max(0,parseInt(resolved.actionCount??(kind==='free'||kind==='passive'?0:1))||0);
               const used=kind==='quick'?quickActionsUsed:commonActionsUsed;
