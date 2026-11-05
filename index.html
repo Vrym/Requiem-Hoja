@@ -3380,11 +3380,6 @@ select[id^="summary-skill-sel-"] optgroup {
           Preparación previa de criaturas para combate, entrega directa de objetos y anotaciones secretas.
         </div>
 
-        <div class="console-card" style="margin:8px 0;background:#faf4e3;border:1.5px solid var(--border-gold);border-radius:4px;padding:10px;">
-          <h4 style="font-family:var(--f-title);font-size:13px;color:#731e0b;border-bottom:1px dotted var(--border-dark);padding-bottom:4px;margin:0 0 7px;">🗂 Gestión de PNJ en escena</h4>
-          <div id="console-npc-management-list" style="display:flex;flex-direction:column;gap:6px;"></div>
-        </div>
-
         <div class="console-sections-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px;">
           <!-- 1. TALLER INTEGRAL DE PNJ (ENEMIGOS O ALIADOS) -->
           <div class="console-card npc-workshop" style="background:#faf4e3; border:1.5px solid var(--border-gold); border-radius:4px; padding:10px;">
@@ -8095,8 +8090,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         const notesEl = document.getElementById('gm-secret-notes');
         if (notesEl) notesEl.value = gmSecretNotes || '';
         renderWorkshopEnemyTechniques();
-        renderConsoleNpcManagement();
-      } else {
+        } else {
         if (gmWrap) gmWrap.style.display = 'none';
         if (consoleWrap) consoleWrap.style.display = 'none';
         if (sheetWrap) sheetWrap.style.display = 'block';
@@ -8611,6 +8605,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
                 <button type="button" class="btn-dmg-apply" onclick="applyManualCombatHp('e_${idx}',false)">💥 -HP</button>
                 <button type="button" class="btn-heal-apply" onclick="applyManualCombatHp('e_${idx}',true)">💚 +HP</button>
                 ${renderCardStatusMenu('npc',idx,0)}
+                ${!isAlly ? `<button type="button" class="btn-mini-tool enemy-card-tech-btn" onclick="openEnemyTechniqueBuilder(${idx},-1)" title="Agregar o modificar técnicas de este enemigo">⚡ +Técnica</button>` : ''}
               </div>
             </div>
           </div>
@@ -8621,20 +8616,6 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       });
       buildInitiativeQueue();
       renderConsoleNpcManagement();
-    }
-
-    function renderConsoleNpcManagement(){
-      const container=document.getElementById('console-npc-management-list');if(!container)return;
-      container.innerHTML='';
-      if(!enemiesList?.length){container.innerHTML='<small style="color:#765b34;font-style:italic;">No hay PNJ en escena.</small>';return;}
-      enemiesList.forEach((npc,index)=>{
-        const row=document.createElement('div');
-        row.style.cssText='padding:6px;border:1px solid #c2a875;border-radius:4px;background:#fffaf0;';
-        const faction=npc.faction==='ally'?'🛡️ Aliado':'👹 Enemigo';
-        const techniqueRows=(npc.techniques||[]).map((tech,techIndex)=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 4px;border:1px solid #b69a67;border-radius:3px;background:#f3e8ce;font:10px var(--f-title);"><b>${escapeHtml(tech.name||'Técnica')}</b><button type="button" class="btn-mini-tool" onclick="openEnemyTechniqueBuilder(${index},${techIndex})" title="Editar técnica">⚙️</button><button type="button" class="btn-mini-tool" onclick="deleteEnemyTechnique(${index},${techIndex})" title="Eliminar técnica">✖</button></span>`).join('');
-        row.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;"><b style="font:11px var(--f-title);color:${npc.faction==='ally'?'#166534':'#8c2415'};">${faction} · ${escapeHtml(npc.name||'PNJ')}</b><div style="display:flex;gap:4px;flex-wrap:wrap;"><button type="button" class="btn-mini-tool" onclick="openEnemyEdit(${index})">⚙️ Editar PNJ</button><button type="button" class="btn-mini-tool" onclick="openEnemyTechniqueBuilder(${index},-1)">＋ Técnica</button></div></div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;">${techniqueRows||'<small style="color:#765b34;font-style:italic;">Sin técnicas configuradas.</small>'}</div>`;
-        container.appendChild(row);
-      });
     }
 
     function spawnQuickEnemy() {
