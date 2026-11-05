@@ -9945,7 +9945,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const remote=snap.val();
       sharedPowerCatalog=remote&&typeof remote==='object'?{...DEFAULT_POWER_CATALOG,...remote}:JSON.parse(JSON.stringify(DEFAULT_POWER_CATALOG));
       sharedPowerCatalogReady=!!remote;
-      if(isMasterClient){const patch={};Object.keys(DEFAULT_POWER_CATALOG).forEach(id=>{if(!remote?.[id]){patch[id]=JSON.parse(JSON.stringify(DEFAULT_POWER_CATALOG[id]));if(id==='cola-feliz')[1,2,3].forEach(level=>{patch[id].levels[String(level)].cost=4;});}});if(remote?.['cola-feliz']){[1,2,3].forEach(level=>{patch['cola-feliz/levels/'+level+'/cost']=4;});}if(Object.keys(patch).length)gameRef.child('powerCatalog').update(patch);}
+      if(isMasterClient){const patch={};Object.keys(DEFAULT_POWER_CATALOG).forEach(id=>{if(!remote?.[id]){patch[id]=JSON.parse(JSON.stringify(DEFAULT_POWER_CATALOG[id]));if(id==='cola-feliz')[1,2,3].forEach(level=>{patch[id].levels[String(level)].cost=4;});}});if(remote?.['cola-feliz']){[1,2,3].forEach(level=>{if(parseInt(remote['cola-feliz']?.levels?.[String(level)]?.cost)!==4)patch['cola-feliz/levels/'+level+'/cost']=4;});}if(Object.keys(patch).length)gameRef.child('powerCatalog').update(patch);}
       if(document.getElementById('modal-power-catalog')?.style.display==='flex')renderPowerCatalogList();
     });
 
