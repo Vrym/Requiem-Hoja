@@ -2798,6 +2798,15 @@ select[id^="summary-skill-sel-"] optgroup {
   </section>
 </div>
 
+<div id="modal-power-catalog" class="modal-backdrop" style="z-index:100006;">
+  <div class="hub-modal-box modal-box-large" style="text-align:left;max-width:760px;max-height:88vh;overflow:auto;">
+    <div class="modal-title" style="color:#3b1b07;text-align:center;">📚 BIBLIOTECA DE PODERES</div>
+    <p style="font-size:12px;color:#694a2b;margin:0 0 10px;">Elegí un poder del catálogo compartido. Las reglas y los costes se consultan por nivel.</p>
+    <div id="power-catalog-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+    <div class="modal-buttons" style="margin-top:12px;"><button type="button" class="btn-modal-cancel" onclick="closeModal('modal-power-catalog')">Cerrar</button></div>
+  </div>
+</div>
+
 <!-- MODAL DE CONFIRMACIÓN -->
   <div id="modal-backdrop" class="modal-backdrop">
     <div class="modal-box">
@@ -4105,6 +4114,7 @@ select[id^="summary-skill-sel-"] optgroup {
         <div id="player-active-summons-container" style="margin-top:10px; display:flex; flex-direction:column; gap:6px;"></div>
 
         <div style="display:flex;justify-content:flex-end;margin-top:10px;padding-top:8px;border-top:1.5px dashed var(--border-gold);">
+          <button type="button" class="btn-add-item" onclick="openPowerCatalog()">📚 Agregar poder de biblioteca</button>
           <button type="button" class="btn-add-item" onclick="addTechnique()">＋ Armar técnica</button>
         </div>
       </div>
@@ -4404,6 +4414,9 @@ select[id^="summary-skill-sel-"] optgroup {
 
     let isCloudInitialized = false;
     let forceFullCharacterSave = false;
+    const DEFAULT_POWER_CATALOG = {"lenguaje-natural":{"id":"lenguaje-natural","name":"Lenguaje Natural","group":"Oficio · Sierva del Bosque","icon":"🐾","levels":{"1":{"cost":0,"category":"support","actionKind":"free","targetMode":"none","effectType":"animal-empathy","desc":"El personaje puede comunicarse de forma empática con las bestias (entiende lo que sienten, no lo que piensan)."},"2":{"cost":0,"category":"support","actionKind":"free","targetMode":"none","effectType":"animal-speech","desc":"El personaje puede comunicarse oralmente con las bestias."},"3":{"cost":0,"category":"support","actionKind":"free","targetMode":"enemy","effectType":"beast-retreat","desc":"Antes del combate, puede ordenar retirarse a enemigos bestia. Si no obedecen, tendrán -2 PD durante el resto del combate."}}},"comunion-silvestre":{"id":"comunion-silvestre","name":"Comunión Silvestre","group":"Oficio · Sierva del Bosque","icon":"🌿","levels":{"1":{"cost":0,"category":"support","actionKind":"passive","targetMode":"none","effectType":"wild-communion","desc":"Afinidad para trasladarse en ambientes naturales, atravesar terrenos difíciles y obtener ventajas situacionales. En forma de Suke, si está encima de un aliado, ese aliado recibe las ventajas."},"2":{"cost":0,"category":"support","actionKind":"passive","targetMode":"none","effectType":"wild-communion","desc":"Todos los aliados de Chize reciben las ventajas de esta técnica."},"3":{"cost":0,"category":"support","actionKind":"passive","targetMode":"none","effectType":"wild-communion","desc":"Las ventajas situacionales son mejores: la naturaleza brinda señales claras de tesoros, caminos ocultos o acceso a objetos."}}},"caricia-suave":{"id":"caricia-suave","name":"Caricia Suave","group":"Perpetuador · Guardián de la Vida","icon":"💗","levels":{"1":{"cost":2,"category":"support","actionKind":"common","targetMode":"ally","effectType":"gentle-heal","effectValue":10,"upkeepCost":2,"desc":"Suke consume 2 Smath para que un aliado en contacto con él o uno de sus clones recupere 10 HP. Una vez activada, continúa pagando mantenimiento pasivo hasta que Suke la detenga."},"2":{"cost":5,"category":"support","actionKind":"common","targetMode":"ally","effectType":"gentle-heal","effectValue":30,"upkeepCost":2,"desc":"Consumiendo 5 Smath, el aliado recupera 30 HP."},"3":{"cost":7,"category":"support","actionKind":"common","targetMode":"ally","effectType":"gentle-heal","effectValue":50,"upkeepCost":2,"desc":"Consumiendo 7 Smath, el aliado recupera 50 HP."}}},"chispeo-de-esencia":{"id":"chispeo-de-esencia","name":"Chispeo de Esencia","group":"Perpetuador · Guardián de la Vida","icon":"💗","levels":{"1":{"cost":4,"category":"support","actionKind":"common","targetMode":"ally-down","effectType":"essence-revive","reviveRatio":0.5,"desc":"Si el aliado está vencido, Suke sacrifica su propia salud para reanimarlo. Por cada 10 HP usados por Suke, el aliado recupera 5 HP. Coste: 4 Smath."},"2":{"cost":4,"category":"support","actionKind":"common","targetMode":"ally-down","effectType":"essence-revive","reviveRatio":1,"desc":"La cantidad de salud usada por Suke será la recuperada por el aliado."},"3":{"cost":0,"category":"support","actionKind":"free","targetMode":"ally-down","effectType":"essence-revive","reviveRatio":1,"desc":"No tiene coste de Smath y se activa de forma instantánea."}}},"multiplicacion":{"id":"multiplicacion","name":"Multiplicación","group":"Evocador · Esencia y Espíritu","icon":"🪄","levels":{"1":{"cost":0,"category":"support","actionKind":"common","targetMode":"self","effectType":"multiplication","cloneBodies":2,"cloneOffensiveTechniques":false,"desc":"Suke se duplica y divide su vida a la mitad. Si un Suke usa una técnica, el otro la replica (no funciona para acciones ofensivas)."},"2":{"cost":0,"category":"support","actionKind":"common","targetMode":"self","effectType":"multiplication","cloneBodies":5,"cloneOffensiveTechniques":false,"desc":"Suke se divide en 5 cuerpos, repartiendo su vida en un 20% cada uno."},"3":{"cost":0,"category":"support","actionKind":"common","targetMode":"self","effectType":"multiplication","cloneBodies":5,"cloneOffensiveTechniques":true,"desc":"Cada Suke puede realizar una técnica ofensiva diferente a elección."}}},"difuminacion":{"id":"difuminacion","name":"Difuminación","group":"Evocador · Esencia y Espíritu","icon":"🌫️","levels":{"1":{"cost":5,"category":"support","actionKind":"common","actionCount":2,"targetMode":"self","effectType":"diffusion","upkeepCost":5,"allowMovement":false,"desc":"Suke separa su Esencia en pequeñas partículas, se vuelve invisible e invulnerable a ataques físicos. Consume 2 acciones y 5 Smath cada turno. Solo se detecta con percepción mágica. No puede realizar acciones salvo hablar."},"2":{"cost":4,"category":"support","actionKind":"common","actionCount":1,"targetMode":"self","effectType":"diffusion","upkeepCost":4,"allowMovement":true,"desc":"Reduce el coste a 4 Smath por turno y las partículas pueden trasladarse como con movimiento normal."},"3":{"cost":4,"category":"support","actionKind":"free","actionCount":0,"targetMode":"self","effectType":"diffusion","upkeepCost":4,"allowMovement":true,"instant":true,"desc":"Pasa a ser de uso instantáneo: puede usarse durante el turno enemigo e incluso antes de recibir daño."}}},"cola-feliz":{"id":"cola-feliz","name":"Cola Feliz","group":"Evocador · Esencia y Espíritu","icon":"🌸","levels":{"1":{"cost":0,"category":"support","actionKind":"common","targetMode":"ally","effectType":"happy-tail","luck":[{"min":1,"max":15,"pd":1},{"min":16,"max":19,"pd":2},{"min":20,"max":20,"pd":3}],"desc":"Un aliado en el que Suke esté subido tira Fortuna: 1–15: +1 PD; 16–19: +2 PD; 20: +3 PD durante esa ronda."},"2":{"cost":0,"category":"support","actionKind":"common","targetMode":"ally","effectType":"happy-tail","luck":[{"min":1,"max":9,"pd":1},{"min":10,"max":17,"pd":2},{"min":18,"max":20,"pd":3}],"desc":"Fortuna: 1–9: +1 PD; 10–17: +2 PD; 18–20: +3 PD durante esa ronda."},"3":{"cost":0,"category":"support","actionKind":"common","targetMode":"ally","effectType":"happy-tail","luck":[{"min":1,"max":5,"pd":1},{"min":6,"max":12,"pd":2},{"min":13,"max":19,"pd":3},{"min":20,"max":20,"invulnerable":true}],"desc":"Fortuna: 1–5: +1 PD; 6–12: +2 PD; 13–19: +3 PD; 20: Invulnerable durante esa ronda."}}}};
+    let sharedPowerCatalog = JSON.parse(JSON.stringify(DEFAULT_POWER_CATALOG));
+    let sharedPowerCatalogReady = false;
     let lastLocalSaveTime = 0;
 
     let globalRound = 1;
@@ -6872,12 +6885,86 @@ function confirmDismissSummon(pid, sIdx, summonName) {
     }
 
     // CONSTRUCTOR DE TÉCNICAS E INVOCACIONES [⚙️] E INFORMACIÓN [ℹ️]
+
+    function getPowerDefinition(tech) {
+      if (!tech?.catalogId) return null;
+      return sharedPowerCatalog?.[tech.catalogId] || DEFAULT_POWER_CATALOG[tech.catalogId] || null;
+    }
+    function getTechniqueUnlockedLevels(tech) {
+      const levels=[1,2,3].filter(level=>!!tech?.['lvl'+level]);
+      return levels.length?levels:[1];
+    }
+    function getHighestTechniqueLevel(tech) { return Math.max.apply(null,getTechniqueUnlockedLevels(tech)); }
+    function resolveCatalogTechnique(tech,level=null) {
+      const def=getPowerDefinition(tech);if(!def)return tech;
+      const selected=Math.max(1,Math.min(3,parseInt(level)||parseInt(tech.selectedLevel)||getHighestTechniqueLevel(tech)));
+      const cfg=def.levels?.[String(selected)]||def.levels?.['1']||{};
+      return {...tech,...cfg,name:def.name,catalogId:def.id||tech.catalogId,isCatalogPower:true,powerLevel:selected,desc:cfg.desc||'',cost:Math.max(0,parseInt(cfg.cost)||0)};
+    }
+    function renderCatalogTechniqueInfo(tech) {
+      const def=getPowerDefinition(tech);if(!def)return '';
+      return [1,2,3].map(level=>{
+        const cfg=def.levels?.[String(level)];if(!cfg)return '';
+        const unlocked=!!tech['lvl'+level];
+        return '<div style="padding:7px;margin:5px 0;border:1px solid '+(unlocked?'#8b7543':'#c8c0b1')+';border-radius:5px;background:'+(unlocked?'#fff8e8':'#f5f3ee')+';opacity:'+(unlocked?1:.62)+';"><b>Nivel '+level+(unlocked?' · Desbloqueado':' · Bloqueado')+'</b> · '+(parseInt(cfg.cost)||0)+' Smath<div style="margin-top:4px;white-space:pre-wrap;">'+escapeHtml(cfg.desc||'')+'</div></div>';
+      }).join('');
+    }
+    function openPowerCatalog() {
+      if(!isMasterClient&&activeClientIdentity!==activeRole){showToast('🔒 No puedes editar esta ficha.');return;}
+      renderPowerCatalogList();openModal('modal-power-catalog');
+    }
+    function renderPowerCatalogList() {
+      const list=document.getElementById('power-catalog-list');if(!list)return;
+      const catalog=sharedPowerCatalog||DEFAULT_POWER_CATALOG;
+      list.innerHTML=Object.values(catalog).sort((a,b)=>String(a.group||'').localeCompare(String(b.group||''))||String(a.name||'').localeCompare(String(b.name||''))).map(def=>{
+        const levels=[1,2,3].map(level=>{
+          const cfg=def.levels?.[String(level)];
+          return cfg?'<div style="font-size:11px;margin-top:3px;"><b>N'+level+' · '+(parseInt(cfg.cost)||0)+' Sm</b> — '+escapeHtml(cfg.desc||'')+'</div>':'';
+        }).join('');
+        const already=(allPlayersData[activeRole]?.techniques||[]).some(t=>t.catalogId===def.id);
+        return '<article style="padding:9px;border:1px solid #b49a6c;border-radius:6px;background:#fffaf0;"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;"><div><b style="font-family:var(--f-title);font-size:14px;">'+escapeHtml(def.icon||'✨')+' '+escapeHtml(def.name||'Poder')+'</b><div style="font-size:10px;color:#765a32;">'+escapeHtml(def.group||'')+'</div></div><button type="button" class="btn-add-item" '+(already?'disabled':'')+' onclick="addPowerFromCatalog(\''+escapeHtml(def.id)+'\')">'+(already?'✓ Ya está en la ficha':'＋ Agregar')+'</button></div>'+levels+'</article>';
+      }).join('')||'<div style="padding:12px;color:#777;">No hay poderes disponibles en la biblioteca.</div>';
+    }
+    function addPowerFromCatalog(catalogId) {
+      if(!isMasterClient&&activeClientIdentity!==activeRole){showToast('🔒 No puedes editar esta ficha.');return;}
+      commitDomToActivePlayer();
+      const def=(sharedPowerCatalog||DEFAULT_POWER_CATALOG)[catalogId]||DEFAULT_POWER_CATALOG[catalogId],pdata=allPlayersData[activeRole];
+      if(!def||!pdata)return;
+      pdata.techniques=Array.isArray(pdata.techniques)?pdata.techniques:[];
+      if(pdata.techniques.some(t=>t.catalogId===catalogId)){showToast('ℹ️ Ese poder ya está en la ficha.');return;}
+      const first=def.levels?.['1']||{};
+      pdata.techniques.push({catalogId,name:def.name,cost:parseInt(first.cost)||0,category:first.category||'support',desc:first.desc||'',lvl1:true,lvl2:false,lvl3:false,isCatalogPower:true});
+      applyDataToForm(pdata);saveActivePlayerToCloud(true);renderPowerCatalogList();showToast('📚 Poder agregado desde la biblioteca.');
+    }
+    function ensureChizepruebaPowerLoadout(pdata,playerId) {
+      if(!pdata||pdata.chizePowerCatalogVersion>=1)return false;
+      const identity=String(playerId||'').toLowerCase(),charName=String(pdata.inputs?.['char-name']||'').toLowerCase();
+      if(identity!=='chizeprueba'&&!charName.includes('chizeprueba'))return false;
+      const loadout=[['lenguaje-natural',2],['comunion-silvestre',1],['caricia-suave',2],['chispeo-de-esencia',2],['multiplicacion',3],['difuminacion',3],['cola-feliz',2]];
+      const normalize=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+      const aliases={'lenguaje-natural':['lenguaje natural'],'comunion-silvestre':['comunion silvestre'],'caricia-suave':['caricia suave'],'chispeo-de-esencia':['chispeo de esencia','chispeo esencia'],'multiplicacion':['multiplicacion'],'difuminacion':['difuminacion'],'cola-feliz':['cola feliz']};
+      const old=Array.isArray(pdata.techniques)?pdata.techniques:[];
+      const preserved=old.filter(t=>!loadout.some(([id])=>t.catalogId===id||(aliases[id]||[]).some(alias=>normalize(alias)===normalize(t.name))));
+      const migrated=loadout.map(([id,maxLevel])=>{
+        const def=DEFAULT_POWER_CATALOG[id],first=def.levels['1'];
+        return {catalogId:id,name:def.name,cost:first.cost||0,category:first.category||'support',desc:first.desc||'',lvl1:true,lvl2:maxLevel>=2,lvl3:maxLevel>=3,isCatalogPower:true};
+      });
+      pdata.techniques=preserved.concat(migrated);pdata.chizePowerCatalogVersion=1;return true;
+    }
+    function migrateChizepruebaCharacters() {
+      const updates={};
+      Object.entries(allPlayersData||{}).forEach(([pid,pdata])=>{if(ensureChizepruebaPowerLoadout(pdata,pid))updates['characters/'+pid]=pdata;});
+      if(Object.keys(updates).length&&isCloudInitialized)gameRef.update(updates).catch(()=>showToast('⚠️ No se pudo sincronizar la ficha de Chizeprueba.'));
+      return Object.keys(updates).length;
+    }
+
     function openTechniqueBuilder(tIdx) {
       commitDomToActivePlayer();
       const pdata = allPlayersData[activeRole];
       if (!pdata || !Array.isArray(pdata.techniques)) return;
       const t = pdata.techniques[tIdx];
       if (!t) return;
+      if(t.catalogId){openTechniqueInfo(tIdx);showToast('📚 Los poderes de biblioteca se editan desde el catálogo compartido.');return;}
       populateTechniqueBuilder(t, tIdx, 'technique');
     }
 
@@ -7204,6 +7291,7 @@ function confirmDismissSummon(pid, sIdx, summonName) {
       if (!t) return;
 
       document.getElementById('info-modal-name').innerText = `⚡ ${t.name || 'Técnica'}`;
+      if(t.catalogId){document.getElementById('info-modal-body').innerHTML='<b>Biblioteca compartida · '+escapeHtml(getPowerDefinition(t)?.group||'')+'</b><br><br>'+renderCatalogTechniqueInfo(t);openModal('modal-technique-info');return;}
       let bodyText = `<b>Coste:</b> ${t.cost || 0} Smath | <b>Categoría:</b> ${t.category === 'support' ? '🛡️ Soporte' : (t.category === 'summon' ? '🐾 Invocación' : '⚔️ Ofensiva')}<br><br>`;
       bodyText += t.desc ? `<b>Efecto / Reglas:</b><br>${escapeHtml(t.desc)}` : `<i>Sin descripción narrativa registrada.</i>`;
       if (Array.isArray(t.effects) && t.effects.length) bodyText += `<br><br><b>Efectos configurados:</b> ${escapeHtml(t.effects.join(', '))} · ${parseInt(t.effectTurns)||2} turnos · valor/fórmula ${escapeHtml(String(t.effectValue??0))}`;
@@ -7221,11 +7309,12 @@ function confirmDismissSummon(pid, sIdx, summonName) {
       openModal('modal-technique-info');
     }
 
-function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lvl1 = true, lvl2 = false, lvl3 = false, isSummon = false, summonData = null, isEssenceTechnique = false, isQuickAction = false) {
+function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lvl1 = true, lvl2 = false, lvl3 = false, isSummon = false, summonData = null, isEssenceTechnique = false, isQuickAction = false, catalogId = null) {
       const tbody = document.getElementById('techniques-body');
       const rowIdx = tbody.children.length;
       const tr = document.createElement('tr');
       if (isEssenceTechnique) tr.classList.add('tech-row-essence');
+      if (catalogId) tr.dataset.catalogId = catalogId;
 
       tr.innerHTML = `
         <td style="padding:4px 6px;">
@@ -7922,7 +8011,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       data.techniques = savedTechniques;
       data.awakenedTechniques = [];
       if (allPlayersData[activeRole]) { allPlayersData[activeRole].techniques = data.techniques; allPlayersData[activeRole].awakenedTechniques = []; }
-      savedTechniques.forEach(t => addTechniqueRow(t.name, t.cost ?? 2, t.category || 'attack', t.desc || '', t.lvl1 ?? true, t.lvl2 ?? false, t.lvl3 ?? false, t.isSummon ?? false, t.summonData || null, t.isEssenceTechnique || false, t.isQuickAction || false));
+      savedTechniques.forEach(t => addTechniqueRow(t.name, t.cost ?? 2, t.category || 'attack', t.desc || '', t.lvl1 ?? true, t.lvl2 ?? false, t.lvl3 ?? false, t.isSummon ?? false, t.summonData || null, t.isEssenceTechnique || false, t.isQuickAction || false, t.catalogId || null));
 
       renderPlayerSummons(activeRole);
 
@@ -9579,6 +9668,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
           if (Array.isArray(cloudData.playerList)) playerList = cloudData.playerList;
           allPlayersData = cloudData.characters;
           if (preserveLocalSheet && pendingActiveData) allPlayersData[activeRole] = pendingActiveData;
+          migrateChizepruebaCharacters();
           if (Array.isArray(cloudData.objectives)) setObjectivesFromCloud(cloudData.objectives,cloudData.deletedObjectives);
           else mergeDeletedObjectiveIds(cloudData.deletedObjectives);
           if (Array.isArray(cloudData.diceHistory)) diceRollsHistory = cloudData.diceHistory;
@@ -9631,6 +9721,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       if (cloudData.characters) {
         allPlayersData = cloudData.characters;
         if (preserveLocalSheet && pendingActiveData) allPlayersData[activeRole] = pendingActiveData;
+        migrateChizepruebaCharacters();
       }
       if (Array.isArray(cloudData.objectives)) setObjectivesFromCloud(cloudData.objectives,cloudData.deletedObjectives);
       else mergeDeletedObjectiveIds(cloudData.deletedObjectives);
@@ -9674,6 +9765,14 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       }
       applyPermissions();
       maybePromptRoundAdvance();
+    });
+
+    gameRef.child('powerCatalog').on('value',snap=>{
+      const remote=snap.val();
+      sharedPowerCatalog=remote&&typeof remote==='object'?{...DEFAULT_POWER_CATALOG,...remote}:JSON.parse(JSON.stringify(DEFAULT_POWER_CATALOG));
+      sharedPowerCatalogReady=!!remote;
+      if(!remote&&isMasterClient)gameRef.child('powerCatalog').set(DEFAULT_POWER_CATALOG);
+      if(document.getElementById('modal-power-catalog')?.style.display==='flex')renderPowerCatalogList();
     });
 
     let syncTimeout = null;
