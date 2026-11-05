@@ -5530,9 +5530,12 @@ select[id^="summary-skill-sel-"] optgroup {
       renderGMDashboard();saveActivePlayerToCloud(true);return true;
     }
     function getTechniqueForCombatAction(actorId,isEnemy,actVal){
-      const idx=actVal==='tech_main'?0:parseInt(String(actVal).replace('tech_',''));
-      const actor=isEnemy?enemiesList[parseInt(String(actorId).replace('e_',''))]:allPlayersData[String(actorId).replace(/^p_/,'')];
-      return isEnemy?(actor?.techniques?.[idx]||(actor?.tech?{name:parseTechName(actor.tech),cost:parseTechCost(actor.tech),category:'attack'}:null)):actor?.techniques?.[idx];
+      const match=String(actVal).match(/^tech_(\d+)(?:_lvl(\d+))?$/);
+      const idx=actVal==='tech_main'?0:(match?parseInt(match[1]):parseInt(String(actVal).replace('tech_','')));
+      const level=match&&match[2]?parseInt(match[2]):null;
+      const actor=isEnemy?enemiesList[parseInt(String(actorId).replace('e_',''))]:allPlayersData[String(actorId).replace(/^p_/, '')];
+      const tech=isEnemy?(actor?.techniques?.[idx]||(actor?.tech?{name:parseTechName(actor.tech),cost:parseTechCost(actor.tech),category:'attack'}:null)):actor?.techniques?.[idx];
+      return !isEnemy&&tech?.catalogId?resolveCatalogTechnique(tech,level):tech;
     }
     function validateSelectedTechnique(actorId,isEnemy,actVal){
       const actor=isEnemy?enemiesList[parseInt(String(actorId).replace('e_',''))]:allPlayersData[String(actorId).replace(/^p_/,'')];
@@ -7424,6 +7427,12 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       const select = document.getElementById(`action-sel-${actorId}`);
       if (!select) return;
       const actVal = select.value;
+      if(!isEnemy){
+        const pid=String(actorId).replace(/^p_/,''),activeDiffuse=allPlayersData[pid]?.activePowerEffects?.difuminacion;
+        if(activeDiffuse?.active&&actVal!=='power_stop_diffusion'&&!(actVal==='move'&&activeDiffuse.allowMovement)){showToast('🌫️ Difuminación impide realizar esa acción.');return;}
+        if(actVal==='power_stop_caricia'){deactivatePlayerPower(pid,'caricia-suave');return;}
+        if(actVal==='power_stop_diffusion'){deactivatePlayerPower(pid,'difuminacion');return;}
+      }
       if(isEnemy){const idx=parseInt(String(actorId).replace('e_','')),enemy=enemiesList[idx];if((parseFloat(enemy?.hp_current)||0)<=0){showToast('💀 Una criatura caída no puede actuar.');return;}if(enemy.states?.stun||enemy.states?.petrificado){showToast(enemy.states?.stun?'💫 Aturdido: pierde su turno.':'🗿 Petrificado: no puede actuar.');return;}}
       if(!isEnemy){const pid=String(actorId).replace(/^p_/,''),player=allPlayersData[pid];if(battleActive&&!isPlayerInBattleRoster(pid)){showToast('🪑 Este jugador está fuera de batalla. Entra desde Preparación.');return;}if((parseFloat(player?.inputs?.['stat-hp-curr'])||0)<=0){showToast('💀 Un personaje caído o muerto no puede realizar acciones.');return;}if(player?.checkboxes?.['status-stun']||player?.checkboxes?.['status-petrificado']){showToast(player.checkboxes['status-stun']?'💫 Aturdido: pierde su turno.':'🗿 Petrificado: no puede actuar.');return;}if(isPlayerSealed(player)&&actVal.startsWith('tech_')){showToast('🔒 Sellado impide usar técnicas.');return;}}
 
@@ -7444,9 +7453,11 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         return;
       }
 
+      const selectedCatalogTech=!isEnemy&&actVal.startsWith('tech_')?getTechniqueForCombatAction(actorId,false,actVal):null;
+      const targetlessCatalog=!!selectedCatalogTech?.catalogId&&['none','self'].includes(selectedCatalogTech.targetMode);
       const targetlessSummon = !isEnemy && actVal.startsWith('tech_') &&
         !!allPlayersData[String(actorId).replace(/^p_/, '')]?.techniques?.[parseInt(actVal.replace('tech_', ''))]?.isSummon;
-      if (selectedTargetIds.size === 0 && !targetlessSummon) {
+      if (selectedTargetIds.size === 0 && !targetlessSummon && !targetlessCatalog) {
         showToast('⚠️ Selecciona primero al menos un combatiente haciendo clic en su tarjeta.');
         return;
       }
@@ -7509,12 +7520,14 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         const wId = actVal.replace('wpn_', '');
         resolveWeaponAttack(actorId, isEnemy, wId);
       } else if (actVal.startsWith('tech_')) {
-        const tIdx = parseInt(actVal.replace('tech_', ''));
+        const match=String(actVal).match(/^tech_(\d+)/),tIdx=match?parseInt(match[1]):parseInt(actVal.replace('tech_',''));
         if(!validateSelectedTechnique(actorId,isEnemy,actVal))return;
-        const tech=getTechniqueForCombatAction(actorId,isEnemy,actVal),isSupport=tech.category==='support'||['heal','regen','shield','cleanse'].some(effect=>tech.effects?.includes(effect));
+        const tech=getTechniqueForCombatAction(actorId,isEnemy,actVal);
+        if(!isEnemy&&tech?.catalogId){executeCatalogPower(actorId,tIdx,tech);return;}
+        const isSupport=tech.category==='support'||['heal','regen','shield','cleanse'].some(effect=>tech.effects?.includes(effect));
         const kind=tech.isQuickAction?'quick':'common';
-        if(!consumeCombatAction(actorId,isEnemy,`${kind}${isSupport?'':'-offense'}`,`Técnica: ${tech.name||'Técnica'}`))return;
-        resolveTechniqueAttack(actorId, isEnemy, tIdx);
+        if(!consumeCombatAction(actorId,isEnemy,kind+(isSupport?'':'-offense'),'Técnica: '+(tech.name||'Técnica')))return;
+        resolveTechniqueAttack(actorId,isEnemy,tIdx);
       } else if (actVal === 'tech_main') {
         if(!validateSelectedTechnique(actorId,isEnemy,actVal))return;
         const tech=getTechniqueForCombatAction(actorId,isEnemy,actVal),isSupport=tech.category==='support'||['heal','regen','shield','cleanse'].some(effect=>tech.effects?.includes(effect));
@@ -8423,10 +8436,22 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         });
         actionOptionsHtml += '</optgroup><optgroup label="Técnicas">';
         (pdata.techniques || []).forEach((t, tIdx) => {
-          const support=t.category==='support'||['heal','shield','cleanse'].some(effect=>t.effects?.includes(effect));
-          const actionKind=`${t.isQuickAction?'quick':'common'}${support?'':'-offense'}`;
-          const blocked=isDead||isOutOfBattle||isPlayerSealed||!getCombatActionAvailability(`p_${pid}`,false,actionKind)||(!support&&!canUseOffensiveAction(`p_${pid}`,false,false));
-          actionOptionsHtml += `<option value="tech_${tIdx}" ${blocked?'disabled':''}>${t.isQuickAction?'⚡':'🗡️'} ${t.isEssenceTechnique ? '✨' : ''} ${escapeHtml(t.name || 'Téc')} (${t.cost ?? 2} Sm)</option>`;
+          if(t.catalogId){
+            getTechniqueUnlockedLevels(t).forEach(level=>{
+              const resolved=resolveCatalogTechnique(t,level);
+              const kind=resolved.actionKind||'common';
+              const count=Math.max(0,parseInt(resolved.actionCount??(kind==='free'||kind==='passive'?0:1))||0);
+              const used=kind==='quick'?quickActionsUsed:commonActionsUsed;
+              const limit=kind==='quick'?1:commonActionsMax;
+              const blocked=isDead||isOutOfBattle||isPlayerSealed||(count>0&&used+count>limit);
+              actionOptionsHtml += '<option value="tech_'+tIdx+'_lvl'+level+'" '+(blocked?'disabled':'')+'>📚 '+escapeHtml(resolved.name)+' · Nivel '+level+' ('+resolved.cost+' Sm)</option>';
+            });
+          }else{
+            const support=t.category==='support'||['heal','shield','cleanse'].some(effect=>t.effects?.includes(effect));
+            const actionKind=(t.isQuickAction?'quick':'common')+(support?'':'-offense');
+            const blocked=isDead||isOutOfBattle||isPlayerSealed||!getCombatActionAvailability('p_'+pid,false,actionKind)||(!support&&!canUseOffensiveAction('p_'+pid,false,false));
+            actionOptionsHtml += '<option value="tech_'+tIdx+'" '+(blocked?'disabled':'')+'>'+(t.isQuickAction?'⚡':'🗡️')+' '+(t.isEssenceTechnique?'✨ ':'')+escapeHtml(t.name||'Téc')+' ('+(t.cost??2)+' Sm)</option>';
+          }
         });
         const commonBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'common'),quickBlocked=isDead||isOutOfBattle||!getCombatActionAvailability(`p_${pid}`,false,'quick');
         actionOptionsHtml += `</optgroup><optgroup label="Acciones"><option value="move" ${quickBlocked?'disabled':''}>🏃 Desplazarse(R)</option><option value="conc" ${commonBlocked?'disabled':''}>🧘 Concentrarse</option><option value="defend" ${commonBlocked?'disabled':''}>🛡️ Defensa (+2 PD)</option><option value="motivation" ${isDead||isOutOfBattle||pChecks['status-stun']||pChecks['status-petrificado']||(parseInt(pdata.motivationUses)||0)>=2?'disabled':''}>🔥 Motivación (+1 Ac)</option></optgroup><optgroup label="Pociones">`;
