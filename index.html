@@ -9888,6 +9888,9 @@ function rollFreeDice(sides) {
   const detail = `${sender}: D${dieSides} ${die}${isPifia?' — ⚠️ PIFIA':isPerfect?' — 🌟 PERFECTA':''}`;
   diceRollsHistory.unshift({time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),sender,detail});
   broadcastSystemCombatEntry('roll',`🎲 <b>${escapeHtml(sender)}</b> tiró D${dieSides}: <strong style="padding:2px 7px;border:2px solid ${isPifia?'#dc2626':isPerfect?'#ffd34e':'#9d72bb'};border-radius:4px;background:#29113e;color:#fff1a8;">${die}${isPifia?' ⚠️ PIFIA':isPerfect?' 🌟 PERFECTA':''}</strong>`);
+  // Persistir inmediatamente el mensaje: si queda solo local, una sincronización remota
+  // con el historial anterior puede reemplazar objectivesList y hacerlo desaparecer.
+  saveActivePlayerToCloud(true);
   playSound('dice');
 }
 function rollPlayerSkillD20(pid) {
