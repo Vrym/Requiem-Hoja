@@ -4403,6 +4403,7 @@ select[id^="summary-skill-sel-"] optgroup {
     let openGmStateBoxId = null;
 
     let isCloudInitialized = false;
+    let forceFullCharacterSave = false;
     let lastLocalSaveTime = 0;
 
     let globalRound = 1;
@@ -9538,7 +9539,9 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
             if (Array.isArray(parsed.workshopTemplates)) workshopTemplates = parsed.workshopTemplates;
             if (Array.isArray(parsed.whispersList)) whispersList = parsed.whispersList;
 
+            forceFullCharacterSave = true;
             saveActivePlayerToCloud(true);
+            forceFullCharacterSave = false;
             switchRole('gm');
             showToast('📂 Partida importada con éxito.');
           } else {
@@ -9685,15 +9688,15 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       lastLocalSaveTime = Date.now();
       const savedRole = activeRole;
       const editVersionAtSave = localSheetEditVersion;
+      const isPlayerSheetSave = savedRole !== 'gm' && savedRole !== 'console' && !forceFullCharacterSave;
 
-      if (activeRole !== 'gm' && activeRole !== 'console') {
-        allPlayersData[activeRole] = gatherFormData();
+      if (savedRole !== 'gm' && savedRole !== 'console') {
+        allPlayersData[savedRole] = gatherFormData();
         renderRoleBar();
       }
 
       const payload = {
         playerList: playerList,
-        characters: allPlayersData,
         objectives: objectivesList,
         deletedObjectives: Array.from(deletedObjectiveIds),
         pinnedMessage: pinnedMessage,
@@ -9715,6 +9718,14 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         missions: missionDiaryData || {}
       };
 
+      // Un jugador solo guarda su propia ficha: evita que una copia desactualizada
+      // de otro navegador reemplace las fichas completas de toda la partida.
+      if (isPlayerSheetSave) {
+        payload[`characters/${savedRole}`] = JSON.parse(JSON.stringify(allPlayersData[savedRole]));
+      } else {
+        payload.characters = JSON.parse(JSON.stringify(allPlayersData));
+      }
+
       gameRef.update(payload).then(() => {
         if (savedRole === activeRole && editVersionAtSave === localSheetEditVersion) hasUnsavedSheetEdits = false;
         if (!silent) showToast('🔄 Sincronizado en vivo.');
@@ -9722,7 +9733,6 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
         if (!silent) showToast('💾 Guardado local.');
       });
     }
-
 // Recovered v2.0 sheet helpers, adapted to the v2.1 data model.
 function updateReferenceD6Table(baseVal, activeRoll = null) {
   for (let i = 1; i <= 6; i++) {
@@ -10748,6 +10758,7 @@ function executeModalAction() {
   } else if (modalActionType === 'delete_player' && playerList.includes(activeRole) && playerList.length > 1) {
     const removed = activeRole, index = playerList.indexOf(removed);
     playerList.splice(index, 1); delete allPlayersData[removed];
+    if (isCloudInitialized) gameRef.child('characters').child(removed).remove();
     switchRole(playerList[0]);
     updateSenderSelect(); updateLootTargetSelect(); saveActivePlayerToCloud(true);
     showToast('🗑️ Jugador eliminado.');
