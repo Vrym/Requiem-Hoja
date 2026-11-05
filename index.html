@@ -5907,8 +5907,7 @@ select[id^="summary-skill-sel-"] optgroup {
       }
 
       return SKILL_ARCHETYPE_GROUPS.map(group => 
-        `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};font-size:9.5px;padding:1px 2px;">$
-	{Array.from({ length: group.to - group.from + 1 }, (_, i) => optionFor(group.from + i)).join('')}</optgroup>`
+        `<optgroup label="${group.icon} ${group.name}" style="color:${group.color};background:${group.wash};font-size:9.5px;padding:1px 2px;">${Array.from({ length: group.to - group.from + 1 }, (_, i) => optionFor(group.from + i)).join('')}</optgroup>`
       ).join('');
     }
     function updateSummarySkillOptions(pid) {
