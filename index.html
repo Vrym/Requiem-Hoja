@@ -2817,7 +2817,8 @@ select[id^="summary-skill-sel-"] optgroup {
       <div class="hub-actions-grid">
         <button type="button" class="hub-btn" onclick="addNewPlayer(); closeModal('hub-modal-backdrop');" style="background:#1e4a28; color:#e8f5e9;">➕ Nuevo PJ</button>
         <button type="button" class="hub-btn" onclick="saveActivePlayerToCloud(false); closeModal('hub-modal-backdrop');">🔄 Sincronizar</button>
-        <button type="button" class="hub-btn" onclick="exportJSON(); closeModal('hub-modal-backdrop');">💾 Exportar</button>
+        <button type="button" class="hub-btn" onclick="exportCharacterJSON(); closeModal('hub-modal-backdrop');">📄 Exportar ficha actual</button>
+        <button type="button" class="hub-btn" onclick="exportJSON(); closeModal('hub-modal-backdrop');">💾 Exportar partida completa</button>
         <label for="importFile" class="hub-btn" style="margin:0;">📂 Importar</label>
         <input type="file" id="importFile" accept=".json" onchange="importJSON(event); closeModal('hub-modal-backdrop');">
         <button type="button" class="hub-btn" onclick="window.print(); closeModal('hub-modal-backdrop');">🖨️ Imprimir</button>
@@ -9460,6 +9461,18 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       syncToFirebaseDebounced(1200);
     }
 
+    // EXPORTACIÓN / IMPORTACIÓN DE FICHA INDIVIDUAL
+    function exportCharacterJSON() {
+      if (!playerList.includes(activeRole) || !allPlayersData[activeRole]) { showToast("⚠️ Abrí una ficha de personaje para exportarla."); return; }
+      const character = JSON.parse(JSON.stringify(allPlayersData[activeRole]));
+      const payload = { type: "requiem-character", character };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url;
+      const safeName = String(character.inputs?.["char-name"] || activeRole).replace(/[^a-z0-9_-]/gi,"_");
+      a.download = "Requiem_Ficha_" + safeName + ".json"; a.click(); URL.revokeObjectURL(url);
+      showToast("📄 Ficha individual exportada.");
+    }
+
     // EXPORTACIÓN / IMPORTACIÓN TOTAL
     function exportJSON() {
       const dataToExport = {
@@ -9495,7 +9508,20 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       reader.onload = function(e) {
         try {
           const parsed = JSON.parse(e.target.result);
-          if (parsed.characters) {
+          if (parsed.type === "requiem-character" && parsed.character && typeof parsed.character === "object") {
+            let targetId = activeRole;
+            if (!playerList.includes(targetId)) {
+              const opts = playerList.map((pid,i) => (i+1)+". "+(allPlayersData[pid]?.inputs?.["char-name"] || pid)).join("\n");
+              const choice = window.prompt("¿A qué personaje importar esta ficha?\n"+opts, "1");
+              const index = Number(choice)-1;
+              if (!Number.isInteger(index) || index < 0 || index >= playerList.length) { showToast("Importación cancelada: personaje no válido."); return; }
+              targetId = playerList[index];
+            }
+            allPlayersData[targetId] = parsed.character;
+            if (activeRole === targetId) applyDataToForm(parsed.character);
+            saveActivePlayerToCloud(true); renderRoleBar();
+            showToast("📂 Ficha importada en "+(allPlayersData[targetId].inputs?.["char-name"] || targetId)+".");
+          } else if (parsed.characters) {
             if (Array.isArray(parsed.playerList)) playerList = parsed.playerList;
             allPlayersData = parsed.characters;
             if (Array.isArray(parsed.deletedObjectives)) deletedObjectiveIds = new Set(parsed.deletedObjectives.map(String));
