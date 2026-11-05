@@ -6978,7 +6978,9 @@ function confirmDismissSummon(pid, sIdx, summonName) {
       pdata.techniques=Array.isArray(pdata.techniques)?pdata.techniques:[];
       if(pdata.techniques.some(t=>t.catalogId===catalogId)){showToast('ℹ️ Ese poder ya está en la ficha.');return;}
       const first=def.levels?.['1']||{};
-      pdata.techniques.push({catalogId,name:def.name,cost:parseInt(first.cost)||0,category:first.category||'support',desc:first.desc||'',lvl1:true,lvl2:false,lvl3:false,isCatalogPower:true});
+      const unlockedLevel=1;
+      const currentCfg=def.levels?.[String(unlockedLevel)]||first;
+      pdata.techniques.push({catalogId,name:def.name,cost:Math.max(0,parseInt(currentCfg.cost)||0),category:currentCfg.category||'support',desc:currentCfg.desc||'',lvl1:true,lvl2:false,lvl3:false,isCatalogPower:true});
       applyDataToForm(pdata);saveActivePlayerToCloud(true);renderPowerCatalogList();showToast('📚 Poder agregado desde la biblioteca.');
     }
     function ensureChizePowerLoadout(pdata,playerId) {
@@ -8193,7 +8195,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
       data.techniques = savedTechniques;
       data.awakenedTechniques = [];
       if (allPlayersData[activeRole]) { allPlayersData[activeRole].techniques = data.techniques; allPlayersData[activeRole].awakenedTechniques = []; }
-      savedTechniques.forEach(t => addTechniqueRow(t.name, t.cost ?? 2, t.category || 'attack', t.desc || '', t.lvl1 ?? true, t.lvl2 ?? false, t.lvl3 ?? false, t.isSummon ?? false, t.summonData || null, t.isEssenceTechnique || false, t.isQuickAction || false, t.catalogId || null));
+      savedTechniques.forEach(t => { const shownTech=t.catalogId?resolveCatalogTechnique(t,getHighestTechniqueLevel(t)):t; addTechniqueRow(t.name, shownTech.cost ?? t.cost ?? 2, shownTech.category || t.category || 'attack', shownTech.desc || t.desc || '', t.lvl1 ?? true, t.lvl2 ?? false, t.lvl3 ?? false, t.isSummon ?? false, t.summonData || null, t.isEssenceTechnique || false, t.isQuickAction || false, t.catalogId || null); });
 
       renderPlayerSummons(activeRole);
 
