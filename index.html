@@ -8605,7 +8605,7 @@ function addTechniqueRow(name = '', cost = 2, category = 'attack', desc = '', lv
                 <button type="button" class="btn-dmg-apply" onclick="applyManualCombatHp('e_${idx}',false)">💥 -HP</button>
                 <button type="button" class="btn-heal-apply" onclick="applyManualCombatHp('e_${idx}',true)">💚 +HP</button>
                 ${renderCardStatusMenu('npc',idx,0)}
-                ${!isAlly ? `<button type="button" class="btn-mini-tool enemy-card-tech-btn" style="background:#e9f4e8;border:1px solid #4f8b58;color:#24552b;font-weight:bold;padding:5px 8px;border-radius:4px;" onclick="openEnemyTechniqueBuilder(${idx},-1)" title="Agregar o modificar técnicas de este enemigo">⚡ +Técnica</button>` : ''}
+                ${!isAlly ? `<button type="button" class="btn-mini-tool enemy-card-tech-btn" style="background:#e9f4e8;border:1px solid #4f8b58;color:#24552b;font-weight:bold;padding:5px 8px;border-radius:4px;" onclick="openEnemyTechniqueBuilder(${idx},-1)" title="Agregar o modificar técnicas de este enemigo">⚡ + Técnica</button>` : ''}
               </div>
             </div>
           </div>
