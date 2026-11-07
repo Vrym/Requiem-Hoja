@@ -2772,6 +2772,14 @@ select[id^="summary-skill-sel-"] optgroup {
 @media(max-width:650px){#builder-tech-boost-fields.tech-boost-grid{grid-template-columns:repeat(3,minmax(0,1fr));}#builder-tech-boost-fields label{font-size:9px;}#builder-tech-boost-fields input{height:27px;font-size:12px;}}
 @media(max-width:390px){#builder-tech-boost-fields.tech-boost-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 </style>
+
+<style id="identity-arsenal-desktop-layout">
+/* Identidad y Arsenal en paralelo en escritorio; apilados en pantallas estrechas. */
+.identity-arsenal-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:14px;margin-bottom:14px}
+.identity-arsenal-layout>.grid-2col{display:block!important;min-width:0;margin:0!important}
+.identity-arsenal-layout>.box-frame{min-width:0;margin:0!important;align-self:stretch}
+@media(max-width:900px){.identity-arsenal-layout{grid-template-columns:minmax(0,1fr);gap:12px}}
+</style>
 </head>
 <body>
 <!-- DIARIO DE MISIONES -->
@@ -3632,6 +3640,7 @@ select[id^="summary-skill-sel-"] optgroup {
         </div>
       </div>
 
+      <div class="identity-arsenal-layout">
       <div class="grid-2col" style="grid-template-columns:1fr;">
         <!-- DATOS DEL PERSONAJE -->
         <div class="box-frame">
@@ -3670,6 +3679,7 @@ select[id^="summary-skill-sel-"] optgroup {
           </div>
         </div>
       </div>
+      </div><!-- /identity-arsenal-layout -->
 
       <!-- COMBATE Y ESTADOS (BARRAS REACTIVAS VISUALES) -->
       <div class="grid-2col">
