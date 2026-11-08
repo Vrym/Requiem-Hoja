@@ -2606,8 +2606,12 @@ select[id^="summary-skill-sel-"] optgroup {
 .inventory-add-modal label{display:flex!important;flex-direction:column;gap:6px;color:#68451e;font:700 11px var(--f-title)!important}
 .inventory-add-modal input:not([type=checkbox]),.inventory-add-modal select{width:100%;min-height:38px;border:1px solid #c5a16d;border-radius:7px;background:#fffdf7;padding:8px 10px;color:#38220e;font:14px var(--f-body)}
 .inventory-add-modal input:focus,.inventory-add-modal select:focus{outline:2px solid #b58a4b;outline-offset:1px}
-.inventory-add-modal .loot-item-meta-grid{gap:10px!important;margin-top:12px}
-.inventory-add-modal #sheet-item-effects-wrap{gap:10px!important;margin-top:12px!important}
+.inventory-add-modal .loot-item-meta-grid{gap:4px!important;margin-top:6px!important}
+.inventory-add-modal #sheet-item-effects-wrap{gap:6px!important;margin-top:8px!important}
+.inventory-add-modal .loot-item-meta-grid label{gap:3px!important}
+.inventory-add-modal .loot-item-meta-grid input,.inventory-add-modal .loot-item-meta-grid select{min-height:30px!important;padding:4px 6px!important;font-size:12px!important}
+.inventory-add-modal #sheet-item-detail-wrap,.inventory-add-modal #sheet-item-detail-wrap label{font-size:10px!important;gap:3px!important}
+.inventory-add-modal #sheet-item-effect-text{min-height:30px!important;padding:4px 6px!important;font-size:11px!important}
 .inventory-add-modal #sheet-armor-creation-fields{border:1px solid #c6a16b!important;border-radius:9px!important;background:#f9edcf!important}
 .inventory-add-modal .btn-modal-danger,.inventory-add-modal .btn-modal-cancel{min-height:38px;border-radius:7px;padding:8px 14px;font:700 11px var(--f-title)}
 @media(max-width:560px){.inventory-add-modal{padding:14px!important;margin:10px!important}.inventory-add-modal .loot-item-meta-grid{grid-template-columns:1fr!important}.inventory-add-modal #sheet-item-effects-wrap{grid-template-columns:1fr!important}.inventory-add-modal>div:last-child{flex-direction:column}.inventory-add-modal>div:last-child button{width:100%}}
@@ -10140,7 +10144,7 @@ function recalcAllAutoStats() {
   const conc = document.getElementById('stat-conc');
   if(conc&&activePlayerData){
     if(activePlayerData.baseConcentration===undefined)activePlayerData.baseConcentration=parseFloat(conc.value)||0;
-    conc.value=(parseFloat(activePlayerData.baseConcentration)||0)+concBonus;
+    conc.value=Math.floor(effectiveEssence/2)+concBonus;
   }
   const crit = tac * modeMultiplier;
   setText('tactical-crit-bonus-tag', `+${crit}`);
