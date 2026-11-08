@@ -2852,7 +2852,56 @@ select[id^="summary-skill-sel-"] optgroup {
   color:#9c3529!important;
 }
 
-  </style>
+  
+/* Inventario — cabecera y pie con composición uniforme */
+@media(min-width:641px){
+ .inventory-table{border-spacing:0 7px!important}
+ .inventory-table thead{display:block!important;width:100%;margin-bottom:5px}
+ .inventory-table thead tr{
+   display:grid!important;
+   grid-template-columns:minmax(0,34%) 7% 8% minmax(0,1fr) 10% 42px;
+   align-items:center;width:100%;overflow:hidden;
+   border:1px solid #c8aa76;border-radius:8px;
+   background:linear-gradient(180deg,#ead8b3,#dfc493)!important;
+   box-shadow:inset 0 1px rgba(255,255,255,.65),0 1px 2px #5b3b1710;
+ }
+ .inventory-table thead th{
+   display:flex!important;align-items:center;justify-content:center;
+   min-width:0;height:32px;padding:0 6px!important;
+   border:0!important;background:transparent!important;
+   color:#674722!important;font:700 10px var(--f-title)!important;
+   letter-spacing:.65px;text-shadow:0 1px #fff5df;
+ }
+ .inventory-table thead th:first-child{justify-content:flex-start;padding-left:18px!important}
+ .inventory-table thead th:nth-child(2),.inventory-table thead th:nth-child(3){justify-content:flex-start;padding-left:9px!important}
+ .inventory-table thead th:nth-child(4){justify-content:flex-start;padding-left:12px!important}
+ .inventory-table thead th:nth-child(5){justify-content:center}
+ .inventory-table thead th:nth-child(6){padding:0!important}
+ .inventory-table tbody tr{border-radius:8px!important;overflow:hidden}
+}
+.inventory-footer{
+ margin-top:10px!important;padding:10px 12px!important;
+ border:1px solid #c9aa76!important;border-radius:8px!important;
+ background:linear-gradient(110deg,#f7ecd5 0%,#fffaf0 55%,#f4e5c5 100%)!important;
+ box-shadow:inset 0 1px rgba(255,255,255,.8),0 2px 5px #5b3b1710!important;
+}
+.inventory-actions{gap:8px!important}
+.inventory-footer .btn-add-item,.inventory-footer .inventory-transfer-btn,.inventory-footer .inventory-use-btn{
+ min-height:32px;padding:7px 12px!important;border-radius:6px!important;
+ font:700 10px var(--f-title)!important;letter-spacing:.25px;
+ box-shadow:0 1px 2px #3b220c20!important;transition:filter .15s,transform .15s;
+}
+.inventory-footer .btn-add-item:hover,.inventory-footer .inventory-transfer-btn:hover,.inventory-footer .inventory-use-btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.inventory-total-weight{display:flex;align-items:baseline;gap:5px;font:700 10px var(--f-title)!important;letter-spacing:.45px;color:#77552b!important}
+.inventory-total-weight b{font:800 17px var(--f-title)!important;color:#8e3024!important;font-variant-numeric:tabular-nums}
+.inventory-total-weight{white-space:nowrap}
+@media(max-width:640px){
+ .inventory-footer{padding:8px!important;border-radius:7px!important}
+ .inventory-actions{gap:5px!important}
+ .inventory-footer .btn-add-item,.inventory-footer .inventory-transfer-btn,.inventory-footer .inventory-use-btn{padding:6px 8px!important;font-size:9px!important}
+}
+
+</style>
 
 <style id="identity-arsenal-desktop-layout">
 /* Identidad y Arsenal en paralelo en escritorio; apilados en pantallas estrechas. */
