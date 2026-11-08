@@ -2805,6 +2805,53 @@ select[id^="summary-skill-sel-"] optgroup {
   .inventory-table tbody td:nth-child(6) .inventory-delete-btn{margin:0;}
 }
 
+  
+/* Pulido visual del inventario */
+@media(min-width:521px){
+  .inventory-table tbody td:nth-child(2),
+  .inventory-table tbody td:nth-child(3){
+    justify-content:flex-start!important;
+    padding-left:9px!important;
+    text-align:left!important;
+    font-variant-numeric:tabular-nums;
+  }
+  .inventory-table tbody td:nth-child(4) .inventory-description{
+    font-size:10px!important;
+    line-height:1.25!important;
+    color:#65513a!important;
+    font-weight:400;
+  }
+}
+.inventory-table thead th{
+  background:linear-gradient(180deg,#ead9b5 0%,#dfc594 100%)!important;
+  color:#604321!important;
+  border-bottom:1px solid #c9aa70!important;
+}
+.inventory-table tbody tr{
+  background:#fff9ed!important;
+  box-shadow:0 1px 3px rgba(91,62,25,.09)!important;
+}
+.inventory-table tbody td{
+  border-top:1px solid #e2cfaa!important;
+  border-bottom:1px solid #e2cfaa!important;
+}
+.inventory-table tbody td:first-child{
+  border-left:3px solid var(--inventory-rarity,#c4a36a)!important;
+}
+.inventory-table tbody td:last-child{
+  border-right:1px solid #e2cfaa!important;
+}
+.inventory-rarity-badge{
+  border-color:#c8ad7b!important;
+  background:#f8edda!important;
+  color:#76552a!important;
+}
+.inventory-delete-btn{
+  border-color:#c98e83!important;
+  background:#fff2ed!important;
+  color:#9c3529!important;
+}
+
   </style>
 
 <style id="identity-arsenal-desktop-layout">
