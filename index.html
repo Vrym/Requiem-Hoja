@@ -2775,7 +2775,37 @@ select[id^="summary-skill-sel-"] optgroup {
 #modal-weapon-damage-info tbody td{padding:6px 3px!important;}
 @media(max-width:650px){#builder-tech-boost-fields.tech-boost-grid{grid-template-columns:repeat(3,minmax(0,1fr));}#builder-tech-boost-fields label{font-size:9px;}#builder-tech-boost-fields input{height:27px;font-size:12px;}}
 @media(max-width:390px){#builder-tech-boost-fields.tech-boost-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-</style>
+
+/* Inventario: descripción amplia y columnas de datos centradas */
+@media(min-width:521px){
+  .inventory-table{table-layout:fixed;width:100%;}
+  .inventory-table thead tr,.inventory-table tbody tr{
+    display:grid!important;
+    grid-template-columns:minmax(0,34%) 7% 8% minmax(0,1fr) 10% 42px;
+    align-items:stretch;
+    width:100%;
+  }
+  .inventory-table thead th,.inventory-table tbody td{
+    min-width:0;box-sizing:border-box;
+  }
+  .inventory-table thead th:nth-child(1){grid-column:1;}
+  .inventory-table thead th:nth-child(2){grid-column:2;}
+  .inventory-table thead th:nth-child(3){grid-column:3;}
+  .inventory-table thead th:nth-child(4){grid-column:4;}
+  .inventory-table thead th:nth-child(5){grid-column:5;}
+  .inventory-table thead th:nth-child(6){grid-column:6;}
+  .inventory-table tbody td:nth-child(1){grid-column:1;display:flex;align-items:center;}
+  .inventory-table tbody td:nth-child(2){grid-column:2;display:flex;align-items:center;justify-content:center;text-align:center;}
+  .inventory-table tbody td:nth-child(3){grid-column:3;display:flex;align-items:center;justify-content:center;text-align:center;}
+  .inventory-table tbody td:nth-child(4){grid-column:4;display:flex;align-items:center;text-align:left;justify-content:flex-start;}
+  .inventory-table tbody td:nth-child(5){grid-column:5;display:flex;align-items:center;justify-content:center;text-align:center;}
+  .inventory-table tbody td:nth-child(6){grid-column:6;display:flex;align-items:center;justify-content:center;text-align:center;position:static;transform:none;width:auto;padding:0 4px!important;}
+  .inventory-table tbody td:nth-child(2)::before,.inventory-table tbody td:nth-child(3)::before,.inventory-table tbody td:nth-child(4)::before,.inventory-table tbody td:nth-child(5)::before{display:none!important;}
+  .inventory-table tbody td:nth-child(4) .inventory-description{width:100%;text-align:left;overflow-wrap:anywhere;}
+  .inventory-table tbody td:nth-child(6) .inventory-delete-btn{margin:0;}
+}
+
+  </style>
 
 <style id="identity-arsenal-desktop-layout">
 /* Identidad y Arsenal en paralelo en escritorio; apilados en pantallas estrechas. */
